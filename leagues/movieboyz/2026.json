@@ -1,0 +1,90 @@
+{
+  "contract_version": 1,
+  "generated_at": "2026-08-05T11:53:17.798701Z",
+  "league_slug": "movieboyz",
+  "league_name": "MovieBoyz",
+  "year": 2026,
+  "state": "active",
+  "latest_date": "2026-01-02",
+  "latest_profit_date": "2026-01-02",
+  "roster": [
+    {
+      "user_id": "u_stub_one",
+      "username": "Stub User One"
+    },
+    {
+      "user_id": "u_stub_two",
+      "username": "Stub User Two"
+    }
+  ],
+  "ruleset": {
+    "breakeven_multiplier": 2.0,
+    "bomb_mode": "split",
+    "season_boundaries": {
+      "WINTER": "01-01",
+      "SUMMER": "05-01",
+      "FALL": "09-01"
+    }
+  },
+  "movies": [
+    {
+      "imdb_id": "tt0000001",
+      "title": "Stub Movie One",
+      "release_date": "2026-01-01",
+      "budget": 100.0,
+      "breakeven": 200.0,
+      "gross_td": 300.0,
+      "user_id": "u_stub_one",
+      "pick_type": "hit",
+      "draft_pick": 1,
+      "profit": {
+        "2026-01-01": 0.0,
+        "2026-01-02": 100.0
+      },
+      "profit_td": 100.0
+    },
+    {
+      "imdb_id": "tt0000002",
+      "title": "Stub Movie Two",
+      "release_date": "2026-01-01",
+      "budget": 100.0,
+      "breakeven": 200.0,
+      "gross_td": 150.0,
+      "user_id": "u_stub_two",
+      "pick_type": "bomb",
+      "draft_pick": 2,
+      "profit": {
+        "2026-01-01": 0.0,
+        "2026-01-02": -50.0
+      },
+      "profit_td": -50.0
+    }
+  ],
+  "users": [
+    {
+      "user_id": "u_stub_one",
+      "profit": {
+        "2026-01-01": 0.0,
+        "2026-01-02": 100.0
+      },
+      "bomb_impact": {
+        "2026-01-01": 0.0,
+        "2026-01-02": -50.0
+      },
+      "total": 50.0
+    },
+    {
+      "user_id": "u_stub_two",
+      "profit": {
+        "2026-01-01": 0.0,
+        "2026-01-02": 0.0
+      },
+      "bomb_impact": {
+        "2026-01-01": 0.0,
+        "2026-01-02": 0.0
+      },
+      "total": 0.0
+    }
+  ],
+  "outcome": null
+}

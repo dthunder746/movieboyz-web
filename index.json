@@ -1,0 +1,20 @@
+{
+  "contract_version": 1,
+  "generated_at": "2026-08-05T11:53:17.798701Z",
+  "leagues": [
+    {
+      "slug": "movieboyz",
+      "name": "MovieBoyz",
+      "campaigns": [
+        {
+          "year": 2026,
+          "state": "active"
+        }
+      ]
+    }
+  ],
+  "default_view": {
+    "league_slug": "movieboyz",
+    "year": 2026
+  }
+}
