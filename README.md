@@ -24,8 +24,11 @@ them.
 ```bash
 npm install
 npm run dev      # http://localhost:5173
+npm test         # vitest, the view-model suite under src/campaign/
 npm run build
 ```
+
+CI runs `npm test` before `npm run build`, so a failing suite stops the deploy.
 
 `VITE_ARTIFACT_BASE` overrides where artifacts are fetched from, for pointing a
 local site at a scratch set.

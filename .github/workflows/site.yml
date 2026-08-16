@@ -24,6 +24,9 @@ jobs:
           cache: npm
           cache-dependency-path: package-lock.json
       - run: npm ci
+      # This is the only place the view-model suite runs automatically, so a
+      # failure has to stop the job before anything is built or deployed.
+      - run: npm test
       - run: npm run build
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
