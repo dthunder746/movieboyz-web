@@ -1,6 +1,6 @@
 {
-  "contract_version": 2,
-  "generated_at": "2026-08-16T11:54:27.614973Z",
+  "contract_version": 3,
+  "generated_at": "2026-08-16T14:41:31.968871Z",
   "leagues": [
     {
       "slug": "movieboyz",
@@ -16,5 +16,15 @@
   "default_view": {
     "league_slug": "movieboyz",
     "year": 2026
-  }
+  },
+  "movie_years": [
+    2019,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025,
+    2026,
+    2027
+  ]
 }
