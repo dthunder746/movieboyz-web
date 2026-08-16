@@ -12,8 +12,9 @@
 
 // A User's id resolved to the name to show for them. The roster is the only
 // place the artifact publishes the pairing, and it is routinely a superset of
-// the Users a Campaign actually scored, so every view that renders a name has to
-// come back through here rather than reading one off a row.
+// the Users a Campaign actually scored, so a name cannot be read off a scored
+// row. Shared by the three modules under test that need one; `page.js` still
+// builds its own, since nothing there is covered by a test.
 export function usernameMap(campaign) {
   return new Map(
     (campaign.roster || []).map((member) => [member.user_id, member.username]),

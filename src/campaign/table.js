@@ -15,6 +15,7 @@ import {
   getWeekdayAbbr,
   isoWeekBounds,
   ratingColorClass,
+  shiftIsoDate,
   weekTitle,
 } from './format.js';
 import { pickOrSeasonIcon, userBadge } from './icons.js';
@@ -26,7 +27,6 @@ import {
   groupDatesByWeek,
 } from './table-rows.js';
 
-const MS_PER_DAY = 86400000;
 const DASH = '<span class="text-neu">—</span>';
 
 // Shared Tabulator options. Both views are the same table with different
@@ -367,12 +367,6 @@ function financialColumns() {
   ];
 }
 
-function isoDateAt(startIso, offsetDays) {
-  const date = new Date(new Date(`${startIso}T00:00:00Z`).getTime() + offsetDays * MS_PER_DAY);
-  return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}`
-    + `-${String(date.getUTCDate()).padStart(2, '0')}`;
-}
-
 // Which days a week gets a column for, most recent first. The current week only
 // gets the days that have reported, since a column for a day that has not
 // happened yet would read as a Movie taking nothing. Every earlier week gets all
@@ -382,7 +376,7 @@ function daysForWeek(weekKey, isCurrentWeek, datesByWeek) {
 
   const { start } = isoWeekBounds(weekKey);
   const days = [];
-  for (let offset = 6; offset >= 0; offset -= 1) days.push(isoDateAt(start, offset));
+  for (let offset = 6; offset >= 0; offset -= 1) days.push(shiftIsoDate(start, offset));
   return days;
 }
 

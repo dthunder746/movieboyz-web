@@ -1,5 +1,7 @@
 // Presentation helpers, ported unchanged from the old site so the page reads
-// identically. Pure: no DOM, no artifact knowledge.
+// identically, plus the date arithmetic the rest of the port shares. Pure: no
+// DOM. Nothing here reads an artifact, though the date helpers do assume the
+// bare `YYYY-MM-DD` form the artifacts publish dates in.
 
 const BILLION = 1e9;
 const MILLION = 1e6;
@@ -92,8 +94,10 @@ export function shiftIsoDate(isoDate, deltaDays) {
 }
 
 // Whole days from the first date to the second, negative if it runs backwards.
-// A date that will not parse has no answer rather than a NaN, which would
-// otherwise reach the page and render itself into a countdown.
+// A date that will not parse answers null rather than NaN, which is the more
+// honest of the two but is not a guard: callers interpolate the answer straight
+// into markup, so an unparseable date still reaches the page, now reading
+// `null` where it used to read `NaN`. No call site can currently pass one.
 export function daysBetween(fromIso, untilIso) {
   const from = new Date(`${fromIso}T00:00:00Z`).getTime();
   const to = new Date(`${untilIso}T00:00:00Z`).getTime();
