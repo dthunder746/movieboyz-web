@@ -6,21 +6,14 @@
 // comparison rules testable, and they are the part worth testing: the tabs are
 // mostly about which Movies to leave out.
 
-import { dateToIsoWeekKey, getWeekdayAbbr, isoWeekBounds, weekTitle } from './format.js';
-
-const MS_PER_DAY = 86400000;
-
-function shiftIsoDate(iso, deltaDays) {
-  const shifted = new Date(new Date(`${iso}T00:00:00Z`).getTime() + deltaDays * MS_PER_DAY);
-  return shifted.toISOString().split('T')[0];
-}
-
-function daysBetween(fromIso, toIso) {
-  const from = new Date(`${fromIso}T00:00:00Z`).getTime();
-  const to = new Date(`${toIso}T00:00:00Z`).getTime();
-  if (Number.isNaN(from) || Number.isNaN(to)) return null;
-  return Math.round((to - from) / MS_PER_DAY);
-}
+import {
+  dateToIsoWeekKey,
+  daysBetween,
+  getWeekdayAbbr,
+  isoWeekBounds,
+  shiftIsoDate,
+  weekTitle,
+} from './format.js';
 
 function releaseYear(row) {
   if (!row.releaseDate || row.releaseDate === 'TBA') return null;

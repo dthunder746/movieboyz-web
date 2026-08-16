@@ -84,6 +84,23 @@ function toIso(date) {
   return `${year}-${month}-${day}`;
 }
 
+// Arithmetic over the bare `YYYY-MM-DD` dates the artifacts publish. Read at
+// UTC midnight for the same reason `getWeekdayAbbr` is: a calendar day shifted
+// in local time can come back an hour short and land on the day before.
+export function shiftIsoDate(isoDate, deltaDays) {
+  return toIso(new Date(new Date(`${isoDate}T00:00:00Z`).getTime() + deltaDays * MS_PER_DAY));
+}
+
+// Whole days from the first date to the second, negative if it runs backwards.
+// A date that will not parse has no answer rather than a NaN, which would
+// otherwise reach the page and render itself into a countdown.
+export function daysBetween(fromIso, untilIso) {
+  const from = new Date(`${fromIso}T00:00:00Z`).getTime();
+  const to = new Date(`${untilIso}T00:00:00Z`).getTime();
+  if (Number.isNaN(from) || Number.isNaN(to)) return null;
+  return Math.round((to - from) / MS_PER_DAY);
+}
+
 // ISO 8601 weeks, which is how the processor keys weekly gross. Two rules do
 // all the work: a week runs Monday to Sunday, and it belongs to the year that
 // holds its Thursday. Week 1 is therefore the week containing January 4th,

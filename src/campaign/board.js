@@ -10,6 +10,16 @@
 // Pure: no fetching, no DOM. The caller decides which slices to load, which is
 // what `sliceYearsToFetch` answers.
 
+// A User's id resolved to the name to show for them. The roster is the only
+// place the artifact publishes the pairing, and it is routinely a superset of
+// the Users a Campaign actually scored, so every view that renders a name has to
+// come back through here rather than reading one off a row.
+export function usernameMap(campaign) {
+  return new Map(
+    (campaign.roster || []).map((member) => [member.user_id, member.username]),
+  );
+}
+
 function releaseYear(movie) {
   const date = movie.release_date;
   if (!date || date === 'TBA') return null;
@@ -67,9 +77,7 @@ function measurementDate(campaign, slices) {
 }
 
 export function buildBoard(campaign, slices) {
-  const usernames = new Map(
-    (campaign.roster || []).map((member) => [member.user_id, member.username]),
-  );
+  const usernames = usernameMap(campaign);
 
   // One lookup across every slice. Slices are keyed by release year and a Board
   // spans several, so a Movie's measurements can come from any of them.

@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   colorClass,
   dateToIsoWeekKey,
+  daysBetween,
   escapeHtml,
   fmt,
   fmtPct,
@@ -13,6 +14,7 @@ import {
   getWeekdayAbbr,
   isoWeekBounds,
   ratingColorClass,
+  shiftIsoDate,
   weekTitle,
 } from './format.js';
 
@@ -252,5 +254,57 @@ describe('escapeHtml', () => {
 
   it('stringifies a non-string', () => {
     expect(escapeHtml(2026)).toBe('2026');
+  });
+});
+
+// Date arithmetic over the ISO strings the artifacts publish. Every date the
+// platform ships is a bare `YYYY-MM-DD` read at UTC midnight, which is what
+// keeps a shift or a difference from drifting an hour across a daylight saving
+// boundary and landing on the wrong day.
+describe('shiftIsoDate', () => {
+  it('moves forward and back by whole days', () => {
+    expect(shiftIsoDate('2026-03-10', 1)).toBe('2026-03-11');
+    expect(shiftIsoDate('2026-03-10', -1)).toBe('2026-03-09');
+    expect(shiftIsoDate('2026-03-10', -7)).toBe('2026-03-03');
+  });
+
+  it('crosses a month and a year boundary', () => {
+    expect(shiftIsoDate('2026-03-01', -1)).toBe('2026-02-28');
+    expect(shiftIsoDate('2026-01-01', -1)).toBe('2025-12-31');
+    expect(shiftIsoDate('2026-12-31', 1)).toBe('2027-01-01');
+  });
+
+  it('crosses a leap day', () => {
+    expect(shiftIsoDate('2028-02-28', 1)).toBe('2028-02-29');
+    expect(shiftIsoDate('2028-03-01', -1)).toBe('2028-02-29');
+  });
+
+  it('does not drift across a daylight saving change', () => {
+    // Northern spring forward and autumn back. Reading at UTC midnight is what
+    // makes these whole days rather than 23 or 25 hours.
+    expect(shiftIsoDate('2026-03-28', 1)).toBe('2026-03-29');
+    expect(shiftIsoDate('2026-10-24', 1)).toBe('2026-10-25');
+  });
+});
+
+describe('daysBetween', () => {
+  it('counts whole days from the first date to the second', () => {
+    expect(daysBetween('2026-03-03', '2026-03-13')).toBe(10);
+    expect(daysBetween('2026-03-10', '2026-03-10')).toBe(0);
+  });
+
+  it('reads backwards as a negative', () => {
+    expect(daysBetween('2026-03-13', '2026-03-03')).toBe(-10);
+  });
+
+  it('counts across a year boundary', () => {
+    expect(daysBetween('2025-12-31', '2026-01-01')).toBe(1);
+  });
+
+  it('has no answer for a date it cannot read', () => {
+    // 'TBA' is the one the artifacts used to publish. A NaN here would reach the
+    // page and render as "NaNd" in the countdown beside a Pick.
+    expect(daysBetween('2026-03-03', 'TBA')).toBeNull();
+    expect(daysBetween('TBA', '2026-03-03')).toBeNull();
   });
 });

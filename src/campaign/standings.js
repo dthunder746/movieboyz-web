@@ -6,13 +6,8 @@
 // published; no scoring rule is applied. `totalSeries` and `roi` are the two that
 // do arithmetic, and both are noted where they are defined.
 
-const MS_PER_DAY = 86400000;
-
-function daysBetween(fromIso, toIso) {
-  const from = new Date(`${fromIso}T00:00:00Z`).getTime();
-  const to = new Date(`${toIso}T00:00:00Z`).getTime();
-  return Math.ceil((to - from) / MS_PER_DAY);
-}
+import { usernameMap } from './board.js';
+import { daysBetween } from './format.js';
 
 // The per-day total, which the artifact does not publish: `users[].total` is a
 // single scalar for the latest scored day, while the chart needs a line. Summing
@@ -119,9 +114,7 @@ export function buildStandings(campaign, board) {
   // yet, and anchoring on the gross day would show a Pick as released while its
   // Profit still read as nothing.
   const latestDate = campaign.latest_profit_date;
-  const usernames = new Map(
-    (campaign.roster || []).map((member) => [member.user_id, member.username]),
-  );
+  const usernames = usernameMap(campaign);
 
   const rows = (campaign.users || []).map((user) => {
     const slate = (campaign.movies || []).filter((movie) => movie.user_id === user.user_id);

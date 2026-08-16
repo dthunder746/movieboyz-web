@@ -12,16 +12,11 @@
 // Every line spans the full date range with nulls where it has no figure, so
 // Chart.js `interaction.mode: 'index'` lines the hover up across all of them.
 
+import { usernameMap } from './board.js';
+import { shiftIsoDate } from './format.js';
 import { totalSeries } from './standings.js';
 
 const MILLION = 1e6;
-const MS_PER_DAY = 86400000;
-
-function shiftDays(isoDate, days) {
-  const shifted = new Date(`${isoDate}T00:00:00Z`);
-  shifted.setUTCDate(shifted.getUTCDate() + days);
-  return shifted.toISOString().split('T')[0];
-}
 
 // The last figure published at or before this date. A Profit series can skip
 // days, and a gap means "unchanged since", not "back to nothing".
@@ -55,9 +50,7 @@ function releaseIndex(dates, releaseDate) {
 }
 
 function userLines(campaign, dates, users) {
-  const usernames = new Map(
-    (campaign.roster || []).map((member) => [member.user_id, member.username]),
-  );
+  const usernames = usernameMap(campaign);
 
   return users.map((user) => {
     const totals = totalSeries(user);
@@ -144,8 +137,8 @@ function computeTrim(dates, series) {
 
   const anchor = firstPlotted || firstMeaningful;
   return {
-    initialMin: firstMeaningful ? shiftDays(firstMeaningful, -1) : null,
-    limitMin: anchor ? shiftDays(anchor, -1) : null,
+    initialMin: firstMeaningful ? shiftIsoDate(firstMeaningful, -1) : null,
+    limitMin: anchor ? shiftIsoDate(anchor, -1) : null,
     limitMax: dates.length ? dates[dates.length - 1] : null,
   };
 }
