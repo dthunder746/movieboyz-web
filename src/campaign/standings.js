@@ -1,5 +1,5 @@
 // The Standings view model: the published Campaign artifact reshaped into the
-// rows the page renders. Pure — no DOM, no fetching.
+// rows the page renders. Pure: no DOM, no fetching.
 //
 // The site renders Standings and never computes them (CONTEXT.md: Standings).
 // Everything here is a read, a sort, or a join of figures the processor already
@@ -31,7 +31,10 @@ export function totalSeries(user) {
   return series;
 }
 
-function pickView(movie) {
+// Gross comes off the Board rather than the Campaign artifact. ADR 0008 moved
+// it to the Movie slice, because gross is the same figure for every League
+// reading the same Movie; only the scoring around it belongs to a Campaign.
+function pickView(movie, boardRow) {
   return {
     imdbId: movie.imdb_id,
     title: movie.title,
@@ -42,21 +45,50 @@ function pickView(movie) {
     season: movie.season ?? null,
     releaseDate: movie.release_date,
     breakeven: movie.breakeven,
-    grossTd: movie.gross_td,
+    grossTd: boardRow ? boardRow.grossTd : null,
     profitTd: movie.profit_td,
   };
+}
+
+// The scorecard's audience figure. Letterboxd alone, because that is the one
+// the league watches, and only across Picks that have opened: days running is
+// what says a Movie has been measured at all, so a Pick without it has no
+// audience to average in yet.
+function avgLetterboxd(slate, byId) {
+  const scores = slate
+    .map((movie) => byId.get(movie.imdb_id))
+    .filter((row) => row && row.daysRunning !== null && row.daysRunning !== undefined)
+    .map((row) => row.ratings?.letterboxd?.score)
+    .filter((score) => score !== null && score !== undefined);
+
+  if (scores.length === 0) return null;
+  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
 }
 
 // ROI over the Slate's own Picks. Bombs are excluded because their Profit lands
 // on the other Users rather than on the picker, so charging their Breakeven to
 // the picker would measure them against money they never stood to make.
+//
+// A Pick with no published type still counts. The old site excluded one, but
+// only as a side effect of guarding `toLowerCase` against a null; an untyped
+// Pick's Profit lands on the picker like any other, so its Breakeven is money
+// they did stand to make. The case fold itself is kept.
 function slateRoi(slateProfit, slate) {
   if (slateProfit === null || slateProfit === undefined) return null;
   const breakeven = slate
-    .filter((movie) => movie.pick_type !== 'bomb')
+    .filter((movie) => (movie.pick_type || '').toLowerCase() !== 'bomb')
     .reduce((sum, movie) => sum + (movie.breakeven || 0), 0);
   if (breakeven <= 0) return null;
   return (slateProfit / breakeven) * 100;
+}
+
+// A Pick the Campaign can place in time. 'TBA' is a date-shaped string that
+// sorts above every real one, so an undated Pick left in would become the next
+// release and count down to a date that is not one. The Board rule should keep
+// these off a Campaign now, but the old site excluded them explicitly and the
+// rest of the port stays tolerant of one arriving.
+function dated(movie) {
+  return Boolean(movie.release_date) && movie.release_date !== 'TBA';
 }
 
 function byReleaseDate(a, b) {
@@ -77,7 +109,11 @@ function valueAt(series, date) {
   return value === undefined ? null : value;
 }
 
-export function buildStandings(campaign) {
+// The Board is the second argument because the Standings straddle the ADR 0008
+// split: scored figures come off the Campaign artifact, measurements off the
+// Movie slice, and only the Board has both.
+export function buildStandings(campaign, board) {
+  const byId = board?.byId ?? new Map();
   // The Standings are anchored on the latest scored day, not the latest gross
   // day. The two diverge when a capture lands gross that has not been scored
   // yet, and anchoring on the gross day would show a Pick as released while its
@@ -92,13 +128,13 @@ export function buildStandings(campaign) {
     const slateProfit = valueAt(user.profit, latestDate);
 
     const released = slate
-      .filter((movie) => movie.release_date && movie.release_date <= latestDate)
-      .map(pickView)
+      .filter((movie) => dated(movie) && movie.release_date <= latestDate)
+      .map((movie) => pickView(movie, byId.get(movie.imdb_id)))
       .sort(byReleaseDate);
 
     const upcoming = slate
-      .filter((movie) => movie.release_date && movie.release_date > latestDate)
-      .map(pickView)
+      .filter((movie) => dated(movie) && movie.release_date > latestDate)
+      .map((movie) => pickView(movie, byId.get(movie.imdb_id)))
       .sort(byReleaseDate);
 
     const [next = null] = upcoming;
@@ -110,6 +146,7 @@ export function buildStandings(campaign) {
       slateProfit,
       bombImpact: valueAt(user.bomb_impact, latestDate),
       roi: slateRoi(slateProfit, slate),
+      avgLetterboxd: avgLetterboxd(slate, byId),
       released,
       releasedCount: released.length,
       pickCount: slate.length,

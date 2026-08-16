@@ -1,10 +1,11 @@
 // The lines the Profit chart draws, derived from the published Campaign
-// artifact. Pure — no Chart.js, no DOM. Colour is left to the view, which knows
+// artifact. Pure: no Chart.js, no DOM. Colour is left to the view, which knows
 // which palette a mode calls for.
 //
-// Three modes, keyed off how many Users are selected, carried over from the old
-// site:
-//   none      → every User's total
+// Four modes, carried over from the old site. Picking Movies out of the table
+// wins outright; otherwise the mode follows how many Users are selected:
+//   any Movie → exactly those Movies, whoever holds them
+//   no User   → every User's total
 //   exactly 1 → that User's Slate, a Pick at a time
 //   2 or more → those Users' totals
 //
@@ -83,22 +84,42 @@ function userLines(campaign, dates, users) {
   });
 }
 
+// One Movie's Profit as a line. Null before its first published figure, so the
+// line starts where the Movie did rather than being drawn flat along the axis
+// from the start of the Campaign.
+function movieLine(movie, dates) {
+  const published = Object.keys(movie.profit || {}).sort();
+  if (published.length === 0) return null;
+  const [firstDate] = published;
+
+  return {
+    id: movie.imdb_id,
+    label: movie.title,
+    points: dates.map((date) => ({
+      x: date,
+      y: date >= firstDate ? valueAsOf(movie.profit, date) / MILLION : null,
+    })),
+    releaseMarkers: {},
+  };
+}
+
 function slateLines(campaign, dates, userId) {
   return (campaign.movies || [])
-    .filter((movie) => movie.user_id === userId && Object.keys(movie.profit || {}).length > 0)
-    .map((movie) => {
-      const published = Object.keys(movie.profit).sort();
-      const [firstDate] = published;
-      return {
-        id: movie.imdb_id,
-        label: movie.title,
-        points: dates.map((date) => ({
-          x: date,
-          y: date >= firstDate ? valueAsOf(movie.profit, date) / MILLION : null,
-        })),
-        releaseMarkers: {},
-      };
-    });
+    .filter((movie) => movie.user_id === userId)
+    .map((movie) => movieLine(movie, dates))
+    .filter(Boolean);
+}
+
+// The Movies picked out in the table, in the order they were picked. Selection
+// order rather than Board order because the palette is handed out by index:
+// re-sorting here would repaint every line each time one was added.
+function selectedMovieLines(campaign, dates, movieIds) {
+  const byId = new Map((campaign.movies || []).map((movie) => [movie.imdb_id, movie]));
+  return movieIds
+    .map((id) => byId.get(id))
+    .filter(Boolean)
+    .map((movie) => movieLine(movie, dates))
+    .filter(Boolean);
 }
 
 // Where the chart opens and how far it pans.
@@ -129,7 +150,15 @@ function computeTrim(dates, series) {
   };
 }
 
-export function buildProfitSeries(campaign, activeUserIds) {
+function chooseMode(activeUserIds, activeMovieIds) {
+  // A Movie selection is the only view that can put two Users' Picks side by
+  // side, so it overrides rather than intersects: the table is being used to
+  // ask a question the User cards cannot express.
+  if (activeMovieIds.length > 0) return 'movies';
+  return activeUserIds.length === 1 ? 'slate' : 'users';
+}
+
+export function buildProfitSeries(campaign, activeUserIds, activeMovieIds = []) {
   const dates = collectDates(campaign);
   const selected = (campaign.users || []).filter((user) => activeUserIds.includes(user.user_id));
 
@@ -137,13 +166,19 @@ export function buildProfitSeries(campaign, activeUserIds) {
   // means "show me that Slate" whether or not a second, unrecognised id came
   // along with it; deciding on the resolved count instead would let a stale id
   // silently switch the chart to a different view.
-  const soloSlate = activeUserIds.length === 1;
-  const series = soloSlate
-    ? selected.flatMap((user) => slateLines(campaign, dates, user.user_id))
-    : userLines(campaign, dates, selected.length ? selected : campaign.users || []);
+  const mode = chooseMode(activeUserIds, activeMovieIds);
+
+  let series;
+  if (mode === 'movies') {
+    series = selectedMovieLines(campaign, dates, activeMovieIds);
+  } else if (mode === 'slate') {
+    series = selected.flatMap((user) => slateLines(campaign, dates, user.user_id));
+  } else {
+    series = userLines(campaign, dates, selected.length ? selected : campaign.users || []);
+  }
 
   return {
-    mode: soloSlate ? 'slate' : 'users',
+    mode,
     dates,
     series,
     trim: computeTrim(dates, series),

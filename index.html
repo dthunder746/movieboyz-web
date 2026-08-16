@@ -5,29 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MovieBoyz</title>
     <style>
-      /* Deliberately plain. The walking skeleton proves the plumbing; the real
-         campaign page and its styling arrive in Phase 5. */
+      /* The root only ever shows for the moment it takes to read the manifest,
+         or when that read fails. Anything more would be styling a redirect. */
       body {
         font-family: system-ui, sans-serif;
         margin: 2rem auto;
         max-width: 40rem;
         padding: 0 1rem;
       }
-      .meta { color: #555; margin: 0.25rem 0; }
       .error { color: #b00; }
-      table { border-collapse: collapse; }
-      th,
-      td {
-        border-bottom: 1px solid #ddd;
-        padding: 0.4rem 1.5rem 0.4rem 0;
-        text-align: left;
-      }
     </style>
   </head>
   <body>
     <main id="app">
       <h1>MovieBoyz</h1>
-      <p class="meta">Loading the published artifacts.</p>
+      <p>Opening the current campaign.</p>
     </main>
     <script type="module" src="/src/main.js"></script>
   </body>

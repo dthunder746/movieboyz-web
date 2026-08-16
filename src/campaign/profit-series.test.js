@@ -132,6 +132,61 @@ describe('buildProfitSeries with several Users selected', () => {
   });
 });
 
+// Selecting rows in the table plots exactly those Movies, whoever holds them.
+// It is the only mode that can put two Users' Picks on the same chart, so it
+// takes priority over the User selection rather than intersecting with it.
+describe('buildProfitSeries with Movies selected', () => {
+  it('plots exactly the Movies selected', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt3', 'tt1']);
+    expect(result.mode).toBe('movies');
+    expect(result.series.map((entry) => entry.label)).toEqual(["Connie's Pick", 'The Gappy One']);
+  });
+
+  it('keeps the order they were selected in, so the colours hold still', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt1', 'tt3']);
+    expect(result.series.map((entry) => entry.id)).toEqual(['tt1', 'tt3']);
+  });
+
+  it('overrides a User selection rather than narrowing it', () => {
+    const result = buildProfitSeries(campaign(), ['marcus'], ['tt3']);
+    expect(result.mode).toBe('movies');
+    expect(result.series.map((entry) => entry.label)).toEqual(["Connie's Pick"]);
+  });
+
+  it('carries the last published Profit forward across a gap', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt1']);
+    expect(seriesFor(result, 'The Gappy One').points.map((point) => point.y)).toEqual([null, 2, 2, 5]);
+  });
+
+  it('drops a selected Pick with no published Profit', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt1', 'tt2']);
+    expect(result.series.map((entry) => entry.id)).toEqual(['tt1']);
+  });
+
+  it('ignores a selected id the Board does not carry', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt1', 'tt404']);
+    expect(result.series.map((entry) => entry.id)).toEqual(['tt1']);
+  });
+
+  it('puts no release markers on Movie lines', () => {
+    const result = buildProfitSeries(campaign(), [], ['tt1']);
+    expect(seriesFor(result, 'The Gappy One').releaseMarkers).toEqual({});
+  });
+
+  it('falls back to the User modes when nothing is selected', () => {
+    expect(buildProfitSeries(campaign(), [], []).mode).toBe('users');
+    expect(buildProfitSeries(campaign(), ['marcus'], []).mode).toBe('slate');
+  });
+
+  it('stays on the Movie view when every selected id is unrecognised', () => {
+    // The alternative would silently switch back to plotting Users, which reads
+    // as a deselection the viewer did not make.
+    const result = buildProfitSeries(campaign(), [], ['tt404']);
+    expect(result.mode).toBe('movies');
+    expect(result.series).toEqual([]);
+  });
+});
+
 describe('buildProfitSeries trim', () => {
   it('opens the view a day before the first figure that is not zero', () => {
     // Marcus sits at zero on 03-01, so the opening view starts at 03-01 rather
