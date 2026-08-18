@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-08-17T22:00:05.001246Z",
+  "generated_at": "2026-08-18T01:57:42.458807Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -10404,8 +10404,8 @@
       "title": "The Rivals of Amziah King",
       "release_date": "2026-08-14",
       "season": "SUMMER",
-      "budget": null,
-      "breakeven": null,
+      "budget": 10000000,
+      "breakeven": 20000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -10533,11 +10533,11 @@
         "2026-08-11": 0,
         "2026-08-12": 0,
         "2026-08-13": 0,
-        "2026-08-14": 1027000,
-        "2026-08-15": 1027000,
-        "2026-08-16": 1094039
+        "2026-08-14": -18973000,
+        "2026-08-15": -18973000,
+        "2026-08-16": -18905961
       },
-      "profit_td": 1094039
+      "profit_td": -18905961
     },
     {
       "imdb_id": "tt27739255",
@@ -14997,7 +14997,7 @@
     {
       "imdb_id": "tt32329539",
       "title": "Crawlers",
-      "release_date": "2026-09-25",
+      "release_date": "2026-10-16",
       "season": "FALL",
       "budget": null,
       "breakeven": null,
@@ -17169,8 +17169,8 @@
       "title": "The Brink Of War",
       "release_date": "2026-08-14",
       "season": "SUMMER",
-      "budget": null,
-      "breakeven": null,
+      "budget": 15000000,
+      "breakeven": 30000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -17179,11 +17179,11 @@
         "2026-08-11": 0,
         "2026-08-12": 0,
         "2026-08-13": 0,
-        "2026-08-14": 2684100,
-        "2026-08-15": 2684100,
-        "2026-08-16": 2689529
+        "2026-08-14": -27315900,
+        "2026-08-15": -27315900,
+        "2026-08-16": -27310471
       },
-      "profit_td": 2689529
+      "profit_td": -27310471
     },
     {
       "imdb_id": "tt33095251",
@@ -19478,8 +19478,8 @@
       "title": "Nimrods",
       "release_date": "2026-08-14",
       "season": "SUMMER",
-      "budget": null,
-      "breakeven": null,
+      "budget": 1000000,
+      "breakeven": 2000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -19493,9 +19493,9 @@
         "2026-08-13": 0,
         "2026-08-14": 0,
         "2026-08-15": 0,
-        "2026-08-16": 92406
+        "2026-08-16": -1907594
       },
-      "profit_td": 92406
+      "profit_td": -1907594
     },
     {
       "imdb_id": "tt34966140",
@@ -19642,8 +19642,8 @@
       "title": "The Wrong Girls",
       "release_date": "2026-08-14",
       "season": "SUMMER",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -19664,11 +19664,11 @@
         "2026-08-11": 0,
         "2026-08-12": 0,
         "2026-08-13": 0,
-        "2026-08-14": 406482,
-        "2026-08-15": 406482,
-        "2026-08-16": 433662
+        "2026-08-14": -9593518,
+        "2026-08-15": -9593518,
+        "2026-08-16": -9566338
       },
-      "profit_td": 433662
+      "profit_td": -9566338
     },
     {
       "imdb_id": "tt35298123",
