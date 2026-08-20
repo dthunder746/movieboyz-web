@@ -3,8 +3,10 @@
 //
 // The site renders Standings and never computes them (CONTEXT.md: Standings).
 // Everything here is a read, a sort, or a join of figures the processor already
-// published; no scoring rule is applied. `totalSeries` and `roi` are the two that
-// do arithmetic, and both are noted where they are defined.
+// published; no scoring rule is applied. `totalSeries` is the one thing left
+// that does arithmetic, and it is a presentational derivation rather than a
+// rule: the Slate ROI used to live here too and moved upstream in #55, because
+// its bomb exclusion was a scoring rule and ADR 0003 keeps those in one place.
 
 import { usernameMap } from './board.js';
 import { daysBetween } from './format.js';
@@ -58,23 +60,6 @@ function avgLetterboxd(slate, byId) {
 
   if (scores.length === 0) return null;
   return scores.reduce((sum, score) => sum + score, 0) / scores.length;
-}
-
-// ROI over the Slate's own Picks. Bombs are excluded because their Profit lands
-// on the other Users rather than on the picker, so charging their Breakeven to
-// the picker would measure them against money they never stood to make.
-//
-// A Pick with no published type still counts. The old site excluded one, but
-// only as a side effect of guarding `toLowerCase` against a null; an untyped
-// Pick's Profit lands on the picker like any other, so its Breakeven is money
-// they did stand to make. The case fold itself is kept.
-function slateRoi(slateProfit, slate) {
-  if (slateProfit === null || slateProfit === undefined) return null;
-  const breakeven = slate
-    .filter((movie) => (movie.pick_type || '').toLowerCase() !== 'bomb')
-    .reduce((sum, movie) => sum + (movie.breakeven || 0), 0);
-  if (breakeven <= 0) return null;
-  return (slateProfit / breakeven) * 100;
 }
 
 // A Pick the Campaign can place in time. 'TBA' is a date-shaped string that
@@ -138,7 +123,12 @@ export function buildStandings(campaign, board) {
       total: user.total ?? null,
       slateProfit,
       bombImpact: valueAt(user.bomb_impact, latestDate),
-      roi: slateRoi(slateProfit, slate),
+      // Published, not derived. Excluding a bomb's Breakeven from the
+      // denominator is a scoring rule, so it belongs where the rest of them
+      // are (`processor.scoring.slate_roi`, ADR 0003) rather than in a
+      // renderer. Null on an artifact written before the field existed, which
+      // reads the same way as a Slate with nothing to divide by (#55).
+      roi: user.slate_roi ?? null,
       avgLetterboxd: avgLetterboxd(slate, byId),
       released,
       releasedCount: released.length,

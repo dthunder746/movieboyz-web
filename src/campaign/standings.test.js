@@ -25,18 +25,21 @@ function campaign(overrides = {}) {
         profit: { '2026-03-01': 100, '2026-03-02': 300, '2026-03-03': 400 },
         bomb_impact: { '2026-03-01': -10, '2026-03-02': -20, '2026-03-03': -25 },
         total: 375,
+        slate_roi: 10,
       },
       {
         user_id: 'connie',
         profit: { '2026-03-01': 50, '2026-03-02': 60, '2026-03-03': 900 },
         bomb_impact: { '2026-03-01': 0, '2026-03-02': 0, '2026-03-03': 0 },
         total: 900,
+        slate_roi: 45,
       },
       {
         user_id: 'chris',
         profit: { '2026-03-01': 0, '2026-03-02': 0, '2026-03-03': 0 },
         bomb_impact: { '2026-03-01': -10, '2026-03-02': -20, '2026-03-03': -25 },
         total: -25,
+        slate_roi: null,
       },
     ],
     movies: [
@@ -242,37 +245,35 @@ describe('buildStandings', () => {
     expect(rowFor(standings(), 'connie').nextPick).toBeNull();
   });
 
-  it('computes ROI over the Breakeven of non-bomb Picks only', () => {
-    // Connie's Slate is the bomb (500) plus Released Late (2000). Only the
-    // latter counts, so 900 / 2000.
-    expect(rowFor(standings(), 'connie').roi).toBeCloseTo(45);
+  // ROI is read, not worked out (#55). The rule behind it, the bomb exclusion
+  // included, is `processor.scoring.slate_roi` and is covered there. What is
+  // left here is that the site renders the artifact's figure and invents
+  // nothing when there is none.
+  it('reads the Slate ROI the artifact publishes', () => {
+    expect(rowFor(standings(), 'connie').roi).toBe(45);
   });
 
-  it('excludes a Pick with no published Breakeven from the ROI denominator', () => {
+  it('does not re-derive the ROI from the Breakevens on the Board', () => {
     const artifact = campaign();
-    artifact.movies[1].breakeven = null; // Marcus's unreleased Pick
-    // Leaves only Released Early's 1000 against a Slate Profit of 400.
-    expect(rowFor(standings(artifact), 'marcus').roi).toBeCloseTo(40);
+    // Marcus stands at 10%, which the fixture publishes. Halving both his
+    // Breakevens would double a figure worked out here and leaves a published
+    // one alone.
+    artifact.movies[0].breakeven = 500;
+    artifact.movies[1].breakeven = 1500;
+    expect(rowFor(standings(artifact), 'marcus').roi).toBe(10);
   });
 
-  it('has no ROI when the Slate carries no Breakeven at all', () => {
+  it('has no ROI where the artifact publishes none', () => {
     expect(rowFor(standings(), 'chris').roi).toBeNull();
   });
 
-  it('excludes a bomb whatever case the artifact published its type in', () => {
+  // An artifact written before #55 carries no such field at all. The Board
+  // already renders against a missing Movie slice, and a missing scalar is the
+  // milder version of the same case.
+  it('has no ROI where the artifact is older than the field', () => {
     const artifact = campaign();
-    artifact.movies[2].pick_type = 'BOMB'; // Connie's bomb
-    // Still only Released Late's 2000 against a Slate Profit of 900.
-    expect(rowFor(standings(artifact), 'connie').roi).toBeCloseTo(45);
-  });
-
-  it('counts a Pick with no published type toward the ROI denominator', () => {
-    // Only a bomb is excluded, and an untyped Pick is not one. Dropping it would
-    // measure the Slate Profit against less than the Slate actually risked.
-    const artifact = campaign();
-    artifact.movies[2].pick_type = null; // Connie's bomb, now untyped
-    // Both Picks count: 900 / (500 + 2000).
-    expect(rowFor(standings(artifact), 'connie').roi).toBeCloseTo(36);
+    delete artifact.users[1].slate_roi;
+    expect(rowFor(standings(artifact), 'connie').roi).toBeNull();
   });
 
   // The scorecard's "Avg. Rating" cell. Letterboxd only, averaged across the
