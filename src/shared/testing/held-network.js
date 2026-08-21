@@ -1,11 +1,14 @@
-// Test support for the artifact fetch seam, shared by the tests either side of
-// it. A network whose responses are held open until the test releases them, so
-// the order of events is the thing under test rather than a race. `requested`
-// is the artifact path with the cache buster stripped back off.
+// Test support for the artifact fetch seam. Not shipped: nothing outside a test
+// file imports it, so it never reaches a bundle.
 //
-// It lives beside the plumbing it stubs rather than beside either caller: both
-// page groups fetch through the same seam, and a second copy of this would
-// drift from the first.
+// A network whose responses are held open until the test releases them, so the
+// order of events is the thing under test rather than a race. `requested` is
+// the artifact path with the cache buster stripped back off.
+//
+// It sits with the plumbing rather than with either test that stubs it. The
+// seam has a test on each side of it now (`../artifacts.test.js` covers the
+// fetching, `../../campaign/data.test.js` covers what a Campaign asks for), and
+// a copy per side would drift.
 
 import { vi } from 'vitest';
 

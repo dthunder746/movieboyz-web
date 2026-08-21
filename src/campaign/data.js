@@ -1,6 +1,7 @@
 // What a Campaign page asks the network for. The fetch plumbing itself is
-// shared (`../shared/artifacts.js`); what is Campaign specific is which
-// artifacts a Campaign needs and in what order they can be asked for.
+// shared (`../shared/artifacts.js`); what stayed here is which artifacts a
+// Campaign needs and in what order they can be asked for, which is the half
+// that has to know about the Board (#59).
 //
 // ADR 0008 split the old single data.json into a manifest, a per-Campaign file
 // and a per-release-year Movie slice. Read one after the other that is three

@@ -40,13 +40,19 @@ them.
 
 | Directory | What lives there |
 |-----------|------------------|
-| `src/shared/` | What every page group needs and no page group owns. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing and the URL reading. |
+| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing and the URL reading, plus the test stub for that seam under `testing/`. |
 | `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. |
 
-A page group imports from `shared`; nothing in `shared` imports back out. Which
-artifacts a page asks for is the page's own business and sits beside it, so
-`shared/artifacts.js` knows how to fetch one and `campaign/data.js` knows which
-ones a Campaign needs.
+A page imports from `shared`; nothing in `shared` imports back out, so a page
+group can be added without editing another one.
+
+Shared does not mean free of the domain. `route.js` reads a Campaign off the
+URL and `favicon.js` paints the leader of one, because that is what those jobs
+are, whoever is asking. The line is a dependency rather than a vocabulary: a
+module belongs in `shared` when it needs nothing from a page group, not when it
+has stopped naming Campaigns. That is why the artifact fetching splits in two.
+`shared/artifacts.js` knows how to fetch one and needs nothing; `campaign/data.js`
+knows which ones a Campaign needs and reads that off the Board.
 
 ## Local development
 

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { heldNetwork } from '../shared/held-network.js';
+import { heldNetwork } from '../shared/testing/held-network.js';
 
 import { loadCampaign } from './data.js';
 

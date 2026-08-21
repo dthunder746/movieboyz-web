@@ -1,9 +1,11 @@
-// Fetching the published artifacts. The only module here that touches the
-// network; everything downstream takes plain objects.
+// Fetching the published artifacts. The only module in the site that touches
+// the network; everything downstream takes plain objects.
 //
-// This is the plumbing every page group shares: where the artifacts live, how a
-// request is addressed and how a response is turned into an object. What any
-// one page needs fetching is its own business and lives beside that page.
+// This is the plumbing a page needs whatever it is showing: where the artifacts
+// live, how a request is addressed, and how a response is turned into an
+// object. Which artifacts to ask for is the page's own business and lives
+// beside that page, which is the line the lift drew (#59): this half knows
+// nothing about a Campaign, and `campaign/data.js` knows everything about one.
 
 const ARTIFACT_BASE =
   import.meta.env.VITE_ARTIFACT_BASE ??
