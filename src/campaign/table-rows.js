@@ -6,7 +6,7 @@
 // definitions and the formatters stay in the DOM layer; what lives here is the
 // reshaping the columns read from and the arithmetic behind the card visuals.
 
-import { dateToIsoWeekKey } from './format.js';
+import { dateToIsoWeekKey } from '../shared/format.js';
 
 // Rating sources the detailed table has a column for, flattened onto each row
 // so Tabulator can sort them. The raw ratings object rides along beside them

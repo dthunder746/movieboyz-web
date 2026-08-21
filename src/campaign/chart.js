@@ -5,10 +5,11 @@
 // Chart, its date adapter, Hammer and the zoom plugin are CDN globals loaded
 // before the module entry, as on the old site.
 
-import { fmt } from './format.js';
-import { buildMoviePalette } from './palettes.js';
+import { fmt } from '../shared/format.js';
+import { buildMoviePalette } from '../shared/palettes.js';
+import { chartColors, currentTheme } from '../shared/theme.js';
+
 import { buildProfitSeries } from './profit-series.js';
-import { chartColors, currentTheme } from './theme.js';
 
 const MILLION = 1e6;
 const MS_PER_DAY = 86400000;

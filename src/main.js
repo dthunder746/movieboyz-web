@@ -12,8 +12,8 @@
 // exercised by the Campaign page itself, which reads the same three artifacts
 // for real.
 
-import { loadManifest } from './campaign/data.js';
-import { defaultViewPath } from './campaign/route.js';
+import { loadManifest } from './shared/artifacts.js';
+import { defaultViewPath } from './shared/route.js';
 
 // `replace` rather than an assignment, so the root does not sit in the reader's
 // history as a step to go back through on the way out of the Campaign page.

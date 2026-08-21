@@ -6,23 +6,24 @@
 // three instances this module owns (`chart`, `table`, `cards`) are rebuilt from
 // those rather than kept in step by hand.
 
+import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
+import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from '../shared/format.js';
+import { buildColorMap } from '../shared/palettes.js';
+import { campaignFromPath } from '../shared/route.js';
+import { createThemeSwitch } from '../shared/theme.js';
+
 import { buildBoard } from './board.js';
 import { buildCards } from './cards.js';
 import { applyChartTheme, buildChart } from './chart.js';
 import { loadCampaign } from './data.js';
-import { paintCachedFavicon, paintLeaderFavicon } from './favicon.js';
 import { createFilterState } from './filters.js';
-import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from './format.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
-import { buildColorMap } from './palettes.js';
-import { campaignFromPath } from './route.js';
 import { buildScorecards } from './scorecards.js';
 import { createSelection } from './selection.js';
 import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
-import { createThemeSwitch } from './theme.js';
 import { createToolbar } from './toolbar.js';
 import { createModeSwitcher, initialMode } from './view-mode.js';
 

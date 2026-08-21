@@ -2,7 +2,8 @@
 // live in `highlights.js`; this module is the markup, the tab state and the
 // height sync.
 
-import { fmt, fmtPct, colorClass, escapeHtml, formatShortDate } from './format.js';
+import { fmt, fmtPct, colorClass, escapeHtml, formatShortDate } from '../shared/format.js';
+
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 
 const TAB_COOKIE = 'info_active_tab';

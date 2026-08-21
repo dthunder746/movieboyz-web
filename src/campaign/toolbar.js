@@ -4,7 +4,7 @@
 // `filters.js` and every repaint reads back out of it, so the panel and the
 // chips cannot disagree with what the table is actually showing.
 
-import { escapeHtml } from './format.js';
+import { escapeHtml } from '../shared/format.js';
 
 const SEARCH_DEBOUNCE_MS = 150;
 

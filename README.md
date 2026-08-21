@@ -36,12 +36,24 @@ Both branches have to be publicly readable for that to work without a credential
 which is why the artifacts live here rather than beside the code that generates
 them.
 
+## Source layout
+
+| Directory | What lives there |
+|-----------|------------------|
+| `src/shared/` | What every page group needs and no page group owns. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing and the URL reading. |
+| `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. |
+
+A page group imports from `shared`; nothing in `shared` imports back out. Which
+artifacts a page asks for is the page's own business and sits beside it, so
+`shared/artifacts.js` knows how to fetch one and `campaign/data.js` knows which
+ones a Campaign needs.
+
 ## Local development
 
 ```bash
 npm install
 npm run dev      # http://localhost:5173
-npm test         # vitest, the view-model suite under src/campaign/
+npm test         # vitest, the view-model suites under src/
 npm run build
 ```
 

@@ -10,7 +10,8 @@ import {
   fmt,
   formatShortDate,
   ratingColorClass,
-} from './format.js';
+} from '../shared/format.js';
+
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 import {
   cardRows,

@@ -12,8 +12,9 @@
 // Every line spans the full date range with nulls where it has no figure, so
 // Chart.js `interaction.mode: 'index'` lines the hover up across all of them.
 
+import { shiftIsoDate } from '../shared/format.js';
+
 import { usernameMap } from './board.js';
-import { shiftIsoDate } from './format.js';
 import { totalSeries } from './standings.js';
 
 const MILLION = 1e6;

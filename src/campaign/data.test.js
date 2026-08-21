@@ -1,40 +1,8 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { loadCampaign, loadManifest } from './data.js';
+import { heldNetwork } from '../shared/held-network.js';
 
-// A network whose responses are held open until the test releases them, so the
-// order of events is the thing under test rather than a race. `requested` is
-// the artifact path with the cache buster stripped back off.
-function heldNetwork() {
-  const requested = [];
-  const held = new Map();
-
-  const fetchStub = vi.fn((url) => {
-    const path = new URL(url).pathname.split('/artifacts/')[1];
-    requested.push(path);
-    return new Promise((resolve, reject) => {
-      held.set(path, { resolve, reject });
-    });
-  });
-  vi.stubGlobal('fetch', fetchStub);
-
-  return {
-    requested,
-    // Resolve one held request with a body, as a real `fetch` would.
-    respond(path, body) {
-      held.get(path).resolve({ ok: true, status: 200, json: async () => body });
-    },
-    missing(path) {
-      held
-        .get(path)
-        .resolve({ ok: false, status: 404, statusText: 'Not Found' });
-    },
-    // Let every microtask queued so far run, without releasing anything.
-    settle() {
-      return new Promise((resolve) => setTimeout(resolve, 0));
-    },
-  };
-}
+import { loadCampaign } from './data.js';
 
 const MANIFEST = {
   default_view: { league_slug: 'movieboyz', year: 2026 },
@@ -152,17 +120,5 @@ describe('loadCampaign', () => {
     net.missing('leagues/movieboyz/2026.json');
 
     await expect(pending).rejects.toThrow('leagues/movieboyz/2026.json: 404');
-  });
-});
-
-describe('loadManifest', () => {
-  it('reads index.json', async () => {
-    const net = heldNetwork();
-
-    const pending = loadManifest();
-    await net.settle();
-    net.respond('index.json', MANIFEST);
-
-    expect(await pending).toEqual(MANIFEST);
   });
 });

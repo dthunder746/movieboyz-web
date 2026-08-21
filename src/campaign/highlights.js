@@ -13,7 +13,7 @@ import {
   isoWeekBounds,
   shiftIsoDate,
   weekTitle,
-} from './format.js';
+} from '../shared/format.js';
 
 function releaseYear(row) {
   if (!row.releaseDate || row.releaseDate === 'TBA') return null;

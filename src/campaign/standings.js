@@ -8,8 +8,9 @@
 // rule: the Slate ROI used to live here too and moved upstream in #55, because
 // its bomb exclusion was a scoring rule and ADR 0003 keeps those in one place.
 
+import { daysBetween } from '../shared/format.js';
+
 import { usernameMap } from './board.js';
-import { daysBetween } from './format.js';
 
 // The per-day total, which the artifact does not publish: `users[].total` is a
 // single scalar for the latest scored day, while the chart needs a line. Summing

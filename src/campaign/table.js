@@ -17,7 +17,8 @@ import {
   ratingColorClass,
   shiftIsoDate,
   weekTitle,
-} from './format.js';
+} from '../shared/format.js';
+
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 import {
   collectDailyDates,

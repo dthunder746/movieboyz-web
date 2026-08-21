@@ -1,5 +1,6 @@
-// Fetching the published artifacts. The only module here that touches the
-// network; everything downstream takes plain objects.
+// What a Campaign page asks the network for. The fetch plumbing itself is
+// shared (`../shared/artifacts.js`); what is Campaign specific is which
+// artifacts a Campaign needs and in what order they can be asked for.
 //
 // ADR 0008 split the old single data.json into a manifest, a per-Campaign file
 // and a per-release-year Movie slice. Read one after the other that is three
@@ -15,45 +16,9 @@
 // nothing else, since a Board with no slice already renders with the
 // measurement columns empty.
 
+import { fetchArtifact, loadManifest, speculate } from '../shared/artifacts.js';
+
 import { sliceYearsToFetch } from './board.js';
-
-const ARTIFACT_BASE =
-  import.meta.env.VITE_ARTIFACT_BASE ??
-  'https://raw.githubusercontent.com/dthunder746/movieboyz-web/artifacts';
-
-// One timestamp per page load, shared by every fetch in that load (issue #17).
-// It defeats the browser's own HTTP cache: raw.githubusercontent serves
-// `cache-control: max-age=300`, and without a distinct URL a reload would be
-// answered locally without touching the network at all.
-const CACHE_BUSTER = Date.now();
-
-function artifactUrl(path) {
-  return `${ARTIFACT_BASE}/${path}?t=${CACHE_BUSTER}`;
-}
-
-async function fetchArtifact(path) {
-  const response = await fetch(artifactUrl(path));
-  if (!response.ok) {
-    throw new Error(`${path}: ${response.status} ${response.statusText}`);
-  }
-  return response.json();
-}
-
-// A request put in flight before anything has established that it is wanted.
-// The `catch` is not error handling: it marks the rejection handled at the
-// moment it is made, so a speculative request nobody ends up awaiting cannot
-// surface as an unhandled rejection. Whoever does await it still sees it throw.
-function speculate(path) {
-  const pending = fetchArtifact(path);
-  pending.catch(() => {});
-  return pending;
-}
-
-// The manifest on its own, for the repo root, which only needs to know which
-// Campaign to send the reader to.
-export async function loadManifest() {
-  return fetchArtifact('index.json');
-}
 
 // The slices a Campaign needs, fetched together. A slice that fails is not
 // fatal: the Board renders from the Campaign artifact alone and simply shows
