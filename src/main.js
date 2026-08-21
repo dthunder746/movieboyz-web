@@ -1,8 +1,10 @@
 // Entry point for the repo root, which is a signpost rather than a page.
 //
-// The site is a pure renderer: every number it shows is pre-computed in the
-// published artifacts, and it imports no shared Python code. The root's whole
-// job is to send a reader who asked for nothing in particular at the Campaign
+// The site renders and does not score: every figure a league rule decides is
+// pre-computed in the published artifacts, and it imports no shared Python code.
+// A couple of presentational figures are still worked out in the browser, and
+// the README names them (platform#55). The root's whole job is to send a reader
+// who asked for nothing in particular at the Campaign
 // the manifest currently defaults to, so a new season moves the landing page by
 // republishing rather than by a code change.
 //
