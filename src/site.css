@@ -1255,3 +1255,66 @@ body { font-size: 0.9rem; }
   #toolbar .btn-group .btn { padding-left: 0.5rem; padding-right: 0.5rem; }
   #clear-movie-selection { padding-left: 0.5rem; padding-right: 0.5rem; }
 }
+
+/* ── Movies lookup page ─────────────────────────────────────────────────── */
+/* The page is the existing list, chart and filter machinery with the League
+   dimensions stripped out, so it reuses the ids and classes above (#movie-table,
+   #table-wrapper, #chart-wrapper, #toolbar, .filter-row, .filter-chip-toggle)
+   and only adds what it alone has. */
+
+.movies-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.movies-lede {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+/* Upstream's estimate, marked rather than printed plain. Muted and italic so it
+   reads as a qualified figure at a glance; the footnote explains the symbol. */
+.budget-estimated {
+  color: var(--bs-secondary-color);
+  font-style: italic;
+}
+
+#budget-footnote {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  margin-top: 0.25rem;
+}
+
+/* Stands in for the canvas rather than sitting over it, so an unreleased slate
+   gets a sentence instead of two axes and a flat line at zero. */
+.chart-blank {
+  height: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 24px;
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 576px) {
+  .chart-blank { height: 260px; }
+}
+
+/* Sits under a chart that did draw, to account for the rows in the table that
+   are not on it. Quiet: it qualifies the chart rather than warning about it. */
+.chart-note {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  margin: 0;
+  padding: 0 24px 8px;
+}
+
+@media (max-width: 600px) {
+  #movies-search { max-width: none !important; flex: 1 1 auto; }
+  .filter-row .filter-label { min-width: 86px; }
+}

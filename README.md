@@ -41,11 +41,14 @@ them.
 | Path | What lives there |
 |-----------|------------------|
 | `src/site.css` | The one stylesheet, linked from every page's `<head>` and never imported from JavaScript. Linked that way it builds to a single asset every page shares and the browser caches once. Reached through the JavaScript graph it would be split per page. |
-| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing and the URL reading, plus the test stub for that seam under `testing/`. |
+| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. |
 | `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. |
+| `src/movies/` | The Movies lookup page. Every Movie the platform tracks, read from the Movie slices and no League file, so it works for a reader who is in no League. |
 
 A page imports from `shared`; nothing in `shared` imports back out, so a page
-group can be added without editing another one.
+group can be added without editing another one. `src/movies/` is the first one
+added that way, and the one edit it did make to `src/campaign/` was the lift of
+`selection.js` into `shared/` once both pages needed it.
 
 Shared does not mean free of the domain. `route.js` reads a Campaign off the
 URL and `favicon.js` paints the leader of one, because that is what those jobs

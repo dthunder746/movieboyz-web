@@ -2,7 +2,7 @@
 // model once, and wires the surfaces that render them to each other.
 //
 // The state that has to be shared lives in exactly one place each. Filters are
-// in `filters.js`, the plotted-Movie selection is in `selection.js`, and the
+// in `filters.js`, the plotted-Movie selection is in `shared/selection.js`, and the
 // three instances this module owns (`chart`, `table`, `cards`) are rebuilt from
 // those rather than kept in step by hand.
 
@@ -10,6 +10,7 @@ import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
 import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from '../shared/format.js';
 import { buildColorMap } from '../shared/palettes.js';
 import { campaignFromPath } from '../shared/route.js';
+import { createSelection } from '../shared/selection.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildBoard } from './board.js';
@@ -20,7 +21,6 @@ import { createFilterState } from './filters.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
 import { buildScorecards } from './scorecards.js';
-import { createSelection } from './selection.js';
 import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
