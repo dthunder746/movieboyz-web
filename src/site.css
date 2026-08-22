@@ -1,3 +1,12 @@
+/* The site stylesheet. Every page links this file from its <head>, so every
+   rule below loads everywhere and one cached asset serves the whole site.
+
+   Some rules are keyed to element IDs rather than classes (#movie-table,
+   #table-wrapper, #chart-wrapper, #toolbar, #filters-panel). Several of those
+   are deliberate, because an ID selector outranks Tabulator's own !important
+   rules. The consequence is a naming contract: a page that wants the shared
+   table styling names its table movie-table and its wrapper table-wrapper. */
+
 body { font-size: 0.9rem; }
 
 /* A touch more breathing room on desktop so content doesn't butt against the
@@ -60,26 +69,6 @@ body { font-size: 0.9rem; }
 #chart-wrapper.is-fullscreen #fullscreen-close {
   display: inline-flex;
 }
-
-/* ── Pick-type badges ───────────────────────────────────────────────────── */
-.pick-badge {
-  display: inline-block;
-  padding: 1px 6px;
-  border-radius: 4px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  vertical-align: middle;
-}
-.pick-hit      { background: #0d6efd22; color: #6ea8fe; border: 1px solid #0d6efd55; }
-.pick-seasonal { background: #19875422; color: #75b798; border: 1px solid #19875455; }
-.pick-alt      { background: #6f42c122; color: #b08bf8; border: 1px solid #6f42c155; }
-.pick-bomb     { background: #dc354522; color: #ea868f; border: 1px solid #dc354555; }
-
-[data-bs-theme="light"] .pick-hit      { background: #cfe2ff; color: #052c65; border: 1px solid #9ec5fe; }
-[data-bs-theme="light"] .pick-seasonal { background: #d1e7dd; color: #0a3622; border: 1px solid #a3cfbb; }
-[data-bs-theme="light"] .pick-alt      { background: #e9d7fe; color: #3b0764; border: 1px solid #d0a8ff; }
-[data-bs-theme="light"] .pick-bomb     { background: #f8d7da; color: #58151c; border: 1px solid #f1aeb5; }
 
 /* ── Profit colour classes ──────────────────────────────────────────────── */
 .text-pos { color: #75b798 !important; }
