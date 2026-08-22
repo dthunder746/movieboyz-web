@@ -9,6 +9,7 @@
 // League taken out: no Standings, no scorecards, no User colours (#62).
 
 import { escapeHtml } from '../shared/format.js';
+import { mountNav } from '../shared/nav.js';
 import { createSelection } from '../shared/selection.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
@@ -412,6 +413,8 @@ function chipRow(allLabel, options) {
 // A slice the Manifest publishes that did not load leaves the page legible and
 // says which year is missing, rather than breaking (#62).
 function renderChrome(manifest, slices, missingYears) {
+  mountNav(manifest);
+
   const notice = document.getElementById('slice-notice');
 
   // Nothing published at all, which is the state before the platform has
@@ -449,6 +452,9 @@ function renderChrome(manifest, slices, missingYears) {
 loadMovies()
   .then(init)
   .catch((error) => {
+    // The navigation still goes in, with whatever the Manifest failure left it,
+    // so a page that could not load its own data is not also a dead end (#64).
+    mountNav(null);
     document.body.insertAdjacentHTML(
       'beforeend',
       `<div class="alert alert-danger m-3">Failed to load the Movies: ${escapeHtml(error.message)}</div>`,

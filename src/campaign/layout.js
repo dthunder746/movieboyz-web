@@ -1,0 +1,134 @@
+// The Campaign page's markup, held here rather than in an HTML file because two
+// HTML files need it: the real directory for the current year, and the catch-all
+// that renders any other Campaign path (#64). A copy in each would drift, and
+// this page's surfaces are all addressed by id, so where the ids come from is
+// nobody's business but this module's.
+//
+// It is markup and not a view model: nothing here reads an artifact. Every
+// element it defines is filled in by `page.js` once the artifacts land.
+
+export const CAMPAIGN_LAYOUT = `
+<!-- ── Header ─────────────────────────────────────────────────────────── -->
+<nav class="navbar navbar-expand-sm mb-3 border-bottom">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" id="site-brand">🎬 MovieBoyz</a>
+    <div id="site-nav" class="site-nav"></div>
+    <div class="d-flex flex-wrap align-items-center gap-3 ms-auto">
+      <div class="navbar-status text-muted d-none" style="font-size:0.82rem">
+        <span id="latest-gross-date"></span>
+        <span class="navbar-status-sep">·</span>
+        <span id="latest-gross-updated"></span>
+      </div>
+      <button id="navbar-status-toggle" class="navbar-status-toggle d-none" type="button" aria-label="Show data status">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="16" x2="12" y2="12"/>
+          <line x1="12" y1="8" x2="12.01" y2="8"/>
+        </svg>
+      </button>
+      <div class="form-check form-switch mb-0">
+        <input class="form-check-input" type="checkbox" id="themeSwitch">
+        <label class="form-check-label" for="themeSwitch">Light</label>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ── Main ───────────────────────────────────────────────────────────── -->
+<div class="container-fluid px-3">
+
+  <!-- Top Panel: Scorecard Strip + Info Cards -->
+  <div class="top-panel mb-4">
+    <div id="weekend-strip"></div>
+    <div id="info-cards"></div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-card mb-4">
+    <div class="chart-card-header">
+      <h6 id="chart-heading" class="text-uppercase text-muted fw-semibold mb-0" style="letter-spacing:.08em">Profit Over Time</h6>
+      <div class="d-flex gap-2">
+        <button id="reset-zoom" class="btn btn-sm btn-outline-secondary">Reset zoom</button>
+        <button id="fullscreen-chart" class="btn btn-sm btn-outline-secondary" title="Fullscreen" aria-label="Toggle fullscreen chart">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div id="chart-wrapper">
+      <button id="fullscreen-close" class="btn btn-sm btn-outline-secondary py-0" aria-label="Exit fullscreen">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <canvas id="profitChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Movie table -->
+  <div id="table-wrapper">
+    <div id="toolbar" class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+      <button id="filters-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-expanded="false" aria-controls="filters-panel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filters
+        <span id="filters-badge" class="badge bg-primary ms-1 is-collapsed">0</span>
+      </button>
+      <div class="dropdown" id="sort-dropdown">
+        <button id="sort-toggle" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sort</button>
+        <ul class="dropdown-menu" id="sort-menu">
+          <li><button class="dropdown-item" type="button" data-sort="default">Default (wkly gross)</button></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_asc">Released &uarr; (oldest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_desc">Released &darr; (newest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="profit_desc">Profit &darr; (highest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="profit_asc">Profit &uarr; (lowest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="roi_desc">ROI &darr; (highest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="roi_asc">ROI &uarr; (lowest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="week_desc">This week &darr; (highest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="week_asc">This week &uarr; (lowest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="lb_desc">Letterboxd &darr; (highest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="lb_asc">Letterboxd &uarr; (lowest)</button></li>
+        </ul>
+      </div>
+      <button id="clear-movie-selection" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Clear chart selection" disabled>
+        <svg class="clear-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        <span class="clear-label">Clear selection</span>
+      </button>
+      <span class="ms-auto"></span>
+      <div class="btn-group btn-group-sm" role="group" aria-label="View mode">
+        <button class="btn btn-outline-secondary" data-mode="cards" type="button" aria-label="Cards view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span class="mode-label">Cards</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="compact" type="button" aria-label="Compact view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span class="mode-label">Compact</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="detailed" type="button" aria-label="Detailed view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <span class="mode-label">Detailed</span>
+        </button>
+      </div>
+      <button id="table-helper-info" class="btn btn-sm btn-link p-0 text-secondary" type="button" data-bs-toggle="tooltip" aria-label="How to use this view">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      </button>
+    </div>
+    <div id="filters-panel" class="d-none"></div>
+    <div id="filter-chips" class="d-none"></div>
+    <div id="table-surface">
+      <div id="movie-table"></div>
+      <div id="movie-cards" class="d-none"></div>
+      <div id="render-overlay" class="d-none" aria-hidden="true"><div class="skeleton-fill"></div></div>
+    </div>
+    <p id="daily-neg-footnote" class="d-none">* Negative daily gross values are not true negatives. They reflect revised estimates for earlier days in the week, superseded by more accurate figures.</p>
+  </div>
+
+</div>
+
+<!-- ── Footer ─────────────────────────────────────────────────────────── -->
+<div class="container-fluid px-3 mt-3 pb-3 border-top pt-2">
+  <small class="text-muted d-block" id="data-updated"></small>
+</div>
+`;

@@ -700,6 +700,84 @@ body { font-size: 0.9rem; }
   border-top: 1px solid var(--bs-border-color);
 }
 
+/* ── Site navigation ────────────────────────────────────────────────────── */
+/* Built by src/shared/nav.js on every page. Entries are years while one League
+   is published and League menus once a second one is, and the same rules dress
+   both, because a year link reads the same wherever it is listed. */
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  margin-left: 0.75rem;
+}
+
+.site-nav-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--bs-secondary-color);
+  font-size: 0.85rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav-link:hover,
+.site-nav-link:focus {
+  color: var(--bs-body-color);
+  border-color: var(--bs-border-color);
+}
+
+/* Outline rather than border-color: Bootstrap's own .border rules are
+   !important and would win, which is the same reason the filter cards use it. */
+.site-nav-link.is-current {
+  color: var(--bs-body-color);
+  outline: 1px solid var(--bs-border-color);
+  background: var(--bs-tertiary-bg);
+}
+
+.site-nav .dropdown-item.is-current {
+  font-weight: 600;
+}
+
+.site-nav .dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+/* The Lifecycle badge. Small enough to sit inside a nav entry without setting
+   the line height of the bar. */
+.site-nav-badge {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.15em 0.4em;
+}
+
+.navbar-brand[id="site-brand"] {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* ── The nothing-here page ──────────────────────────────────────────────── */
+.site-notice {
+  max-width: 40rem;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.site-notice-heading {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
 /* ── Header status cluster ──────────────────────────────────────────────── */
 .navbar-status {
   display: none;

@@ -46,6 +46,30 @@ async function fetchSlices(campaign, movieYears, inFlight = new Map()) {
   return slices;
 }
 
+// A Campaign artifact that did not load, carrying enough for the page to be
+// legible about it: which Campaign was asked for, whether the Manifest lists it
+// at all, and the Manifest itself so the navigation still renders (#64). The
+// catch-all page renders any Campaign path, so a path for a year the platform
+// has never published is an ordinary outcome rather than a fault.
+export class CampaignUnavailable extends Error {
+  constructor({ manifest, leagueSlug, year, cause }) {
+    super(`The ${year} campaign for ${leagueSlug} could not be loaded`, { cause });
+    this.name = 'CampaignUnavailable';
+    this.manifest = manifest;
+    this.leagueSlug = leagueSlug;
+    this.year = year;
+    this.published = isListed(manifest, leagueSlug, year);
+  }
+}
+
+// Whether the Manifest names this Campaign. It lists every published one, so it
+// is what separates a year nobody has published from an artifact that should
+// have been there and was not.
+function isListed(manifest, leagueSlug, year) {
+  const league = (manifest?.leagues ?? []).find((entry) => entry.slug === leagueSlug);
+  return (league?.campaigns ?? []).some((campaign) => campaign.year === year);
+}
+
 // Everything one Campaign page needs. `leagueSlug` and `year` are optional; the
 // manifest's own default view answers for them when the page does not care,
 // which is what the repo root's redirect relies on. That caller is the one that
@@ -67,9 +91,20 @@ export async function loadCampaign({ leagueSlug, year } = {}) {
   const slug = leagueSlug ?? manifest.default_view.league_slug;
   const campaignYear = year ?? manifest.default_view.year;
 
-  const campaign =
-    (await pendingCampaign) ??
-    (await fetchArtifact(`leagues/${slug}/${campaignYear}.json`));
+  let campaign;
+  try {
+    campaign =
+      (await pendingCampaign) ??
+      (await fetchArtifact(`leagues/${slug}/${campaignYear}.json`));
+  } catch (cause) {
+    throw new CampaignUnavailable({
+      manifest,
+      leagueSlug: slug,
+      year: campaignYear,
+      cause,
+    });
+  }
+
   const slices = await fetchSlices(
     campaign,
     manifest.movie_years || [],

@@ -2,11 +2,24 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { heldNetwork } from '../shared/testing/held-network.js';
 
-import { loadCampaign } from './data.js';
+import { CampaignUnavailable, loadCampaign } from './data.js';
 
 const MANIFEST = {
   default_view: { league_slug: 'movieboyz', year: 2026 },
   movie_years: [2025, 2026],
+};
+
+// The same Manifest with the Campaign it lists, for telling a year that was
+// never published from an artifact that should have been there.
+const LISTED = {
+  ...MANIFEST,
+  leagues: [
+    {
+      slug: 'movieboyz',
+      name: 'MovieBoyz',
+      campaigns: [{ year: 2026, state: 'active' }],
+    },
+  ],
 };
 
 const CAMPAIGN = {
@@ -111,7 +124,10 @@ describe('loadCampaign', () => {
     expect(net.requested).toContain('leagues/movieboyz/2026.json');
   });
 
-  it('fails when the Campaign artifact is missing', async () => {
+  // The catch-all page renders any Campaign path, including one the platform
+  // has not published, so the failure has to carry enough for that page to say
+  // which year is missing and still draw its navigation (#64).
+  it('fails with the Campaign it could not load and the Manifest it did', async () => {
     const net = heldNetwork();
 
     const pending = loadCampaign({ leagueSlug: 'movieboyz', year: 2026 });
@@ -119,6 +135,52 @@ describe('loadCampaign', () => {
     net.respond('index.json', MANIFEST);
     net.missing('leagues/movieboyz/2026.json');
 
-    await expect(pending).rejects.toThrow('leagues/movieboyz/2026.json: 404');
+    const error = await pending.catch((thrown) => thrown);
+    expect(error).toBeInstanceOf(CampaignUnavailable);
+    expect(error.leagueSlug).toBe('movieboyz');
+    expect(error.year).toBe(2026);
+    expect(error.manifest).toEqual(MANIFEST);
+    expect(error.cause.message).toContain('leagues/movieboyz/2026.json: 404');
+  });
+
+  // The Manifest lists every Campaign, so it is the thing that separates a year
+  // nobody has published from an artifact that should be there and is not.
+  it('says a year the Manifest does not list was never published', async () => {
+    const net = heldNetwork();
+
+    const pending = loadCampaign({ leagueSlug: 'movieboyz', year: 2028 });
+    await net.settle();
+    net.respond('index.json', MANIFEST);
+    net.missing('leagues/movieboyz/2028.json');
+    net.missing('movies/2028.json');
+
+    const error = await pending.catch((thrown) => thrown);
+    expect(error.published).toBe(false);
+  });
+
+  it('says a year the Manifest does list should have been there', async () => {
+    const net = heldNetwork();
+
+    const pending = loadCampaign({ leagueSlug: 'movieboyz', year: 2026 });
+    await net.settle();
+    net.respond('index.json', LISTED);
+    net.missing('leagues/movieboyz/2026.json');
+
+    const error = await pending.catch((thrown) => thrown);
+    expect(error.published).toBe(true);
+  });
+
+  // The Manifest is fetched first and every other request hangs off it, so its
+  // own failure cannot be reported as a missing Campaign.
+  it('fails with the fetch error when the Manifest itself is missing', async () => {
+    const net = heldNetwork();
+
+    const pending = loadCampaign({ leagueSlug: 'movieboyz', year: 2026 });
+    await net.settle();
+    net.missing('index.json');
+    net.missing('leagues/movieboyz/2026.json');
+    net.missing('movies/2026.json');
+
+    await expect(pending).rejects.toThrow('index.json: 404');
   });
 });

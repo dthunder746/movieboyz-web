@@ -36,14 +36,35 @@ Both branches have to be publicly readable for that to work without a credential
 which is why the artifacts live here rather than beside the code that generates
 them.
 
+The two branches move on their own schedules, and the catch all page is what
+keeps that from mattering. A Campaign published to `artifacts` today is
+reachable today, without a push to `main` and without a deploy, because
+`404.html` renders any Campaign path rather than only the ones the build made a
+directory for. Only the current year has a directory, so the address everybody
+loads answers 200 and an unlisted year answers 404 with a working page. See
+[ADR 0010](https://github.com/dthunder746/movieboyz-platform/blob/main/docs/adr/0010-addressing-pages-on-a-static-host.md)
+for why addresses are shaped the way they are.
+
 ## Source layout
 
 | Path | What lives there |
 |-----------|------------------|
 | `src/site.css` | The one stylesheet, linked from every page's `<head>` and never imported from JavaScript. Linked that way it builds to a single asset every page shares and the browser caches once. Reached through the JavaScript graph it would be split per page. |
-| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. |
-| `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. |
+| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. `nav.js` builds the navigation every page carries and `notice.js` is the page a reader gets when there is nothing to render. |
+| `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. `entry.js` is what the HTML loads, `layout.js` holds the markup, and `page.js` fills it in. |
 | `src/movies/` | The Movies lookup page. Every Movie the platform tracks, read from the Movie slices and no League file, so it works for a reader who is in no League. |
+| `404.html` | The catch all. Its build entry sits beside the real pages in `vite.config.js`, and it loads the same Campaign entry they do. |
+
+The Campaign is the one page group with two HTML files, and neither of them
+holds its markup. `league/movieboyz/2026/index.html` and `404.html` are thin
+shells around a single `<div id="page">` plus the CDN tags, both loading
+`src/campaign/entry.js`, which reads the Campaign off the page's own URL and
+renders `layout.js` into that div. The markup lives in a module because two
+files need it and a second copy would drift. `404.html` additionally opens with
+an inline script that writes a `<base>`, because the host serves it from
+arbitrary paths and its relative asset URLs would otherwise resolve against
+whatever the reader typed. That script duplicates a few lines of `route.js` on
+purpose: it has to run before the module graph is addressable.
 
 A page imports from `shared`; nothing in `shared` imports back out, so a page
 group can be added without editing another one. `src/movies/` is the first one

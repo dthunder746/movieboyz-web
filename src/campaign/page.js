@@ -1,22 +1,27 @@
-// The Campaign page's entry point: it fetches the artifacts, builds every view
-// model once, and wires the surfaces that render them to each other.
+// The Campaign page: it fetches the artifacts, builds every view model once, and
+// wires the surfaces that render them to each other.
 //
 // The state that has to be shared lives in exactly one place each. Filters are
 // in `filters.js`, the plotted-Movie selection is in `shared/selection.js`, and the
 // three instances this module owns (`chart`, `table`, `cards`) are rebuilt from
 // those rather than kept in step by hand.
+//
+// Which Campaign to show is not decided here. `entry.js` reads it off the page's
+// own URL and calls in, which is what lets the same page serve both the real
+// directory for the current year and the catch-all for every other year (#64).
 
 import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
 import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from '../shared/format.js';
+import { mountNav } from '../shared/nav.js';
+import { renderNotice } from '../shared/notice.js';
 import { buildColorMap } from '../shared/palettes.js';
-import { campaignFromPath } from '../shared/route.js';
 import { createSelection } from '../shared/selection.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildBoard } from './board.js';
 import { buildCards } from './cards.js';
 import { applyChartTheme, buildChart } from './chart.js';
-import { loadCampaign } from './data.js';
+import { CampaignUnavailable, loadCampaign } from './data.js';
 import { createFilterState } from './filters.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
@@ -24,6 +29,7 @@ import { buildScorecards } from './scorecards.js';
 import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
+import { CAMPAIGN_LAYOUT } from './layout.js';
 import { createToolbar } from './toolbar.js';
 import { createModeSwitcher, initialMode } from './view-mode.js';
 
@@ -480,15 +486,48 @@ function renderChrome(campaign) {
 
 // ── Load ──────────────────────────────────────────────────────────────────
 
-paintCachedFavicon();
+// Show one Campaign, named by the caller. The markup goes in first so that the
+// surfaces exist before anything paints into them, and the navigation goes in
+// as soon as the Manifest lands rather than waiting on the Board.
+export async function startCampaignPage({ leagueSlug, year }) {
+  const page = document.getElementById('page');
+  if (page) page.innerHTML = CAMPAIGN_LAYOUT;
 
-// A Campaign page shows the Campaign it sits at. Only a page parked somewhere
-// else falls back to whatever the manifest currently defaults to.
-loadCampaign(campaignFromPath(window.location.pathname) ?? {})
-  .then(init)
-  .catch((error) => {
-    document.body.insertAdjacentHTML(
-      'beforeend',
-      `<div class="alert alert-danger m-3">Failed to load the campaign: ${error.message}</div>`,
-    );
+  paintCachedFavicon();
+
+  let loaded;
+  try {
+    loaded = await loadCampaign({ leagueSlug, year });
+  } catch (error) {
+    renderLoadFailure(error, year);
+    return;
+  }
+
+  mountNav(loaded.manifest);
+  init(loaded);
+}
+
+// A Campaign path that leads nowhere is an ordinary outcome here: the catch-all
+// page answers any year, published or not (#64). The notice replaces the whole
+// page rather than sitting under an empty Board, and it carries the navigation
+// so the years that do exist are one click away.
+function renderLoadFailure(error, year) {
+  if (error instanceof CampaignUnavailable) {
+    renderNotice({
+      manifest: error.manifest,
+      heading: `No ${error.year} campaign`,
+      message: error.published
+        ? `The ${error.year} campaign is published but its file could not be read just now. Try again shortly.`
+        : `The ${error.year} campaign has not been published yet, so there is nothing to show.`,
+    });
+    return;
+  }
+
+  // Anything else failed before the Manifest landed, so the navigation renders
+  // with what it has, which is the Movies lookup and nothing else.
+  renderNotice({
+    manifest: null,
+    heading: year ? `No ${year} campaign` : 'Nothing loaded',
+    message: `Could not load the published artifacts: ${error.message}`,
   });
+}
