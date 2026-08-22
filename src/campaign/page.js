@@ -25,11 +25,11 @@ import { CampaignUnavailable, loadCampaign } from './data.js';
 import { createFilterState } from './filters.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
+import { CAMPAIGN_LAYOUT } from './layout.js';
 import { buildScorecards } from './scorecards.js';
 import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
-import { CAMPAIGN_LAYOUT } from './layout.js';
 import { createToolbar } from './toolbar.js';
 import { createModeSwitcher, initialMode } from './view-mode.js';
 
@@ -488,7 +488,10 @@ function renderChrome(campaign) {
 
 // Show one Campaign, named by the caller. The markup goes in first so that the
 // surfaces exist before anything paints into them, and the navigation goes in
-// as soon as the Manifest lands rather than waiting on the Board.
+// with the rest once the artifacts land. It waits on the whole load rather than
+// on the Manifest alone because `loadManifest` does not dedupe, so mounting the
+// navigation early would cost a second fetch of the same file to save a few
+// milliseconds of a wave that is already running in parallel.
 export async function startCampaignPage({ leagueSlug, year }) {
   const page = document.getElementById('page');
   if (page) page.innerHTML = CAMPAIGN_LAYOUT;

@@ -60,11 +60,21 @@ export function isMoviesPath(pathname) {
 // rather than assumed. And the catch-all page sets a `<base>` pointing here, so
 // a `../` link on that page would be counted twice.
 //
-// A path naming no section at all is taken to be the root itself, which is what
-// the repo root is. The one path that misreads is an unmatched path under a
-// prefix, which the catch-all page answers and which names no Campaign anyway
+// `explicitRoot` wins over the path when the page has one, and only the
+// catch-all page does. It is served for a path that can name anything at all, so
+// the path there is the reader's typing rather than evidence of where the site
+// sits, and deriving from it points the navigation at whatever they typed. Its
+// `<base>` bootstrap already worked the root out before the module graph was
+// addressable, and that is the answer to carry.
+//
+// Failing that, a path naming no section at all is taken to be the root itself,
+// which is what the repo root is. The one path that misreads is an unmatched
+// path under a prefix that names no section, which only the catch-all answers
+// and where the `<base>` is wrong in the same way
 // (`docs/adr/0010-addressing-pages-on-a-static-host.md` in the platform repo).
-export function siteRoot(pathname) {
+export function siteRoot(pathname, explicitRoot) {
+  if (explicitRoot) return explicitRoot.endsWith('/') ? explicitRoot : `${explicitRoot}/`;
+
   const segments = directorySegments(pathname);
 
   const marker = campaignMarker(segments);

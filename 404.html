@@ -11,13 +11,30 @@
        <base> back at the root before anything else is parsed. It cannot use
        `siteRoot` from `src/shared/route.js`, which says the same thing in the
        same way: this has to run before the module graph is even addressable,
-       since the module's own URL is one of the ones being fixed. -->
+       since the module's own URL is one of the ones being fixed.
+
+       So it is a copy, and it has to answer as `siteRoot` does. It locates the
+       same two markers in the same order, checks the year the same way, and
+       takes the last marker rather than the first for the same reason: the
+       prefix is somebody else's naming and can repeat it. The `<base>` it
+       writes is then what the navigation reads back, so the root is worked out
+       here once rather than derived a second time from a path that names
+       nothing reliable. -->
   <script>
     (function () {
       var segments = window.location.pathname.split('/').filter(Boolean);
       if (segments.length && segments[segments.length - 1].indexOf('.') !== -1) segments.pop();
-      var marker = segments.lastIndexOf('league');
-      var root = marker > 0 ? '/' + segments.slice(0, marker).join('/') + '/' : '/';
+
+      var root = '/';
+      var league = segments.lastIndexOf('league');
+      var movies = segments.lastIndexOf('movies');
+
+      if (league !== -1 && /^\d{4}$/.test(segments[league + 2] || '')) {
+        root = league > 0 ? '/' + segments.slice(0, league).join('/') + '/' : '/';
+      } else if (movies !== -1) {
+        root = movies > 0 ? '/' + segments.slice(0, movies).join('/') + '/' : '/';
+      }
+
       document.write('<base href="' + root + '">');
     })();
   </script>

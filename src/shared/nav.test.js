@@ -98,6 +98,30 @@ describe('buildNav', () => {
 
   // Every link is written from the site root, so the same build serves from the
   // domain apex and from the Pages project path that prefixes everything.
+  // Both halves of a link are somebody else's text: the slug comes off the
+  // Manifest and the root is derived from an address the catch-all page lets
+  // the reader choose. Every other interpolation in this module is escaped and
+  // these are no different.
+  it('escapes a League slug before it reaches a link', () => {
+    const nav = buildNav(
+      { leagues: [{ slug: 'a"b', name: 'Odd', campaigns: [{ year: 2026, state: 'active' }] }] },
+      CAMPAIGN_PATH,
+    );
+
+    expect(nav.years[0].href).not.toContain('"');
+    expect(nav.years[0].href).toBe('/league/a%22b/2026/');
+  });
+
+  // The catch-all page knows its root from the `<base>` its bootstrap wrote,
+  // because the path it was served for names nothing reliable.
+  it('builds its links from an explicit root when the page has one', () => {
+    const nav = buildNav(ONE_LEAGUE, '/typo/', '/');
+
+    expect(nav.brandHref).toBe('/');
+    expect(nav.years[0].href).toBe('/league/movieboyz/2027/');
+    expect(nav.movies.href).toBe('/movies/');
+  });
+
   it('carries the Pages project path into every link', () => {
     const nav = buildNav(ONE_LEAGUE, '/movieboyz-web/league/movieboyz/2026/');
 

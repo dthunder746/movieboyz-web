@@ -140,6 +140,27 @@ describe('siteRoot', () => {
   it('reads a Campaign whose league is slugged like the Movies section', () => {
     expect(siteRoot('/league/movies/2026/')).toBe('/');
   });
+
+  // The catch-all page is served for a path that can name anything at all, so
+  // the path is not evidence of where the root is. Its `<base>` bootstrap
+  // already worked that out before the module graph was addressable, and it is
+  // the answer to use when there is one. Without this a reader who landed on
+  // `/typo/` got a navigation pointing at `/typo/league/...`, which is the
+  // dead end the notice page exists to avoid.
+  describe('given an explicit root', () => {
+    it('takes it over anything the path says', () => {
+      expect(siteRoot('/typo/', '/')).toBe('/');
+      expect(siteRoot('/movieboyz-web/typo/', '/movieboyz-web/')).toBe('/movieboyz-web/');
+    });
+
+    it('still ends it in a slash', () => {
+      expect(siteRoot('/typo/', '/movieboyz-web')).toBe('/movieboyz-web/');
+    });
+
+    it('falls back to the path when there is no explicit root', () => {
+      expect(siteRoot('/movieboyz-web/league/movieboyz/2026/', '')).toBe('/movieboyz-web/');
+    });
+  });
 });
 
 // Which section a page sits in, for marking the navigation entry the reader is

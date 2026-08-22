@@ -35,8 +35,8 @@ const STATE_TONE = {
   final: 'text-bg-primary',
 };
 
-export function buildNav(manifest, pathname) {
-  const root = siteRoot(pathname);
+export function buildNav(manifest, pathname, explicitRoot) {
+  const root = siteRoot(pathname, explicitRoot);
   const here = campaignFromPath(pathname);
   const leagues = manifest?.leagues ?? [];
 
@@ -71,7 +71,9 @@ function buildYears(league, root, here) {
       label: String(campaign.year),
       state: campaign.state,
       stateLabel: STATE_LABELS[campaign.state] ?? campaign.state,
-      href: `${root}league/${league.slug}/${campaign.year}/`,
+      // The slug is somebody else's text arriving off the Manifest, and it is
+      // going into a URL path segment, so it is encoded as one.
+      href: `${root}league/${encodeURIComponent(league.slug)}/${campaign.year}/`,
       // A path can name a year the Manifest does not list, which is exactly what
       // the catch-all page renders under. Nothing is marked for it.
       current:
@@ -88,7 +90,7 @@ export function mountNav(manifest) {
   const host = document.getElementById('site-nav');
   if (!host) return;
 
-  const nav = buildNav(manifest, window.location.pathname);
+  const nav = buildNav(manifest, window.location.pathname, documentRoot());
 
   const brand = document.getElementById('site-brand');
   if (brand) brand.setAttribute('href', nav.brandHref);
@@ -100,6 +102,15 @@ export function mountNav(manifest) {
 
   entries.push(moviesLink(nav.movies));
   host.innerHTML = entries.join('');
+}
+
+// The root a `<base>` declares, if the page declares one. Only the catch-all
+// does, and it is the only page whose own address does not say where the site
+// root is. Reading `.href` rather than the attribute lets the browser resolve
+// it, so whatever shape it was written in comes back as a path.
+function documentRoot() {
+  const base = document.querySelector('base');
+  return base ? new URL(base.href).pathname : '';
 }
 
 function leagueMenu(league) {
@@ -120,13 +131,13 @@ function yearLink(year, className) {
     ? ` <span class="badge ${tone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>`
     : '';
 
-  return `<a class="${className}${year.current ? ' is-current' : ''}" href="${year.href}"${
+  return `<a class="${className}${year.current ? ' is-current' : ''}" href="${escapeHtml(year.href)}"${
     year.current ? ' aria-current="page"' : ''
   }>${escapeHtml(year.label)}${badge}</a>`;
 }
 
 function moviesLink(movies) {
-  return `<a class="site-nav-link${movies.current ? ' is-current' : ''}" href="${movies.href}"${
+  return `<a class="site-nav-link${movies.current ? ' is-current' : ''}" href="${escapeHtml(movies.href)}"${
     movies.current ? ' aria-current="page"' : ''
   }>Movies</a>`;
 }
