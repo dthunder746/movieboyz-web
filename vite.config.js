@@ -1,11 +1,58 @@
-import { resolve } from 'node:path';
+import { existsSync } from 'node:fs';
+import { readFile } from 'node:fs/promises';
+import { join, resolve } from 'node:path';
 
 import { defineConfig } from 'vite';
+
+// Answer an unmatched path the way the host does, in dev.
+//
+// Pages serves `404.html` for a path it has no file for, which is the whole
+// mechanism the catch-all rests on. Vite's dev server does not: it defaults to
+// `appType: 'spa'` and hands back the root `index.html` instead. That made the
+// catch-all impossible to exercise locally, and worse, it served the root's
+// redirect at a Campaign address, where the hop it makes used to append rather
+// than replace and the page walked off into an ever longer URL.
+//
+// `appType: 'mpa'` turns the fallback off; this puts the right one back. The
+// status is 404 because that is what Pages answers with, and the accepted cost
+// recorded in ADR 0010 is only legible if dev shows it too.
+function serveCatchAll(root) {
+  return {
+    name: 'movieboyz-catch-all',
+    apply: 'serve',
+    configureServer(server) {
+      // Returning a function installs this late in Vite's own chain, but not
+      // last: it lands after the HTML fallback and before the middleware that
+      // actually serves the file. So the fallback has already rewritten a
+      // directory request to its `index.html` by the time this runs, and a path
+      // that exists on disk here is a real page that belongs to Vite.
+      return () => {
+        server.middlewares.use(async (req, res, next) => {
+          if (req.method !== 'GET' || !req.headers.accept?.includes('text/html')) return next();
+
+          const requested = decodeURIComponent(req.url.split('?')[0]);
+          if (requested.endsWith('.html') && existsSync(join(root, requested))) return next();
+
+          try {
+            const html = await readFile(resolve(root, '404.html'), 'utf8');
+            res.statusCode = 404;
+            res.setHeader('Content-Type', 'text/html');
+            res.end(await server.transformIndexHtml(req.url, html, req.originalUrl));
+          } catch {
+            next();
+          }
+        });
+      };
+    },
+  };
+}
 
 // Relative base so the build works both at a Pages project path and under the
 // custom domain after cutover (DNS untouched, per the cutover plan).
 export default defineConfig({
   base: './',
+  appType: 'mpa',
+  plugins: [serveCatchAll(import.meta.dirname)],
   build: {
     rollupOptions: {
       // Every page is its own entry. The root is a redirect at the manifest's

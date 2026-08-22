@@ -102,3 +102,23 @@ export function defaultViewPath(manifest) {
   if (!view?.league_slug || !view?.year) return null;
   return `${LEAGUE_SEGMENT}/${view.league_slug}/${view.year}/`;
 }
+
+// Where the root's redirect should actually send a reader, absolute, or null if
+// the Manifest names nowhere to send them.
+//
+// The relative path above has to be resolved against something, and it must be
+// the site root rather than the address the page was served at. Those are the
+// same thing whenever the root is served where it belongs. When they are not,
+// resolving against the address appends the default view to it instead of
+// replacing it, and since the result is another address with no page, the next
+// load appends again: `/league/movieboyz/2099` becomes
+// `/league/movieboyz/league/movieboyz/2026/` and grows without limit.
+//
+// A caller that gets back the path it passed in should render rather than hop.
+// That is the one hop this cannot prevent, for a root `siteRoot` cannot locate,
+// and stopping there bounds the walk at one step instead of none.
+export function defaultViewTarget(pathname, manifest) {
+  const path = defaultViewPath(manifest);
+  if (!path) return null;
+  return `${siteRoot(pathname)}${path}`;
+}

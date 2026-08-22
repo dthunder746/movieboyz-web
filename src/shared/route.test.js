@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { campaignFromPath, defaultViewPath, isMoviesPath, siteRoot } from './route.js';
+import {
+  campaignFromPath,
+  defaultViewPath,
+  defaultViewTarget,
+  isMoviesPath,
+  siteRoot,
+} from './route.js';
 
 // Which Campaign a page shows is settled by where the page sits, not by the
 // manifest's `default_view`. Once a second Campaign is published the 2026 page
@@ -94,6 +100,49 @@ describe('defaultViewPath', () => {
 
   it('finds no path when the default view is missing its league', () => {
     expect(defaultViewPath({ default_view: { year: 2026 } })).toBeNull();
+  });
+});
+
+// Where the root's redirect actually sends a reader. `defaultViewPath` answers
+// with a relative path so it survives both the apex and a Pages project path,
+// and this is the half that decides what it is relative to.
+describe('defaultViewTarget', () => {
+  const MANIFEST = { default_view: { league_slug: 'movieboyz', year: 2026 } };
+
+  it('sends a reader at the root to the default view', () => {
+    expect(defaultViewTarget('/', MANIFEST)).toBe('/league/movieboyz/2026/');
+  });
+
+  it('keeps the Pages project path in front', () => {
+    expect(defaultViewTarget('/movieboyz-web/', MANIFEST)).toBe(
+      '/movieboyz-web/league/movieboyz/2026/',
+    );
+  });
+
+  // The loop this exists to stop. A host that serves the root's markup at an
+  // address that is not the root used to make the hop resolve against that
+  // address, appending the default view to it instead of replacing it, and the
+  // next load appended again. Pinning the hop to the site root ends it.
+  it('pins the hop to the site root rather than the address it was served at', () => {
+    expect(defaultViewTarget('/league/movieboyz/2099', MANIFEST)).toBe(
+      '/league/movieboyz/2026/',
+    );
+    expect(defaultViewTarget('/league/movieboyz/2099/', MANIFEST)).toBe(
+      '/league/movieboyz/2026/',
+    );
+  });
+
+  // Belt and braces for a root this module cannot locate. One hop lands here,
+  // the target matches the address, and the caller stops rather than going
+  // round again.
+  it('answers the address it was given when the hop would land back on it', () => {
+    expect(defaultViewTarget('/typo/league/movieboyz/2026/', MANIFEST)).toBe(
+      '/typo/league/movieboyz/2026/',
+    );
+  });
+
+  it('answers nothing when the manifest names no default view', () => {
+    expect(defaultViewTarget('/', {})).toBeNull();
   });
 });
 

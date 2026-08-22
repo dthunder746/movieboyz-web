@@ -13,12 +13,16 @@
 // for real.
 
 import { loadManifest } from './shared/artifacts.js';
-import { defaultViewPath } from './shared/route.js';
+import { defaultViewTarget } from './shared/route.js';
 
 // `replace` rather than an assignment, so the root does not sit in the reader's
 // history as a step to go back through on the way out of the Campaign page.
+//
+// The target is already absolute from the site root, which is what stops a root
+// served at an address that is not the root from appending the default view to
+// that address over and over (`route.js`).
 function go(path) {
-  window.location.replace(new URL(path, window.location.href).href);
+  window.location.replace(new URL(path, window.location.origin).href);
 }
 
 function renderError(message) {
@@ -34,9 +38,14 @@ function renderError(message) {
 
 loadManifest()
   .then((manifest) => {
-    const path = defaultViewPath(manifest);
-    if (path) go(path);
-    else renderError('The published manifest names no default view.');
+    const target = defaultViewTarget(window.location.pathname, manifest);
+
+    if (!target) renderError('The published manifest names no default view.');
+    // The hop leads back to the address it started from, so there is nothing to
+    // hop to. Only a host serving this page somewhere it does not belong gets
+    // here, and saying so beats going round again.
+    else if (target === window.location.pathname) renderError('There is no page at this address.');
+    else go(target);
   })
   .catch((error) => {
     renderError(`Could not load the published artifacts: ${error.message}`);
