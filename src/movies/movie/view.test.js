@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildMovieView } from './view.js';
+import { buildMovieView, newestMeasuredDay } from './view.js';
 
 const RATINGS = {
   fetched_at: '2026-08-10',
@@ -164,7 +164,7 @@ describe('buildMovieView', () => {
 // The way back from a film to a contest. A Movie belongs to no League, so this
 // is the one part of the page that reads League files at all, and a Movie
 // nobody picked simply has none of them.
-describe('buildMovieView holdings', () => {
+describe('buildMovieView picks', () => {
   it('names every Campaign whose Board holds the Movie as a Pick', () => {
     const view = buildMovieView({
       imdbId: MOVIE.imdb_id,
@@ -172,7 +172,7 @@ describe('buildMovieView holdings', () => {
       campaigns: [campaign({ movies: [boardRow()] })],
     });
 
-    expect(view.holdings).toEqual([
+    expect(view.picks).toEqual([
       {
         leagueSlug: 'movieboyz',
         leagueName: 'MovieBoyz',
@@ -198,7 +198,7 @@ describe('buildMovieView holdings', () => {
       campaigns: [campaign({ movies: [boardRow({ user_id: null, pick_type: null })] })],
     });
 
-    expect(view.holdings).toEqual([]);
+    expect(view.picks).toEqual([]);
   });
 
   it('leaves out a Campaign that never saw the Movie', () => {
@@ -208,7 +208,7 @@ describe('buildMovieView holdings', () => {
       campaigns: [campaign({ movies: [boardRow({ imdb_id: 'tt9999999' })] })],
     });
 
-    expect(view.holdings).toEqual([]);
+    expect(view.picks).toEqual([]);
   });
 
   // The Campaign artifact denormalizes the username onto its Roster and not
@@ -220,8 +220,8 @@ describe('buildMovieView holdings', () => {
       campaigns: [campaign({ roster: [], movies: [boardRow()] })],
     });
 
-    // A Roster that does not name them still leaves a holding, under the id.
-    expect(view.holdings[0]).toMatchObject({ userId: 'emerson', username: null });
+    // A Roster that does not name them still leaves the Pick, under the id.
+    expect(view.picks[0]).toMatchObject({ userId: 'emerson', username: null });
   });
 
   it('reads newest year first, as the League thinks about its years', () => {
@@ -235,7 +235,7 @@ describe('buildMovieView holdings', () => {
       ],
     });
 
-    expect(view.holdings.map((holding) => holding.year)).toEqual([2027, 2026, 2025]);
+    expect(view.picks.map((pick) => pick.year)).toEqual([2027, 2026, 2025]);
   });
 
   // The case that proves the page is League independent: a Movie the platform
@@ -248,6 +248,37 @@ describe('buildMovieView holdings', () => {
     });
 
     expect(view.found).toBe(true);
-    expect(view.holdings).toEqual([]);
+    expect(view.picks).toEqual([]);
+  });
+});
+
+// The stand-in measuring day for a Movie whose own slice has never been
+// measured. A release year nothing in has opened publishes no `latest_date`,
+// and without this every film in it reads as unpublished rather than unreleased.
+describe('newestMeasuredDay', () => {
+  it('takes the newest day any slice was measured on', () => {
+    const days = newestMeasuredDay([
+      { latest_date: '2026-08-19' },
+      { latest_date: '2026-08-22' },
+      { latest_date: '2025-12-31' },
+    ]);
+
+    expect(days).toBe('2026-08-22');
+  });
+
+  it('ignores a slice that has never been measured', () => {
+    const days = newestMeasuredDay([
+      { latest_date: null },
+      { latest_date: '2026-08-19' },
+      {},
+    ]);
+
+    expect(days).toBe('2026-08-19');
+  });
+
+  it('answers null when nothing loaded has been measured', () => {
+    expect(newestMeasuredDay([{ latest_date: null }, {}])).toBe(null);
+    expect(newestMeasuredDay([])).toBe(null);
+    expect(newestMeasuredDay(undefined)).toBe(null);
   });
 });

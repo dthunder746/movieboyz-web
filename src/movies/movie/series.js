@@ -1,5 +1,5 @@
 // The two things the Movie page plots: the cumulative box office curve and the
-// weekly takings under it. Pure: no Chart.js, no DOM.
+// Weekly gross under it. Pure: no Chart.js, no DOM.
 //
 // The lookup page's `../gross-series.js` lays many Movies on a shared
 // days-since-release axis so they overlay. This is the opposite question. One

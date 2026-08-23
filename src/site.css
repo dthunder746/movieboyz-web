@@ -1419,7 +1419,7 @@ body { font-size: 0.9rem; }
 /* One film at its own address. It reuses the chart machinery above
    (#chart-wrapper, .chart-card, .chart-blank, .chart-note) and the lookup
    page's .budget-estimated, and adds the three blocks it alone has: the fact
-   strip, the ratings grid and the way back to the Campaigns holding it. */
+   strip, the ratings grid and the way back to every Campaign Pick of it. */
 
 .movie-title {
   font-size: 1.35rem;
@@ -1514,13 +1514,13 @@ body { font-size: 0.9rem; }
   color: var(--bs-secondary-color);
 }
 
-.movie-holdings-grid {
+.movie-picks-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 8px;
 }
 
-.movie-holding {
+.movie-pick {
   display: block;
   background: var(--bs-body-bg);
   border: 1px solid var(--bs-border-color);
@@ -1530,21 +1530,21 @@ body { font-size: 0.9rem; }
   color: inherit;
 }
 
-.movie-holding:hover {
+.movie-pick:hover {
   border-color: var(--bs-primary);
 }
 
-.movie-holding-title {
+.movie-pick-title {
   font-weight: 600;
   margin-bottom: 2px;
 }
 
-.movie-holding-holder {
+.movie-pick-user {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
 }
 
-.movie-holding-profit {
+.movie-pick-profit {
   font-size: 1.05rem;
   font-weight: 600;
   margin-top: 4px;

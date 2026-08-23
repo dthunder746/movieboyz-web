@@ -20,7 +20,7 @@ import { createThemeSwitch } from '../../shared/theme.js';
 import { applyChartTheme, buildMovieChart } from './chart.js';
 import { loadMovie } from './data.js';
 import { blankMessage, buildMovieSeries, measurementNote } from './series.js';
-import { buildMovieView } from './view.js';
+import { buildMovieView, newestMeasuredDay } from './view.js';
 
 const DASH = '—';
 
@@ -35,7 +35,10 @@ const PICK_LABELS = {
 };
 
 function pickLabel(pickType) {
-  return PICK_LABELS[pickType] ?? pickType;
+  // Lowercased first, as `campaign/icons.js` lowercases before looking a glyph
+  // up. A Pick type that arrives cased differently should not lose its word
+  // while keeping its symbol.
+  return PICK_LABELS[String(pickType ?? '').toLowerCase()] ?? pickType;
 }
 
 // A date as the rest of the site writes one: "Jun 5 2026".
@@ -125,7 +128,7 @@ function renderRatings(view) {
       : `<img class="movie-rating-icon" src="${escapeHtml(rating.icon)}" alt="" width="16" height="16">`;
     const votes = rating.votes === null
       ? ''
-      : `<div class="movie-rating-votes">${rating.votes.toLocaleString()} votes</div>`;
+      : `<div class="movie-rating-votes">${escapeHtml(rating.votes.toLocaleString())} votes</div>`;
 
     return `<div class="movie-rating">
         <div class="movie-rating-source">${icon}${escapeHtml(rating.label)}</div>
@@ -146,54 +149,48 @@ function renderRatings(view) {
 
 // A Movie belongs to no League. This is the only part of the page that names
 // one, and a Movie nobody picked simply has nothing here (#63).
-function renderHoldings(view) {
-  const host = document.getElementById('movie-holdings');
+function renderPicks(view) {
+  const host = document.getElementById('movie-picks');
   if (!host) return;
 
   const heading = '<h2 class="movie-section-heading">Picked in</h2>';
 
-  if (view.holdings.length === 0) {
+  if (view.picks.length === 0) {
     host.innerHTML = `${heading}<p class="text-muted mb-0">No League has picked this Movie.</p>`;
     return;
   }
 
   const root = currentRoot();
 
-  const cards = view.holdings.map((holding) => {
-    const href = campaignHref(root, holding.leagueSlug, holding.year);
-    const name = holding.leagueName ?? holding.leagueSlug;
-    const holder = holding.username ?? holding.userId;
-    const pick = holding.pickType ? ` · ${escapeHtml(pickLabel(holding.pickType))}` : '';
-    const draft = holding.draftPick ? ` · pick ${escapeHtml(holding.draftPick)}` : '';
+  const cards = view.picks.map((pick) => {
+    const href = campaignHref(root, pick.leagueSlug, pick.year);
+    const name = pick.leagueName ?? pick.leagueSlug;
+    const user = pick.username ?? pick.userId;
+    const type = pick.pickType ? ` · ${escapeHtml(pickLabel(pick.pickType))}` : '';
+    const draft = pick.draftPick ? ` · pick ${escapeHtml(pick.draftPick)}` : '';
 
-    return `<a class="movie-holding" href="${escapeHtml(href)}">
-        <div class="movie-holding-title">
-          ${escapeHtml(name)} ${escapeHtml(holding.year)}
-          <span class="badge ${stateTone(holding.state)} site-nav-badge">${escapeHtml(stateLabel(holding.state))}</span>
+    return `<a class="movie-pick" href="${escapeHtml(href)}">
+        <div class="movie-pick-title">
+          ${escapeHtml(name)} ${escapeHtml(pick.year)}
+          <span class="badge ${stateTone(pick.state)} site-nav-badge">${escapeHtml(stateLabel(pick.state))}</span>
         </div>
-        <div class="movie-holding-holder">${escapeHtml(holder)}${pick}${draft}</div>
-        <div class="movie-holding-profit ${colorClass(holding.profitTd)}">${escapeHtml(fmt(holding.profitTd))}</div>
+        <div class="movie-pick-user">${escapeHtml(user)}${type}${draft}</div>
+        <div class="movie-pick-profit ${colorClass(pick.profitTd)}">${escapeHtml(fmt(pick.profitTd))}</div>
       </a>`;
   });
 
-  host.innerHTML = `${heading}<div class="movie-holdings-grid">${cards.join('')}</div>`;
+  host.innerHTML = `${heading}<div class="movie-picks-grid">${cards.join('')}</div>`;
 }
 
 // ── The chart ─────────────────────────────────────────────────────────────
-
-// The newest day any loaded slice was measured on. It stands in for a Movie
-// whose own slice has never been measured, which is every film in a release
-// year nothing in has opened yet.
-function newestMeasuredDay(slices) {
-  const days = slices.map((slice) => slice.latest_date).filter(Boolean).sort();
-  return days.length ? days[days.length - 1] : null;
-}
 
 function renderChart(view, asOf) {
   const built = buildMovieSeries(view, { asOf });
 
   const wrapper = document.getElementById('chart-wrapper');
   const blank = document.getElementById('chart-blank');
+  if (!wrapper || !blank) return null;
+
   const message = blankMessage(built);
 
   let chart = null;
@@ -267,7 +264,7 @@ function init({ manifest, slices, campaigns, missingYears }, imdbId) {
   renderHeader(view);
   renderFacts(view);
   renderRatings(view);
-  renderHoldings(view);
+  renderPicks(view);
 
   const chart = renderChart(view, newestMeasuredDay(slices));
 

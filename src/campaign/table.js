@@ -19,7 +19,7 @@ import {
   weekTitle,
 } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
-import { RATING_SOURCES as RATING_CATALOGUE } from '../shared/ratings.js';
+import { RATING_SOURCES } from '../shared/ratings.js';
 
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 import {
@@ -257,7 +257,7 @@ function buildSortMap(weekKeys, initialSort) {
 // handed; this way it simply has no column, and `table-rows.test.js` fails
 // before either happens. The catalogue's order is the column order, which is
 // the order `RATING_KEYS` already lists them in.
-const RATING_SOURCES = RATING_CATALOGUE
+const RATING_COLUMNS = RATING_SOURCES
   .filter((source) => RATING_KEYS.includes(source.key))
   .map((source) => ({
     ...source,
@@ -266,7 +266,7 @@ const RATING_SOURCES = RATING_CATALOGUE
   }));
 
 function ratingColumns() {
-  return RATING_SOURCES.map((source, index) => ({
+  return RATING_COLUMNS.map((source, index) => ({
     title: source.label,
     field: source.field,
     cssClass: index === 0 ? 'week-sep' : undefined,
@@ -428,7 +428,7 @@ export function buildDetailedTable(board, colorMap) {
 
   const tableRef = { current: null };
 
-  const hiddenRatingFields = RATING_SOURCES
+  const hiddenRatingFields = RATING_COLUMNS
     .filter((source) => !source.visible)
     .map((source) => source.field);
 

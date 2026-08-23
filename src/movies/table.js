@@ -19,7 +19,6 @@ import {
   formatShortDate,
   ratingColorClass,
 } from '../shared/format.js';
-
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 
 import { SEASON_LABELS, missingLastSorter } from './rows.js';

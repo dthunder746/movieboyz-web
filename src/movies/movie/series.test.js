@@ -214,7 +214,7 @@ describe('buildMovieSeries with nothing to plot', () => {
     expect(built.blank).toBe('no-figures');
   });
 
-  // A Movie with weekly takings and no daily curve still has something to
+  // A Movie with a Weekly gross and no daily curve still has something to
   // draw, so the page shows the bars rather than a sentence.
   it('is not blank when only one of the two series has figures', () => {
     const built = buildMovieSeries(view({ weeklyGross: { '2026-W23': 54 * MILLION } }));

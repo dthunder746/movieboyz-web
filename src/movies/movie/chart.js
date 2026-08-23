@@ -1,4 +1,4 @@
-// One Movie's box office: the cumulative curve as a line and the week's takings
+// One Movie's box office: the cumulative curve as a line and its Weekly gross
 // as bars underneath it. Wiring, untested by the site's convention;
 // `series.js` decides what is plotted and is tested next door.
 //
@@ -19,6 +19,8 @@ import { chartColors, currentTheme } from '../../shared/theme.js';
 
 const MILLION = 1e6;
 const MS_PER_DAY = 86400000;
+// The closest the reader can zoom: a week of the run across the whole canvas.
+const MIN_ZOOM_DAYS = 7;
 
 const CURVE_COLOR = '#1982c4';
 const WEEK_COLOR = '#ff924c';
@@ -32,7 +34,7 @@ function datasets(built) {
   return [
     {
       type: 'bar',
-      label: 'Weekly takings',
+      label: 'Weekly gross',
       data: built.weekly.map((bar) => ({ x: toMillis(bar.x), y: bar.y, week: bar.label })),
       backgroundColor: `${WEEK_COLOR}66`,
       borderColor: WEEK_COLOR,
@@ -107,7 +109,7 @@ export function buildMovieChart(built) {
         zoom: {
           zoom: { wheel: { enabled: true }, pinch: { enabled: true }, mode: 'x' },
           pan: { enabled: true, mode: 'x' },
-          limits: { x: { min: zoomReset.min, max: zoomReset.max, minRange: 7 * MS_PER_DAY } },
+          limits: { x: { min: zoomReset.min, max: zoomReset.max, minRange: MIN_ZOOM_DAYS * MS_PER_DAY } },
         },
       },
       scales: {

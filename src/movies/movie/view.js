@@ -1,5 +1,5 @@
 // One Movie, as the detail page reads it: the facts off whichever slice carries
-// it, the ratings it has collected, and the Campaigns holding it. Pure: no
+// it, the ratings it has collected, and every Campaign Pick of it. Pure: no
 // fetching, no DOM.
 //
 // This is the lookup row (`../rows.js`) turned inside out. A lookup row is one
@@ -9,6 +9,7 @@
 
 import { displayRatings } from '../../shared/ratings.js';
 import { campaignPath } from '../../shared/route.js';
+
 import { SEASON_LABELS } from '../rows.js';
 
 // Which slice holds the Movie, and the Movie itself. An imdb id says nothing
@@ -30,15 +31,15 @@ function releaseYear(movie, slice) {
   return Number.isNaN(year) ? (slice.release_year ?? null) : year;
 }
 
-// Every Campaign whose Board holds the Movie as a Pick, newest year first.
+// Every Pick of this Movie, across every Campaign, newest year first.
 //
 // A Board carries every Movie in play for its year whether or not anybody
-// picked it, so being on a Board is not being held: the holding is the row with
-// a `user_id`. The holder's name comes off the Roster, which is where the
+// picked it, so being on a Board is not being picked: the Pick is the row with
+// a `user_id`. The User's name comes off the Roster, which is where the
 // Campaign artifact denormalizes it (ADR 0008), and a Roster that does not name
-// them still leaves a holding under the id rather than dropping it.
-function buildHoldings(imdbId, campaigns) {
-  const holdings = [];
+// them still leaves the Pick under the id rather than dropping it.
+function buildPicks(imdbId, campaigns) {
+  const picks = [];
 
   for (const campaign of campaigns || []) {
     const row = (campaign.movies || []).find(
@@ -48,7 +49,7 @@ function buildHoldings(imdbId, campaigns) {
 
     const member = (campaign.roster || []).find((entry) => entry.user_id === row.user_id);
 
-    holdings.push({
+    picks.push({
       leagueSlug: campaign.league_slug,
       leagueName: campaign.league_name,
       year: campaign.year,
@@ -63,7 +64,20 @@ function buildHoldings(imdbId, campaigns) {
     });
   }
 
-  return holdings.sort((a, b) => b.year - a.year);
+  return picks.sort((a, b) => b.year - a.year);
+}
+
+// The newest day any loaded slice was measured on. It stands in for a Movie
+// whose own slice has never been measured, which is every film in a release
+// year nothing in has opened yet: that slice publishes no `latest_date`, so
+// without this every film a year out reads as one nobody has published a
+// figure for rather than one that is not out.
+//
+// ISO dates sort as strings, which is the whole reason the artifact writes
+// them that way.
+export function newestMeasuredDay(slices) {
+  const days = (slices || []).map((slice) => slice.latest_date).filter(Boolean).sort();
+  return days.length ? days[days.length - 1] : null;
 }
 
 export function buildMovieView({ imdbId, slices, campaigns } = {}) {
@@ -106,6 +120,6 @@ export function buildMovieView({ imdbId, slices, campaigns } = {}) {
     // each file's figures on its own latest date.
     measuredOn: slice.latest_date ?? null,
 
-    holdings: buildHoldings(movie.imdb_id, campaigns),
+    picks: buildPicks(movie.imdb_id, campaigns),
   };
 }
