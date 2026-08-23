@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-08-23T08:07:44.477830Z",
+  "generated_at": "2026-08-23T10:09:25.239004Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
@@ -12,7 +12,7 @@
       "breakeven": 1459000000,
       "bomb_impact_absorbed": -110568422,
       "bomb_impact_dealt": 15723777,
-      "movies_picked": 8,
+      "movies_picked": 11,
       "years_competed": 1
     },
     {
@@ -23,7 +23,7 @@
       "breakeven": 1198500000,
       "bomb_impact_absorbed": -106637478,
       "bomb_impact_dealt": 0,
-      "movies_picked": 8,
+      "movies_picked": 11,
       "years_competed": 1
     },
     {
@@ -34,7 +34,7 @@
       "breakeven": 764500000,
       "bomb_impact_absorbed": -67623484,
       "bomb_impact_dealt": -156055975,
-      "movies_picked": 8,
+      "movies_picked": 11,
       "years_competed": 1
     },
     {
@@ -45,7 +45,7 @@
       "breakeven": 1593500000,
       "bomb_impact_absorbed": -35083050,
       "bomb_impact_dealt": -286217715,
-      "movies_picked": 8,
+      "movies_picked": 11,
       "years_competed": 1
     },
     {
@@ -56,7 +56,7 @@
       "breakeven": 1365500000,
       "bomb_impact_absorbed": -106637478,
       "bomb_impact_dealt": 0,
-      "movies_picked": 8,
+      "movies_picked": 11,
       "years_competed": 1
     }
   ],
