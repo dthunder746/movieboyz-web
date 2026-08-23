@@ -1,14 +1,14 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-08-23T22:00:05.001835Z",
+  "generated_at": "2026-08-23T22:08:50.973035Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "profit": 1796490701,
-      "gross": 3255490700.5,
+      "profit": 1955173209,
+      "gross": 3414173208.5,
       "breakeven": 1459000000,
       "bomb_impact_absorbed": -110568422,
       "bomb_impact_dealt": 15723777,
@@ -16,32 +16,10 @@
       "years_competed": 1
     },
     {
-      "user_id": "matt",
-      "username": "Matt",
-      "profit": 1323907009,
-      "gross": 2522407008.75,
-      "breakeven": 1198500000,
-      "bomb_impact_absorbed": -106637478,
-      "bomb_impact_dealt": 0,
-      "movies_picked": 11,
-      "years_competed": 1
-    },
-    {
-      "user_id": "emerson",
-      "username": "Emerson",
-      "profit": 1286465533,
-      "gross": 2050965532.5,
-      "breakeven": 764500000,
-      "bomb_impact_absorbed": -67623484,
-      "bomb_impact_dealt": -156055975,
-      "movies_picked": 11,
-      "years_competed": 1
-    },
-    {
       "user_id": "connie",
       "username": "Connie",
-      "profit": 1257966873,
-      "gross": 2851466873.5,
+      "profit": 1348354947,
+      "gross": 2941854947.5,
       "breakeven": 1593500000,
       "bomb_impact_absorbed": -35083050,
       "bomb_impact_dealt": -286217715,
@@ -49,10 +27,32 @@
       "years_competed": 1
     },
     {
+      "user_id": "emerson",
+      "username": "Emerson",
+      "profit": 1336165533,
+      "gross": 2100665532.5,
+      "breakeven": 764500000,
+      "bomb_impact_absorbed": -67623484,
+      "bomb_impact_dealt": -156055975,
+      "movies_picked": 11,
+      "years_competed": 1
+    },
+    {
+      "user_id": "matt",
+      "username": "Matt",
+      "profit": 1328457368,
+      "gross": 2526957367.75,
+      "breakeven": 1198500000,
+      "bomb_impact_absorbed": -106637478,
+      "bomb_impact_dealt": 0,
+      "movies_picked": 11,
+      "years_competed": 1
+    },
+    {
       "user_id": "chris",
       "username": "Chris",
-      "profit": 476259289,
-      "gross": 1841759288.75,
+      "profit": 487569065,
+      "gross": 1853069064.75,
       "breakeven": 1365500000,
       "bomb_impact_absorbed": -106637478,
       "bomb_impact_dealt": 0,
