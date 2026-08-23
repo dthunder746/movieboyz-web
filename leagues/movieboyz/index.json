@@ -1,0 +1,75 @@
+{
+  "contract_version": 3,
+  "generated_at": "2026-08-23T06:23:00.312351Z",
+  "league_slug": "movieboyz",
+  "league_name": "MovieBoyz",
+  "all_time": [
+    {
+      "user_id": "marcus",
+      "username": "Marcus",
+      "profit": 1796490701,
+      "gross": 3255490700.5,
+      "breakeven": 1459000000,
+      "bomb_impact_absorbed": -110568422,
+      "bomb_impact_dealt": 15723777,
+      "movies_picked": 8,
+      "years_competed": 1
+    },
+    {
+      "user_id": "matt",
+      "username": "Matt",
+      "profit": 1323907009,
+      "gross": 2522407008.75,
+      "breakeven": 1198500000,
+      "bomb_impact_absorbed": -106637478,
+      "bomb_impact_dealt": 0,
+      "movies_picked": 8,
+      "years_competed": 1
+    },
+    {
+      "user_id": "emerson",
+      "username": "Emerson",
+      "profit": 1286465533,
+      "gross": 2050965532.5,
+      "breakeven": 764500000,
+      "bomb_impact_absorbed": -67623484,
+      "bomb_impact_dealt": -156055975,
+      "movies_picked": 8,
+      "years_competed": 1
+    },
+    {
+      "user_id": "connie",
+      "username": "Connie",
+      "profit": 1257966873,
+      "gross": 2851466873.5,
+      "breakeven": 1593500000,
+      "bomb_impact_absorbed": -35083050,
+      "bomb_impact_dealt": -286217715,
+      "movies_picked": 8,
+      "years_competed": 1
+    },
+    {
+      "user_id": "chris",
+      "username": "Chris",
+      "profit": 476259289,
+      "gross": 1841759288.75,
+      "breakeven": 1365500000,
+      "bomb_impact_absorbed": -106637478,
+      "bomb_impact_dealt": 0,
+      "movies_picked": 8,
+      "years_competed": 1
+    }
+  ],
+  "campaigns": [
+    {
+      "year": 2026,
+      "state": "active",
+      "leader": [
+        {
+          "user_id": "marcus",
+          "username": "Marcus"
+        }
+      ]
+    }
+  ]
+}
