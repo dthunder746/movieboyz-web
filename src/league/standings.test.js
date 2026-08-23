@@ -65,10 +65,13 @@ describe('buildYearStandings', () => {
     expect(buildYearStandings(CAMPAIGN).rows[0].roi).toBe(40);
   });
 
-  // A Board carries every Movie in play whether or not anybody picked it, so
-  // the Pick is the row with a `user_id`.
-  it('counts each User’s own Picks off the Board', () => {
-    expect(buildYearStandings(CAMPAIGN).rows.map((row) => row.pickCount)).toEqual([2, 1]);
+  // The card draws the ranking. Everything the Campaign page puts around its
+  // Standings needs the Board joined against the Movie slices, which this page
+  // does not fetch, so nothing here is derived from `movies` at all.
+  it('reads nothing off the Board', () => {
+    const boardless = { ...CAMPAIGN, movies: [] };
+
+    expect(buildYearStandings(boardless)).toEqual(buildYearStandings(CAMPAIGN));
   });
 
   it('names each User off the Roster', () => {

@@ -59,11 +59,13 @@ for why addresses are shaped the way they are.
 
 Two page groups keep their markup in a module rather than in their HTML, and for
 the same reason in both cases: more than one file needs it. The Campaign has two
-(the real directory and the catch-all); the League landing has one today and one
-per published League after that, and its shell carries no League in it, so a
-second League is a copy of the shell rather than a copy of the page.
+(the real directory and the catch-all). The League landing has one today and one
+per published League after that, and nothing in that shell names a League, so a
+second League is the same file in a directory named for it plus one more build
+entry, rather than a second copy of the page to keep in step.
 
-Taking the Campaign's two first, neither of them holds its markup. `league/movieboyz/2026/index.html` and `404.html` are thin
+Taking the Campaign's two first, neither of them holds its markup.
+`league/movieboyz/2026/index.html` and `404.html` are thin
 shells around a single `<div id="page">` plus the CDN tags, both loading
 `src/campaign/entry.js`, which reads the Campaign off the page's own URL and
 renders `layout.js` into that div. The markup lives in a module because two

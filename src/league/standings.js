@@ -1,11 +1,13 @@
 // One year's Standings, as an expanded card shows them. Pure: no DOM, no
 // fetching.
 //
-// This is the ranking and nothing else. The Campaign page's own Standings are a
-// wider surface: they join the Board against the Movie slices for each Pick's
-// gross and its audience, and a landing card that did the same would fetch a
-// megabyte of Movie facts to draw eight rows. So the card reads the Campaign
-// artifact alone, and the Board is one click away on the card's own link.
+// This is the ranking, which is what Standings are (CONTEXT.md: Standings), and
+// it is read off the Campaign artifact's `users` and nothing else. The Board is
+// in the same file and is deliberately not touched: what the Campaign page puts
+// around its Standings, each Pick's gross and its audience, comes from joining
+// that Board against the Movie slices, and a landing card that did the same
+// would fetch a megabyte of Movie facts to draw eight rows. The Board is one
+// click away on the card's own link.
 //
 // It does not import `campaign/standings.js` for the same reason that module
 // does not import this one. A page group depends on `shared` and on nothing
@@ -37,14 +39,6 @@ export function buildYearStandings(campaign) {
     (campaign?.roster ?? []).map((member) => [member.user_id, member.username]),
   );
 
-  // A Board carries every Movie in play for the year whether or not anybody
-  // picked it, so the Pick is the row that names a User.
-  const picks = new Map();
-  for (const movie of campaign?.movies ?? []) {
-    if (!movie.user_id) continue;
-    picks.set(movie.user_id, (picks.get(movie.user_id) ?? 0) + 1);
-  }
-
   const rows = (campaign?.users ?? []).map((user) => ({
     userId: user.user_id,
     username: usernames.get(user.user_id) ?? user.user_id,
@@ -59,7 +53,6 @@ export function buildYearStandings(campaign) {
     // (ADR 0003). Absent on an artifact written before the field existed,
     // which reads the same way as a Slate with nothing to divide by.
     roi: user.slate_roi ?? null,
-    pickCount: picks.get(user.user_id) ?? 0,
   }));
 
   rows.sort(byTotalDescending);

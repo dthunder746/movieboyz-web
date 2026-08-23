@@ -27,6 +27,10 @@ import { LeagueUnavailable, loadCampaignYear, loadLeague } from './data.js';
 import { LEAGUE_LAYOUT } from './layout.js';
 import { buildYearStandings } from './standings.js';
 
+// The site's own name, which is also this League's. Named so the two readings
+// can be told apart where they matter.
+const BRAND = 'MovieBoyz';
+
 // ── The mega league ───────────────────────────────────────────────────────
 
 // No User colours in this table, deliberately. A colour is handed out by
@@ -75,7 +79,7 @@ function renderAllTime(landing) {
 function leaderLine(card) {
   if (card.empty) return `<span class="league-card-empty">${escapeHtml(card.empty)}</span>`;
 
-  const names = card.leaders.map((leader) => escapeHtml(leader.username)).join(' & ');
+  const names = card.leaders.map((leader) => escapeHtml(leader.username)).join(' &amp; ');
   return `<span class="league-card-leader-label">${escapeHtml(card.leaderLabel)}</span>`
     + `<span class="league-card-leader-name">${names}</span>`;
 }
@@ -142,7 +146,7 @@ function standingsTable(campaign) {
     + '<thead><tr>'
     + '<th scope="col" class="league-rank-col">#</th>'
     + '<th scope="col">Player</th>'
-    + '<th scope="col" class="league-num-col">Picks</th>'
+    + '<th scope="col" class="league-num-col">Picks total</th>'
     + '<th scope="col" class="league-num-col">Bombs</th>'
     + '<th scope="col" class="league-num-col">ROI</th>'
     + '<th scope="col" class="league-num-col">Total</th>'
@@ -160,9 +164,13 @@ function init({ manifest, landing }) {
   mountNav(manifest);
   createThemeSwitch(() => {});
 
+  const name = landing.league_name ?? landing.league_slug ?? 'League';
   const title = document.getElementById('league-title');
-  if (title) title.textContent = landing.league_name ?? landing.league_slug ?? 'League';
-  document.title = `${landing.league_name ?? 'League'} · MovieBoyz`;
+  if (title) title.textContent = name;
+  // The house form is "<what> · MovieBoyz", and it reads oddly for the one
+  // League whose name is the site's own. The suffix says which site a tab
+  // belongs to, and it adds nothing when the name already does.
+  document.title = name === BRAND ? name : `${name} · ${BRAND}`;
 
   renderAllTime(landing);
 

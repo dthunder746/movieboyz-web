@@ -10,7 +10,7 @@
 // A figure the file does not carry. Absent rather than zero: the money
 // formatter draws a dash for one and "$0" for the other, and a User who has not
 // been measured is not a User who scored nothing.
-function figure(value) {
+function orNull(value) {
   return value ?? null;
 }
 
@@ -31,26 +31,26 @@ export function buildAllTimeRows(landing) {
     // registry to look an id up in. A row that arrives without one still names
     // somebody rather than nobody.
     username: standing.username ?? standing.user_id,
-    profit: figure(standing.profit),
+    profit: orNull(standing.profit),
     // The two figures Profit is the difference of, with every bomb modelled as
     // a forced co-production (spec #58, decision 13). `breakeven` is that
     // co-production total and not an all-time break-even line: there is none,
     // because each year's multiplier is inside each year's Profit already, so
     // where a User stands against break even is the sign of `profit`.
-    gross: figure(standing.gross),
-    breakeven: figure(standing.breakeven),
+    gross: orNull(standing.gross),
+    breakeven: orNull(standing.breakeven),
     // The same money counted from both ends: what other Users' bombs paid this
     // User, and what this User's own bombs paid the rest of the Roster. They
     // are two views of one figure rather than an identity, because one is read
     // back rounded and the other is computed unrounded.
-    bombAbsorbed: figure(standing.bomb_impact_absorbed),
-    bombDealt: figure(standing.bomb_impact_dealt),
+    bombAbsorbed: orNull(standing.bomb_impact_absorbed),
+    bombDealt: orNull(standing.bomb_impact_dealt),
     // Draft based, and the one column that is not co-production based: it
     // answers what the User chose, so their own bombs count and the bombs
     // co-produced onto them do not.
-    moviesPicked: figure(standing.movies_picked),
+    moviesPicked: orNull(standing.movies_picked),
     // Campaigns the User was Rostered in, less the `drafting` ones. A year
     // nobody has picked in is not a year competed.
-    yearsCompeted: figure(standing.years_competed),
+    yearsCompeted: orNull(standing.years_competed),
   }));
 }

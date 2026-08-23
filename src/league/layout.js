@@ -51,7 +51,7 @@ export const LEAGUE_LAYOUT = `
               <th scope="col" class="league-num-col">Breakeven</th>
               <th scope="col" class="league-num-col">Bombs absorbed</th>
               <th scope="col" class="league-num-col">Bombs dealt</th>
-              <th scope="col" class="league-num-col">Picks</th>
+              <th scope="col" class="league-num-col">Movies picked</th>
               <th scope="col" class="league-num-col">Years</th>
             </tr>
           </thead>
