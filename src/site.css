@@ -1560,3 +1560,255 @@ body { font-size: 0.9rem; }
 .movie-title-link:hover {
   text-decoration: underline;
 }
+
+/* ── League landing page ────────────────────────────────────────────────── */
+/* Two columns: the mega league down the left, the per-year accordion down the
+   right (spec #58, decision 26). It reuses the profit colour classes and the
+   owner dot above and adds only what it alone has. No Tabulator here: this page
+   is two plain tables and a set of cards, so it dresses Bootstrap's own. */
+
+.league-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.league-lede {
+  font-size: 0.85rem;
+  margin-bottom: 1.25rem;
+}
+
+/* The mega league is the wider of the two: nine columns against six, and its
+   figures are whole-league totals rather than one year's. Below the breakpoint
+   the columns stack and the table keeps its own horizontal scroll. */
+.league-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 991px) {
+  .league-columns { grid-template-columns: minmax(0, 1fr); }
+}
+
+.league-panel {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  background: var(--bs-body-bg);
+}
+
+.league-panel-heading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.4rem;
+}
+
+.league-panel-note,
+.league-panel-footnote,
+.league-empty {
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.75rem;
+}
+
+.league-panel-footnote {
+  margin: 0.6rem 0 0;
+}
+
+.league-empty {
+  margin: 0.5rem 0 0;
+}
+
+/* Nine columns of money do not fit a phone, and squeezing them would cost the
+   figures their alignment. The table scrolls inside its panel instead. */
+.league-table-scroll {
+  overflow-x: auto;
+}
+
+.league-table,
+.league-standings {
+  font-size: 0.82rem;
+  margin-bottom: 0;
+}
+
+.league-table th,
+.league-standings th {
+  font-weight: 600;
+  color: var(--bs-secondary-color);
+  white-space: normal;
+  vertical-align: bottom;
+}
+
+.league-table thead th,
+.league-standings thead th {
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.league-rank-col,
+.league-rank {
+  width: 1.75rem;
+  text-align: right;
+  color: var(--bs-secondary-color);
+  font-weight: 500;
+}
+
+.league-user {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Tabular figures so the columns line up on the digit rather than on the glyph,
+   which is what makes a column of money scannable at all. */
+.league-num-col,
+.league-num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── The per-year accordion ─────────────────────────────────────────────── */
+
+.league-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.league-card {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* One row whether it is a button or, for a drafting year, a plain div. Reset
+   the button's own chrome rather than styling two elements differently. */
+.league-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  font: inherit;
+}
+
+button.league-card-header {
+  cursor: pointer;
+}
+
+button.league-card-header:hover {
+  background: var(--bs-tertiary-bg);
+}
+
+/* A caret that turns, which is the whole of the open/closed signal. The static
+   header has none, because there is nothing behind it to open. */
+.league-card-toggle {
+  width: 0;
+  height: 0;
+  flex: 0 0 auto;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  opacity: 0.55;
+  transition: transform 0.15s ease;
+}
+
+.league-card.is-open .league-card-toggle {
+  transform: rotate(90deg);
+}
+
+.league-card-year {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.league-card-state {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.15em 0.4em;
+}
+
+/* The leader sits at the far end of the row, so the years, the badges and the
+   names each read down their own column across the stack of cards. */
+.league-card-leader {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  margin-left: auto;
+  min-width: 0;
+  font-size: 0.8rem;
+}
+
+.league-card-leader-label {
+  color: var(--bs-secondary-color);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.league-card-leader-name {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A year with nobody to name. Italic rather than a figure, so a drafting year
+   cannot be misread as a year everybody scored nothing in. */
+.league-card-empty {
+  color: var(--bs-secondary-color);
+  font-size: 0.78rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.league-card-body {
+  padding: 0 0.75rem 0.5rem;
+}
+
+.league-card-body .league-card-empty,
+.league-card-loading {
+  padding: 0.25rem 0 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.league-card-measured {
+  font-size: 0.72rem;
+  color: var(--bs-secondary-color);
+  margin: 0.35rem 0 0;
+}
+
+.league-card-foot {
+  padding: 0.4rem 0.75rem 0.55rem;
+  border-top: 1px solid var(--bs-border-color);
+}
+
+.league-card-link {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.league-card-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 575px) {
+  .league-card-leader { width: 100%; margin-left: 0; }
+  .league-card-header { flex-wrap: wrap; }
+}

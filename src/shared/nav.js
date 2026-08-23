@@ -1,10 +1,14 @@
 // The navigation every page carries, so that no surface is a dead end (#64).
 //
 // Its depth is the Manifest's answer rather than a build-time one (decision 20
-// of the parent spec, #58). While one League is published its years are the
-// navigation; publish a second and the years move under a League menu, with no
-// code change and no deploy. `buildNav` is where that decision is made and it
-// is the half with a test beside it.
+// of the parent spec, #58). While one League is published its landing page and
+// its years are the navigation; publish a second and both move under a League
+// menu, with no code change and no deploy. `buildNav` is where that decision is
+// made and it is the half with a test beside it.
+//
+// Exactly one entry is ever marked. A Campaign marks its year rather than its
+// League, so the League entry is marked only on the League's own landing page
+// (#67).
 //
 // Links are absolute from the site root rather than relative, because the same
 // build serves from the domain apex and from a Pages project path, and because
@@ -18,19 +22,41 @@
 import { escapeHtml } from './format.js';
 import { stateLabel, stateTone } from './lifecycle.js';
 import { documentRoot } from './location.js';
-import { campaignFromPath, campaignHref, isMoviesPath, siteRoot } from './route.js';
+import {
+  campaignFromPath,
+  campaignHref,
+  isMoviesPath,
+  leagueFromPath,
+  leagueHref,
+  siteRoot,
+} from './route.js';
 
 export function buildNav(manifest, pathname, explicitRoot) {
   const root = siteRoot(pathname, explicitRoot);
   const here = campaignFromPath(pathname);
+  // The League landing page is the other address that names a League, and the
+  // two never both answer: a landing path carries no year and a Campaign path
+  // is not a landing (`route.js`).
+  const landing = leagueFromPath(pathname);
   const leagues = manifest?.leagues ?? [];
 
-  const built = leagues.map((league) => ({
-    slug: league.slug,
-    name: league.name ?? league.slug,
-    current: Boolean(here) && here.leagueSlug === league.slug,
-    years: buildYears(league, root, here),
-  }));
+  const built = leagues.map((league) => {
+    const onLanding = Boolean(landing) && landing.leagueSlug === league.slug;
+
+    return {
+      slug: league.slug,
+      name: league.name ?? league.slug,
+      href: leagueHref(root, league.slug),
+      // Inside this League, by either address. It dresses the menu the years
+      // hang under, which the reader is inside whichever of the two they are on.
+      current: onLanding || (Boolean(here) && here.leagueSlug === league.slug),
+      // On this League's own landing page, which is a link and can only be one
+      // place. A Campaign marks its year rather than its League, so exactly one
+      // entry is ever marked.
+      landing: onLanding,
+      years: buildYears(league, root, here),
+    };
+  });
 
   // One League is the whole site today, so its years are the navigation. A
   // second published League is what puts them behind a menu.
@@ -39,6 +65,10 @@ export function buildNav(manifest, pathname, explicitRoot) {
   return {
     brandHref: root,
     mode: menued ? 'leagues' : 'years',
+    // The one League's landing entry, sitting at the top level beside its own
+    // years. With a menu it moves inside that menu instead, so that two
+    // Leagues do not put two more entries in the bar (#67).
+    league: menued ? null : (built[0] ?? null),
     leagues: menued ? built : [],
     years: menued ? [] : (built[0]?.years ?? []),
     movies: { href: `${root}movies/`, current: isMoviesPath(pathname) },
@@ -81,13 +111,29 @@ export function mountNav(manifest) {
   const entries =
     nav.mode === 'leagues'
       ? nav.leagues.map(leagueMenu)
-      : nav.years.map((year) => yearLink(year, 'site-nav-link'));
+      : [
+          ...(nav.league ? [leagueLink(nav.league)] : []),
+          ...nav.years.map((year) => yearLink(year, 'site-nav-link')),
+        ];
 
   entries.push(moviesLink(nav.movies));
   host.innerHTML = entries.join('');
 }
 
+// The League's own landing page, at the top level. It leads the years because
+// the League is what they belong to.
+function leagueLink(league) {
+  return `<a class="site-nav-link${league.landing ? ' is-current' : ''}" href="${escapeHtml(league.href)}"${
+    league.landing ? ' aria-current="page"' : ''
+  }>${escapeHtml(league.name)}</a>`;
+}
+
 function leagueMenu(league) {
+  // The landing page leads the menu, where it is labelled for its job rather
+  // than repeating the League name the toggle above it already carries.
+  const overview = `<li><a class="dropdown-item${league.landing ? ' is-current' : ''}"
+      href="${escapeHtml(league.href)}"${league.landing ? ' aria-current="page"' : ''}>Overview</a></li>`;
+
   const items = league.years
     .map((year) => `<li>${yearLink(year, 'dropdown-item')}</li>`)
     .join('');
@@ -95,7 +141,7 @@ function leagueMenu(league) {
   return `<div class="dropdown">
       <button class="site-nav-link dropdown-toggle${league.current ? ' is-current' : ''}"
         type="button" data-bs-toggle="dropdown" aria-expanded="false">${escapeHtml(league.name)}</button>
-      <ul class="dropdown-menu">${items}</ul>
+      <ul class="dropdown-menu">${overview}<li><hr class="dropdown-divider"></li>${items}</ul>
     </div>`;
 }
 

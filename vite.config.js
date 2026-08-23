@@ -56,8 +56,11 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Every page is its own entry. The root is a redirect at the manifest's
-      // default view; each Campaign is a directory so its URL carries the
-      // league and the year, which is what the page reads to know what to show.
+      // default view; each League is a directory carrying its landing page, and
+      // each Campaign is a directory inside it so its URL carries the league
+      // and the year, which is what the page reads to know what to show. A
+      // League's own file is the same shell whichever League it is, so a second
+      // published League is one more entry here and no code.
       // The Movies lookup is a section of its own: it belongs to no League and
       // its URL says so. One Movie is a page inside that section, addressed by
       // a query parameter rather than a directory apiece: a slice republishes
@@ -73,6 +76,7 @@ export default defineConfig({
       // (platform docs/adr/0010-addressing-pages-on-a-static-host.md).
       input: {
         root: resolve(import.meta.dirname, 'index.html'),
+        movieboyzLanding: resolve(import.meta.dirname, 'league/movieboyz/index.html'),
         movieboyz2026: resolve(
           import.meta.dirname,
           'league/movieboyz/2026/index.html',

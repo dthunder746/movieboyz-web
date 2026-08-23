@@ -50,14 +50,20 @@ for why addresses are shaped the way they are.
 | Path | What lives there |
 |-----------|------------------|
 | `src/site.css` | The one stylesheet, linked from every page's `<head>` and never imported from JavaScript. Linked that way it builds to a single asset every page shares and the browser caches once. Reached through the JavaScript graph it would be split per page. |
-| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. `ratings.js` is the review sources catalogue and how each one's stored score is read back into its own units. `lifecycle.js` is what a Campaign state is called and how it is toned. `route.js` composes and reads the site's addresses and `location.js` is the DOM half of that, which asks the document where the site root actually is. `nav.js` builds the navigation every page carries and `notice.js` is the page a reader gets when there is nothing to render. |
+| `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. `ratings.js` is the review sources catalogue and how each one's stored score is read back into its own units. `lifecycle.js` is what a Campaign state is called and how it is toned. `route.js` composes and reads the site's addresses, both a League's own and a Campaign's inside it, and `location.js` is the DOM half of that, which asks the document where the site root actually is. `nav.js` builds the navigation every page carries and `notice.js` is the page a reader gets when there is nothing to render. |
+| `src/league/` | One League's landing page, at `/league/movieboyz/`. The mega league down the left and a card per Campaign down the right, fed by a single landing artifact. Expanding a card fetches that year's Campaign artifact and renders its standings in place. `entry.js` is what the HTML loads, `layout.js` holds the markup, and `page.js` fills it in, as the Campaign group does. |
 | `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. `entry.js` is what the HTML loads, `layout.js` holds the markup, and `page.js` fills it in. |
 | `src/movies/` | The Movies lookup page. Every Movie the platform tracks, read from the Movie slices and no League file, so it works for a reader who is in no League. |
 | `src/movies/movie/` | One Movie's own page, at `/movies/movie/?id=tt0068646`. Its full box office curve, its Weekly gross, its facts and its ratings, plus the way back to any Campaign holding it. A section of the lookup rather than a top level address, which is what keeps `siteRoot` and the catch all's `<base>` bootstrap out of it. |
 | `404.html` | The catch all. Its build entry sits beside the real pages in `vite.config.js`, and it loads the same Campaign entry they do. |
 
-The Campaign is the one page group with two HTML files, and neither of them
-holds its markup. `league/movieboyz/2026/index.html` and `404.html` are thin
+Two page groups keep their markup in a module rather than in their HTML, and for
+the same reason in both cases: more than one file needs it. The Campaign has two
+(the real directory and the catch-all); the League landing has one today and one
+per published League after that, and its shell carries no League in it, so a
+second League is a copy of the shell rather than a copy of the page.
+
+Taking the Campaign's two first, neither of them holds its markup. `league/movieboyz/2026/index.html` and `404.html` are thin
 shells around a single `<div id="page">` plus the CDN tags, both loading
 `src/campaign/entry.js`, which reads the Campaign off the page's own URL and
 renders `layout.js` into that div. The markup lives in a module because two

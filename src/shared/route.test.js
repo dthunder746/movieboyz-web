@@ -7,6 +7,9 @@ import {
   defaultViewPath,
   defaultViewTarget,
   isMoviesPath,
+  leagueFromPath,
+  leagueHref,
+  leaguePath,
   movieHref,
   movieIdFromSearch,
   moviePath,
@@ -69,6 +72,57 @@ describe('campaignFromPath', () => {
 
   it('finds no Campaign where the league segment is missing', () => {
     expect(campaignFromPath('/league/2026/')).toBeNull();
+  });
+});
+
+// A League's own landing page, which is the Campaign path with the year taken
+// off. It is the one address that names a League and not a year (#67).
+describe('leagueFromPath', () => {
+  it('reads the slug off a directory path', () => {
+    expect(leagueFromPath('/league/movieboyz/')).toEqual({ leagueSlug: 'movieboyz' });
+  });
+
+  it('reads it off the index.html itself', () => {
+    expect(leagueFromPath('/league/movieboyz/index.html')).toEqual({
+      leagueSlug: 'movieboyz',
+    });
+  });
+
+  it('ignores whatever the path is prefixed with', () => {
+    expect(leagueFromPath('/movieboyz-web/league/movieboyz/')).toEqual({
+      leagueSlug: 'movieboyz',
+    });
+  });
+
+  it('ignores a prefix that repeats the league marker', () => {
+    expect(leagueFromPath('/league/league/movieboyz/')).toEqual({
+      leagueSlug: 'movieboyz',
+    });
+  });
+
+  // A Campaign is not its League's landing page. The slug has to be the last
+  // segment, which is what keeps the two addresses apart in one direction and
+  // stops a landing page rendering at a Campaign's address in the other.
+  it('finds no League at a Campaign path', () => {
+    expect(leagueFromPath('/league/movieboyz/2026/')).toBeNull();
+  });
+
+  // The same rule catches a malformed year, which `campaignFromPath` already
+  // refuses. Reading it as a landing page would answer a typo with a page.
+  it('finds no League where a Campaign path is malformed', () => {
+    expect(leagueFromPath('/league/movieboyz/latest/')).toBeNull();
+  });
+
+  it('finds no League at the root', () => {
+    expect(leagueFromPath('/')).toBeNull();
+  });
+
+  it('finds no League where the slug is missing', () => {
+    expect(leagueFromPath('/league/')).toBeNull();
+  });
+
+  it('finds no League at the Movies section', () => {
+    expect(leagueFromPath('/movies/')).toBeNull();
   });
 });
 
@@ -195,6 +249,23 @@ describe('siteRoot', () => {
     expect(siteRoot('/league/movies/2026/')).toBe('/');
   });
 
+  // A League landing page sits one segment shallower than a Campaign, and the
+  // root is still whatever comes before the marker.
+  it('reads a League landing page as two below the root', () => {
+    expect(siteRoot('/movieboyz-web/league/movieboyz/')).toBe('/movieboyz-web/');
+  });
+
+  it('reads a League landing page slugged like the Movies section', () => {
+    expect(siteRoot('/league/movies/')).toBe('/');
+  });
+
+  // Neither a Campaign nor a landing page, which is a path only the catch-all
+  // answers. The marker still says where the site starts, so the navigation it
+  // renders points at the site rather than at the typo.
+  it('locates the root from the marker alone when the rest is malformed', () => {
+    expect(siteRoot('/movieboyz-web/league/movieboyz/latest/')).toBe('/movieboyz-web/');
+  });
+
   // The catch-all page is served for a path that can name anything at all, so
   // the path is not evidence of where the root is. Its `<base>` bootstrap
   // already worked that out before the module graph was addressable, and it is
@@ -232,6 +303,10 @@ describe('isMoviesPath', () => {
     expect(isMoviesPath('/league/movies/2026/')).toBe(false);
   });
 
+  it('is false at a League landing page slugged like the section', () => {
+    expect(isMoviesPath('/league/movies/')).toBe(false);
+  });
+
   it('is false at the root', () => {
     expect(isMoviesPath('/')).toBe(false);
   });
@@ -242,6 +317,26 @@ describe('isMoviesPath', () => {
 // The other direction of the same knowledge. A page that links to a Campaign or
 // to a Movie composes the address here rather than writing the segments out,
 // so the two directions cannot drift.
+
+describe('leaguePath', () => {
+  it('is the two segments a League sits under', () => {
+    expect(leaguePath('movieboyz')).toBe('league/movieboyz/');
+  });
+
+  it('encodes a slug that is not URL safe', () => {
+    expect(leaguePath('a b')).toBe('league/a%20b/');
+  });
+});
+
+describe('leagueHref', () => {
+  it('hangs the League off the site root', () => {
+    expect(leagueHref('/', 'movieboyz')).toBe('/league/movieboyz/');
+  });
+
+  it('carries a prefix the site is served under', () => {
+    expect(leagueHref('/movieboyz-web/', 'movieboyz')).toBe('/movieboyz-web/league/movieboyz/');
+  });
+});
 
 describe('campaignPath', () => {
   it('is the three segments a Campaign sits under', () => {

@@ -40,11 +40,24 @@ function isYear(segment) {
   return /^\d{4}$/.test(segment ?? '');
 }
 
-// Where a Campaign's own three segments start, or -1. The last `league` on the
-// path rather than the first, because the prefix is somebody else's naming and
-// can repeat the marker.
-function campaignMarker(segments) {
+// Where a League's own segments start, or -1. The last `league` on the path
+// rather than the first, because the prefix is somebody else's naming and can
+// repeat the marker. A marker with no slug behind it is not one: `/league/`
+// names no League and is nobody's address.
+//
+// This is the marker both League addresses share. A Campaign is the same two
+// segments with a year on the end, so locating the League is the first half of
+// locating either, and it is also what says where the site root is even when
+// the rest of the path is a typo.
+function leagueMarker(segments) {
   const marker = segments.lastIndexOf(LEAGUE_SEGMENT);
+  if (marker === -1 || !segments[marker + 1]) return -1;
+  return marker;
+}
+
+// Where a Campaign's own three segments start, or -1.
+function campaignMarker(segments) {
+  const marker = leagueMarker(segments);
   if (marker === -1 || !isYear(segments[marker + 2])) return -1;
   return marker;
 }
@@ -58,9 +71,27 @@ export function campaignFromPath(pathname) {
   return { leagueSlug: segments[marker + 1], year: Number(segments[marker + 2]) };
 }
 
+// Which League a landing page is showing, read off its own URL the way a
+// Campaign page reads its year (#67).
+//
+// The slug has to be the last segment on the path. A Campaign sits one segment
+// deeper and is a different page, and a path that is neither, such as a
+// mistyped year, is a typo rather than a League: answering it with a landing
+// page would render a League nobody asked for at an address that names none.
+export function leagueFromPath(pathname) {
+  const segments = directorySegments(pathname);
+
+  const marker = leagueMarker(segments);
+  if (marker === -1 || marker + 2 !== segments.length) return null;
+
+  return { leagueSlug: segments[marker + 1] };
+}
+
 export function isMoviesPath(pathname) {
   const segments = directorySegments(pathname);
-  if (campaignMarker(segments) !== -1) return false;
+  // A League could be slugged `movies`, so the League marker is checked first
+  // and the section marker is never read off a slug.
+  if (leagueMarker(segments) !== -1) return false;
   return segments.lastIndexOf(MOVIES_SEGMENT) !== -1;
 }
 
@@ -89,7 +120,10 @@ export function siteRoot(pathname, explicitRoot) {
 
   const segments = directorySegments(pathname);
 
-  const marker = campaignMarker(segments);
+  // The League marker rather than the Campaign one, so a League landing page
+  // and a mistyped Campaign path both locate the root from the same segment a
+  // Campaign does.
+  const marker = leagueMarker(segments);
   if (marker !== -1) return absolutePath(segments.slice(0, marker));
 
   const movies = segments.lastIndexOf(MOVIES_SEGMENT);
@@ -146,10 +180,20 @@ export function defaultViewTarget(pathname, manifest) {
 // separate because the root is a fact about where the page is being served,
 // which only the document can answer, and this module is pure.
 
-export function campaignPath(leagueSlug, year) {
+export function leaguePath(leagueSlug) {
   // The slug arrives off the Manifest and is going into a path segment, so it
   // is encoded as one.
-  return `${LEAGUE_SEGMENT}/${encodeURIComponent(leagueSlug)}/${year}/`;
+  return `${LEAGUE_SEGMENT}/${encodeURIComponent(leagueSlug)}/`;
+}
+
+export function leagueHref(root, leagueSlug) {
+  return `${root}${leaguePath(leagueSlug)}`;
+}
+
+// A Campaign is its League's landing address with the year on the end, which is
+// why it is written as one: the two cannot disagree about where a League sits.
+export function campaignPath(leagueSlug, year) {
+  return `${leaguePath(leagueSlug)}${year}/`;
 }
 
 export function campaignHref(root, leagueSlug, year) {

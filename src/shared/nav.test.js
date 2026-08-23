@@ -28,6 +28,7 @@ const TWO_LEAGUES = {
 };
 
 const CAMPAIGN_PATH = '/league/movieboyz/2026/';
+const LANDING_PATH = '/league/movieboyz/';
 const MOVIES_PATH = '/movies/';
 
 describe('buildNav', () => {
@@ -145,6 +146,56 @@ describe('buildNav', () => {
     expect(nav.years.some((entry) => entry.current)).toBe(false);
   });
 
+  // The League landing entry (#67). With one League published it sits at the
+  // top level beside that League's years, because there is no menu to put it
+  // in and the League is the thing the years belong to.
+  describe('the League landing entry', () => {
+    it('names the League and links its landing page', () => {
+      const nav = buildNav(ONE_LEAGUE, CAMPAIGN_PATH);
+
+      expect(nav.league.name).toBe('MovieBoyz');
+      expect(nav.league.href).toBe('/league/movieboyz/');
+    });
+
+    // Two entries marked at once would say the reader is in two places. The
+    // year is where they are; the League is where the year is.
+    it('is unmarked on a Campaign page, where the year is marked instead', () => {
+      const nav = buildNav(ONE_LEAGUE, CAMPAIGN_PATH);
+
+      expect(nav.league.landing).toBe(false);
+      expect(nav.years.filter((entry) => entry.current).map((entry) => entry.year)).toEqual([2026]);
+    });
+
+    it('is marked on the landing page, where no year is', () => {
+      const nav = buildNav(ONE_LEAGUE, LANDING_PATH);
+
+      expect(nav.league.landing).toBe(true);
+      expect(nav.years.some((entry) => entry.current)).toBe(false);
+      expect(nav.movies.current).toBe(false);
+    });
+
+    it('carries the Pages project path into the landing link', () => {
+      const nav = buildNav(ONE_LEAGUE, '/movieboyz-web/league/movieboyz/');
+
+      expect(nav.league.href).toBe('/movieboyz-web/league/movieboyz/');
+      expect(nav.league.landing).toBe(true);
+    });
+
+    it('escapes a League slug before it reaches the landing link', () => {
+      const nav = buildNav(
+        { leagues: [{ slug: 'a"b', name: 'Odd', campaigns: [] }] },
+        CAMPAIGN_PATH,
+      );
+
+      expect(nav.league.href).toBe('/league/a%22b/');
+    });
+
+    it('is absent when no League is published', () => {
+      expect(buildNav({ leagues: [] }, MOVIES_PATH).league).toBeNull();
+      expect(buildNav(null, MOVIES_PATH).league).toBeNull();
+    });
+  });
+
   it('links the Movies lookup and marks it when the reader is there', () => {
     const nav = buildNav(ONE_LEAGUE, MOVIES_PATH);
 
@@ -183,6 +234,36 @@ describe('buildNav', () => {
         2026,
       ]);
       expect(nav.leagues[1].years.some((entry) => entry.current)).toBe(false);
+    });
+
+    // With a menu to put it in, each League's landing sits inside that League's
+    // own menu rather than at the top level, where two of them would compete
+    // with the years for the same bar.
+    it('keeps each League’s landing under it', () => {
+      const nav = buildNav(TWO_LEAGUES, CAMPAIGN_PATH);
+
+      expect(nav.league).toBeNull();
+      expect(nav.leagues.map((league) => league.href)).toEqual([
+        '/league/movieboyz/',
+        '/league/filmfellas/',
+      ]);
+    });
+
+    it('marks the League the reader is on the landing page of', () => {
+      const nav = buildNav(TWO_LEAGUES, LANDING_PATH);
+
+      expect(nav.leagues.map((league) => league.current)).toEqual([true, false]);
+      expect(nav.leagues.map((league) => league.landing)).toEqual([true, false]);
+      expect(nav.leagues[0].years.some((entry) => entry.current)).toBe(false);
+    });
+
+    // A Campaign puts the reader inside the League without putting them on its
+    // landing page, so the menu is marked and the entry inside it is not.
+    it('marks the League but not its landing from a Campaign page', () => {
+      const nav = buildNav(TWO_LEAGUES, CAMPAIGN_PATH);
+
+      expect(nav.leagues[0].current).toBe(true);
+      expect(nav.leagues[0].landing).toBe(false);
     });
 
     it('marks no League when the reader is on the Movies page', () => {

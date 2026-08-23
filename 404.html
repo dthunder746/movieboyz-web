@@ -14,12 +14,14 @@
        since the module's own URL is one of the ones being fixed.
 
        So it is a copy, and it has to answer as `siteRoot` does. It locates the
-       same two markers in the same order, checks the year the same way, and
-       takes the last marker rather than the first for the same reason: the
-       prefix is somebody else's naming and can repeat it. The `<base>` it
-       writes is then what the navigation reads back, so the root is worked out
-       here once rather than derived a second time from a path that names
-       nothing reliable. -->
+       same two markers in the same order, accepts the league marker on the
+       strength of the slug behind it rather than of a year (a League landing
+       page has no year, and a mistyped Campaign path still says where the site
+       starts), and takes the last marker rather than the first for the same
+       reason: the prefix is somebody else's naming and can repeat it. The
+       `<base>` it writes is then what the navigation reads back, so the root is
+       worked out here once rather than derived a second time from a path that
+       names nothing reliable. -->
   <script>
     (function () {
       var segments = window.location.pathname.split('/').filter(Boolean);
@@ -29,7 +31,7 @@
       var league = segments.lastIndexOf('league');
       var movies = segments.lastIndexOf('movies');
 
-      if (league !== -1 && /^\d{4}$/.test(segments[league + 2] || '')) {
+      if (league !== -1 && segments[league + 1]) {
         root = league > 0 ? '/' + segments.slice(0, league).join('/') + '/' : '/';
       } else if (movies !== -1) {
         root = movies > 0 ? '/' + segments.slice(0, movies).join('/') + '/' : '/';
