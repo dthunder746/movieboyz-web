@@ -11,6 +11,18 @@
 // Pages project path, which prefixes everything with the repo name.
 const LEAGUE_SEGMENT = 'league';
 const MOVIES_SEGMENT = 'movies';
+// One Movie's own page, a directory inside the Movies section holding a single
+// file. It is a section of the lookup rather than a top-level address of its
+// own, which is also what keeps `siteRoot` and the catch-all page's `<base>`
+// bootstrap out of it: both already locate the Movies marker, and both find it
+// here (`docs/adr/0010-addressing-pages-on-a-static-host.md` in the platform
+// repo).
+const MOVIE_SEGMENT = 'movie';
+// Which Movie that page is showing. A query parameter rather than a directory
+// per Movie, because a Movie slice republishes daily and can carry a film the
+// build has never heard of, so a directory would 404 for exactly the new
+// releases most worth looking at (ADR 0010).
+const MOVIE_PARAM = 'id';
 
 // The path's directory segments, with a trailing file dropped. `index.html` is
 // the file every one of these pages is really at, and it says nothing about
@@ -121,4 +133,46 @@ export function defaultViewTarget(pathname, manifest) {
   const path = defaultViewPath(manifest);
   if (!path) return null;
   return `${siteRoot(pathname)}${path}`;
+}
+
+// ── The addresses this site writes ────────────────────────────────────────
+//
+// The other direction of everything above. A page linking to a Campaign or to
+// a Movie composes the address here rather than writing the segments out where
+// it stands, so the reading and the writing cannot drift apart.
+//
+// Each comes in two halves. The path is relative, as `defaultViewPath` is, and
+// the href hangs it off a site root the caller has already worked out. They are
+// separate because the root is a fact about where the page is being served,
+// which only the document can answer, and this module is pure.
+
+export function campaignPath(leagueSlug, year) {
+  // The slug arrives off the Manifest and is going into a path segment, so it
+  // is encoded as one.
+  return `${LEAGUE_SEGMENT}/${encodeURIComponent(leagueSlug)}/${year}/`;
+}
+
+export function campaignHref(root, leagueSlug, year) {
+  return `${root}${campaignPath(leagueSlug, year)}`;
+}
+
+export function moviePath(imdbId) {
+  return `${MOVIES_SEGMENT}/${MOVIE_SEGMENT}/?${MOVIE_PARAM}=${encodeURIComponent(imdbId)}`;
+}
+
+export function movieHref(root, imdbId) {
+  return `${root}${moviePath(imdbId)}`;
+}
+
+// Which Movie the detail page is showing, read off its own query string. One
+// file serves every Movie, so this is the whole of what the page knows about
+// which one it is.
+//
+// Whitespace is trimmed because a pasted link can carry it, and an identifier
+// that is empty once trimmed is no identifier: null separates a page nobody
+// named a Movie to from a Movie that was named and could not be found, and the
+// page says something different about each.
+export function movieIdFromSearch(search) {
+  const id = new URLSearchParams(String(search ?? '')).get(MOVIE_PARAM);
+  return id?.trim() || null;
 }

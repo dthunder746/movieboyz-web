@@ -11,6 +11,7 @@ import {
   formatShortDate,
   ratingColorClass,
 } from '../shared/format.js';
+import { MOVIE_LINK_CLASS, movieUrl } from '../shared/location.js';
 
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 import {
@@ -137,6 +138,17 @@ function weekTable(weeks) {
     + '</table>';
 }
 
+// The way into the Movie's own page (#63), and it sits in the expanded area
+// rather than on the card's title. A card is a gesture surface: a tap expands
+// it and a long press plots it, so a link in the title would be followed by the
+// tap that was meant to open the card. Cards are the default under 768px, so
+// without this the readers most likely to be on a phone would have no way in
+// at all.
+function movieLink(row) {
+  return `<a class="${MOVIE_LINK_CLASS} movie-card-link" href="${escapeHtml(movieUrl(row.imdbId))}">`
+    + 'Open Movie page</a>';
+}
+
 function cardMarkup(row, colorMap, isSelected) {
   const unheld = row.userId === null || row.userId === undefined;
   const color = unheld ? UNHELD_COLOR : (colorMap[row.userId] || '#888');
@@ -186,6 +198,7 @@ function cardMarkup(row, colorMap, isSelected) {
     + '<div class="movie-card-extra d-none">'
     + rankLine
     + weekTable(row.weeks)
+    + movieLink(row)
     + '</div>'
     + '</div>';
 }
@@ -249,7 +262,11 @@ export function buildCards(board, colorMap, selection, visibleIds, sortField, so
   // otherwise swallow the tap entirely. A stationary press held past
   // LONG_PRESS_MS plots the Movie instead.
   container.addEventListener('pointerdown', (event) => {
-    if (!event.isPrimary || event.target.closest('.movie-card-plot-btn')) {
+    // The plot button and the Movie link are their own controls. Neither one
+    // starts a press, so neither expands the card or plots it by being used.
+    if (!event.isPrimary
+      || event.target.closest('.movie-card-plot-btn')
+      || event.target.closest(`.${MOVIE_LINK_CLASS}`)) {
       press = null;
       return;
     }
@@ -308,6 +325,9 @@ export function buildCards(board, colorMap, selection, visibleIds, sortField, so
   // On a desktop, a right-click plots too. It is the same gesture as a
   // long-press for a reader with a mouse.
   container.addEventListener('contextmenu', (event) => {
+    // A right-click on the link is the reader asking for the browser's own
+    // menu, which is where "open in new tab" lives.
+    if (event.target.closest(`.${MOVIE_LINK_CLASS}`)) return;
     const card = event.target.closest('.movie-card');
     if (!card) return;
     event.preventDefault();

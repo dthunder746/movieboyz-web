@@ -16,24 +16,9 @@
 // on.
 
 import { escapeHtml } from './format.js';
-import { campaignFromPath, isMoviesPath, siteRoot } from './route.js';
-
-// What a Lifecycle state is called in the badge. A state this build has not
-// heard of is shown as the artifact wrote it: the Manifest is read tolerantly,
-// and dropping a year because its state is unfamiliar would hide a Campaign.
-const STATE_LABELS = {
-  drafting: 'Drafting',
-  active: 'Active',
-  final: 'Final',
-};
-
-// The badge's tone per state. Read by the renderer below rather than published
-// on the view model, because it is a Bootstrap class and not a fact.
-const STATE_TONE = {
-  drafting: 'text-bg-secondary',
-  active: 'text-bg-success',
-  final: 'text-bg-primary',
-};
+import { stateLabel, stateTone } from './lifecycle.js';
+import { documentRoot } from './location.js';
+import { campaignFromPath, campaignHref, isMoviesPath, siteRoot } from './route.js';
 
 export function buildNav(manifest, pathname, explicitRoot) {
   const root = siteRoot(pathname, explicitRoot);
@@ -70,10 +55,8 @@ function buildYears(league, root, here) {
       year: campaign.year,
       label: String(campaign.year),
       state: campaign.state,
-      stateLabel: STATE_LABELS[campaign.state] ?? campaign.state,
-      // The slug is somebody else's text arriving off the Manifest, and it is
-      // going into a URL path segment, so it is encoded as one.
-      href: `${root}league/${encodeURIComponent(league.slug)}/${campaign.year}/`,
+      stateLabel: stateLabel(campaign.state),
+      href: campaignHref(root, league.slug, campaign.year),
       // A path can name a year the Manifest does not list, which is exactly what
       // the catch-all page renders under. Nothing is marked for it.
       current:
@@ -104,15 +87,6 @@ export function mountNav(manifest) {
   host.innerHTML = entries.join('');
 }
 
-// The root a `<base>` declares, if the page declares one. Only the catch-all
-// does, and it is the only page whose own address does not say where the site
-// root is. Reading `.href` rather than the attribute lets the browser resolve
-// it, so whatever shape it was written in comes back as a path.
-function documentRoot() {
-  const base = document.querySelector('base');
-  return base ? new URL(base.href).pathname : '';
-}
-
 function leagueMenu(league) {
   const items = league.years
     .map((year) => `<li>${yearLink(year, 'dropdown-item')}</li>`)
@@ -126,7 +100,7 @@ function leagueMenu(league) {
 }
 
 function yearLink(year, className) {
-  const tone = STATE_TONE[year.state] ?? 'text-bg-secondary';
+  const tone = stateTone(year.state);
   const badge = year.stateLabel
     ? ` <span class="badge ${tone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>`
     : '';

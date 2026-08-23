@@ -18,9 +18,12 @@ import {
   shiftIsoDate,
   weekTitle,
 } from '../shared/format.js';
+import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
+import { RATING_SOURCES as RATING_CATALOGUE } from '../shared/ratings.js';
 
 import { pickOrSeasonIcon, userBadge } from './icons.js';
 import {
+  RATING_KEYS,
   collectDailyDates,
   collectWeekKeys,
   compactRows,
@@ -184,6 +187,11 @@ function makeExpandableGroup(title, childColumns, hiddenFields, tableRef, initia
 
 // ── Shared columns ────────────────────────────────────────────────────────
 
+// The title is the way into the Movie's own page (#63), in both views. A real
+// anchor rather than a row-click handler, so the address can be copied, opened
+// in a tab and read by a screen reader as the link it is. The badge and the
+// Pick glyph stay outside it: they are the League's reading of the Movie, and
+// the link is to the Movie itself.
 function titleColumn(colorMap, widths) {
   return {
     title: 'Movie',
@@ -193,9 +201,11 @@ function titleColumn(colorMap, widths) {
     cssClass: 'col-movie-title',
     formatter(cell) {
       const row = cell.getRow().getData();
+      const href = escapeHtml(movieUrl(row.imdbId));
       return userBadge(row.userId, row.username, colorMap)
         + pickOrSeasonIcon(row.pickType, row.season)
-        + `<span class="movie-title-text">${escapeHtml(cell.getValue())}</span>`;
+        + `<a class="${MOVIE_LINK_CLASS}" href="${href}">`
+        + `<span class="movie-title-text">${escapeHtml(cell.getValue())}</span></a>`;
     },
     tooltip: (event, cell) => cell.getValue(),
   };
@@ -235,68 +245,15 @@ function buildSortMap(weekKeys, initialSort) {
 
 // ── Detailed table ────────────────────────────────────────────────────────
 
-const FAVICON_BASE = 'https://www.google.com/s2/favicons?domain=';
-
-// Six sources on one axis. Only Letterboxd is shown by default, because it is
-// the one the league watches; the rest come in behind the Ratings group's
-// expander. Each publishes on its own scale, so `display` puts it back into the
-// units that source's readers know it by.
-const RATING_SOURCES = [
-  {
-    field: 'rating_letterboxd',
-    key: 'letterboxd',
-    label: 'Letterboxd',
-    icon: `${FAVICON_BASE}letterboxd.com&sz=32`,
-    emoji: false,
-    display: (value) => (value / 20).toFixed(1),
-    visible: true,
-  },
-  {
-    field: 'rating_imdb',
-    key: 'imdb',
-    label: 'IMDb',
-    icon: `${FAVICON_BASE}imdb.com&sz=32`,
-    emoji: false,
-    display: (value) => (value / 10).toFixed(1),
-    visible: false,
-  },
-  {
-    field: 'rating_rt_audience',
-    key: 'rt_audience',
-    label: 'RT Audience Score',
-    icon: '🍿',
-    emoji: true,
-    display: (value) => `${value}%`,
-    visible: false,
-  },
-  {
-    field: 'rating_rt_critic',
-    key: 'rt_critic',
-    label: 'RT Tomatometer',
-    icon: `${FAVICON_BASE}rottentomatoes.com&sz=32`,
-    emoji: false,
-    display: (value) => `${value}%`,
-    visible: false,
-  },
-  {
-    field: 'rating_tmdb',
-    key: 'tmdb',
-    label: 'TMDB',
-    icon: `${FAVICON_BASE}themoviedb.org&sz=32`,
-    emoji: false,
-    display: (value) => (value / 10).toFixed(1),
-    visible: false,
-  },
-  {
-    field: 'rating_metacritic',
-    key: 'metacritic',
-    label: 'Metacritic',
-    icon: `${FAVICON_BASE}metacritic.com&sz=32`,
-    emoji: false,
-    display: (value) => String(value),
-    visible: false,
-  },
-];
+// Six of the seven sources the platform publishes, on one axis. Only Letterboxd
+// is shown by default, because it is the one the league watches; the rest come
+// in behind the Ratings group's expander. What each source is called and how
+// its score is read are the shared catalogue's answer (`shared/ratings.js`);
+// what this list adds is the Campaign table's own columns over them.
+const RATING_SOURCES = RATING_KEYS.map((key) => {
+  const source = RATING_CATALOGUE.find((entry) => entry.key === key);
+  return { ...source, field: `rating_${key}`, visible: key === 'letterboxd' };
+});
 
 function ratingColumns() {
   return RATING_SOURCES.map((source, index) => ({
@@ -497,6 +454,8 @@ export function buildDetailedTable(board, colorMap) {
     initialSort,
   });
 
+  guardMovieLinks('movie-table');
+
   tableRef.current = table;
 
   return { table, initialSort, sortMap: buildSortMap(sortableWeeks, initialSort) };
@@ -571,6 +530,8 @@ export function buildCompactTable(board, colorMap) {
     columns,
     initialSort,
   });
+
+  guardMovieLinks('movie-table');
 
   return { table, initialSort, sortMap: buildSortMap(weekKeys, initialSort) };
 }

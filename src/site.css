@@ -1104,6 +1104,24 @@ body { font-size: 0.9rem; }
 .movie-card-extra .extra-rank strong { color: var(--bs-body-color); }
 .movie-card-extra .extra-empty { color: var(--bs-secondary-color); }
 
+/* The way into the Movie page from a card. A full-width target, because the
+   card view is what a phone gets and a phrase of text is not a tap target. */
+.movie-card-link {
+  display: block;
+  margin-top: 10px;
+  padding: 7px 10px;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--bs-secondary-color);
+  text-decoration: none;
+}
+.movie-card-link:hover {
+  color: var(--bs-body-color);
+  border-color: var(--bs-primary);
+}
+
 .week-table {
   width: 100%;
   border-collapse: collapse;
@@ -1395,4 +1413,150 @@ body { font-size: 0.9rem; }
 @media (max-width: 600px) {
   #movies-search { max-width: none !important; flex: 1 1 auto; }
   .filter-row .filter-label { min-width: 86px; }
+}
+
+/* ── Movie detail page ──────────────────────────────────────────────────── */
+/* One film at its own address. It reuses the chart machinery above
+   (#chart-wrapper, .chart-card, .chart-blank, .chart-note) and the lookup
+   page's .budget-estimated, and adds the three blocks it alone has: the fact
+   strip, the ratings grid and the way back to the Campaigns holding it. */
+
+.movie-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 0.15rem;
+}
+
+.movie-lede {
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.movie-section-heading {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.movie-section-note {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  margin: 0.5rem 0 0;
+}
+
+/* Auto-fit rather than a fixed count, so the strip reflows to one column on a
+   phone without a breakpoint per width. */
+.movie-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 8px;
+}
+
+.movie-fact {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.movie-fact-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--bs-secondary-color);
+  margin-bottom: 2px;
+}
+
+.movie-fact-value {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.movie-ratings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.movie-rating {
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.movie-rating-source {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  margin-bottom: 2px;
+}
+
+.movie-rating-icon {
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.movie-rating-score {
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.movie-rating-votes {
+  font-size: 0.7rem;
+  color: var(--bs-secondary-color);
+}
+
+.movie-holdings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+.movie-holding {
+  display: block;
+  background: var(--bs-body-bg);
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  padding: 10px 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.movie-holding:hover {
+  border-color: var(--bs-primary);
+}
+
+.movie-holding-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.movie-holding-holder {
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+}
+
+.movie-holding-profit {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* A title that leads somewhere, in both tables. Underlined only on hover, so a
+   dense table is not a field of blue rules. */
+.movie-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.movie-title-link:hover {
+  text-decoration: underline;
 }

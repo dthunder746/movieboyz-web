@@ -59,7 +59,11 @@ export default defineConfig({
       // default view; each Campaign is a directory so its URL carries the
       // league and the year, which is what the page reads to know what to show.
       // The Movies lookup is a section of its own: it belongs to no League and
-      // its URL says so.
+      // its URL says so. One Movie is a page inside that section, addressed by
+      // a query parameter rather than a directory apiece: a slice republishes
+      // daily and can carry a film this build has never heard of, so a
+      // directory per Movie would 404 for exactly the new releases most worth
+      // looking at (ADR 0010).
       //
       // `404.html` is the catch-all. Pages serves it for a path it has no file
       // for, and it renders whatever Campaign that path names, so a newly
@@ -74,6 +78,7 @@ export default defineConfig({
           'league/movieboyz/2026/index.html',
         ),
         movies: resolve(import.meta.dirname, 'movies/index.html'),
+        movieDetail: resolve(import.meta.dirname, 'movies/movie/index.html'),
         catchAll: resolve(import.meta.dirname, '404.html'),
       },
     },

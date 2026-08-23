@@ -20,6 +20,8 @@ import {
   ratingColorClass,
 } from '../shared/format.js';
 
+import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
+
 import { SEASON_LABELS, missingLastSorter } from './rows.js';
 
 const DASH = '<span class="text-neu">—</span>';
@@ -29,13 +31,18 @@ const DASH = '<span class="text-neu">—</span>';
 // A Movie from a slice written before the identity fields has no title (#60).
 // Its imdb id is the only name it has, so the cell shows that rather than a
 // dash the reader could not look anything up from.
+//
+// The title is the way into the Movie's own page (#63). A real anchor rather
+// than a row-click handler, so the address can be copied, opened in a tab and
+// read by a screen reader as the link it is.
 function titleCell(cell) {
   const row = cell.getRow().getData();
   const value = cell.getValue();
-  if (!value) {
-    return `<span class="movie-title-text text-neu">${escapeHtml(row.imdbId)}</span>`;
-  }
-  return `<span class="movie-title-text">${escapeHtml(value)}</span>`;
+  const label = value
+    ? `<span class="movie-title-text">${escapeHtml(value)}</span>`
+    : `<span class="movie-title-text text-neu">${escapeHtml(row.imdbId)}</span>`;
+
+  return `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
 }
 
 function releaseDateCell(cell) {
@@ -171,6 +178,8 @@ export function buildMovieTable(rows, { initialSort, onSelectionChange, onSorted
     columns: columns(),
     placeholder: 'No Movie matches these filters.',
   });
+
+  guardMovieLinks('movie-table');
 
   table.on('rowSelectionChanged', (selectedData) => {
     onSelectionChange(selectedData.map((row) => row.imdbId));

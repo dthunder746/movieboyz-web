@@ -2,9 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 import {
   campaignFromPath,
+  campaignHref,
+  campaignPath,
   defaultViewPath,
   defaultViewTarget,
   isMoviesPath,
+  movieHref,
+  movieIdFromSearch,
+  moviePath,
   siteRoot,
 } from './route.js';
 
@@ -229,5 +234,92 @@ describe('isMoviesPath', () => {
 
   it('is false at the root', () => {
     expect(isMoviesPath('/')).toBe(false);
+  });
+});
+
+// ── Addresses the site writes rather than reads ────────────────────────────
+//
+// The other direction of the same knowledge. A page that links to a Campaign or
+// to a Movie composes the address here rather than writing the segments out,
+// so the two directions cannot drift.
+
+describe('campaignPath', () => {
+  it('is the three segments a Campaign sits under', () => {
+    expect(campaignPath('movieboyz', 2026)).toBe('league/movieboyz/2026/');
+  });
+
+  // The slug arrives off the Manifest and goes into a path segment, so it is
+  // encoded as one.
+  it('encodes a slug that is not URL safe', () => {
+    expect(campaignPath('a b', 2026)).toBe('league/a%20b/2026/');
+  });
+});
+
+describe('campaignHref', () => {
+  it('hangs the Campaign off the site root', () => {
+    expect(campaignHref('/', 'movieboyz', 2026)).toBe('/league/movieboyz/2026/');
+  });
+
+  it('carries a prefix the site is served under', () => {
+    expect(campaignHref('/movieboyz-web/', 'movieboyz', 2026))
+      .toBe('/movieboyz-web/league/movieboyz/2026/');
+  });
+});
+
+// A Movie is a query parameter on one page rather than a directory of its own,
+// because a Movie can be published between deploys and a directory that does
+// not exist yet 404s (ADR 0010).
+describe('moviePath', () => {
+  it('is the one detail page carrying the identifier', () => {
+    expect(moviePath('tt0068646')).toBe('movies/movie/?id=tt0068646');
+  });
+
+  it('encodes an identifier that is not URL safe', () => {
+    expect(moviePath('tt 1&2')).toBe('movies/movie/?id=tt%201%262');
+  });
+});
+
+describe('movieHref', () => {
+  it('hangs the Movie page off the site root', () => {
+    expect(movieHref('/', 'tt0068646')).toBe('/movies/movie/?id=tt0068646');
+  });
+
+  it('carries a prefix the site is served under', () => {
+    expect(movieHref('/movieboyz-web/', 'tt0068646'))
+      .toBe('/movieboyz-web/movies/movie/?id=tt0068646');
+  });
+});
+
+// The read side of the same address. The detail page is one file serving every
+// Movie, so the identifier off the query string is the whole of what it knows
+// about which Movie it is showing.
+describe('movieIdFromSearch', () => {
+  it('reads the identifier off the query string', () => {
+    expect(movieIdFromSearch('?id=tt0068646')).toBe('tt0068646');
+  });
+
+  it('reads it from among other parameters', () => {
+    expect(movieIdFromSearch('?utm=x&id=tt0068646')).toBe('tt0068646');
+  });
+
+  it('decodes an encoded identifier', () => {
+    expect(movieIdFromSearch('?id=tt%201')).toBe('tt 1');
+  });
+
+  it('trims whitespace a reader pasted with it', () => {
+    expect(movieIdFromSearch('?id=%20tt0068646%20')).toBe('tt0068646');
+  });
+
+  // Each of these is a page with no Movie to show rather than a fault, and the
+  // page says so. Answering null is what lets it tell them apart from a Movie
+  // it simply could not find.
+  it('is null where the query string names no Movie', () => {
+    expect(movieIdFromSearch('')).toBe(null);
+    expect(movieIdFromSearch('?')).toBe(null);
+    expect(movieIdFromSearch('?other=1')).toBe(null);
+    expect(movieIdFromSearch('?id=')).toBe(null);
+    expect(movieIdFromSearch('?id=%20')).toBe(null);
+    expect(movieIdFromSearch(null)).toBe(null);
+    expect(movieIdFromSearch(undefined)).toBe(null);
   });
 });
