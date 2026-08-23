@@ -97,7 +97,7 @@ function renderFacts(view) {
     ),
     fact('Released', escapeHtml(longDate(view.releaseDate) ?? DASH)),
     fact('Season', escapeHtml(view.seasonLabel ?? DASH)),
-    fact('Days running', view.daysRunning === null ? DASH : String(view.daysRunning)),
+    fact('Days running', view.daysRunning === null ? DASH : escapeHtml(view.daysRunning)),
     fact('Digital release', escapeHtml(longDate(view.releasedDigital) ?? DASH)),
   ];
 
@@ -164,11 +164,11 @@ function renderHoldings(view) {
     const name = holding.leagueName ?? holding.leagueSlug;
     const holder = holding.username ?? holding.userId;
     const pick = holding.pickType ? ` · ${escapeHtml(pickLabel(holding.pickType))}` : '';
-    const draft = holding.draftPick ? ` · pick ${holding.draftPick}` : '';
+    const draft = holding.draftPick ? ` · pick ${escapeHtml(holding.draftPick)}` : '';
 
     return `<a class="movie-holding" href="${escapeHtml(href)}">
         <div class="movie-holding-title">
-          ${escapeHtml(name)} ${holding.year}
+          ${escapeHtml(name)} ${escapeHtml(holding.year)}
           <span class="badge ${stateTone(holding.state)} site-nav-badge">${escapeHtml(stateLabel(holding.state))}</span>
         </div>
         <div class="movie-holding-holder">${escapeHtml(holder)}${pick}${draft}</div>

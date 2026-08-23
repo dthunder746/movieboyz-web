@@ -1,7 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
+import { RATING_SOURCES } from '../shared/ratings.js';
+
 import { buildBoard } from './board.js';
 import {
+  RATING_KEYS,
   cardRows,
   collectDailyDates,
   collectWeekKeys,
@@ -439,5 +442,24 @@ describe('weekDeltas', () => {
     // A revised-down week can read negative. Dividing by the signed figure
     // would flip the delta's sign and show a recovery as a collapse.
     expect(weekDeltas([{ num: 10, gross: -200 }, { num: 11, gross: -100 }])[1].deltaPct).toBe(50);
+  });
+});
+
+// The flattened rating fields and the shared catalogue are two lists of the
+// same sources, and `table.js` joins them to build its columns. Drift here is
+// otherwise silent: a key naming no source loses its column, and a source no
+// key names never gets one.
+describe('RATING_KEYS', () => {
+  it('names only sources the shared catalogue carries', () => {
+    const known = new Set(RATING_SOURCES.map((source) => source.key));
+    expect(RATING_KEYS.filter((key) => !known.has(key))).toEqual([]);
+  });
+
+  // `table.js` builds its columns by walking the catalogue and keeping the ones
+  // named here, so the catalogue's order is the column order. These two agreeing
+  // is what makes that the order this list reads in.
+  it('lists them in the order the catalogue does', () => {
+    const known = RATING_SOURCES.map((source) => source.key);
+    expect(RATING_KEYS).toEqual(known.filter((key) => RATING_KEYS.includes(key)));
   });
 });

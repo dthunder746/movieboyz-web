@@ -1,9 +1,15 @@
-// Where this page actually is, for the modules that write links.
+// The document half of writing a link: where this page actually is, and what a
+// link into a Movie has to do to survive the surface it sits on.
 //
 // `route.js` composes an address from a site root and says nothing about where
 // that root is; this is the half that asks the document. It is the one thing
 // the link writers cannot work out for themselves and the reason it is not in
 // `route.js`, which is pure and takes a path as an argument.
+//
+// The second half is the class every Movie link carries and the guard that
+// keeps a click on one from also being read as a row selection. It sits here
+// because it is the same question asked of the DOM rather than of a path, and
+// because a link and the class naming it are no use apart.
 //
 // Untested by design, as the site's other DOM wiring is. What it decides
 // (`siteRoot`, `movieHref`) is tested next door in `route.test.js`.

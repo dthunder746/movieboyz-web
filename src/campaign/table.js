@@ -250,10 +250,20 @@ function buildSortMap(weekKeys, initialSort) {
 // in behind the Ratings group's expander. What each source is called and how
 // its score is read are the shared catalogue's answer (`shared/ratings.js`);
 // what this list adds is the Campaign table's own columns over them.
-const RATING_SOURCES = RATING_KEYS.map((key) => {
-  const source = RATING_CATALOGUE.find((entry) => entry.key === key);
-  return { ...source, field: `rating_${key}`, visible: key === 'letterboxd' };
-});
+//
+// Driven off the catalogue and narrowed by the keys the flattened rows carry,
+// rather than the other way round. A key naming no source would otherwise
+// build a column with no label whose formatter throws on the first score it is
+// handed; this way it simply has no column, and `table-rows.test.js` fails
+// before either happens. The catalogue's order is the column order, which is
+// the order `RATING_KEYS` already lists them in.
+const RATING_SOURCES = RATING_CATALOGUE
+  .filter((source) => RATING_KEYS.includes(source.key))
+  .map((source) => ({
+    ...source,
+    field: `rating_${source.key}`,
+    visible: source.key === 'letterboxd',
+  }));
 
 function ratingColumns() {
   return RATING_SOURCES.map((source, index) => ({
