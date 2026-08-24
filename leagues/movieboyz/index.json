@@ -1,38 +1,38 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-08-24T22:00:05.001506Z",
+  "generated_at": "2026-08-24T22:10:38.025845Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "profit": 1955173209,
-      "gross": 3414173208.5,
+      "profit": 1956597745,
+      "gross": 3415597744.5,
       "breakeven": 1459000000,
-      "bomb_impact_absorbed": -110568422,
-      "bomb_impact_dealt": 15723777,
+      "bomb_impact_absorbed": -110567718,
+      "bomb_impact_dealt": 15838416,
       "movies_picked": 11,
       "years_competed": 1
     },
     {
       "user_id": "connie",
       "username": "Connie",
-      "profit": 1348354947,
-      "gross": 2941854947.5,
+      "profit": 1355597703,
+      "gross": 2949097703.25,
       "breakeven": 1593500000,
-      "bomb_impact_absorbed": -35083050,
-      "bomb_impact_dealt": -286217715,
+      "bomb_impact_absorbed": -35054390,
+      "bomb_impact_dealt": -286214899,
       "movies_picked": 11,
       "years_competed": 1
     },
     {
       "user_id": "emerson",
       "username": "Emerson",
-      "profit": 1336165533,
-      "gross": 2100665532.5,
+      "profit": 1335913665,
+      "gross": 2100413665.25,
       "breakeven": 764500000,
-      "bomb_impact_absorbed": -67623484,
+      "bomb_impact_absorbed": -67594121,
       "bomb_impact_dealt": -156055975,
       "movies_picked": 11,
       "years_competed": 1
@@ -40,10 +40,10 @@
     {
       "user_id": "matt",
       "username": "Matt",
-      "profit": 1328457368,
-      "gross": 2526957367.75,
+      "profit": 1330435477,
+      "gross": 2528935476.5,
       "breakeven": 1198500000,
-      "bomb_impact_absorbed": -106637478,
+      "bomb_impact_absorbed": -106608114,
       "bomb_impact_dealt": 0,
       "movies_picked": 11,
       "years_competed": 1
@@ -51,10 +51,10 @@
     {
       "user_id": "chris",
       "username": "Chris",
-      "profit": 487569065,
-      "gross": 1853069064.75,
+      "profit": 488886555,
+      "gross": 1854386554.5,
       "breakeven": 1365500000,
-      "bomb_impact_absorbed": -106637478,
+      "bomb_impact_absorbed": -106608114,
       "bomb_impact_dealt": 0,
       "movies_picked": 11,
       "years_competed": 1
