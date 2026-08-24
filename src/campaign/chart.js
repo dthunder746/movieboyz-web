@@ -94,6 +94,11 @@ export function buildChart(campaign, activeUserIds, activeMovieIds, colorMap) {
     data: { datasets },
     options: {
       maintainAspectRatio: false,
+      // No entry animation (#78), for the reason `movies/chart.js` sets out:
+      // Chart.js resets a new chart's points to the y axis's base pixel and
+      // raises them over a second, and a reader reads that as the axis
+      // rescaling under them.
+      animation: false,
       interaction: { mode: 'index', intersect: false },
       onClick(event, _elements, instance) {
         const points = instance.getElementsAtEventForMode(

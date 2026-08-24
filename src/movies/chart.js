@@ -41,6 +41,13 @@ export function buildMoviesChart(built) {
     data: { datasets },
     options: {
       maintainAspectRatio: false,
+      // No entry animation (#78). Chart.js opens a fresh chart by resetting
+      // every point to the y axis's base pixel and raising it into place over a
+      // second, which on a plot whose axis is already fixed reads as an
+      // oversized axis that rescales: the lines sit flat on the floor for the
+      // first frames and then jump. Every rebuild here destroys the instance
+      // and makes a new one, so this is the only animation there was.
+      animation: false,
       // Every line is on the same integer-day axis, so hovering a day lines the
       // whole comparison up rather than answering about one film.
       interaction: { mode: 'x', intersect: false },
