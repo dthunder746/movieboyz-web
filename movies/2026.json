@@ -12098,8 +12098,8 @@
       "imdb_id": "tt33095251",
       "title": "Tony",
       "release_date": "2026-08-07",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 14000000,
+      "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 7563388,
       "days_running": 16,
@@ -13658,6 +13658,22 @@
           "votes": 13
         }
       },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt34385184",
+      "title": "Misty Green",
+      "release_date": "2026-10-09",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": null,
       "released_digital": null,
       "status": "SCHEDULED"
     },
