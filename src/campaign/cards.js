@@ -13,7 +13,7 @@ import {
 } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, movieUrl } from '../shared/location.js';
 
-import { pickOrSeasonIcon, userBadge } from './icons.js';
+import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 import {
   cardRows,
   collectWeekKeys,

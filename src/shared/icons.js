@@ -1,6 +1,11 @@
 // Inline SVG glyphs and badges, ported from the foot of the old site's
 // utils.js. Pure string builders: they take view-model values and return markup
 // for the DOM layer to insert. Nothing here reads the artifact or the document.
+//
+// Lifted out of `campaign/` once the draft page needed the same glyphs (#85),
+// which is the move `selection.js` made before it. A Pick type and a Season are
+// the Campaign's vocabulary, but drawing one is not a Campaign page's job: this
+// needs nothing from a page group, so it belongs here.
 
 // Lucide glyphs at 11x11, one per Pick type plus one per Season for the
 // seasonal Picks that resolve into them.

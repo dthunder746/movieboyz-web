@@ -2,7 +2,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { heldNetwork } from '../shared/testing/held-network.js';
 
-import { CampaignUnavailable, loadCampaign } from './data.js';
+import { loadCampaign } from './data.js';
+import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 
 const MANIFEST = {
   default_view: { league_slug: 'movieboyz', year: 2026 },

@@ -21,7 +21,7 @@ import {
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 import { RATING_SOURCES } from '../shared/ratings.js';
 
-import { pickOrSeasonIcon, userBadge } from './icons.js';
+import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 import {
   RATING_KEYS,
   collectDailyDates,

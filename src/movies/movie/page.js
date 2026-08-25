@@ -35,7 +35,7 @@ const PICK_LABELS = {
 };
 
 function pickLabel(pickType) {
-  // Lowercased first, as `campaign/icons.js` lowercases before looking a glyph
+  // Lowercased first, as `shared/icons.js` lowercases before looking a glyph
   // up. A Pick type that arrives cased differently should not lose its word
   // while keeping its symbol.
   return PICK_LABELS[String(pickType ?? '').toLowerCase()] ?? pickType;

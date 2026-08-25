@@ -6,6 +6,9 @@ import {
   campaignPath,
   defaultViewPath,
   defaultViewTarget,
+  draftFromPath,
+  draftHref,
+  draftPath,
   isMoviesPath,
   leagueFromPath,
   leagueHref,
@@ -72,6 +75,95 @@ describe('campaignFromPath', () => {
 
   it('finds no Campaign where the league segment is missing', () => {
     expect(campaignFromPath('/league/2026/')).toBeNull();
+  });
+
+  // The marker does not have to be the last segment here, where `draftFromPath`
+  // and `leagueFromPath` both require it to be. That looseness is load bearing:
+  // it is the whole reason the navigation marks 2026 while the reader is on the
+  // 2026 draft page, since `nav.js` asks this function and this function
+  // ignores the `draft` on the end (#85).
+  it('reads the Campaign off a draft path, ignoring the segment on the end', () => {
+    expect(campaignFromPath('/league/movieboyz/2026/draft/')).toEqual({
+      leagueSlug: 'movieboyz',
+      year: 2026,
+    });
+  });
+
+  // The same looseness answers for an address this site has no page for, which
+  // is why `/league/movieboyz/2026/draft/notes/` renders the 2026 standings
+  // rather than a not-found page. Pinned deliberately rather than fixed: it
+  // behaved this way before the draft page existed, and tightening it would
+  // take the navigation's year marking with it unless `nav.js` were given
+  // another way to read a year. Anyone tightening this has to break this test
+  // on purpose and deal with that.
+  it('still reads the Campaign off a path naming no page this site has', () => {
+    expect(campaignFromPath('/league/movieboyz/2026/draft/notes/')).toEqual({
+      leagueSlug: 'movieboyz',
+      year: 2026,
+    });
+  });
+});
+
+
+// The draft page sits inside its Campaign's own directory, so its path names the
+// same League and year with one more segment on the end. That last segment is
+// what the catch-all dispatches on: one `404.html` answers every unmatched
+// address, so which page it renders is read off the path (#85).
+describe('draftFromPath', () => {
+  it('reads the league and year off a draft directory path', () => {
+    expect(draftFromPath('/league/movieboyz/2026/draft/')).toEqual({
+      leagueSlug: 'movieboyz',
+      year: 2026,
+    });
+  });
+
+  it('reads them off the index.html itself', () => {
+    expect(draftFromPath('/league/movieboyz/2026/draft/index.html')).toEqual({
+      leagueSlug: 'movieboyz',
+      year: 2026,
+    });
+  });
+
+  it('ignores whatever the path is prefixed with', () => {
+    expect(draftFromPath('/movieboyz-web/league/movieboyz/2026/draft/')).toEqual({
+      leagueSlug: 'movieboyz',
+      year: 2026,
+    });
+  });
+
+  it('gives the year back as a number', () => {
+    expect(draftFromPath('/league/movieboyz/2026/draft/').year).toBe(2026);
+  });
+
+  // The Campaign's own address is the standings, and the catch-all renders that
+  // for anything this does not claim.
+  it('finds no draft on the Campaign path itself', () => {
+    expect(draftFromPath('/league/movieboyz/2026/')).toBeNull();
+  });
+
+  // `/2026/draft/notes/` names no page this site has. Answering it with the
+  // draft would render a year's draft at an address that does not name it.
+  it('finds no draft where the marker is not the last segment', () => {
+    expect(draftFromPath('/league/movieboyz/2026/draft/notes/')).toBeNull();
+  });
+
+  // The segment behind the year has to be the draft's own. Any other word is an
+  // address this site does not have, and the catch-all answers it with the
+  // Campaign, which is a page that at least names the year in the path.
+  it('finds no draft where the last segment is some other page', () => {
+    expect(draftFromPath('/league/movieboyz/2026/notes/')).toBeNull();
+  });
+
+  it('finds no draft where the marker does not sit behind the year', () => {
+    expect(draftFromPath('/league/movieboyz/draft/')).toBeNull();
+  });
+
+  it('finds no draft where the year is not a year', () => {
+    expect(draftFromPath('/league/movieboyz/latest/draft/')).toBeNull();
+  });
+
+  it('finds no draft on a path that names no league', () => {
+    expect(draftFromPath('/movies/')).toBeNull();
   });
 });
 
@@ -358,6 +450,30 @@ describe('campaignHref', () => {
   it('carries a prefix the site is served under', () => {
     expect(campaignHref('/movieboyz-web/', 'movieboyz', 2026))
       .toBe('/movieboyz-web/league/movieboyz/2026/');
+  });
+});
+
+
+// Written from `campaignPath` rather than beside it, so the two cannot disagree
+// about where the year sits.
+describe('draftPath', () => {
+  it('is the Campaign path with the draft segment on the end', () => {
+    expect(draftPath('movieboyz', 2026)).toBe('league/movieboyz/2026/draft/');
+  });
+
+  it('encodes a slug that is not URL safe', () => {
+    expect(draftPath('a b', 2026)).toBe('league/a%20b/2026/draft/');
+  });
+});
+
+describe('draftHref', () => {
+  it('hangs the draft off the site root', () => {
+    expect(draftHref('/', 'movieboyz', 2026)).toBe('/league/movieboyz/2026/draft/');
+  });
+
+  it('carries a prefix the site is served under', () => {
+    expect(draftHref('/movieboyz-web/', 'movieboyz', 2026))
+      .toBe('/movieboyz-web/league/movieboyz/2026/draft/');
   });
 });
 
