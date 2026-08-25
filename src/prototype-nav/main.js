@@ -14,7 +14,7 @@
 //
 // Nothing here is production code and none of it is a build entry.
 
-import { buildModel, addresses } from './model.js';
+import { buildModel, addresses, YEAR_MODES } from './model.js';
 import { MANIFESTS, MANIFEST_KEYS } from './manifests.js';
 import { renderStandin } from './standin.js';
 import { mountSwitcher } from './switcher.js';
@@ -33,7 +33,10 @@ function params() {
   const variant = VARIANT_KEYS.includes(search.get('variant')) ? search.get('variant') : 'A';
   const manifest = MANIFEST_KEYS.includes(search.get('manifest')) ? search.get('manifest') : 'two';
   const path = search.get('path') ?? '/league/movieboyz/2026/';
-  return { variant, manifest, path };
+  const year = Object.keys(YEAR_MODES).includes(search.get('year'))
+    ? search.get('year')
+    : 'two-link';
+  return { variant, manifest, path, year };
 }
 
 function setParam(name, value) {
@@ -45,7 +48,7 @@ function setParam(name, value) {
 
 // The prototype's own controls. Above the page and unmistakably not part of it,
 // for the same reason the switcher is.
-function renderControls({ manifest, path }, manifestObject) {
+function renderControls({ manifest, path, year }, manifestObject) {
   const options = addresses(manifestObject)
     .map(
       (entry) =>
@@ -58,11 +61,18 @@ function renderControls({ manifest, path }, manifestObject) {
       `<option value="${key}"${key === manifest ? ' selected' : ''}>${MANIFESTS[key].label}</option>`,
   ).join('');
 
+  const years = Object.entries(YEAR_MODES)
+    .map(([key, label]) => `<option value="${key}"${key === year ? ' selected' : ''}>${label}</option>`)
+    .join('');
+
   return `
 <div class="proto-controls">
   <span class="proto-controls-tag">PROTOTYPE · platform#83</span>
   <label>Manifest
     <select id="proto-manifest">${manifests}</select>
+  </label>
+  <label>Menu row holds
+    <select id="proto-year">${years}</select>
   </label>
   <label>Reader is at
     <select id="proto-path">${options}</select>
@@ -74,7 +84,7 @@ function renderControls({ manifest, path }, manifestObject) {
 function render() {
   const state = params();
   const manifestObject = MANIFESTS[state.manifest].manifest;
-  const model = buildModel(manifestObject, state.path);
+  const model = buildModel(manifestObject, state.path, state.year);
   const variant = VARIANTS[state.variant];
 
   const page =
@@ -91,6 +101,9 @@ function render() {
   });
   document.getElementById('proto-path').addEventListener('change', (event) => {
     setParam('path', event.target.value);
+  });
+  document.getElementById('proto-year').addEventListener('change', (event) => {
+    setParam('year', event.target.value);
   });
 
   variant.afterRender?.();

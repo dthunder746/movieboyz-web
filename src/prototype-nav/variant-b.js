@@ -60,8 +60,15 @@ function section(league, index, grouped) {
 }
 
 // Three cells, not one row: the grid is what puts every badge and every Draft
-// link on the same vertical line down the panel.
+// link on the same vertical line down the panel. Without Draft the third rail
+// is empty and the grid is two columns of the same alignment.
 function yearCells(year) {
+  const draft = year.showDraft
+    ? `<a class="proto-b-draft${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(year.draftHref)}"${
+        year.draftCurrent ? ' aria-current="page"' : ''
+      }>Draft</a>`
+    : '<span></span>';
+
   return `
     <a class="proto-b-year${year.current ? ' is-current' : ''}" href="${escapeHtml(year.href)}"${
       year.current ? ' aria-current="page"' : ''
@@ -69,9 +76,7 @@ function yearCells(year) {
     <span class="proto-b-state"><span class="badge ${year.stateTone} site-nav-badge">${escapeHtml(
       year.stateLabel,
     )}</span></span>
-    <a class="proto-b-draft${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(year.draftHref)}"${
-      year.draftCurrent ? ' aria-current="page"' : ''
-    }>Draft</a>`;
+    ${draft}`;
 }
 
 function moviesLink(movies) {
@@ -132,9 +137,9 @@ function campaignRow(league, year, first) {
   return `
     <tr${first ? ' class="proto-b-firstyear"' : ''}>
       <td>${first ? `<a class="proto-b-rootleague" href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a>` : ''}</td>
-      <td><a href="${escapeHtml(year.href)}">${escapeHtml(year.label)}</a></td>
+      <td><a href="${escapeHtml(year.standingsHref)}">${escapeHtml(year.label)}</a></td>
       <td><span class="badge ${year.stateTone} site-nav-badge">${escapeHtml(year.stateLabel)}</span></td>
-      <td><a href="${escapeHtml(year.href)}">Standings</a></td>
+      <td><a href="${escapeHtml(year.standingsHref)}">Standings</a></td>
       <td><a href="${escapeHtml(year.draftHref)}">Draft</a></td>
     </tr>`;
 }

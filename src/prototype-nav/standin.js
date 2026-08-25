@@ -5,9 +5,14 @@
 // is the same for all three variants on purpose: nothing here is being judged,
 // it is there so the bar is not floating in a vacuum.
 //
-// The Campaign stand-in carries the in page `Draft` link #81 settled, beside
-// Standings and Board, because whether the bar's Draft entry is redundant next
-// to it is a real question the layout has to answer.
+// The Campaign stand-in carries the in page `Draft` link #81 settled, because
+// whether the bar's Draft entry is redundant next to it is a real question the
+// layout has to answer — and in the two modes that drop Draft from the menu, it
+// is the only way between a year's two pages.
+//
+// It is a pair of links and not a tab strip. A Campaign is one page plus a
+// draft page: there is no Standings/Board split, and `board.js` is the join
+// behind the movie table rather than a section of its own.
 
 import { escapeHtml } from '../shared/format.js';
 
@@ -23,31 +28,49 @@ export function renderStandin(model) {
   const { here } = model;
   const league = model.leagues.find((entry) => entry.slug === here.leagueSlug);
   const leagueName = league ? league.name : 'League';
+  const state = league?.years.find((entry) => entry.year === here.year)?.state;
 
-  if (here.kind === 'campaign') return campaign(leagueName, here.year, 'standings');
-  if (here.kind === 'draft') return campaign(leagueName, here.year, 'draft');
+  if (here.kind === 'campaign') return campaign(leagueName, here.year, 'standings', state);
+  if (here.kind === 'draft') return campaign(leagueName, here.year, 'draft', state);
   if (here.kind === 'landing') return landing(leagueName);
   if (here.kind === 'movies') return movies();
   return '';
 }
 
-function campaign(leagueName, year, tab) {
-  const draft = tab === 'draft';
+function campaign(leagueName, year, page, state) {
+  const draft = page === 'draft';
+
+  // The way between a year's two pages, and the whole of it. Highlighted so it
+  // is easy to see how much work it is being asked to do when the menu has no
+  // Draft entry.
+  const crossLink = draft
+    ? '<a class="proto-standin-crosslink" href="#">← Standings</a>'
+    : '<a class="proto-standin-crosslink" href="#">Draft →</a>';
 
   return `
 <div class="container-fluid px-3 proto-standin">
-  <h1 class="h4 mb-1">${escapeHtml(leagueName)} ${escapeHtml(String(year))}</h1>
-  <div class="btn-group btn-group-sm mb-3" role="group" aria-label="Campaign sections">
-    <a class="btn btn-outline-secondary${draft ? '' : ' active'}" href="#">Standings</a>
-    <a class="btn btn-outline-secondary" href="#">Board</a>
-    <a class="btn btn-outline-secondary${draft ? ' active' : ''}" href="#">Draft</a>
+  <div class="proto-standin-titlerow">
+    <h1 class="h4 mb-0">${escapeHtml(leagueName)} ${escapeHtml(String(year))}${draft ? ' draft' : ''}</h1>
+    ${crossLink}
   </div>
 
-  ${draft ? draftBody() : standingsBody()}
+  ${draft ? draftBody() : standingsBody(state)}
 </div>`;
 }
 
-function standingsBody() {
+// A `drafting` year has no scores yet, so its standings page is an empty state.
+// That is the case the state-aware mode exists for: pick 2027 in the page
+// picker and see what a reader lands on when the menu sent them at a year whose
+// figures do not exist.
+function standingsBody(state) {
+  if (state === 'drafting') {
+    return `
+  <div class="proto-standin-empty">
+    <p class="mb-1">This campaign has not started.</p>
+    <p class="text-muted mb-0">The slate is still being picked.</p>
+  </div>`;
+  }
+
   return `
   <div class="proto-standin-strip mb-3">
     ${['Weekend', 'Biggest mover', 'Best pick', 'Worst pick']

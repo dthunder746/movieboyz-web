@@ -74,8 +74,16 @@ function leagueFlyout(league) {
 }
 
 // The piece most in doubt: one row, two targets. The year and its badge lead,
-// Draft is pushed to the end of the row.
+// Draft is pushed to the end of the row. `showDraft` is off in the two modes
+// that leave the draft page to the Campaign page instead, and the row collapses
+// to a single link.
 function yearRow(year) {
+  const draft = year.showDraft
+    ? `<a class="proto-a-draft${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(year.draftHref)}"${
+        year.draftCurrent ? ' aria-current="page"' : ''
+      }>Draft</a>`
+    : '';
+
   return `
     <li class="proto-a-row">
       <a class="proto-a-year${year.current ? ' is-current' : ''}" href="${escapeHtml(year.href)}"${
@@ -83,9 +91,7 @@ function yearRow(year) {
       }>${escapeHtml(year.label)}
         <span class="badge ${year.stateTone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>
       </a>
-      <a class="proto-a-draft${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(year.draftHref)}"${
-        year.draftCurrent ? ' aria-current="page"' : ''
-      }>Draft</a>
+      ${draft}
     </li>`;
 }
 
@@ -134,9 +140,9 @@ function rootLeague(league) {
           .map(
             (year) => `
           <li class="proto-a-rootrow">
-            <a class="proto-a-rootyear" href="${escapeHtml(year.href)}">${escapeHtml(year.label)}</a>
+            <a class="proto-a-rootyear" href="${escapeHtml(year.standingsHref)}">${escapeHtml(year.label)}</a>
             <span class="badge ${year.stateTone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>
-            <a href="${escapeHtml(year.href)}">Standings</a>
+            <a href="${escapeHtml(year.standingsHref)}">Standings</a>
             <a href="${escapeHtml(year.draftHref)}">Draft</a>
           </li>`,
           )

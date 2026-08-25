@@ -89,6 +89,54 @@
   opacity: 0.55;
 }
 
+/* The page title and the year's cross link share one line, the link pushed to
+   the end of it. */
+.proto-standin-titlerow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Loud on purpose. The stand-in is faded so the bar is what gets judged, but in
+   the two modes that drop Draft from the menu this link is the entire way
+   between a year's two pages, so it has to read through the fade. A solid fill
+   does that; raising the opacity cannot, because a child never exceeds its
+   parent's. */
+.proto-standin-crosslink {
+  flex: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bs-primary);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.proto-standin-crosslink:hover {
+  color: #fff;
+  filter: brightness(1.12);
+}
+
+/* What a `drafting` year's standings page is, in full: no scorecards, no chart,
+   no table. Sized like the chart it stands in for, so the emptiness reads as
+   the whole page rather than one missing strip. */
+.proto-standin-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  padding: 2rem 1rem;
+  border: 1px dashed var(--bs-border-color);
+  border-radius: 8px;
+  text-align: center;
+}
+
 .proto-standin-strip {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));

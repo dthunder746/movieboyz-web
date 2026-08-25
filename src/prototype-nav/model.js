@@ -36,7 +36,23 @@ export function readPath(pathname) {
   return { kind: 'unknown' };
 }
 
-export function buildModel(manifest, pathname) {
+// What a year's row in the menu holds. The one question left open on #83 once
+// the page set is settled: a Campaign is one page plus a draft page, so the bar
+// either carries both addresses or carries one and lets the page carry the
+// other.
+//
+//   two-link    the year and Draft, side by side. As #81 settled it.
+//   year-only   the year alone. Draft is reached from the Campaign page.
+//   state-aware the year alone, but pointing at the draft page while the year
+//               is `drafting`, because that is what the year *is* then and its
+//               standings page is empty until the slate is picked.
+export const YEAR_MODES = {
+  'two-link': 'Year + Draft',
+  'year-only': 'Year only',
+  'state-aware': 'Year only, state aware',
+};
+
+export function buildModel(manifest, pathname, yearMode = 'two-link') {
   const here = readPath(pathname);
   const leagues = (manifest?.leagues ?? []).map((league) => {
     const inside = here.leagueSlug === league.slug;
@@ -52,20 +68,7 @@ export function buildModel(manifest, pathname) {
       landing: inside && here.kind === 'landing',
       years: [...(league.campaigns ?? [])]
         .sort((left, right) => right.year - left.year)
-        .map((campaign) => ({
-          year: campaign.year,
-          label: String(campaign.year),
-          state: campaign.state,
-          stateLabel: stateLabel(campaign.state),
-          stateTone: stateTone(campaign.state),
-          href: `/league/${league.slug}/${campaign.year}/`,
-          draftHref: `/league/${league.slug}/${campaign.year}/draft/`,
-          // The year is marked on the standings page only. On the draft page
-          // the Draft link beside it is marked instead, so the two links in one
-          // row never both light up.
-          current: inside && here.kind === 'campaign' && here.year === campaign.year,
-          draftCurrent: inside && here.kind === 'draft' && here.year === campaign.year,
-        })),
+        .map((campaign) => year(campaign, league, inside, here, yearMode)),
     };
   });
 
@@ -77,6 +80,42 @@ export function buildModel(manifest, pathname) {
     grouped: leagues.length > 1,
     leagues,
     movies: { href: '/movies/', current: here.kind === 'movies' },
+    yearMode,
+  };
+}
+
+function year(campaign, league, inside, here, yearMode) {
+  const standingsHref = `/league/${league.slug}/${campaign.year}/`;
+  const draftHref = `${standingsHref}draft/`;
+  const onYear = inside && here.year === campaign.year;
+
+  // Where the year's own link goes. Only `state-aware` makes this depend on
+  // anything, which is the whole of what it is here to be judged on: the same
+  // word means a different destination in a different Lifecycle state.
+  const linkHref =
+    yearMode === 'state-aware' && campaign.state === 'drafting' ? draftHref : standingsHref;
+
+  const showDraft = yearMode === 'two-link';
+
+  return {
+    year: campaign.year,
+    label: String(campaign.year),
+    state: campaign.state,
+    stateLabel: stateLabel(campaign.state),
+    stateTone: stateTone(campaign.state),
+    href: linkHref,
+    standingsHref,
+    draftHref,
+    showDraft,
+    // Exactly one entry is ever marked, in all three modes. With Draft in the
+    // row the year is marked on the standings page and Draft on the draft page,
+    // so the two never both light up. Without it the year is the only entry the
+    // League has, so it is marked on both of its pages — a reader on a draft
+    // page still has to be able to see where they are.
+    current: showDraft
+      ? onYear && here.kind === 'campaign'
+      : onYear && (here.kind === 'campaign' || here.kind === 'draft'),
+    draftCurrent: showDraft && onYear && here.kind === 'draft',
   };
 }
 

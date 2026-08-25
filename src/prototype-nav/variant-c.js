@@ -53,8 +53,16 @@ function column(league) {
 }
 
 // Two chips, not a row with a trailing link. Each is its own target and looks
-// like one.
+// like one. Without Draft it is a single wide chip, which is the shape this
+// variant reads worst in: a chip that fills its column stops looking like a
+// chip.
 function yearChips(year) {
+  const draft = year.showDraft
+    ? `<a class="proto-c-chip proto-c-draftchip${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(
+        year.draftHref,
+      )}"${year.draftCurrent ? ' aria-current="page"' : ''}>Draft</a>`
+    : '';
+
   return `
     <div class="proto-c-year">
       <a class="proto-c-chip proto-c-standings${year.current ? ' is-current' : ''}" href="${escapeHtml(year.href)}"${
@@ -63,9 +71,7 @@ function yearChips(year) {
         <span class="proto-c-yearlabel">${escapeHtml(year.label)}</span>
         <span class="badge ${year.stateTone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>
       </a>
-      <a class="proto-c-chip proto-c-draftchip${year.draftCurrent ? ' is-current' : ''}" href="${escapeHtml(
-        year.draftHref,
-      )}"${year.draftCurrent ? ' aria-current="page"' : ''}>Draft</a>
+      ${draft}
     </div>`;
 }
 
@@ -115,11 +121,17 @@ export function renderRoot(model) {
 </div>`;
 }
 
+// The root always lists both of a year's pages whatever the menu carries: it is
+// the directory of everything the site holds, and hiding a page here would be
+// the one place that claim stopped being true. The year chip points at the
+// standings rather than following `state-aware`, for the same reason.
 function rootCard(league) {
   return `
     <section class="proto-c-card">
       <a class="proto-c-heading" href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a>
       <p class="proto-c-note text-muted">All years and the overall table</p>
-      ${league.years.map(yearChips).join('')}
+      ${league.years
+        .map((year) => yearChips({ ...year, href: year.standingsHref, showDraft: true }))
+        .join('')}
     </section>`;
 }
