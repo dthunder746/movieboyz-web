@@ -4,6 +4,54 @@
   "latest_date": null,
   "movies": [
     {
+      "imdb_id": "tt1441251",
+      "title": "Cliffhanger",
+      "release_date": "2027-02-24",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-04-13": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-08-10",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 55,
+          "votes": 7
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt16360004",
       "title": "Spider-Man: Beyond the Spider-Verse ",
       "release_date": "2027-06-18",
