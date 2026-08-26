@@ -37,6 +37,21 @@ export const CAMPAIGN_LAYOUT = `
 <!-- ── Main ───────────────────────────────────────────────────────────── -->
 <div class="container-fluid px-3">
 
+  <!-- The cross link to this Campaign's draft page, which is the only way to
+       reach it: the Leagues menu carries the year alone and the year stays the
+       marked entry on both pages (#83). The page module writes the href, because
+       only the document knows where the site root sits.
+
+       It ships hidden and with no href, and the page module reveals it once it
+       has an address to point at. An empty href resolves to the current page,
+       so a Campaign artifact missing its League or year would leave a link
+       that silently reloads, and a reader who clicked during the fetch would
+       get the same. Nothing is the honest thing to show until there is
+       somewhere to go. -->
+  <p class="mb-3" id="campaign-draft-link-wrap" hidden>
+    <a class="text-decoration-none" id="campaign-draft-link">Draft board &rarr;</a>
+  </p>
+
   <!-- Top Panel: Scorecard Strip + Info Cards -->
   <div class="top-panel mb-4">
     <div id="weekend-strip"></div>

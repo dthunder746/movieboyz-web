@@ -146,6 +146,24 @@ describe('buildNav', () => {
     expect(nav.years.some((entry) => entry.current)).toBe(false);
   });
 
+  // A Campaign's draft page keeps that Campaign's year marked, because the year
+  // is the entry that leads to both pages and the draft is reached from the
+  // Campaign rather than from the menu (#83, #85). It works because
+  // `campaignFromPath` ignores the segment after the year; `route.test.js` pins
+  // that, and this pins what depends on it.
+  it('marks the year the reader is on the draft page of', () => {
+    const nav = buildNav(ONE_LEAGUE, '/league/movieboyz/2026/draft/');
+
+    expect(nav.years.filter((entry) => entry.current).map((entry) => entry.year)).toEqual([2026]);
+    expect(nav.movies.current).toBe(false);
+  });
+
+  it('leaves the League landing unmarked on a draft page, as on a Campaign page', () => {
+    const nav = buildNav(ONE_LEAGUE, '/league/movieboyz/2026/draft/');
+
+    expect(nav.league.landing).toBe(false);
+  });
+
   // The League landing entry (#67). With one League published it sits at the
   // top level beside that League's years, because there is no menu to put it
   // in and the League is the thing the years belong to.

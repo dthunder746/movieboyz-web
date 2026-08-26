@@ -4,7 +4,7 @@
 
 import { fmt, fmtPct, colorClass, escapeHtml, formatShortDate } from '../shared/format.js';
 
-import { pickOrSeasonIcon, userBadge } from './icons.js';
+import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 
 const TAB_COOKIE = 'info_active_tab';
 

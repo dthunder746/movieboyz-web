@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MovieBoyz Fantasy Box Office</title>
+
+  <!-- Bootstrap 5.3 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Site styles -->
+  <link href="/src/site.css" rel="stylesheet">
+
+  <!-- Restore theme before first paint to avoid flash -->
+  <script>
+    (function () {
+      var saved = localStorage.getItem('mbTheme') || 'dark';
+      document.documentElement.setAttribute('data-bs-theme', saved);
+    })();
+  </script>
+</head>
+
+<body>
+
+<!-- A shell around a single div, the way every page here is. The markup lives
+     in `src/draft/layout.js` because the catch-all at `/404.html` renders the
+     same surfaces for any other year's draft address, and a second copy of it
+     here would drift. The page reads which League and year it is showing off
+     its own URL, so a second registered year is this file byte for byte in a
+     directory named for it, and one more build entry.
+
+     No Tabulator and no Chart.js. This page is three tables and a set of
+     cards, and the CDN tags a page does not load are the ones it does not wait
+     for. Bootstrap's own bundle stays: what-if mode's tooltips are its. -->
+<div id="page">
+  <div class="container-fluid px-3 py-4">
+    <h1>MovieBoyz</h1>
+    <p>Loading the draft.</p>
+  </div>
+</div>
+
+<!-- ── Scripts ────────────────────────────────────────────────────────── -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="/src/draft/entry.js"></script>
+</body>
+</html>

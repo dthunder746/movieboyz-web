@@ -14,14 +14,17 @@ import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
 import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from '../shared/format.js';
 import { mountNav } from '../shared/nav.js';
 import { renderNotice } from '../shared/notice.js';
+import { currentRoot } from '../shared/location.js';
 import { buildColorMap } from '../shared/palettes.js';
+import { draftHref } from '../shared/route.js';
 import { createSelection } from '../shared/selection.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildBoard } from './board.js';
 import { buildCards } from './cards.js';
 import { applyChartTheme, buildChart } from './chart.js';
-import { CampaignUnavailable, loadCampaign } from './data.js';
+import { loadCampaign } from './data.js';
+import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 import { createFilterState } from './filters.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
@@ -450,6 +453,20 @@ function init({ campaign, slices }) {
 // published it already localised. Rendering through a Date puts it back into the
 // reader's own zone rather than showing them somebody else's clock.
 function renderChrome(campaign) {
+  // The link to this Campaign's own draft page. It is written from the League
+  // and the year the artifact carries rather than from the address the page was
+  // served at, so the catch-all's copy of the page points at the year it is
+  // actually showing.
+  //
+  // The markup ships it hidden, so an artifact carrying neither a League nor a
+  // year renders no link at all rather than one pointing back at this page.
+  const draftLink = document.getElementById('campaign-draft-link');
+  const draftLinkWrap = document.getElementById('campaign-draft-link-wrap');
+  if (draftLink && draftLinkWrap && campaign.league_slug && campaign.year) {
+    draftLink.setAttribute('href', draftHref(currentRoot(), campaign.league_slug, campaign.year));
+    draftLinkWrap.hidden = false;
+  }
+
   const capturedAt = campaign.generated_at ? new Date(campaign.generated_at) : null;
 
   if (capturedAt && !Number.isNaN(capturedAt.getTime())) {

@@ -18,6 +18,11 @@ const MOVIES_SEGMENT = 'movies';
 // here (`docs/adr/0010-addressing-pages-on-a-static-host.md` in the platform
 // repo).
 const MOVIE_SEGMENT = 'movie';
+// The draft page, a directory inside a Campaign's own directory (#81). It is a
+// page of the Campaign rather than a site-wide section, because a draft is
+// always one year's, so its address hangs off the year the way the Campaign's
+// hangs off the League.
+const DRAFT_SEGMENT = 'draft';
 // Which Movie that page is showing. A query parameter rather than a directory
 // per Movie, because a Movie slice republishes daily and can carry a film the
 // build has never heard of, so a directory would 404 for exactly the new
@@ -67,6 +72,30 @@ export function campaignFromPath(pathname) {
 
   const marker = campaignMarker(segments);
   if (marker === -1) return null;
+
+  return { leagueSlug: segments[marker + 1], year: Number(segments[marker + 2]) };
+}
+
+// Which Campaign a draft page is showing, or null if the path is not one.
+//
+// A draft path names its Campaign the same way the standings path does, so
+// `campaignFromPath` answers for both and this narrows to the one that ends in
+// `/draft/`. That split is what the catch-all dispatches on: one `404.html`
+// serves every unmatched address, so the page it renders has to be chosen from
+// the path rather than from which file the host reached
+// (`docs/adr/0010-addressing-pages-on-a-static-host.md` in the platform repo).
+//
+// The marker has to be the last segment, and it has to sit directly behind the
+// year. `/league/movieboyz/2026/draft/notes/` names no page this site has, and
+// answering it with the draft would render a year's draft at an address that
+// does not name it.
+export function draftFromPath(pathname) {
+  const segments = directorySegments(pathname);
+
+  const marker = campaignMarker(segments);
+  if (marker === -1) return null;
+  if (marker + 4 !== segments.length) return null;
+  if (segments[marker + 3] !== DRAFT_SEGMENT) return null;
 
   return { leagueSlug: segments[marker + 1], year: Number(segments[marker + 2]) };
 }
@@ -198,6 +227,18 @@ export function campaignPath(leagueSlug, year) {
 
 export function campaignHref(root, leagueSlug, year) {
   return `${root}${campaignPath(leagueSlug, year)}`;
+}
+
+// The draft is a page of the Campaign, so its address is the Campaign's with
+// one segment on the end, written from `campaignPath` for the same reason that
+// is written from `leaguePath`: the two cannot disagree about where the year
+// sits.
+export function draftPath(leagueSlug, year) {
+  return `${campaignPath(leagueSlug, year)}${DRAFT_SEGMENT}/`;
+}
+
+export function draftHref(root, leagueSlug, year) {
+  return `${root}${draftPath(leagueSlug, year)}`;
 }
 
 export function moviePath(imdbId) {
