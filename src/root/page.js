@@ -68,9 +68,22 @@ function render(directory) {
 // Nothing on this page bakes in a colour, so the switch has nothing to tell.
 createThemeSwitch(() => {});
 
+// A Manifest in a shape this build cannot read is answered the same way as
+// one that did not arrive: the page says the leagues could not be read and
+// still offers Movies, rather than freezing on its loading line. The view model
+// reads tolerantly, but a tolerant reader still has to be handed a list.
+function directoryFor(manifest) {
+  try {
+    return buildDirectory(manifest, window.location.pathname);
+  } catch (error) {
+    console.error('Manifest could not be read', error);
+    return buildDirectory(null, window.location.pathname);
+  }
+}
+
 loadManifest()
   .catch((error) => {
     console.error('Manifest load failed', error);
     return null;
   })
-  .then((manifest) => render(buildDirectory(manifest, window.location.pathname)));
+  .then((manifest) => render(directoryFor(manifest)));

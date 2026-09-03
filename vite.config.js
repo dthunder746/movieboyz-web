@@ -57,9 +57,9 @@ export default defineConfig({
   build: {
     rollupOptions: {
       // Every page is its own entry. The root is a directory of everything the
-      // Manifest holds (#84); each League is a directory carrying its landing page, and
-      // each Campaign is a directory inside it so its URL carries the league
-      // and the year, which is what the page reads to know what to show. A
+      // Manifest holds (#84); each League is a directory carrying its landing
+      // page, and each Campaign is a directory inside it so its URL carries the
+      // league and the year, which is what the page reads to know what to show. A
       // League's own file is the same shell whichever League it is, so a second
       // published League is one more entry here and no code. The draft is a
       // page of the Campaign rather than a section of its own, so it is a
