@@ -39,8 +39,9 @@ export function speculate(path) {
   return pending;
 }
 
-// The manifest on its own, for the repo root, which only needs to know which
-// Campaign to send the reader to.
+// The manifest on its own, for the pages that read nothing else: the root
+// directory, which lists what it holds, and the nothing-here notice, which
+// draws the navigation out of it.
 export async function loadManifest() {
   return fetchArtifact('index.json');
 }

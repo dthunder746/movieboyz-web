@@ -778,6 +778,79 @@ body { font-size: 0.9rem; }
   font-weight: 600;
 }
 
+/* ── The root directory ─────────────────────────────────────────────────── */
+/* The navigation opened out flat (#84): every League, every year and the two
+   pages each year holds, an indented outline with nothing boxed, which is the
+   layout the prototype settled (#83). Every entry carries equal weight, so no
+   row is larger or bolder than another, and the year badges are the
+   navigation's own. */
+.site-directory {
+  margin-bottom: 2.25rem;
+}
+
+.site-directory-heading {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.75rem;
+}
+
+.site-directory-league {
+  margin-bottom: 1.25rem;
+}
+
+.site-directory-league-link {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--bs-body-color);
+  text-decoration: none;
+}
+
+.site-directory-league-link:hover {
+  text-decoration: underline;
+}
+
+.site-directory-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.site-directory-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.28rem 0;
+  font-size: 0.9rem;
+}
+
+.site-directory-row a {
+  text-decoration: none;
+}
+
+.site-directory-row a:hover {
+  text-decoration: underline;
+}
+
+/* The year leads its row and is read as a label, so it takes the body colour
+   rather than the link colour the two page links beside it carry. */
+.site-directory-year {
+  min-width: 3rem;
+  color: var(--bs-body-color);
+}
+
+/* What a section says when it has nothing to list, indented with the rows it
+   stands in for. */
+.site-directory-note {
+  font-size: 0.85rem;
+  color: var(--bs-secondary-color);
+  margin: 0.35rem 0 0;
+  padding-left: 1.5rem;
+}
+
 /* ── Header status cluster ──────────────────────────────────────────────── */
 .navbar-status {
   display: none;
