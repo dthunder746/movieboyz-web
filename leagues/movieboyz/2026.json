@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-11T04:36:50.430685Z",
+  "generated_at": "2026-09-11T05:36:57.335574Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -20323,8 +20323,8 @@
       "title": "Practical Magic 2",
       "release_date": "2026-09-11",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 75000000,
+      "breakeven": 150000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
