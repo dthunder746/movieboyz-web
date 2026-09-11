@@ -8529,8 +8529,8 @@
       "imdb_id": "tt31192372",
       "title": "Fall 2: Deadpoint",
       "release_date": "2026-09-02",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 3000000,
+      "estimated_budget": true,
       "season": "FALL",
       "gross_td": 5128756,
       "days_running": 7,
@@ -16726,15 +16726,21 @@
       "imdb_id": "tt36361934",
       "title": "Cocoon: One Summer of Girlhood",
       "release_date": "2026-09-04",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 5000000,
+      "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 0,
+      "gross_td": 3000000,
       "days_running": 5,
-      "daily_change": {},
-      "weekly_gross": {},
+      "daily_change": {
+        "2026-09-09": 3000000
+      },
+      "weekly_gross": {
+        "2026-W37": 3000000
+      },
       "gross": {
-        "2026-07-16": 0
+        "2026-07-16": 0,
+        "2026-09-08": 0,
+        "2026-09-09": 3000000
       },
       "ratings": {
         "fetched_at": "2026-08-09",
@@ -18609,21 +18615,24 @@
       "imdb_id": "tt38882652",
       "title": "Katy Perry: The Lifetimes Tour - Live from Paris",
       "release_date": "2026-09-02",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 3200000,
+      "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 21214,
+      "gross_td": 2000000,
       "days_running": 7,
       "daily_change": {
-        "2026-09-07": 21214
+        "2026-09-07": 21214,
+        "2026-09-09": 1978786
       },
       "weekly_gross": {
-        "2026-W37": 21214
+        "2026-W37": 2000000
       },
       "gross": {
         "2026-09-02": 0,
         "2026-09-06": 0,
-        "2026-09-07": 21214
+        "2026-09-07": 21214,
+        "2026-09-08": 21214,
+        "2026-09-09": 2000000
       },
       "ratings": {
         "fetched_at": "2026-08-07",
