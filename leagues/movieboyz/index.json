@@ -1,14 +1,14 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-12T03:00:36.750947Z",
+  "generated_at": "2026-09-12T21:39:05.641541Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "profit": 2184628638,
-      "gross": 3643628637.75,
+      "profit": 2186823638,
+      "gross": 3645823637.75,
       "breakeven": 1459000000,
       "bomb_impact_absorbed": -110566281,
       "bomb_impact_dealt": 15838416,
@@ -18,8 +18,8 @@
     {
       "user_id": "connie",
       "username": "Connie",
-      "profit": 1578170918,
-      "gross": 3171670918.25,
+      "profit": 1581367600,
+      "gross": 3174867600.25,
       "breakeven": 1593500000,
       "bomb_impact_absorbed": -35054390,
       "bomb_impact_dealt": -286209150,
@@ -29,8 +29,8 @@
     {
       "user_id": "emerson",
       "username": "Emerson",
-      "profit": 1418498683,
-      "gross": 2182998683.5,
+      "profit": 1419463683,
+      "gross": 2183963683.5,
       "breakeven": 764500000,
       "bomb_impact_absorbed": -67592684,
       "bomb_impact_dealt": -156055975,
@@ -40,8 +40,8 @@
     {
       "user_id": "matt",
       "username": "Matt",
-      "profit": 1344537081,
-      "gross": 2543037080.75,
+      "profit": 1344541831,
+      "gross": 2543041830.75,
       "breakeven": 1198500000,
       "bomb_impact_absorbed": -106606677,
       "bomb_impact_dealt": 0,
@@ -51,8 +51,8 @@
     {
       "user_id": "chris",
       "username": "Chris",
-      "profit": 503070475,
-      "gross": 1868570474.75,
+      "profit": 503092475,
+      "gross": 1868592474.75,
       "breakeven": 1365500000,
       "bomb_impact_absorbed": -106606677,
       "bomb_impact_dealt": 0,
