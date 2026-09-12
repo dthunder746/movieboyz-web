@@ -32,11 +32,12 @@
      Movies comes first because it belongs to no League. The Leagues section
      and each League inside it fold, on native <details>: the page loads no
      Bootstrap JS, and there is no menu to open, so nothing else is needed.
+     The panels are the League page's own.
 
      The markup sits here rather than in a module because one file needs it,
-     as the Movies page's does. The Leagues section is filled in by
-     `src/root/page.js` once the Manifest lands, and the Movies section is
-     drawn regardless, because the lookup reads no League file. -->
+     as the Movies page's does. `src/root/page.js` writes the brand and Movies
+     links before anything is fetched, since both hang off the path alone, and
+     fills the Leagues section once the Manifest lands. -->
 
 <div class="site-root">
 
@@ -47,23 +48,22 @@
 
   <!-- ── Header ─────────────────────────────────────────────────────────── -->
   <header class="site-root-head">
-    <a class="site-root-brand" id="site-brand">🎬 MBZ</a>
+    <h1 class="site-root-brand"><a id="site-brand">🎬 MBZ</a></h1>
     <p class="site-root-lede">Fantasy box office. Every league and every year the platform holds.</p>
   </header>
 
   <!-- ── Main ───────────────────────────────────────────────────────────── -->
   <section class="site-directory" aria-labelledby="movies-heading">
     <h2 id="movies-heading" class="site-directory-heading">Movies</h2>
-    <div class="site-directory-panel" id="directory-movies"></div>
+    <div class="league-panel" id="directory-movies"></div>
   </section>
 
-  <details class="site-directory" open>
+  <details class="site-directory" aria-labelledby="leagues-heading" open>
     <summary class="site-directory-summary">
       <h2 id="leagues-heading" class="site-directory-heading">Leagues</h2>
-      <svg class="site-directory-chevron" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </summary>
     <div class="site-directory-panels" id="directory-leagues">
-      <div class="site-directory-panel">
+      <div class="league-panel">
         <p class="site-directory-note">Reading the published leagues.</p>
       </div>
     </div>

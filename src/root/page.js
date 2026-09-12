@@ -20,10 +20,6 @@ import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildDirectory } from './directory.js';
 
-// The fold chevron on a League panel and on the Leagues section. Decorative:
-// the <summary> it sits in is what the reader operates.
-const CHEVRON = `<svg class="site-directory-chevron" aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
-
 // One row per year: the year, its Lifecycle badge, and the two pages it holds.
 // The year itself leads to the standings as well, so the row reads the way the
 // navigation's year entries do and the prototype the layout was settled on did
@@ -40,35 +36,33 @@ function yearRow(year) {
 }
 
 // A League is a panel that folds, its name a link in the summary. Clicking the
-// name goes to the League; clicking anywhere else on the summary folds it.
+// name goes to the League; clicking anywhere else on the summary folds it, and
+// the caret the summary draws for itself turns. A link inside a summary is two
+// tab stops, the fold then the page, which is the League page's card toggle
+// and title in one row and reads the same way.
 function leaguePanel(league) {
   const years = league.years.length
     ? `<ul class="site-directory-list">${league.years.map(yearRow).join('')}</ul>`
     : `<p class="site-directory-note">${escapeHtml(league.yearsNote)}</p>`;
 
-  return `<details class="site-directory-panel site-directory-league" open>
+  return `<details class="league-panel site-directory-league" open>
     <summary class="site-directory-summary">
       <a class="site-directory-title" href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a>
-      ${CHEVRON}
     </summary>
     ${years}
   </details>`;
 }
 
 function notePanel(text) {
-  return `<div class="site-directory-panel"><p class="site-directory-note">${escapeHtml(text)}</p></div>`;
+  return `<div class="league-panel"><p class="site-directory-note">${escapeHtml(text)}</p></div>`;
 }
 
-function render(directory) {
+// The brand and the Movies link hang off the path alone, so they are written
+// before anything is fetched: the Movies panel is a box in the shell and an
+// empty box while the Manifest is in flight would be a wrong thing to show.
+function renderShell(directory) {
   const brand = document.getElementById('site-brand');
   if (brand) brand.setAttribute('href', directory.brandHref);
-
-  const leagues = document.getElementById('directory-leagues');
-  if (leagues) {
-    leagues.innerHTML = directory.leaguesNote
-      ? notePanel(directory.leaguesNote)
-      : directory.leagues.map(leaguePanel).join('');
-  }
 
   const movies = document.getElementById('directory-movies');
   if (movies) {
@@ -76,8 +70,19 @@ function render(directory) {
   }
 }
 
+function renderLeagues(directory) {
+  const leagues = document.getElementById('directory-leagues');
+  if (leagues) {
+    leagues.innerHTML = directory.leaguesNote
+      ? notePanel(directory.leaguesNote)
+      : directory.leagues.map(leaguePanel).join('');
+  }
+}
+
 // Nothing on this page bakes in a colour, so the switch has nothing to tell.
 createThemeSwitch(() => {});
+
+renderShell(buildDirectory(null, window.location.pathname));
 
 // A Manifest in a shape this build cannot read is answered the same way as
 // one that did not arrive: the page says the leagues could not be read and
@@ -97,4 +102,4 @@ loadManifest()
     console.error('Manifest load failed', error);
     return null;
   })
-  .then((manifest) => render(directoryFor(manifest)));
+  .then((manifest) => renderLeagues(directoryFor(manifest)));
