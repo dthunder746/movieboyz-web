@@ -12,6 +12,18 @@
 import { escapeHtml } from '../shared/format.js';
 import { stateTone } from '../shared/lifecycle.js';
 import { createThemeSwitch } from '../shared/theme.js';
+import { MANIFESTS } from './prototype-manifests.js';
+
+// `?manifest=` picks the Manifest the page is drawn over: `real` is the one
+// published today (one League, one year); the others are faked, with several
+// Leagues and years, so the frame is judged at the depth it will reach.
+export const MANIFEST_KEYS = ['real', ...Object.keys(MANIFESTS)];
+
+export function requestedManifest(real) {
+  const wanted = new URLSearchParams(window.location.search).get('manifest');
+  if (!wanted || wanted === 'real' || !MANIFESTS[wanted]) return { key: 'real', manifest: real };
+  return { key: wanted, manifest: MANIFESTS[wanted].manifest };
+}
 
 export const VARIANTS = ['current', 'A', 'B', 'C'];
 
@@ -217,33 +229,42 @@ const CSS = `
 .proto-bar { position: fixed; left: 50%; bottom: 1rem; transform: translateX(-50%); display: flex; align-items: center; gap: 0.75rem; padding: 0.4rem 0.6rem; border-radius: 999px; background: #ffd400; color: #111; font: 600 0.85rem system-ui, sans-serif; box-shadow: 0 4px 16px rgba(0,0,0,0.35); z-index: 9999; }
 .proto-bar button { border: 0; background: #111; color: #ffd400; width: 1.8rem; height: 1.8rem; border-radius: 50%; cursor: pointer; font-size: 1rem; line-height: 1; }
 .proto-bar span { min-width: 11rem; text-align: center; }
+.proto-bar .proto-bar-manifest { width: auto; height: auto; border-radius: 999px; padding: 0.3rem 0.7rem; font-size: 0.8rem; white-space: nowrap; }
 `;
 
 // ── Switcher and mount ─────────────────────────────────────────────────────
 
-function go(variant) {
+function go(variant, manifestKey) {
   const url = new URL(window.location.href);
   url.searchParams.set('variant', variant);
+  url.searchParams.set('manifest', manifestKey);
   window.location.replace(url.toString());
 }
 
-function switcher(variant) {
+function switcher(variant, manifestKey) {
   const i = VARIANTS.indexOf(variant);
   const prev = VARIANTS[(i - 1 + VARIANTS.length) % VARIANTS.length];
   const next = VARIANTS[(i + 1) % VARIANTS.length];
+  const m = MANIFEST_KEYS.indexOf(manifestKey);
+  const nextManifest = MANIFEST_KEYS[(m + 1) % MANIFEST_KEYS.length];
+  const manifestLabel = manifestKey === 'real' ? 'real Manifest' : MANIFESTS[manifestKey].label;
+
   const bar = document.createElement('div');
   bar.className = 'proto-bar';
   bar.innerHTML = `<button type="button" aria-label="Previous variant">&larr;</button>
     <span>PROTOTYPE ${escapeHtml(variant)} — ${escapeHtml(NAMES[variant])}</span>
-    <button type="button" aria-label="Next variant">&rarr;</button>`;
-  const [left, right] = bar.querySelectorAll('button');
-  left.addEventListener('click', () => go(prev));
-  right.addEventListener('click', () => go(next));
+    <button type="button" aria-label="Next variant">&rarr;</button>
+    <button type="button" class="proto-bar-manifest" aria-label="Next Manifest">${escapeHtml(manifestLabel)} &#8635;</button>`;
+  const [left, right, manifest] = bar.querySelectorAll('button');
+  left.addEventListener('click', () => go(prev, manifestKey));
+  right.addEventListener('click', () => go(next, manifestKey));
+  manifest.addEventListener('click', () => go(variant, nextManifest));
   document.addEventListener('keydown', (e) => {
     const t = e.target;
     if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-    if (e.key === 'ArrowLeft') go(prev);
-    if (e.key === 'ArrowRight') go(next);
+    if (e.key === 'ArrowLeft') go(prev, manifestKey);
+    if (e.key === 'ArrowRight') go(next, manifestKey);
+    if (e.key === 'ArrowUp' || e.key === 'ArrowDown') go(variant, nextManifest);
   });
   document.body.appendChild(bar);
 }
@@ -252,7 +273,7 @@ const RENDER = { A: variantA, B: variantB, C: variantC };
 
 // `current` leaves the built page alone and only adds the bar. The others
 // replace the body wholesale, which is why the theme switch is created here.
-export function mountVariant(variant, directory) {
+export function mountVariant(variant, directory, manifestKey) {
   const style = document.createElement('style');
   style.textContent = CSS;
   document.head.appendChild(style);
@@ -261,5 +282,5 @@ export function mountVariant(variant, directory) {
     document.body.innerHTML = RENDER[variant](directory);
     createThemeSwitch(() => {});
   }
-  switcher(variant);
+  switcher(variant, manifestKey);
 }

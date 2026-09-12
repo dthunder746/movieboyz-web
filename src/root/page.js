@@ -22,7 +22,7 @@ import { buildDirectory } from './directory.js';
 
 // PROTOTYPE hook (platform#84 follow up): `?variant=` under `npm run dev` swaps
 // the page for a layout variant. Throwaway; see prototype-variants.js.
-import { mountVariant, requestedVariant } from './prototype-variants.js';
+import { mountVariant, requestedManifest, requestedVariant } from './prototype-variants.js';
 
 // One row per year: the year, its Lifecycle badge, and the two pages it holds.
 // The year itself leads to the standings as well, so the row reads the way the
@@ -91,8 +91,10 @@ loadManifest()
     return null;
   })
   .then((manifest) => {
-    const directory = directoryFor(manifest);
     const variant = import.meta.env.DEV ? requestedVariant() : null;
-    if (variant === 'current' || !variant) render(directory);
-    if (variant) mountVariant(variant, directory);
+    if (!variant) return render(directoryFor(manifest));
+    const picked = requestedManifest(manifest);
+    const directory = directoryFor(picked.manifest);
+    if (variant === 'current') render(directory);
+    mountVariant(variant, directory, picked.key);
   });
