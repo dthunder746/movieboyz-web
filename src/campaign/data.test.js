@@ -6,7 +6,6 @@ import { loadCampaign } from './data.js';
 import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 
 const MANIFEST = {
-  default_view: { league_slug: 'movieboyz', year: 2026 },
   movie_years: [2025, 2026],
 };
 
@@ -108,21 +107,21 @@ describe('loadCampaign', () => {
     expect(slices.map((slice) => slice.year)).toEqual([2025]);
   });
 
-  // The root redirect is the one caller that genuinely does not know which
-  // Campaign it wants, so it still pays for the manifest first. Guessing a
-  // Campaign path there would be a wrong request, not a speculative one.
-  it('waits for the manifest when the caller names no Campaign', async () => {
+  // Every caller reads the League and the year off its own path, and the
+  // Manifest no longer names a Campaign to fall back on (#86). A call that
+  // names none is a programming error, and it says so before asking the
+  // network for anything.
+  it('refuses to load without a League and a year', async () => {
     const net = heldNetwork();
 
-    loadCampaign();
-    await net.settle();
-
-    expect(net.requested).toEqual(['index.json']);
-
-    net.respond('index.json', MANIFEST);
-    await net.settle();
-
-    expect(net.requested).toContain('leagues/movieboyz/2026.json');
+    await expect(loadCampaign()).rejects.toThrow('League slug and a year');
+    await expect(loadCampaign({ leagueSlug: 'movieboyz' })).rejects.toThrow(
+      'League slug and a year',
+    );
+    await expect(loadCampaign({ year: 2026 })).rejects.toThrow(
+      'League slug and a year',
+    );
+    expect(net.requested).toEqual([]);
   });
 
   // The catch-all page renders any Campaign path, including one the platform

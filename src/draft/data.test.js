@@ -14,7 +14,6 @@ const MANIFEST = {
     },
   ],
   movie_years: [2026],
-  default_view: { league_slug: 'movieboyz', year: 2026 },
 };
 
 const CAMPAIGN = {
