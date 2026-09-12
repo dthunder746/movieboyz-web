@@ -47,39 +47,27 @@ async function fetchSlices(campaign, movieYears, inFlight = new Map()) {
   return slices;
 }
 
-// Everything one Campaign page needs. `leagueSlug` and `year` are optional; the
-// manifest's own default view answers for them when the page does not care,
-// which is what the repo root's redirect relies on. That caller is the one that
-// cannot overlap its requests: it does not yet know which Campaign it wants, so
-// a guessed path would be a wrong request rather than a speculative one.
+// Everything one Campaign page needs. Both arguments are required: every
+// caller reads them off its own path, and the manifest names no Campaign to
+// fall back on (#86). A call without them is a programming error rather than
+// a request to make, so it is refused before anything is asked for.
 export async function loadCampaign({ leagueSlug, year } = {}) {
-  const named = Boolean(leagueSlug && year);
+  if (!leagueSlug || !year) {
+    throw new TypeError('loadCampaign needs a League slug and a year');
+  }
   // All three in flight before the first one is awaited. The manifest leads
   // only because it is the one request every caller makes.
   const pendingManifest = loadManifest();
-  const pendingCampaign = named
-    ? speculate(`leagues/${leagueSlug}/${year}.json`)
-    : null;
-  const pendingSlices = named
-    ? new Map([[year, speculate(`movies/${year}.json`)]])
-    : new Map();
+  const pendingCampaign = speculate(`leagues/${leagueSlug}/${year}.json`);
+  const pendingSlices = new Map([[year, speculate(`movies/${year}.json`)]]);
 
   const manifest = await pendingManifest;
-  const slug = leagueSlug ?? manifest.default_view.league_slug;
-  const campaignYear = year ?? manifest.default_view.year;
 
   let campaign;
   try {
-    campaign =
-      (await pendingCampaign) ??
-      (await fetchArtifact(`leagues/${slug}/${campaignYear}.json`));
+    campaign = await pendingCampaign;
   } catch (cause) {
-    throw new CampaignUnavailable({
-      manifest,
-      leagueSlug: slug,
-      year: campaignYear,
-      cause,
-    });
+    throw new CampaignUnavailable({ manifest, leagueSlug, year, cause });
   }
 
   const slices = await fetchSlices(

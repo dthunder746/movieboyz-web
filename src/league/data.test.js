@@ -12,7 +12,6 @@ const MANIFEST = {
       campaigns: [{ year: 2026, state: 'active' }],
     },
   ],
-  default_view: { league_slug: 'movieboyz', year: 2026 },
 };
 
 const LANDING = {

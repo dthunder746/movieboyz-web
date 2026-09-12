@@ -1,10 +1,9 @@
 // Which Campaign a page is showing, read off the page's own URL, and where the
 // site's root sits above it.
 //
-// The manifest's `default_view` answers "where should a reader who asked for
-// nothing in particular land", which is the root redirect's question. It is the
-// wrong answer for a page that already sits at a Campaign's own path: once 2027
-// opens, `/league/movieboyz/2026/` still has to show 2026.
+// The URL is the only thing that says which Campaign a page shows. Once 2027
+// opens, `/league/movieboyz/2026/` still has to show 2026, and the root is a
+// directory of every year rather than a hop to one of them (#84, #86).
 
 // `league` is the marker rather than a fixed position, because the build sets a
 // relative base and the same files serve both from the custom domain and from a
@@ -165,49 +164,18 @@ function absolutePath(segments) {
   return segments.length ? `/${segments.join('/')}/` : '/';
 }
 
-// The other direction, for the repo root. `default_view` answers "which Campaign
-// should a reader who asked for nothing in particular land on", and the root is
-// the one page that asks exactly that.
-//
-// The path is relative for the same reason the build's base is: the root can be
-// served from the domain apex or from a Pages project path, and only a relative
-// redirect survives both.
-export function defaultViewPath(manifest) {
-  const view = manifest?.default_view;
-  if (!view?.league_slug || !view?.year) return null;
-  return `${LEAGUE_SEGMENT}/${view.league_slug}/${view.year}/`;
-}
-
-// Where the root's redirect should actually send a reader, absolute, or null if
-// the Manifest names nowhere to send them.
-//
-// The relative path above has to be resolved against something, and it must be
-// the site root rather than the address the page was served at. Those are the
-// same thing whenever the root is served where it belongs. When they are not,
-// resolving against the address appends the default view to it instead of
-// replacing it, and since the result is another address with no page, the next
-// load appends again: `/league/movieboyz/2099` becomes
-// `/league/movieboyz/league/movieboyz/2026/` and grows without limit.
-//
-// A caller that gets back the path it passed in should render rather than hop.
-// That is the one hop this cannot prevent, for a root `siteRoot` cannot locate,
-// and stopping there bounds the walk at one step instead of none.
-export function defaultViewTarget(pathname, manifest) {
-  const path = defaultViewPath(manifest);
-  if (!path) return null;
-  return `${siteRoot(pathname)}${path}`;
-}
-
 // ── The addresses this site writes ────────────────────────────────────────
 //
 // The other direction of everything above. A page linking to a Campaign or to
 // a Movie composes the address here rather than writing the segments out where
 // it stands, so the reading and the writing cannot drift apart.
 //
-// Each comes in two halves. The path is relative, as `defaultViewPath` is, and
-// the href hangs it off a site root the caller has already worked out. They are
-// separate because the root is a fact about where the page is being served,
-// which only the document can answer, and this module is pure.
+// Each comes in two halves. The path is relative, because the build sets a
+// relative base and the same files serve from the domain apex and from a Pages
+// project path. The href hangs it off a site root the caller has already
+// worked out. They are separate because the root is a fact about where the
+// page is being served, which only the document can answer, and this module
+// is pure.
 
 export function leaguePath(leagueSlug) {
   // The slug arrives off the Manifest and is going into a path segment, so it

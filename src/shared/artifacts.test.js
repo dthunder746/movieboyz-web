@@ -15,10 +15,8 @@ describe('loadManifest', () => {
 
     const pending = loadManifest();
     await net.settle();
-    net.respond('index.json', { default_view: { league_slug: 'movieboyz', year: 2026 } });
+    net.respond('index.json', { movie_years: [2026] });
 
-    expect(await pending).toEqual({
-      default_view: { league_slug: 'movieboyz', year: 2026 },
-    });
+    expect(await pending).toEqual({ movie_years: [2026] });
   });
 });
