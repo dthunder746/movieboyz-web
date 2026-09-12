@@ -25,13 +25,14 @@ export function requestedManifest(real) {
   return { key: wanted, manifest: MANIFESTS[wanted].manifest };
 }
 
-export const VARIANTS = ['current', 'A', 'B', 'C'];
+export const VARIANTS = ['current', 'A', 'B', 'C', 'D'];
 
 const NAMES = {
   current: 'As built',
   A: 'Framed outline',
   B: 'Framed panels',
   C: 'Contents',
+  D: 'Panels, collapsible',
 };
 
 export function requestedVariant() {
@@ -140,6 +141,63 @@ function variantB(d) {
   </div>`;
 }
 
+// ── D: B with the feedback folded in ──────────────────────────────────────
+// Movies first, since it belongs to no League. Then a Leagues heading like A's
+// that folds the whole section, with each League a panel that folds on its
+// own. Folding is native <details>, since the root loads no Bootstrap JS.
+// League panels carry the name alone, no subtext.
+
+function chevron() {
+  return `<svg class="proto-d-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+}
+
+function variantD(d) {
+  const leaguePanels = d.leaguesNote
+    ? `<section class="league-panel proto-b-panel">${note(d.leaguesNote)}</section>`
+    : d.leagues.map((league) => `
+      <details class="league-panel proto-b-panel proto-d-league" open>
+        <summary class="proto-d-summary">
+          <a class="proto-b-title proto-d-title" href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a>
+          ${chevron()}
+        </summary>
+        ${league.years.length ? `<ul class="proto-b-rows">${league.years.map((y) => `
+          <li class="proto-b-row">
+            <a class="proto-b-year" href="${escapeHtml(y.standingsHref)}">${escapeHtml(y.label)}</a>
+            ${badge(y)}
+            <span class="proto-b-links">
+              <a href="${escapeHtml(y.standingsHref)}">Standings</a>
+              <a href="${escapeHtml(y.draftHref)}">Draft</a>
+            </span>
+          </li>`).join('')}</ul>` : note(league.yearsNote)}
+      </details>`).join('');
+
+  return `
+  <div class="proto-a proto-b">
+    ${themeSwitch()}
+    <header class="proto-a-head">
+      <a class="proto-a-brand" href="${escapeHtml(d.brandHref)}">🎬 MBZ</a>
+      <p class="proto-a-lede">Fantasy box office. Every league and every year the platform holds.</p>
+    </header>
+
+    <section class="proto-a-section">
+      <h2 class="proto-a-heading">Movies</h2>
+      <div class="league-panel proto-b-panel">
+        <a class="proto-b-title" href="${escapeHtml(d.movies.href)}">Every movie the platform tracks</a>
+      </div>
+    </section>
+
+    <details class="proto-a-section proto-d-section" open>
+      <summary class="proto-d-summary proto-d-section-summary">
+        <h2 class="proto-a-heading proto-d-heading">Leagues</h2>
+        ${chevron()}
+      </summary>
+      <div class="proto-b-grid">
+        ${leaguePanels}
+      </div>
+    </details>
+  </div>`;
+}
+
 // ── C: contents ────────────────────────────────────────────────────────────
 // A table of contents. No section labels and no indentation: every destination
 // is a full width row between rules, the League row carrying its years as a
@@ -210,6 +268,16 @@ const CSS = `
 .proto-b-links a { text-decoration: none; }
 .proto-b-links a:hover { text-decoration: underline; }
 
+.proto-d-summary { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; cursor: pointer; list-style: none; }
+.proto-d-summary::-webkit-details-marker { display: none; }
+.proto-d-summary::marker { content: ''; }
+.proto-d-chevron { flex: none; color: var(--bs-secondary-color); transition: transform 0.15s; }
+details:not([open]) > .proto-d-summary .proto-d-chevron { transform: rotate(-90deg); }
+.proto-d-title { margin-bottom: 0; }
+.proto-d-league[open] > .proto-d-summary { margin-bottom: 0.4rem; }
+.proto-d-section-summary { margin-bottom: 0.9rem; }
+.proto-d-heading { margin-bottom: 0; }
+
 .proto-c { position: relative; max-width: 40rem; margin: 0 auto; padding: 4.5rem 1.25rem 4rem; }
 .proto-c-head { text-align: center; margin-bottom: 2.5rem; }
 .proto-c-brand { font-size: 2.6rem; font-weight: 700; color: var(--bs-body-color); text-decoration: none; }
@@ -269,7 +337,7 @@ function switcher(variant, manifestKey) {
   document.body.appendChild(bar);
 }
 
-const RENDER = { A: variantA, B: variantB, C: variantC };
+const RENDER = { A: variantA, B: variantB, C: variantC, D: variantD };
 
 // `current` leaves the built page alone and only adds the bar. The others
 // replace the body wholesale, which is why the theme switch is created here.
