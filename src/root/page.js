@@ -20,6 +20,10 @@ import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildDirectory } from './directory.js';
 
+// PROTOTYPE hook (platform#84 follow up): `?variant=` under `npm run dev` swaps
+// the page for a layout variant. Throwaway; see prototype-variants.js.
+import { mountVariant, requestedVariant } from './prototype-variants.js';
+
 // One row per year: the year, its Lifecycle badge, and the two pages it holds.
 // The year itself leads to the standings as well, so the row reads the way the
 // navigation's year entries do and the prototype the layout was settled on did
@@ -86,4 +90,9 @@ loadManifest()
     console.error('Manifest load failed', error);
     return null;
   })
-  .then((manifest) => render(directoryFor(manifest)));
+  .then((manifest) => {
+    const directory = directoryFor(manifest);
+    const variant = import.meta.env.DEV ? requestedVariant() : null;
+    if (variant === 'current' || !variant) render(directory);
+    if (variant) mountVariant(variant, directory);
+  });
