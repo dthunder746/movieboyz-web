@@ -46,8 +46,9 @@ Both branches have to be publicly readable for that to work without a credential
 which is why the artifacts live here rather than beside the code that generates
 them.
 
-The two branches move on their own schedules, and the catch all page is what
-keeps that from mattering. A Campaign published to `artifacts` today is
+The two branches move on their own schedules, and the root page and the catch
+all page are what keep that from mattering. The root lists whatever the
+Manifest holds, so a new year is on it the moment the Manifest names it. A Campaign published to `artifacts` today is
 reachable today, without a push to `main` and without a deploy, because
 `404.html` renders any Campaign path rather than only the ones the build made a
 directory for. Only the current year has a directory, so the address everybody
@@ -60,6 +61,7 @@ for why addresses are shaped the way they are.
 | Path | What lives there |
 |-----------|------------------|
 | `src/site.css` | The one stylesheet, linked from every page's `<head>` and never imported from JavaScript. Linked that way it builds to a single asset every page shares and the browser caches once. Reached through the JavaScript graph it would be split per page. |
+| `index.html`, `src/root/` | The root, a flat directory of everything the site holds: every League, every year and the two pages each year holds, plus the Movies lookup. Movies first, then one folding panel per League. It reads the Manifest and nothing else, so a newly published year appears with no deploy, and it carries no navigation bar because the page is the navigation opened out ([platform#84](https://github.com/dthunder746/movieboyz-platform/issues/84)). `directory.js` is the view model with its test beside it and `page.js` draws it; the markup stays in the HTML because one file needs it. |
 | `src/shared/` | What more than one page needs. Money and date formatting, the palettes, the light/dark theme, the favicon, the artifact fetch plumbing, the URL reading and the plotted-row selection, plus the test stub for that seam under `testing/`. `icons.js` draws the Pick type and Season glyphs and the User badges. `ratings.js` is the review sources catalogue and how each one's stored score is read back into its own units. `lifecycle.js` is what a Campaign state is called and how it is toned. `route.js` composes and reads the site's addresses, both a League's own and a Campaign's inside it, and `location.js` is the DOM half of that, which asks the document where the site root actually is. `nav.js` builds the navigation every page carries and `notice.js` is the page a reader gets when there is nothing to render. `campaign-unavailable.js` is the error a page raises for a Campaign artifact that did not load, which is not in `artifacts.js` because that half knows nothing about a Campaign. |
 | `src/league/` | One League's landing page, at `/league/movieboyz/`. The mega league down the left and a card per Campaign down the right, fed by a single landing artifact. Expanding a card fetches that year's Campaign artifact and renders its standings in place. `entry.js` is what the HTML loads, `layout.js` holds the markup, and `page.js` fills it in, as the Campaign group does. |
 | `src/campaign/` | One Campaign year's page. The Board, the Standings, the Profit series, and the surfaces that render them. `entry.js` is what the HTML loads, `layout.js` holds the markup, and `page.js` fills it in. |

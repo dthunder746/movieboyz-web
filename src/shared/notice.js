@@ -17,7 +17,7 @@ export function renderNotice({ manifest, heading, message }) {
   host.innerHTML = `
 <nav class="navbar navbar-expand-sm mb-3 border-bottom">
   <div class="container-fluid">
-    <a class="navbar-brand fw-bold" id="site-brand">🎬 MovieBoyz</a>
+    <a class="navbar-brand fw-bold" id="site-brand">🎬 MBZ</a>
     <div id="site-nav" class="site-nav"></div>
     <div class="d-flex flex-wrap align-items-center gap-3 ms-auto">
       <div class="form-check form-switch mb-0">

@@ -9,9 +9,10 @@ import { defineConfig } from 'vite';
 // Pages serves `404.html` for a path it has no file for, which is the whole
 // mechanism the catch-all rests on. Vite's dev server does not: it defaults to
 // `appType: 'spa'` and hands back the root `index.html` instead. That made the
-// catch-all impossible to exercise locally, and worse, it served the root's
-// redirect at a Campaign address, where the hop it makes used to append rather
-// than replace and the page walked off into an ever longer URL.
+// catch-all impossible to exercise locally, and worse, while the root was a
+// redirect it served that redirect at a Campaign address, where the hop it made
+// used to append rather than replace and the page walked off into an ever
+// longer URL.
 //
 // `appType: 'mpa'` turns the fallback off; this puts the right one back. The
 // status is 404 because that is what Pages answers with, and the accepted cost
@@ -55,10 +56,10 @@ export default defineConfig({
   plugins: [serveCatchAll(import.meta.dirname)],
   build: {
     rollupOptions: {
-      // Every page is its own entry. The root is a redirect at the manifest's
-      // default view; each League is a directory carrying its landing page, and
-      // each Campaign is a directory inside it so its URL carries the league
-      // and the year, which is what the page reads to know what to show. A
+      // Every page is its own entry. The root is a directory of everything the
+      // Manifest holds (#84); each League is a directory carrying its landing
+      // page, and each Campaign is a directory inside it so its URL carries the
+      // league and the year, which is what the page reads to know what to show. A
       // League's own file is the same shell whichever League it is, so a second
       // published League is one more entry here and no code. The draft is a
       // page of the Campaign rather than a section of its own, so it is a
