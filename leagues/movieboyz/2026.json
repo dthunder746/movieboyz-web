@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-12T22:00:05.001386Z",
+  "generated_at": "2026-09-13T11:56:56.877981Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -10,23 +10,33 @@
   "roster": [
     {
       "user_id": "chris",
-      "username": "Chris"
+      "username": "Chris",
+      "badge": "C",
+      "color": null
     },
     {
       "user_id": "connie",
-      "username": "Connie"
+      "username": "Connie",
+      "badge": "C",
+      "color": null
     },
     {
       "user_id": "emerson",
-      "username": "Emerson"
+      "username": "Emerson",
+      "badge": "E",
+      "color": null
     },
     {
       "user_id": "marcus",
-      "username": "Marcus"
+      "username": "Marcus",
+      "badge": "M",
+      "color": null
     },
     {
       "user_id": "matt",
-      "username": "Matt"
+      "username": "Matt",
+      "badge": "M",
+      "color": null
     }
   ],
   "ruleset": {
@@ -49,6 +59,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 1,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -215,6 +226,7 @@
       "user_id": "emerson",
       "pick_type": "hit",
       "draft_pick": 1,
+      "draft": null,
       "profit": {
         "2026-03-31": 0,
         "2026-04-01": -185497735,
@@ -394,6 +406,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 1,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -560,6 +573,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 2,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -726,6 +740,7 @@
       "user_id": "chris",
       "pick_type": "hit",
       "draft_pick": 2,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -892,6 +907,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 2,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1058,6 +1074,7 @@
       "user_id": "marcus",
       "pick_type": "hit",
       "draft_pick": 3,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1224,6 +1241,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 3,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1390,6 +1408,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 3,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1556,6 +1575,7 @@
       "user_id": "connie",
       "pick_type": "hit",
       "draft_pick": 4,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1722,6 +1742,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 4,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1888,6 +1909,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 4,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2054,6 +2076,7 @@
       "user_id": "matt",
       "pick_type": "hit",
       "draft_pick": 5,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2220,6 +2243,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 5,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2386,6 +2410,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 5,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2552,6 +2577,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 6,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2718,6 +2744,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 6,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2884,6 +2911,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 6,
+      "draft": null,
       "profit": {
         "2026-04-27": 0,
         "2026-04-28": 0,
@@ -3036,6 +3064,7 @@
       "user_id": "connie",
       "pick_type": "bomb",
       "draft_pick": 7,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3202,6 +3231,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 7,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3368,6 +3398,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 7,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3534,6 +3565,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 8,
+      "draft": null,
       "profit": {
         "2026-03-19": 0,
         "2026-03-20": -366596890,
@@ -3725,6 +3757,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 8,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -3738,6 +3771,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 8,
+      "draft": null,
       "profit": {
         "2026-05-22": 0,
         "2026-05-23": 0,
@@ -3865,6 +3899,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 9,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4031,6 +4066,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 9,
+      "draft": null,
       "profit": {
         "2026-02-25": 0,
         "2026-02-26": -82200000,
@@ -4243,6 +4279,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 9,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4409,6 +4446,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 10,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4575,6 +4613,7 @@
       "user_id": "emerson",
       "pick_type": "bomb",
       "draft_pick": 10,
+      "draft": null,
       "profit": {
         "2026-03-05": 0,
         "2026-03-06": -174700000,
@@ -4780,6 +4819,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 10,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4946,6 +4986,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 11,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5112,6 +5153,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 11,
+      "draft": null,
       "profit": {
         "2026-03-19": 0,
         "2026-03-20": -24200000,
@@ -5302,6 +5344,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 11,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5468,6 +5511,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 12,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -159000000,
@@ -5694,6 +5738,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 12,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5860,6 +5905,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 12,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6026,6 +6072,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 13,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6192,6 +6239,7 @@
       "user_id": "marcus",
       "pick_type": "bomb",
       "draft_pick": 13,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6358,6 +6406,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 13,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6524,6 +6573,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 14,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -157000000,
@@ -6749,6 +6799,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 14,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6915,6 +6966,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 14,
+      "draft": null,
       "profit": {
         "2026-06-10": 0,
         "2026-06-11": 0,
@@ -7023,6 +7075,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 15,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7189,6 +7242,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 15,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7355,6 +7409,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 15,
+      "draft": null,
       "profit": {
         "2026-03-12": 0,
         "2026-03-13": 3374140,
@@ -7553,6 +7608,7 @@
       "user_id": "matt",
       "pick_type": "bomb",
       "draft_pick": 16,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7719,6 +7775,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 17,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7885,6 +7942,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 18,
+      "draft": null,
       "profit": {
         "2026-02-04": 0,
         "2026-02-05": -82564901,
@@ -8091,6 +8149,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 19,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -7621300,
@@ -8301,6 +8360,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 20,
+      "draft": null,
       "profit": {
         "2026-04-01": 0,
         "2026-04-02": -54300000,
@@ -8478,6 +8538,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 21,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -39550000,
@@ -8687,6 +8748,7 @@
       "user_id": "chris",
       "pick_type": "bomb",
       "draft_pick": 22,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -8853,6 +8915,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 23,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -178990000,
@@ -9064,6 +9127,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 24,
+      "draft": null,
       "profit": {
         "2026-02-19": 0,
         "2026-02-20": -28332732,
@@ -9254,6 +9318,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 25,
+      "draft": null,
       "profit": {
         "2026-03-05": 0,
         "2026-03-06": -286547822,
@@ -9459,6 +9524,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -9531,6 +9597,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-22": 0,
         "2026-01-23": 0,
@@ -9760,6 +9827,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -9926,6 +9994,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -10092,6 +10161,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-03-19": 0,
         "2026-03-20": -17664072,
@@ -10279,6 +10349,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -10445,6 +10516,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -10458,6 +10530,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-12": 0,
         "2026-08-13": 0,
@@ -10503,6 +10576,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -10669,6 +10743,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-09": 0,
         "2026-04-10": 0,
@@ -10839,6 +10914,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-07": 0,
         "2026-01-08": -179100000,
@@ -11083,6 +11159,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-28": 0,
         "2026-01-29": -21739987,
@@ -11308,6 +11385,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-14": 0,
         "2026-01-15": -29845900,
@@ -11546,6 +11624,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -11712,6 +11791,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -11725,6 +11805,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -11891,6 +11972,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -12057,6 +12139,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-18": 0,
         "2026-02-19": -19750000,
@@ -12259,6 +12342,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-20": 0,
         "2026-07-21": 0,
@@ -12327,6 +12411,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-05-14": 0,
         "2026-05-15": 0,
@@ -12462,6 +12547,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-08": 0,
         "2026-01-09": -9485743,
@@ -12705,6 +12791,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -12871,6 +12958,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-11": 0,
         "2026-08-12": 0,
@@ -12917,6 +13005,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-22": 0,
         "2026-01-23": -44400000,
@@ -13146,6 +13235,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -13312,6 +13402,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -13478,6 +13569,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-02": 0,
         "2026-07-03": 0,
@@ -13564,6 +13656,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -13647,6 +13740,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-28": 0,
         "2026-01-29": -2500000,
@@ -13870,6 +13964,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -14036,6 +14131,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -14202,6 +14298,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -14368,6 +14465,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-11": 0,
         "2026-08-12": 0,
@@ -14414,6 +14512,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-07": 0,
         "2026-01-08": -18870076,
@@ -14658,6 +14757,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-22": 0,
         "2026-01-23": -9435000,
@@ -14887,6 +14987,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-04": 0,
         "2026-02-05": -16550000,
@@ -15103,6 +15204,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -15269,6 +15371,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-09": 0,
         "2026-04-10": 0,
@@ -15439,6 +15542,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -15605,6 +15709,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-05": 0,
         "2026-02-06": 0,
@@ -15820,6 +15925,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -15892,6 +15998,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-15": 0,
         "2026-01-16": 0,
@@ -16127,6 +16234,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -16199,6 +16307,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-03-26": 0,
         "2026-03-27": 0,
@@ -16383,6 +16492,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -16455,6 +16565,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -16621,6 +16732,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-05-28": 0,
         "2026-05-29": 0,
@@ -16742,6 +16854,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-21": 0,
         "2026-01-22": -118500000,
@@ -16972,6 +17085,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -17044,6 +17158,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -17210,6 +17325,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -17376,6 +17492,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-09-06": 0,
         "2026-09-07": 0,
@@ -17396,6 +17513,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -17562,6 +17680,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -17634,6 +17753,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-03-25": 0,
         "2026-03-26": -39000000,
@@ -17819,6 +17939,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -17985,6 +18106,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-14": 0,
         "2026-01-15": -123900000,
@@ -18222,6 +18344,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -18388,6 +18511,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-09-02": 0,
         "2026-09-03": 0,
@@ -18412,6 +18536,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -18578,6 +18703,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-04": 0,
         "2026-02-05": -7256000,
@@ -18794,6 +18920,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -18807,6 +18934,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-18": 0,
         "2026-02-19": 336248,
@@ -19009,6 +19137,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -19081,6 +19210,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-06-08": 0,
         "2026-06-09": 0,
@@ -19191,6 +19321,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -19357,6 +19488,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-28": 0,
         "2026-01-29": -99615000,
@@ -19580,6 +19712,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -19746,6 +19879,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -19912,6 +20046,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -20078,6 +20213,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -20244,6 +20380,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -20410,6 +20547,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -20576,6 +20714,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -20742,6 +20881,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2025-12-31": 0,
         "2026-01-01": -1961851,
@@ -20993,6 +21133,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 5204888,
         "2026-04-14": 5204888,
@@ -21159,6 +21300,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-07": 0,
         "2026-01-08": -46600000,
@@ -21403,6 +21545,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-10": 0,
         "2026-08-11": 0,
@@ -21450,6 +21593,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-06": 0,
         "2026-08-07": -27848995,
@@ -21501,6 +21645,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-05-08": 0,
         "2026-05-09": 0,
@@ -21642,6 +21787,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -21808,6 +21954,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -21974,6 +22121,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-03-12": 0,
         "2026-03-13": -39587122,
@@ -22172,6 +22320,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-05-11": 0,
         "2026-05-12": 0,
@@ -22310,6 +22459,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-29": 0,
         "2026-07-30": 0,
@@ -22369,6 +22519,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -22535,6 +22686,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -22701,6 +22853,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -22714,6 +22867,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -22786,6 +22940,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -22952,6 +23107,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-03-05": 0,
         "2026-03-06": -19748681,
@@ -23143,6 +23299,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-31": 0,
         "2026-08-01": 0,
@@ -23200,6 +23357,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -23213,6 +23371,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -23379,6 +23538,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -23451,6 +23611,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-21": 0,
         "2026-01-22": -19070672,
@@ -23681,6 +23842,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-18": 0,
         "2026-02-19": -34200000,
@@ -23900,6 +24062,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-07": 0,
         "2026-08-08": 0,
@@ -23950,6 +24113,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-29": 0,
         "2026-07-30": 0,
@@ -24009,6 +24173,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -24175,6 +24340,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-10": 0,
         "2026-08-11": 0,
@@ -24222,6 +24388,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -24388,6 +24555,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-10": 0,
         "2026-08-11": 0,
@@ -24435,6 +24603,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-29": 0,
         "2026-01-30": -7801031,
@@ -24657,6 +24826,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-24": 0,
         "2026-04-25": 0,
@@ -24812,6 +24982,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -24884,6 +25055,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -25050,6 +25222,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-08": 0,
         "2026-04-09": -35250000,
@@ -25221,6 +25394,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -25293,6 +25467,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -25306,6 +25481,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -25319,6 +25495,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -25485,6 +25662,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-20": 0,
         "2026-07-21": 0,
@@ -25553,6 +25731,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -25719,6 +25898,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -25885,6 +26065,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -26051,6 +26232,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -26123,6 +26305,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": -3285673,
         "2026-04-14": -3285673,
@@ -26289,6 +26472,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-08-13": 0,
         "2026-08-14": 0,
@@ -26333,6 +26517,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -26405,6 +26590,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -26571,6 +26757,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -26584,6 +26771,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -26750,6 +26938,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -26916,6 +27105,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -27082,6 +27272,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -27248,6 +27439,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-09-02": 0,
         "2026-09-03": 0,
@@ -27272,6 +27464,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-22": 0,
         "2026-04-23": 0,
@@ -27429,6 +27622,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -27501,6 +27695,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -27573,6 +27768,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -27645,6 +27841,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
@@ -27717,6 +27914,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {},
       "profit_td": null
     },
@@ -27730,6 +27928,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -27896,6 +28095,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-05-17": 28118431,
         "2026-05-18": 28118431,
@@ -28028,6 +28228,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-28": 0,
         "2026-01-29": -77800000,
@@ -28268,6 +28469,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-01-07": 0,
         "2026-01-08": -9962907,
@@ -28512,6 +28714,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -28678,6 +28881,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -19871653,
@@ -28875,6 +29079,7 @@
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
+      "draft": null,
       "profit": {
         "2026-07-16": 0,
         "2026-07-17": 0,
