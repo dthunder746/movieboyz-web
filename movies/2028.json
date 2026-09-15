@@ -1,0 +1,25 @@
+{
+  "contract_version": 3,
+  "release_year": 2028,
+  "latest_date": null,
+  "movies": [
+    {
+      "imdb_id": "tt19850008",
+      "title": "The Batman: Part II",
+      "release_date": "2028-02-18",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-07-31": 0
+      },
+      "ratings": null,
+      "released_digital": null,
+      "status": "SCHEDULED"
+    }
+  ]
+}

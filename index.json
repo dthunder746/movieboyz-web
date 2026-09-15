@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-15T14:57:53.280289Z",
+  "generated_at": "2026-09-15T21:58:14.627114Z",
   "leagues": [
     {
       "slug": "movieboyz",
@@ -25,6 +25,7 @@
   ],
   "movie_years": [
     2026,
-    2027
+    2027,
+    2028
   ]
 }

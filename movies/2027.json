@@ -106,24 +106,6 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt19850008",
-      "title": "Untitled The Batman Sequel",
-      "release_date": "2027-10-01",
-      "budget": null,
-      "estimated_budget": false,
-      "season": null,
-      "gross_td": null,
-      "days_running": null,
-      "daily_change": {},
-      "weekly_gross": {},
-      "gross": {
-        "2026-07-31": 0
-      },
-      "ratings": null,
-      "released_digital": null,
-      "status": "SCHEDULED"
-    },
-    {
       "imdb_id": "tt21361444",
       "title": "Avengers: Secret Wars",
       "release_date": "2027-12-17",
