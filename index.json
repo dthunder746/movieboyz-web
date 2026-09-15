@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-15T13:52:41.454243Z",
+  "generated_at": "2026-09-15T14:57:53.280289Z",
   "leagues": [
     {
       "slug": "movieboyz",
@@ -9,6 +9,16 @@
         {
           "year": 2026,
           "state": "active"
+        }
+      ]
+    },
+    {
+      "slug": "test-league",
+      "name": "test league",
+      "campaigns": [
+        {
+          "year": 2026,
+          "state": "drafting"
         }
       ]
     }

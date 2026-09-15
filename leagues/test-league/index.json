@@ -1,0 +1,14 @@
+{
+  "contract_version": 3,
+  "generated_at": "2026-09-15T14:57:53.280289Z",
+  "league_slug": "test-league",
+  "league_name": "test league",
+  "all_time": [],
+  "campaigns": [
+    {
+      "year": 2026,
+      "state": "drafting",
+      "leader": null
+    }
+  ]
+}
