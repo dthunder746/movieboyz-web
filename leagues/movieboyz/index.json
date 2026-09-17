@@ -1,13 +1,13 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-17T06:51:20.821429Z",
+  "generated_at": "2026-09-17T07:00:06.082195Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "color": null,
+      "color": "#76b7b2",
       "profit": 2231977161,
       "gross": 3690977160.75,
       "breakeven": 1459000000,
@@ -19,7 +19,7 @@
     {
       "user_id": "connie",
       "username": "Connie",
-      "color": null,
+      "color": "#f28e2b",
       "profit": 1619189647,
       "gross": 3212689647.25,
       "breakeven": 1593500000,
@@ -31,7 +31,7 @@
     {
       "user_id": "emerson",
       "username": "Emerson",
-      "color": null,
+      "color": "#e15759",
       "profit": 1433699719,
       "gross": 2198199719.5,
       "breakeven": 764500000,
@@ -43,7 +43,7 @@
     {
       "user_id": "matt",
       "username": "Matt",
-      "color": null,
+      "color": "#59a14f",
       "profit": 1347073626,
       "gross": 2545573625.75,
       "breakeven": 1198500000,
@@ -55,7 +55,7 @@
     {
       "user_id": "chris",
       "username": "Chris",
-      "color": null,
+      "color": "#4e79a7",
       "profit": 506180582,
       "gross": 1871680581.75,
       "breakeven": 1365500000,
@@ -73,7 +73,7 @@
         {
           "user_id": "marcus",
           "username": "Marcus",
-          "color": null
+          "color": "#76b7b2"
         }
       ]
     }

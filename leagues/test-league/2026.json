@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-17T06:51:20.821429Z",
+  "generated_at": "2026-09-17T07:00:06.082195Z",
   "league_slug": "test-league",
   "league_name": "test league",
   "year": 2026,
@@ -12,13 +12,13 @@
       "user_id": "hailey-sims",
       "username": "Hailey",
       "badge": "HS",
-      "color": null
+      "color": "#edc948"
     },
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "badge": "M",
-      "color": null
+      "badge": "MH",
+      "color": "#76b7b2"
     }
   ],
   "ruleset": {

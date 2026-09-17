@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-17T06:51:20.821429Z",
+  "generated_at": "2026-09-17T07:00:06.082195Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -11,32 +11,32 @@
     {
       "user_id": "chris",
       "username": "Chris",
-      "badge": "C",
-      "color": null
+      "badge": "CM",
+      "color": "#4e79a7"
     },
     {
       "user_id": "connie",
       "username": "Connie",
-      "badge": "C",
-      "color": null
+      "badge": "CL",
+      "color": "#f28e2b"
     },
     {
       "user_id": "emerson",
       "username": "Emerson",
-      "badge": "E",
-      "color": null
+      "badge": "EB",
+      "color": "#e15759"
     },
     {
       "user_id": "marcus",
       "username": "Marcus",
-      "badge": "M",
-      "color": null
+      "badge": "MH",
+      "color": "#76b7b2"
     },
     {
       "user_id": "matt",
       "username": "Matt",
-      "badge": "M",
-      "color": null
+      "badge": "MW",
+      "color": "#59a14f"
     }
   ],
   "ruleset": {
