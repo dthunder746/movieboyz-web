@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-16T22:00:37.134255Z",
+  "generated_at": "2026-09-17T06:49:20.811792Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -59,7 +59,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 1,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -230,7 +230,7 @@
       "user_id": "emerson",
       "pick_type": "hit",
       "draft_pick": 1,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-31": 0,
         "2026-04-01": -185497735,
@@ -414,7 +414,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 1,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -585,7 +585,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 2,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -756,7 +756,7 @@
       "user_id": "chris",
       "pick_type": "hit",
       "draft_pick": 2,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -927,7 +927,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 2,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1098,7 +1098,7 @@
       "user_id": "marcus",
       "pick_type": "hit",
       "draft_pick": 3,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1269,7 +1269,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 3,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1440,7 +1440,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 3,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1611,7 +1611,7 @@
       "user_id": "connie",
       "pick_type": "hit",
       "draft_pick": 4,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1782,7 +1782,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 4,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -1953,7 +1953,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 4,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2124,7 +2124,7 @@
       "user_id": "matt",
       "pick_type": "hit",
       "draft_pick": 5,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2295,7 +2295,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 5,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2466,7 +2466,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 5,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2637,7 +2637,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 6,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2808,7 +2808,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 6,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -2979,7 +2979,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 6,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-27": 0,
         "2026-04-28": 0,
@@ -3136,7 +3136,7 @@
       "user_id": "connie",
       "pick_type": "bomb",
       "draft_pick": 7,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3307,7 +3307,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 7,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3478,7 +3478,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 7,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -3649,7 +3649,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 8,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-19": 0,
         "2026-03-20": -366596890,
@@ -3845,7 +3845,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 8,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-09-15": 0
       },
@@ -3861,7 +3861,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 8,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-05-22": 0,
         "2026-05-23": 0,
@@ -3993,7 +3993,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 9,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4164,7 +4164,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 9,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-25": 0,
         "2026-02-26": -82200000,
@@ -4381,7 +4381,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 9,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4552,7 +4552,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 10,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -4723,7 +4723,7 @@
       "user_id": "emerson",
       "pick_type": "bomb",
       "draft_pick": 10,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-05": 0,
         "2026-03-06": -174700000,
@@ -4933,7 +4933,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 10,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5104,7 +5104,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 11,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5275,7 +5275,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 11,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-19": 0,
         "2026-03-20": -24200000,
@@ -5470,7 +5470,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 11,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -5641,7 +5641,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 12,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -159000000,
@@ -5872,7 +5872,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 12,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6043,7 +6043,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 12,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6214,7 +6214,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 13,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6385,7 +6385,7 @@
       "user_id": "marcus",
       "pick_type": "bomb",
       "draft_pick": 13,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6556,7 +6556,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 13,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -6727,7 +6727,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 14,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -157000000,
@@ -6957,7 +6957,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 14,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7128,7 +7128,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 14,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-06-10": 0,
         "2026-06-11": 0,
@@ -7241,7 +7241,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 15,
-      "draft": null,
+      "draft": "SUMMER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7412,7 +7412,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 15,
-      "draft": null,
+      "draft": "FALL",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7583,7 +7583,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 15,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-12": 0,
         "2026-03-13": 3374140,
@@ -7786,7 +7786,7 @@
       "user_id": "matt",
       "pick_type": "bomb",
       "draft_pick": 16,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -7957,7 +7957,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 17,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -8128,7 +8128,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 18,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-04": 0,
         "2026-02-05": -82564901,
@@ -8339,7 +8339,7 @@
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 19,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -7621300,
@@ -8554,7 +8554,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 20,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-01": 0,
         "2026-04-02": -54300000,
@@ -8736,7 +8736,7 @@
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 21,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -39550000,
@@ -8950,7 +8950,7 @@
       "user_id": "chris",
       "pick_type": "bomb",
       "draft_pick": 22,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-04-13": 0,
         "2026-04-14": 0,
@@ -9121,7 +9121,7 @@
       "user_id": "marcus",
       "pick_type": "seasonal",
       "draft_pick": 23,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-11": 0,
         "2026-02-12": -178990000,
@@ -9337,7 +9337,7 @@
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 24,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-02-19": 0,
         "2026-02-20": -28332732,
@@ -9532,7 +9532,7 @@
       "user_id": "matt",
       "pick_type": "seasonal",
       "draft_pick": 25,
-      "draft": null,
+      "draft": "WINTER",
       "profit": {
         "2026-03-05": 0,
         "2026-03-06": -286547822,
