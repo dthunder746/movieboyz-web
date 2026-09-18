@@ -33,6 +33,8 @@ import { DRAFT_LAYOUT } from './layout.js';
 import { buildLeaderboard } from './leaderboard.js';
 import { buildPicksTable } from './picks-table.js';
 import { picksForDraft, snapshotForSeason } from './season-helpers.js';
+import { whatifStandings } from './standings.js';
+import { buildStandingsStrip } from './standings-strip.js';
 import { buildUnpickedCards, installSidebarResizeListener } from './unpicked-cards.js';
 import {
   amberOutlineRows,
@@ -102,6 +104,7 @@ function draftShell(openSeason) {
       </div>
     </div>
     <div id="draft-whatif-banner" class="draft-whatif-banner"></div>
+    <div id="draft-standings"></div>
     <div id="draft-leaderboard"></div>
     <div class="draft-body">
       <section class="draft-main">
@@ -152,6 +155,7 @@ function init({ campaign }) {
 
   const picksEl = document.getElementById('draft-picks');
   const leaderboardEl = document.getElementById('draft-leaderboard');
+  const standingsEl = document.getElementById('draft-standings');
   const highlightsEl = document.getElementById('draft-highlights');
   const unpickedEl = document.getElementById('draft-unpicked');
 
@@ -164,6 +168,17 @@ function init({ campaign }) {
   function render(season) {
     currentSeason = season;
     currentView = whatifStore.viewOf(board);
+
+    // The whole year, not this Season, so it is drawn before the Season's own
+    // surfaces and before the early return below: a tab nobody has drafted yet
+    // does not make the year's figures go away (#88).
+    const whatifEnabled = whatifStore.getState().enabled;
+    buildStandingsStrip(
+      whatifStandings(currentView),
+      colorMap,
+      standingsEl,
+      { enabled: whatifEnabled },
+    );
 
     // A Season nobody has drafted yet is the whole page's answer, not four
     // empty surfaces. The sidebar in particular would otherwise list every

@@ -58,6 +58,19 @@ export function buildDraftBoard(campaign) {
     latestDate: campaign?.latest_date ?? null,
     latestProfitDate: campaign?.latest_profit_date ?? null,
     seasonBoundaries: campaign?.ruleset?.season_boundaries ?? null,
+    // The one league rule the draft page applies itself, for the what-if
+    // Standings strip (#88). Carried raw: `bomb_mode` is an unconstrained
+    // string upstream, and the strip mirrors the processor's expression rather
+    // than guarding against a value neither side knows.
+    bombMode: campaign?.ruleset?.bomb_mode ?? null,
+    // The published Standings total per User, which the strip's delta column is
+    // measured against. `users` is published ranked highest first, so the
+    // published rank is the index and nothing here re-derives it.
+    publishedTotals: Object.fromEntries(
+      (campaign?.users || [])
+        .filter((user) => user.total != null)
+        .map((user) => [user.user_id, user.total]),
+    ),
     // The whole roster, not the Users who happen to hold a Pick. The
     // leaderboard gives every member a card so an empty Slate reads as an empty
     // Slate rather than as somebody who is not playing.

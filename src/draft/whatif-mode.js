@@ -14,6 +14,7 @@ const SEASON_LABEL = { WINTER: 'Winter', SUMMER: 'Summer', FALL: 'Fall' };
 
 let pillEl = null;
 let bannerEl = null;
+let standingsEl = null;
 let appEl = null;
 let counterEl = null;
 let undoBtn = null;
@@ -146,6 +147,10 @@ function syncFromState() {
 
   pillEl.setAttribute('aria-pressed', state.enabled ? 'true' : 'false');
   bannerEl.classList.toggle('is-shown', state.enabled);
+  // The what-if Standings collapse in and out with the banner, on the same
+  // class and the same transition: they answer a question only a reader in
+  // what-if mode has asked (#88).
+  if (standingsEl) standingsEl.classList.toggle('is-shown', state.enabled);
   appEl.classList.toggle('is-whatif', state.enabled);
   appEl.classList.toggle('hide-locked', state.enabled && state.hideLocked);
 
@@ -174,6 +179,9 @@ function syncFromState() {
 export function mountWhatifMode() {
   pillEl = document.getElementById('draft-whatif-pill');
   bannerEl = document.getElementById('draft-whatif-banner');
+  // Optional, unlike the three below: a page that has not mounted the strip
+  // still has a working mode.
+  standingsEl = document.getElementById('draft-standings');
   appEl = document.getElementById('draft-app');
   if (!pillEl || !bannerEl || !appEl) return;
 
