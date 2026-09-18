@@ -21,6 +21,13 @@ import {
   unpickedUnreleasedForDraft,
 } from './season-helpers.js';
 import { getDraftDate } from './whatif-store.js';
+import {
+  draftDateSeasonFor,
+  profitRanksEverySeason,
+  yearReleasedCandidates,
+  yearUnreleasedCandidates,
+  YEAR_TAB,
+} from './year-picks.js';
 
 const RANK_TIP = "Profit rank within the movie's release season";
 
@@ -109,6 +116,29 @@ export function buildUnpickedCards(view, season, today, mountEl) {
   const draftDate = getDraftDate(season);
 
   mountEl.innerHTML = releasedCard(released, label, ranks, draftDate) + unreleasedCard(unreleased, label);
+  balanceUnpickedCards(mountEl);
+}
+
+// The year tab's sidebar: the same two cards, drawn over the whole year rather
+// than one Season of it (#89).
+//
+// Nothing here is marked pre-draft, because the films that would carry the mark
+// are not in the list: a year-long Pick can trade with any film of the year, so
+// the ones already in cinemas on draft day are filtered out in `year-picks.js`
+// rather than dimmed. Dimming is the Season boards' answer because there the
+// list is short enough to read past; here it would be 19 unclickable rows.
+export function buildYearUnpickedCards(view, today, mountEl) {
+  if (!mountEl) return;
+
+  const label = 'All Year';
+  const draftDate = getDraftDate(draftDateSeasonFor(YEAR_TAB));
+  const released = yearReleasedCandidates(view, draftDate, today);
+  const unreleased = yearUnreleasedCandidates(view, draftDate, today);
+  const ranks = profitRanksEverySeason(view);
+
+  // No draft date is passed down to the rows: there is nothing left in them for
+  // it to mark.
+  mountEl.innerHTML = releasedCard(released, label, ranks, null) + unreleasedCard(unreleased, label);
   balanceUnpickedCards(mountEl);
 }
 
