@@ -3,10 +3,12 @@
 // second published League needs a copy of the shell rather than a copy of the
 // page (`layout.js`).
 //
-// A path that names no League cannot reach here through the host: `404.html` is
-// what answers an address with no file behind it, and that page renders the
-// Campaign entry. So the one failure this page really has to answer for is a
-// League whose landing artifact is not published, which `page.js` does.
+// A path that names no League cannot reach here through the host. `404.html` is
+// what answers an address with no file behind it, and its dispatcher loads this
+// entry only for a path `leagueFromPath` reads a League off, sending everything
+// else to the Campaign entry's notice (#101). So the one failure this page
+// really has to answer for is a League whose landing artifact is not published,
+// which `page.js` does.
 
 import { loadManifest } from '../shared/artifacts.js';
 import { renderNotice } from '../shared/notice.js';
