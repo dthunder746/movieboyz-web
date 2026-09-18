@@ -3,22 +3,27 @@
 Public site for the MovieBoyz Fantasy Box Office system, plus the artifact set it
 renders.
 
-The site renders; it does not score. Every figure a league rule decides is
-pre-computed upstream and published to the `artifacts` branch of this repo.
+The site renders; it does not score, with one exception. Every figure the league
+publishes is pre-computed upstream and put on the `artifacts` branch of this
+repo. The exception is the what-if Standings on the draft page, which the
+browser scores for itself because upstream has nothing to publish for them.
 Vanilla JS, built with Vite, served by GitHub Pages.
 
-Three figures are worked out in the browser, and all three are presentational
-rather than rules ([platform#55](https://github.com/dthunder746/movieboyz-platform/issues/55)).
+Four figures are worked out in the browser. Three are presentational rather than
+rules ([platform#55](https://github.com/dthunder746/movieboyz-platform/issues/55)).
+The fourth applies a league rule, and it is the exception above
+([platform#88](https://github.com/dthunder746/movieboyz-platform/issues/88)).
 
 | Figure | Where | What it does |
 |--------|-------|--------------|
 | `roi` | `src/campaign/board.js` | A Board row's Profit to date over its Breakeven, both published. |
 | `totalSeries` | `src/campaign/standings.js` | A User's Slate Profit and Bomb impact added per day, because the artifact publishes the two series apart and a single total only for the latest scored day. The chart needs a line. |
 | `leaderboardForDraft` | `src/draft/season-helpers.js` | A User's published Profit to date added up over the Picks they hold on one Season's draft board, so the board can be ordered. |
+| `whatifStandings` | `src/draft/standings.js` | Every roster User's whole year total under the swaps a reader has made on the draft board, bomb split and all. The only league rule the site applies itself. |
 
 The line between the two kinds is whether changing the figure would change who
-wins. None of these would: each is a published number restated for a cell, a
-chart or a board, and the artifact carries everything any of them reads. The
+wins. None of the first three would: each is a published number restated for a
+cell, a chart or a board, and the artifact carries everything any of them reads. The
 Season sums are the one to be careful about, because they carry a piece of
 league knowledge the other two do not: a `hit` or a `bomb` is a year long Pick
 and does not count towards a Season's totals, so the sum skips them. That is a
@@ -33,6 +38,17 @@ bomb's Breakeven from its picker's denominator is a league rule, and rules live
 in the processor ([ADR 0003](https://github.com/dthunder746/movieboyz-platform/blob/main/docs/adr/0003-scoring-arithmetic.md)).
 A figure that needs a rule to work out belongs upstream, whatever it is being
 rendered into.
+
+The what-if Standings sit on the other side of that line, and that is a real
+cost rather than a technicality. They apply the bomb split, which is a league
+rule, so the rule now exists in two languages and the claim this README opens
+with is conditional. It was accepted on three grounds. What-if Standings are
+hypothetical by construction: they are never published and they never feed the
+Mega league. They are visibly fenced behind a mode the reader has to turn on.
+And there is nothing upstream could publish instead, because the swaps exist
+only in one browser. The arithmetic mirrors the processor's closely enough to
+reproduce every published total to the dollar when no swaps are applied, which
+is what the tests beside `src/draft/standings.js` hold it to.
 
 ## Branches
 
