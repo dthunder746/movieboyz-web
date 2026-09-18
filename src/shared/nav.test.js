@@ -45,15 +45,11 @@ const LANDING_PATH = '/league/movieboyz/';
 const OTHER_CAMPAIGN_PATH = '/league/filmfellas/2026/';
 const MOVIES_PATH = '/movies/';
 
-// The entries the bar renders, in order. The count is the ticket's own
-// acceptance criterion and it is read off the view model rather than off the
-// markup, because the view model is the half with tests beside it.
-function barEntries(nav) {
-  return [
-    ...(nav.leagues ? ['Leagues'] : []),
-    ...(nav.league ? [nav.league.name] : []),
-    'Movies',
-  ];
+// The bar as the reader reads it, left to right. `entries` is the view model's
+// own answer rather than a copy of it assembled here, so the three entry cap
+// and the order are pinned where `mountNav` reads them.
+function bar(nav) {
+  return nav.entries.map((entry) => entry.label);
 }
 
 // Everything the bar marks as where the reader is. The Leagues toggle is never
@@ -78,7 +74,7 @@ describe('buildNav', () => {
     expect(nav.leagues).toBeNull();
     expect(nav.league.name).toBe('MovieBoyz');
     expect(nav.league.years.map((entry) => entry.year)).toEqual([2027, 2026, 2025]);
-    expect(barEntries(nav)).toEqual(['MovieBoyz', 'Movies']);
+    expect(bar(nav)).toEqual(['MovieBoyz', 'Movies']);
   });
 
   it('reads the years newest first', () => {
@@ -157,6 +153,7 @@ describe('buildNav', () => {
     const nav = buildNav(ONE_LEAGUE, '/typo/', '/');
 
     expect(nav.brandHref).toBe('/');
+    expect(nav.league.years[0].href).toBe('/league/movieboyz/2027/');
     expect(nav.movies.href).toBe('/movies/');
   });
 
@@ -245,20 +242,26 @@ describe('buildNav', () => {
       expect(nav.league.href).toBe('/league/a%22b/');
     });
 
-    // The Movies page names no League, so no League is the reader's, and with
-    // one published League there is no Leagues menu either. The bar is Movies
-    // alone rather than a menu for a League the reader is not in.
-    it('is absent on the Movies page, leaving the one League bar as Movies alone', () => {
+    // With one League published it is the whole site, so it stays in the bar
+    // wherever the reader is. Dropping it on the Movies page would leave a bar
+    // of one entry, which is the page the reader is already on and no way out
+    // of it. Its toggle is unhighlighted there, because they are not inside it.
+    it('stays in the bar on the Movies page, unhighlighted', () => {
       const nav = buildNav(ONE_LEAGUE, MOVIES_PATH);
 
-      expect(nav.league).toBeNull();
       expect(nav.leagues).toBeNull();
-      expect(barEntries(nav)).toEqual(['Movies']);
+      expect(nav.league.slug).toBe('movieboyz');
+      expect(nav.league.current).toBe(false);
+      expect(bar(nav)).toEqual(['MovieBoyz', 'Movies']);
       expect(marked(nav)).toEqual(['Movies']);
     });
 
-    it('is absent at the site root, which names no League either', () => {
-      expect(buildNav(ONE_LEAGUE, '/').league).toBeNull();
+    it('stays in the bar at the site root, which names no League either', () => {
+      const nav = buildNav(ONE_LEAGUE, '/');
+
+      expect(bar(nav)).toEqual(['MovieBoyz', 'Movies']);
+      expect(nav.league.current).toBe(false);
+      expect(marked(nav)).toEqual([]);
     });
 
     it('is absent when no League is published', () => {
@@ -267,11 +270,66 @@ describe('buildNav', () => {
     });
 
     // A path can name a League the Manifest has never heard of, which is what
-    // the catch-all page renders under. It is nobody's League, so the bar
-    // carries no League entry for it.
-    it('is absent when the path names a League the Manifest does not list', () => {
-      expect(buildNav(ONE_LEAGUE, '/league/ghostboyz/').league).toBeNull();
+    // the catch-all page renders under. It is nobody's League: with several
+    // published the bar carries no League entry for it, and with one published
+    // the entry is that one League, unhighlighted, because the reader is not
+    // inside it.
+    it('is nobody’s League when the path names one the Manifest does not list', () => {
+      const one = buildNav(ONE_LEAGUE, '/league/ghostboyz/');
+
+      expect(one.league.slug).toBe('movieboyz');
+      expect(one.league.current).toBe(false);
+      expect(one.league.landing).toBe(false);
+      expect(marked(one)).toEqual([]);
+
       expect(buildNav(TWO_LEAGUES, '/league/ghostboyz/2026/').league).toBeNull();
+    });
+  });
+
+  // The bar's own shape, which `mountNav` renders by mapping over it. Only the
+  // entries that are present are listed, in the order the reader narrows, and
+  // there are never more than three (#157).
+  describe('the entries the bar renders', () => {
+    it('names each entry by kind and by the label it carries', () => {
+      expect(buildNav(TWO_LEAGUES, CAMPAIGN_PATH).entries).toEqual([
+        { kind: 'leagues', label: 'Leagues', current: false },
+        { kind: 'league', label: 'MovieBoyz', current: true },
+        { kind: 'movies', label: 'Movies', current: false },
+      ]);
+    });
+
+    it('leaves out the entries that are absent', () => {
+      expect(buildNav(ONE_LEAGUE, CAMPAIGN_PATH).entries.map((entry) => entry.kind)).toEqual([
+        'league',
+        'movies',
+      ]);
+      expect(buildNav(TWO_LEAGUES, MOVIES_PATH).entries.map((entry) => entry.kind)).toEqual([
+        'leagues',
+        'movies',
+      ]);
+      expect(buildNav(null, MOVIES_PATH).entries.map((entry) => entry.kind)).toEqual(['movies']);
+    });
+
+    it('never runs to more than three, whatever the Manifest holds', () => {
+      for (const manifest of [null, { leagues: [] }, ONE_LEAGUE, TWO_LEAGUES, TEN_LEAGUES]) {
+        for (const path of [CAMPAIGN_PATH, LANDING_PATH, MOVIES_PATH, '/']) {
+          expect(buildNav(manifest, path).entries.length).toBeLessThanOrEqual(3);
+        }
+      }
+    });
+
+    // The highlight the bar carries, which is the menu the reader is inside
+    // rather than the page they are on. Movies is both at once, being a link.
+    it('highlights the League the reader is inside and nothing else', () => {
+      expect(buildNav(TWO_LEAGUES, CAMPAIGN_PATH).entries.map((entry) => entry.current)).toEqual([
+        false,
+        true,
+        false,
+      ]);
+      expect(buildNav(TWO_LEAGUES, MOVIES_PATH).entries.map((entry) => entry.current)).toEqual([
+        false,
+        true,
+      ]);
     });
   });
 
@@ -290,7 +348,7 @@ describe('buildNav', () => {
     it('leads the bar with a Leagues menu and keeps it to three entries', () => {
       const nav = buildNav(TWO_LEAGUES, CAMPAIGN_PATH);
 
-      expect(barEntries(nav)).toEqual(['Leagues', 'MovieBoyz', 'Movies']);
+      expect(bar(nav)).toEqual(['Leagues', 'MovieBoyz', 'Movies']);
     });
 
     it('lists every published League by name in Manifest order', () => {
@@ -319,10 +377,13 @@ describe('buildNav', () => {
     });
 
     // The Leagues toggle leads to every League and is where none of them is, so
-    // it is never the entry marked as where the reader is.
-    it('never marks the Leagues toggle itself', () => {
+    // it is never highlighted and never marked, wherever the reader stands.
+    it('never highlights the Leagues toggle itself', () => {
       for (const path of [CAMPAIGN_PATH, LANDING_PATH, MOVIES_PATH, '/']) {
-        expect(buildNav(TWO_LEAGUES, path).leagues.current).toBeUndefined();
+        const entry = buildNav(TWO_LEAGUES, path).entries[0];
+
+        expect(entry.kind).toBe('leagues');
+        expect(entry.current).toBe(false);
       }
     });
 
@@ -339,7 +400,7 @@ describe('buildNav', () => {
     it('follows the reader into a Campaign of the second League', () => {
       const nav = buildNav(TWO_LEAGUES, OTHER_CAMPAIGN_PATH);
 
-      expect(barEntries(nav)).toEqual(['Leagues', 'Film Fellas', 'Movies']);
+      expect(bar(nav)).toEqual(['Leagues', 'Film Fellas', 'Movies']);
       expect(nav.leagues.items.map((league) => league.current)).toEqual([false, true]);
       expect(nav.league.years.map((entry) => entry.href)).toEqual(['/league/filmfellas/2026/']);
       expect(marked(nav)).toEqual(['2026']);
@@ -358,7 +419,7 @@ describe('buildNav', () => {
     it('drops the League entry on the Movies page', () => {
       const nav = buildNav(TWO_LEAGUES, MOVIES_PATH);
 
-      expect(barEntries(nav)).toEqual(['Leagues', 'Movies']);
+      expect(bar(nav)).toEqual(['Leagues', 'Movies']);
       expect(nav.league).toBeNull();
       expect(nav.leagues.items.some((league) => league.current)).toBe(false);
       expect(marked(nav)).toEqual(['Movies']);
@@ -367,7 +428,7 @@ describe('buildNav', () => {
     it('drops the League entry at the site root', () => {
       const nav = buildNav(TWO_LEAGUES, '/');
 
-      expect(barEntries(nav)).toEqual(['Leagues', 'Movies']);
+      expect(bar(nav)).toEqual(['Leagues', 'Movies']);
       expect(marked(nav)).toEqual([]);
     });
 
@@ -391,8 +452,8 @@ describe('buildNav', () => {
       const ten = buildNav(TEN_LEAGUES, CAMPAIGN_PATH);
       const two = buildNav(TWO_LEAGUES, CAMPAIGN_PATH);
 
-      expect(barEntries(ten)).toEqual(barEntries(two));
-      expect(barEntries(ten)).toEqual(['Leagues', 'MovieBoyz', 'Movies']);
+      expect(bar(ten)).toEqual(bar(two));
+      expect(bar(ten)).toEqual(['Leagues', 'MovieBoyz', 'Movies']);
     });
 
     it('holds all ten inside the Leagues menu, in Manifest order', () => {

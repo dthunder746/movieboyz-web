@@ -13,8 +13,10 @@
 // beside it.
 //
 // The second entry is the one League the reader is inside, by either of the two
-// addresses that name a League. At a path naming none, which is the Movies page
-// and the root, the entry is absent rather than guessed at.
+// addresses that name a League. Where the path names none, which is the Movies
+// page and the root, it depends on how many are published: the one League stays
+// in the bar, so that the bar never falls to a single entry the reader is
+// already standing on, while one of several would be a guess and is left out.
 //
 // Exactly one entry is ever marked. A Campaign marks its year rather than its
 // League, so Overview is marked only on the League's own landing page (#67).
@@ -52,47 +54,74 @@ export function buildNav(manifest, pathname, explicitRoot) {
   const landing = leagueFromPath(pathname);
   const published = manifest?.leagues ?? [];
 
-  // The one League the reader is inside, by either address. A path can name a
+  // The League the reader is inside, by either address. A path can name a
   // League the Manifest has never heard of, which is what the catch-all page
-  // renders under, and that is nobody's League: the entry is left off rather
-  // than invented.
-  const inside = landing?.leagueSlug ?? here?.leagueSlug ?? null;
-  const league = published.find((entry) => entry.slug === inside) ?? null;
+  // renders under, and that is nobody's League.
+  const inside =
+    published.find((entry) => entry.slug === (landing?.leagueSlug ?? here?.leagueSlug)) ?? null;
+
+  // With one League published it is the whole site, so it is in the bar on
+  // every page, including the ones naming no League. That keeps the one League
+  // bar and the several League bar reading the same, and it is what stops the
+  // Movies page from being a bar of one entry, which is the page the reader is
+  // already standing on. With several published there is a Leagues menu to get
+  // back through, so the entry is the reader's own League or nothing.
+  const league = inside ?? (published.length === 1 ? published[0] : null);
+
+  const leagues =
+    published.length > 1
+      ? {
+          items: published.map((entry) => ({
+            slug: entry.slug,
+            name: entry.name ?? entry.slug,
+            href: leagueHref(root, entry.slug),
+            // Highlighted rather than marked: it says which of the listed
+            // Leagues the reader is in, not which entry of the bar they are on.
+            current: entry.slug === inside?.slug,
+          })),
+          // The site root is already the directory of every League and year
+          // (#81, #84), so the menu points at it rather than repeating it.
+          showAllHref: root,
+        }
+      : null;
+
+  const leagueEntry = league && {
+    slug: league.slug,
+    name: league.name ?? league.slug,
+    href: leagueHref(root, league.slug),
+    // Inside this League, by either address. It dresses the menu the years hang
+    // under, which the reader is inside whichever of the two they are on, and
+    // which they are not on a page naming no League at all.
+    current: league === inside,
+    // On this League's own landing page, which is a link and can only be one
+    // place. A Campaign marks its year rather than its League, so exactly one
+    // entry is ever marked.
+    landing: Boolean(landing) && league === inside,
+    years: buildYears(league, root, here),
+  };
+
+  const movies = { href: `${root}movies/`, current: isMoviesPath(pathname) };
 
   return {
     brandHref: root,
     // One League is no choice, so the menu that offers the choice is absent
     // until a second is published.
-    leagues:
-      published.length > 1
-        ? {
-            items: published.map((entry) => ({
-              slug: entry.slug,
-              name: entry.name ?? entry.slug,
-              href: leagueHref(root, entry.slug),
-              // Bold rather than marked: it says which of the listed Leagues
-              // the reader is in, not which entry of the bar they are on.
-              current: entry.slug === league?.slug,
-            })),
-            // The site root is already the directory of every League and year
-            // (#81, #84), so the menu points at it rather than repeating it.
-            showAllHref: root,
-          }
-        : null,
-    league: league && {
-      slug: league.slug,
-      name: league.name ?? league.slug,
-      href: leagueHref(root, league.slug),
-      // Inside this League, by either address. It dresses the menu the years
-      // hang under, which the reader is inside whichever of the two they are on.
-      current: true,
-      // On this League's own landing page, which is a link and can only be one
-      // place. A Campaign marks its year rather than its League, so exactly one
-      // entry is ever marked.
-      landing: Boolean(landing),
-      years: buildYears(league, root, here),
-    },
-    movies: { href: `${root}movies/`, current: isMoviesPath(pathname) },
+    leagues,
+    league: leagueEntry,
+    movies,
+    // The bar itself: the entries that are present, in the order the reader
+    // narrows, and never more than three however many Leagues are published
+    // (#157). `current` is the highlight the bar carries rather than the mark,
+    // which is why the Leagues entry never has it: it leads to every League and
+    // is where none of them is. What each entry holds hangs off the named
+    // fields above, because the three are shaped differently.
+    entries: [
+      ...(leagues ? [{ kind: 'leagues', label: 'Leagues', current: false }] : []),
+      ...(leagueEntry
+        ? [{ kind: 'league', label: leagueEntry.name, current: leagueEntry.current }]
+        : []),
+      { kind: 'movies', label: 'Movies', current: movies.current },
+    ],
   };
 }
 
@@ -129,50 +158,59 @@ export function mountNav(manifest) {
   const brand = document.getElementById('site-brand');
   if (brand) brand.setAttribute('href', nav.brandHref);
 
-  // At most three, in the order the reader narrows: every League, then the one
-  // they are inside, then the lookup that belongs to none of them (#157).
-  const entries = [
-    ...(nav.leagues ? [leaguesMenu(nav.leagues)] : []),
-    ...(nav.league ? [leagueMenu(nav.league)] : []),
-    moviesLink(nav.movies),
-  ];
-
-  host.innerHTML = entries.join('');
+  // The bar is the view model's `entries` in its own order, so the shape is
+  // decided above the divider and only the drawing happens here.
+  host.innerHTML = nav.entries
+    .map((entry) => {
+      if (entry.kind === 'leagues') return leaguesMenu(nav.leagues, entry);
+      if (entry.kind === 'league') return leagueMenu(nav.league, entry);
+      return moviesLink(nav.movies, entry);
+    })
+    .join('');
 }
 
-// Every published League, behind one fixed toggle. The toggle is never marked,
-// because it leads to all of them and is where none of them is; the League the
-// reader is inside is bold inside the menu instead.
-function leaguesMenu(leagues) {
+// The shell both menus are: a toggle carrying the bar's highlight and the list
+// that drops from it. Written once so the two cannot drift apart, since the
+// point of the bar is that they read the same.
+function dropdown(label, current, items) {
+  return `<div class="dropdown">
+      <button class="site-nav-link dropdown-toggle${current ? ' is-current' : ''}"
+        type="button" data-bs-toggle="dropdown" aria-expanded="false">${escapeHtml(label)}</button>
+      <ul class="dropdown-menu">${items}</ul>
+    </div>`;
+}
+
+const DIVIDER = '<li><hr class="dropdown-divider"></li>';
+
+// Every published League, behind one fixed toggle. The toggle never carries the
+// highlight, because it leads to all of them and is where none of them is; the
+// League the reader is inside is highlighted inside the menu instead, with no
+// `aria-current`, because that is where the menu leads rather than the page the
+// reader is on.
+function leaguesMenu(leagues, entry) {
   const items = leagues.items
     .map(
       (league) =>
-        `<li><a class="dropdown-item${league.current ? ' fw-bold' : ''}"
+        `<li><a class="dropdown-item${league.current ? ' is-current' : ''}"
           href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a></li>`,
     )
     .join('');
 
-  return `<div class="dropdown">
-      <button class="site-nav-link dropdown-toggle" type="button"
-        data-bs-toggle="dropdown" aria-expanded="false">Leagues</button>
-      <ul class="dropdown-menu">${items}<li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="${escapeHtml(leagues.showAllHref)}">Show all</a></li></ul>
-    </div>`;
+  const showAll = `<li><a class="dropdown-item"
+      href="${escapeHtml(leagues.showAllHref)}">Show all</a></li>`;
+
+  return dropdown(entry.label, entry.current, `${items}${DIVIDER}${showAll}`);
 }
 
-function leagueMenu(league) {
+function leagueMenu(league, entry) {
   // The landing page leads the menu, where it is labelled for its job rather
   // than repeating the League name the toggle above it already carries.
   const overview = `<li><a class="dropdown-item${league.landing ? ' is-current' : ''}"
       href="${escapeHtml(league.href)}"${league.landing ? ' aria-current="page"' : ''}>Overview</a></li>`;
 
-  const items = league.years.map((year) => `<li>${yearLink(year)}</li>`).join('');
+  const years = league.years.map((year) => `<li>${yearLink(year)}</li>`).join('');
 
-  return `<div class="dropdown">
-      <button class="site-nav-link dropdown-toggle${league.current ? ' is-current' : ''}"
-        type="button" data-bs-toggle="dropdown" aria-expanded="false">${escapeHtml(league.name)}</button>
-      <ul class="dropdown-menu">${overview}<li><hr class="dropdown-divider"></li>${items}</ul>
-    </div>`;
+  return dropdown(entry.label, entry.current, `${overview}${DIVIDER}${years}`);
 }
 
 function yearLink(year) {
@@ -186,8 +224,8 @@ function yearLink(year) {
   }>${escapeHtml(year.label)}${badge}</a>`;
 }
 
-function moviesLink(movies) {
+function moviesLink(movies, entry) {
   return `<a class="site-nav-link${movies.current ? ' is-current' : ''}" href="${escapeHtml(movies.href)}"${
     movies.current ? ' aria-current="page"' : ''
-  }>Movies</a>`;
+  }>${escapeHtml(entry.label)}</a>`;
 }
