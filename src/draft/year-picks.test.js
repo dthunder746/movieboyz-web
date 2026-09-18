@@ -17,6 +17,7 @@ import {
 import { applyToRows } from './whatif-store.js';
 import {
   leaderboardForDraft,
+  picksForDraft,
   snapshotForSeason,
   unpickedUnreleasedForDraft,
 } from './season-helpers.js';
@@ -307,6 +308,58 @@ describe('a year-long swap', () => {
     const winter = unpickedUnreleasedForDraft(after, 'WINTER', '2026-01-01').map((m) => m.imdbId);
     expect(summer).toContain('ttHit');
     expect(winter).not.toContain('ttHit');
+  });
+
+  // Trading a hit for a film somebody holds as a Season Pick, which is what the
+  // widened pool makes possible (#89). The store already moves holder, Pick
+  // type and Pick number together, so the trade lands on the Season board of
+  // its own accord: nothing here is a year-tab special case.
+  describe('a hit traded for a Season Pick', () => {
+    function swapped() {
+      return applyToRows(
+        board(),
+        [{ slotImdbId: 'ttHit', replacementImdbId: 'ttSeasonal', season: YEAR_TAB }],
+        new Map(users.map((user) => [user.userId, user.username])),
+      ).rows;
+    }
+
+    it("makes the Season Pick the hit holder's hit, at the Winter pick number", () => {
+      const seasonal = swapped().find((entry) => entry.imdbId === 'ttSeasonal');
+      expect(seasonal).toMatchObject({ userId: 'a', pickType: 'hit', draftPick: 1 });
+    });
+
+    it("makes the old hit the other holder's Season Pick, at their pick number", () => {
+      const hit = swapped().find((entry) => entry.imdbId === 'ttHit');
+      expect(hit).toMatchObject({ userId: 'c', pickType: 'seasonal', draftPick: 6 });
+    });
+
+    it('shows the old hit on its own Season board and in that leaderboard', () => {
+      const after = viewOfRows(swapped());
+
+      expect(picksForDraft(after, 'SUMMER').map((pick) => pick.imdbId)).toContain('ttHit');
+      expect(leaderboardForDraft(after, 'SUMMER').find((entry) => entry.userId === 'c').total)
+        .toBe(400);
+
+      // The film that went the other way is a hit now, so the Winter board
+      // still draws it but the Winter leaderboard no longer scores it.
+      expect(leaderboardForDraft(after, 'WINTER').find((entry) => entry.userId === 'c').total)
+        .toBe(0);
+    });
+
+    it("moves the two holders' Standings in opposite directions", () => {
+      const before = whatifStandings(viewOfRows(board()));
+      const after = whatifStandings(viewOfRows(swapped()));
+
+      const totalFor = (standings, userId) =>
+        standings.find((entry) => entry.userId === userId).total;
+
+      // Ann's 400 hit and Cal's 20 seasonal trade places; the bomb's quarter
+      // is unchanged on both sides of it.
+      expect(totalFor(before, 'a')).toBe(400 - 25);
+      expect(totalFor(after, 'a')).toBe(20 - 25);
+      expect(totalFor(before, 'c')).toBe(20 - 25);
+      expect(totalFor(after, 'c')).toBe(400 - 25);
+    });
   });
 
   it('has a snapshot on the year tab that the animation can read', () => {
