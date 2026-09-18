@@ -9,7 +9,7 @@
 // which the old file needed only because the two lived in different scripts.
 
 import * as store from './whatif-store.js';
-import { draftDateSeasonFor, YEAR_TAB_LABEL } from './year-picks.js';
+import { draftDateSeasonFor, lockedOnBoard, YEAR_TAB_LABEL } from './year-picks.js';
 
 const SEASON_LABEL = { WINTER: 'Winter', SUMMER: 'Summer', FALL: 'Fall' };
 
@@ -314,13 +314,15 @@ function rowFromEvent(event) {
   };
 }
 
-// Whether a slot refuses the click. It reads the class the board drew rather
-// than the Pick's type, because the same Pick is locked on one board and
-// editable on another: a hit is frozen in the Winter draft order and is the
-// subject of the Hits & Bombs tab (`year-picks.js`, #89). A film that had
-// already opened when the Season was drafted is refused by `isPreDraft`.
+// Whether a slot refuses the click. The Pick's type alone does not answer it,
+// because the same Pick is locked on one board and editable on another: a hit
+// is frozen in the Winter draft order and is the subject of the Hits & Bombs
+// tab. So it asks the same predicate the board asked when it drew the row
+// (`lockedOnBoard` in `year-picks.js`, #89), against the tab now open. A film
+// that had already opened when the Season was drafted is refused by
+// `isPreDraft`.
 function isLocked(row) {
-  return row.kind === 'slot' && Boolean(row.el && row.el.classList.contains('draft-row-locked'));
+  return row.kind === 'slot' && lockedOnBoard(row, currentSeasonRef());
 }
 
 function isPreDraft(row) {
