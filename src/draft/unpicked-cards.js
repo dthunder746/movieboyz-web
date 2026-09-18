@@ -128,7 +128,8 @@ export function buildUnpickedCards(view, season, today, mountEl) {
 
   mountEl.innerHTML = releasedCard(released, label, ranks, draftDate, null)
     + unreleasedCard(unreleased, label, null);
-  balanceUnpickedCards(mountEl);
+  reapplyCaps = () => balanceUnpickedCards(mountEl);
+  reapplyCaps();
 }
 
 // The year tab's sidebar: the same two cards, drawn over the whole year rather
@@ -142,7 +143,7 @@ export function buildUnpickedCards(view, season, today, mountEl) {
 // the ones already in cinemas on draft day are filtered out in `year-picks.js`
 // rather than dimmed. Dimming is the Season boards' answer because there the
 // list is short enough to read past; here it would be 19 unclickable rows.
-export function buildYearUnpickedCards(view, today, colorMap, mountEl) {
+export function buildYearUnpickedCards(view, today, colorMap, mountEl, mainEl) {
   if (!mountEl) return;
 
   const label = 'All Year';
@@ -155,25 +156,98 @@ export function buildYearUnpickedCards(view, today, colorMap, mountEl) {
   // it to mark.
   mountEl.innerHTML = releasedCard(released, label, ranks, null, colorMap)
     + unreleasedCard(unreleased, label, colorMap);
-  balanceUnpickedCards(mountEl);
+  reapplyCaps = () => fitUnpickedCardsTo(mountEl, mainEl);
+  reapplyCaps();
+}
+
+// The gap between the two cards, which `.draft-unpicked-card + .draft-unpicked-card`
+// sets to 0.75rem. A measured cap has to take it off the space it is dividing
+// up, or the second card lands a gap's worth past the foot of the sidebar.
+const CARD_GAP = 12;
+
+function headerHeight(card) {
+  const header = card.querySelector('.draft-unpicked-header');
+  return header ? header.offsetHeight : 0;
+}
+
+// What the card would be if nothing capped it: its header plus its whole table,
+// scroll and all, with a little room for the card's own border and padding.
+function naturalHeight(card) {
+  const wrap = card.querySelector('.info-card-table-wrap');
+  const table = wrap ? wrap.querySelector('table') : null;
+  return headerHeight(card) + (table ? table.offsetHeight : 0) + 8;
+}
+
+function sidebarCards(mountEl) {
+  return [...mountEl.querySelectorAll('.draft-unpicked-card')];
+}
+
+// Below the layout's breakpoint the cards stack down the page and the cap comes
+// off: there is no table beside them to line up with.
+function clearCaps(cards) {
+  cards.forEach((card) => { card.style.maxHeight = ''; });
+  return window.innerWidth > 935;
 }
 
 // Both cards scroll inside a fixed height, and the height is whatever the
 // shorter one needs, so the sidebar does not run past the picks table beside
 // it. Below the layout's breakpoint the cards stack and the cap comes off.
 function balanceUnpickedCards(mountEl) {
-  const cards = mountEl.querySelectorAll('.draft-unpicked-card');
-  cards.forEach((card) => { card.style.maxHeight = ''; });
-  if (window.innerWidth <= 935) return;
+  const cards = sidebarCards(mountEl);
+  if (!clearCaps(cards)) return;
 
   cards.forEach((card) => {
-    const header = card.querySelector('.draft-unpicked-header');
-    const wrap = card.querySelector('.info-card-table-wrap');
-    const table = wrap ? wrap.querySelector('table') : null;
-    const natural = (header ? header.offsetHeight : 0) + (table ? table.offsetHeight : 0) + 8;
+    const natural = naturalHeight(card);
     if (natural > 0) card.style.maxHeight = `${natural}px`;
   });
 }
+
+// The year tab's cap, which is the opposite problem (#89). A Season board is
+// long and the cards are the short side; the year board is ten rows and the
+// cards are the long side, so capping each at its own natural height left the
+// sidebar ending well above the table beside it.
+//
+// So here the table is what the cards are measured against: together they get
+// exactly its height. The split is even, except that a card too short to use
+// its half lends the rest to the other one, which is what keeps a five-row
+// unreleased list from sitting in half a sidebar of its own whitespace.
+function fitUnpickedCardsTo(mountEl, mainEl) {
+  const cards = sidebarCards(mountEl);
+  if (!clearCaps(cards) || !cards.length) return;
+
+  const available = (mainEl ? mainEl.offsetHeight : 0) - CARD_GAP * (cards.length - 1);
+  const headers = cards.reduce((sum, card) => sum + headerHeight(card), 0);
+
+  // Nothing worth measuring: either the layout has not been flushed yet, or the
+  // table really is shorter than the headers alone, and crushing the cards to
+  // fit it would be worse than letting them run on.
+  if (available <= headers) {
+    balanceUnpickedCards(mountEl);
+    return;
+  }
+
+  const naturals = cards.map(naturalHeight);
+  // Both lists fit inside the table's height already. Uncapped, the cards grow
+  // to fill the sidebar on their own (`.draft-sidebar .info-tab-card` is
+  // `flex: 1 1 0`), which lines the foot up without anything to scroll.
+  if (naturals.reduce((sum, height) => sum + height, 0) <= available) return;
+
+  const share = available / cards.length;
+  const spare = naturals.reduce((sum, height) => sum + Math.max(0, share - height), 0);
+  const overflowing = naturals.filter((height) => height > share).length;
+
+  cards.forEach((card, index) => {
+    const height = naturals[index] <= share
+      ? naturals[index]
+      : share + spare / overflowing;
+    card.style.maxHeight = `${Math.round(Math.max(height, headerHeight(card)))}px`;
+  });
+}
+
+// Which cap the sidebar is currently under, so a resize can re-apply the same
+// one. Set by whichever builder drew last, because the two tabs want different
+// answers and only the builder knows which tab is open.
+let reapplyCaps = () => {};
 
 let resizeListenerInstalled = false;
 
@@ -182,8 +256,5 @@ let resizeListenerInstalled = false;
 export function installSidebarResizeListener() {
   if (resizeListenerInstalled) return;
   resizeListenerInstalled = true;
-  window.addEventListener('resize', () => {
-    const mountEl = document.getElementById('draft-unpicked');
-    if (mountEl) balanceUnpickedCards(mountEl);
-  });
+  window.addEventListener('resize', () => { reapplyCaps(); });
 }
