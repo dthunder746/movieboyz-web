@@ -247,7 +247,7 @@ function init({ campaign }) {
     }
 
     buildYearPicksTable(currentView, colorMap, picksEl);
-    buildYearUnpickedCards(currentView, today, unpickedEl);
+    buildYearUnpickedCards(currentView, today, colorMap, unpickedEl);
 
     repaintSelectionAfterRender();
     refreshLockedTooltips();

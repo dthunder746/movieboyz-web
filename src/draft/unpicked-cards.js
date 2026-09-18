@@ -12,7 +12,7 @@
 // the same day the old helper would have computed.
 
 import { colorClass, escapeHtml, fmt, fmtPct, formatShortDate } from '../shared/format.js';
-import { pickOrSeasonIcon } from '../shared/icons.js';
+import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 
 import { SEASON_LABEL } from './board.js';
 import {
@@ -31,9 +31,20 @@ import {
 
 const RANK_TIP = "Profit rank within the movie's release season";
 
+// Who holds the film, drawn the way the picks tables draw it: the same
+// `userBadge`, in the same place at the head of the title cell, so a held row
+// in the sidebar reads as the held row it is (#89).
+//
+// Only the year tab passes a `colorMap`. A Season sidebar lists films nobody
+// holds by definition, so a badge there would be a column of grey dashes.
+function ownerBadge(movie, colorMap) {
+  if (!colorMap) return '';
+  return userBadge(movie.userId, movie.username, colorMap);
+}
+
 // A film that opened before draft day cannot be drafted, so what-if marks it
 // and refuses it as a swap target.
-function releasedRow(movie, ranks, draftDate) {
+function releasedRow(movie, ranks, draftDate, colorMap) {
   const roi = movie.breakeven ? (movie.profitTd / movie.breakeven) * 100 : null;
   const profitHtml = `<span class="${colorClass(movie.profitTd)}">${fmt(movie.profitTd)}</span>`
     + ` <span class="text-neu" style="font-size:0.9em">(${roi !== null ? fmtPct(roi) : '—'})</span>`;
@@ -48,24 +59,24 @@ function releasedRow(movie, ranks, draftDate) {
   const preDraftTitle = preDraft ? ' Pre-draft release.' : '';
 
   return `<tr data-imdb="${escapeHtml(movie.imdbId)}" data-kind="candidate"${preDraftAttr}>`
-    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
+    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
     + `<td class="cell-profit text-end">${profitHtml}</td>`
     + `<td class="text-end" title="${RANK_TIP}${preDraftTitle}">${rankHtml}</td>`
     + '</tr>';
 }
 
-function unreleasedRow(movie) {
+function unreleasedRow(movie, colorMap) {
   const dateLabel = !movie.releaseDate || movie.releaseDate === 'TBA'
     ? 'TBA'
     : formatShortDate(movie.releaseDate);
 
   return `<tr data-imdb="${escapeHtml(movie.imdbId)}" data-kind="candidate">`
-    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
+    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
     + `<td class="text-end">${escapeHtml(dateLabel)}</td>`
     + '</tr>';
 }
 
-function releasedCard(rows, label, ranks, draftDate) {
+function releasedCard(rows, label, ranks, draftDate, colorMap) {
   if (!rows.length) {
     return '<div class="info-tab-card draft-unpicked-card draft-unpicked-released">'
       + `<div class="draft-unpicked-header">Released - Unpicked - ${label}</div>`
@@ -73,7 +84,7 @@ function releasedCard(rows, label, ranks, draftDate) {
       + '</div>';
   }
 
-  const body = rows.map((movie) => releasedRow(movie, ranks, draftDate)).join('');
+  const body = rows.map((movie) => releasedRow(movie, ranks, draftDate, colorMap)).join('');
 
   return '<div class="info-tab-card draft-unpicked-card draft-unpicked-released">'
     + `<div class="draft-unpicked-header">Released - Unpicked - ${label}</div>`
@@ -91,9 +102,9 @@ function releasedCard(rows, label, ranks, draftDate) {
     + '</div>';
 }
 
-function unreleasedCard(rows, label) {
+function unreleasedCard(rows, label, colorMap) {
   if (!rows.length) return '';
-  const body = rows.map(unreleasedRow).join('');
+  const body = rows.map((movie) => unreleasedRow(movie, colorMap)).join('');
 
   return '<div class="info-tab-card draft-unpicked-card draft-unpicked-unreleased">'
     + `<div class="draft-unpicked-header">Unreleased - Unpicked - ${label}</div>`
@@ -115,19 +126,23 @@ export function buildUnpickedCards(view, season, today, mountEl) {
   const ranks = profitRanksForSeason(view, season);
   const draftDate = getDraftDate(season);
 
-  mountEl.innerHTML = releasedCard(released, label, ranks, draftDate) + unreleasedCard(unreleased, label);
+  mountEl.innerHTML = releasedCard(released, label, ranks, draftDate, null)
+    + unreleasedCard(unreleased, label, null);
   balanceUnpickedCards(mountEl);
 }
 
 // The year tab's sidebar: the same two cards, drawn over the whole year rather
-// than one Season of it (#89).
+// than one Season of it, and carrying an owner badge each because the pool is
+// no longer only unheld films (#89). A hit or a bomb was picked before anybody
+// held anything, so it can trade with a film somebody holds now, and the badge
+// is what says which ones those are.
 //
 // Nothing here is marked pre-draft, because the films that would carry the mark
 // are not in the list: a year-long Pick can trade with any film of the year, so
 // the ones already in cinemas on draft day are filtered out in `year-picks.js`
 // rather than dimmed. Dimming is the Season boards' answer because there the
 // list is short enough to read past; here it would be 19 unclickable rows.
-export function buildYearUnpickedCards(view, today, mountEl) {
+export function buildYearUnpickedCards(view, today, colorMap, mountEl) {
   if (!mountEl) return;
 
   const label = 'All Year';
@@ -138,7 +153,8 @@ export function buildYearUnpickedCards(view, today, mountEl) {
 
   // No draft date is passed down to the rows: there is nothing left in them for
   // it to mark.
-  mountEl.innerHTML = releasedCard(released, label, ranks, null) + unreleasedCard(unreleased, label);
+  mountEl.innerHTML = releasedCard(released, label, ranks, null, colorMap)
+    + unreleasedCard(unreleased, label, colorMap);
   balanceUnpickedCards(mountEl);
 }
 
