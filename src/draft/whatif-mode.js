@@ -9,6 +9,7 @@
 // which the old file needed only because the two lived in different scripts.
 
 import * as store from './whatif-store.js';
+import { draftDateSeasonFor, YEAR_TAB_LABEL } from './year-picks.js';
 
 const SEASON_LABEL = { WINTER: 'Winter', SUMMER: 'Summer', FALL: 'Fall' };
 
@@ -88,7 +89,9 @@ function renderBannerContent() {
   dateInputEl.addEventListener('change', () => {
     const season = currentSeasonRef();
     if (!season) return;
-    store.setDraftDate(season, dateInputEl.value || null);
+    // The Hits & Bombs tab edits the Winter date, which is the draft all ten of
+    // its Picks were taken at.
+    store.setDraftDate(draftDateSeasonFor(season), dateInputEl.value || null);
   });
   settingsBtn.addEventListener('click', (event) => {
     event.stopPropagation();
@@ -136,10 +139,11 @@ function onKeydownForPanel(event) {
   }
 }
 
-// The draft date is per Season, so the input follows the tab.
+// The draft date is per Season, so the input follows the tab. The Hits &
+// Bombs tab shows Winter's, because that is the draft its Picks were taken at.
 export function updateBannerForSeason(season) {
   if (!dateInputEl) return;
-  dateInputEl.value = store.getDraftDate(season) || '';
+  dateInputEl.value = store.getDraftDate(draftDateSeasonFor(season)) || '';
 }
 
 function syncFromState() {
@@ -310,10 +314,13 @@ function rowFromEvent(event) {
   };
 }
 
-// The year-long Picks cannot be moved, and neither can a film that had already
-// opened when the Season was drafted.
+// Whether a slot refuses the click. It reads the class the board drew rather
+// than the Pick's type, because the same Pick is locked on one board and
+// editable on another: a hit is frozen in the Winter draft order and is the
+// subject of the Hits & Bombs tab (`year-picks.js`, #89). A film that had
+// already opened when the Season was drafted is refused by `isPreDraft`.
 function isLocked(row) {
-  return row.kind === 'slot' && (row.pickType === 'hit' || row.pickType === 'bomb');
+  return row.kind === 'slot' && Boolean(row.el && row.el.classList.contains('draft-row-locked'));
 }
 
 function isPreDraft(row) {
@@ -507,9 +514,11 @@ export function refreshLockedTooltips() {
 
   document.querySelectorAll('#draft-picks tr.draft-row-locked').forEach((row) => {
     const pickType = row.dataset.pickType;
+    // Locked here, editable one tab over: the year-long Picks are swapped on
+    // their own tab, so the tooltip says where rather than only that (#89).
     const title = pickType === 'hit'
-      ? 'Hit picks are locked'
-      : (pickType === 'bomb' ? 'Bomb picks are locked' : 'Locked');
+      ? `Hit picks are swapped on the ${YEAR_TAB_LABEL} tab`
+      : (pickType === 'bomb' ? `Bomb picks are swapped on the ${YEAR_TAB_LABEL} tab` : 'Locked');
     row.setAttribute('data-bs-toggle', 'tooltip');
     row.setAttribute('title', title);
     lockedTooltipInstances.push(new window.bootstrap.Tooltip(row, { trigger: 'hover', placement: 'top' }));
