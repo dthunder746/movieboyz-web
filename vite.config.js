@@ -73,17 +73,19 @@ export default defineConfig({
       // looking at (ADR 0010).
       //
       // `404.html` is the catch-all. Pages serves it for a path it has no file
-      // for, and it renders whatever Campaign that path names, so a newly
-      // published year is reachable the moment its artifact lands rather than
-      // waiting on a deploy. The real directories above are kept for the
-      // current year so the common case answers 200
+      // for, and it renders whatever Campaign, draft or League landing that
+      // path names, so a newly published year or League is reachable the moment
+      // its artifact lands rather than waiting on a deploy. The real
+      // directories above are kept for the current year so the common case
+      // answers 200
       // (platform docs/adr/0010-addressing-pages-on-a-static-host.md).
       //
       // There is only ever one catch-all, so it cannot be a Campaign page: a
-      // draft address is a Campaign address with one segment on the end, and
-      // both arrive at the same file. `src/catchall/entry.js` is what tells
-      // them apart, and it imports the page it picked dynamically so the two
-      // stay in separate chunks (#85).
+      // draft address is a Campaign address with one segment on the end, a
+      // Campaign address is a League landing address with a year on the end,
+      // and all three arrive at the same file. `src/catchall/entry.js` is what
+      // tells them apart, and it imports the page it picked dynamically so the
+      // three stay in separate chunks (#85, #101).
       input: {
         root: resolve(import.meta.dirname, 'index.html'),
         movieboyzLanding: resolve(import.meta.dirname, 'league/movieboyz/index.html'),
