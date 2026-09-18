@@ -7,19 +7,26 @@
 // name; a draft address is the same path with one segment on the end, so an
 // unregistered year's draft would have rendered that year's standings (#85).
 //
-// The decision is `draftFromPath`, next door in `shared/route.js` with a test
+// The decision is `pageForPath`, next door in `shared/route.js` with a test
 // beside it. What is here is the import that follows from it, and it is dynamic
-// so that Vite splits the two pages: a reader who lands on a Campaign address
+// so that Vite splits the three pages: a reader who lands on a Campaign address
 // should not be made to download the draft page's what-if mode to see it.
 //
-// Nothing else is dispatched on. The Movies section and the League landing page
-// have real files at their own addresses, and an address naming neither a
-// Campaign nor a draft is answered by the Campaign entry's own notice.
+// A League landing address is dispatched on for the same reason a Campaign year
+// is. The root's directory page links to every League in the Manifest, so a
+// League created in admin is advertised the moment the processor publishes it,
+// and only the built directories have files of their own (#101). The Movies
+// section still has real files at its own addresses, and an address naming none
+// of these pages is answered by the Campaign entry's own notice.
 
-import { draftFromPath } from '../shared/route.js';
+import { pageForPath } from '../shared/route.js';
 
-if (draftFromPath(window.location.pathname)) {
+const page = pageForPath(window.location.pathname);
+
+if (page === 'draft') {
   import('../draft/entry.js');
+} else if (page === 'league') {
+  import('../league/entry.js');
 } else {
   import('../campaign/entry.js');
 }
