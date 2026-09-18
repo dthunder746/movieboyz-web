@@ -25,6 +25,28 @@ export function isSeasonalOrAlt(row) {
   return type === 'seasonal' || type === 'alt';
 }
 
+// An emptied slot as a row a picks table can draw. It carries the fields a real
+// Pick carries, emptied, so the renderers can read one shape either way. Every
+// board that draws slots builds its ghosts through here, the Season boards and
+// the year tab alike.
+export function ghostRowFrom(slot) {
+  return {
+    imdbId: null,
+    ghost: true,
+    userId: slot.userId,
+    username: slot.username,
+    pickType: slot.pickType,
+    draftPick: slot.draftPick,
+    season: slot.season,
+    title: '',
+    releaseDate: null,
+    profitTd: null,
+    breakeven: null,
+    clearedImdbId: slot.clearedImdbId,
+    clearedTitle: slot.clearedTitle,
+  };
+}
+
 // Every slot on this Season's board, in draft order, real Picks and the ghost
 // slots what-if mode has emptied.
 export function picksForDraft(view, season) {
@@ -34,21 +56,7 @@ export function picksForDraft(view, season) {
 
   const ghosts = (view.ghostSlots || [])
     .filter((slot) => draftSeason(slot) === season)
-    .map((slot) => ({
-      imdbId: null,
-      ghost: true,
-      userId: slot.userId,
-      username: slot.username,
-      pickType: slot.pickType,
-      draftPick: slot.draftPick,
-      season: slot.season,
-      title: '',
-      releaseDate: null,
-      profitTd: null,
-      breakeven: null,
-      clearedImdbId: slot.clearedImdbId,
-      clearedTitle: slot.clearedTitle,
-    }));
+    .map(ghostRowFrom);
 
   return [...real, ...ghosts].sort((left, right) => left.draftPick - right.draftPick);
 }
@@ -120,11 +128,16 @@ function unheldInSeason(view, season) {
   return view.rows.filter((row) => row.season === season && row.userId === null);
 }
 
-// The candidates: Movies of this Season nobody took. Split by whether they have
-// opened, because the two answer different questions — what a Slate missed, and
-// what is still to come.
-export function unpickedReleasedForDraft(view, season, today) {
-  return unheldInSeason(view, season)
+// The two halves a candidate list is shown in, over whatever rows the caller
+// offers. They are the split itself and nothing about who may take what, so a
+// Season sidebar and the year tab both reach them with a pool of their own
+// (`year-picks.js`, #89): the two questions are what a Slate missed and what is
+// still to come, and those do not change with the pool.
+//
+// Opened, best Profit first. A film with no date, or no figures yet, has not
+// answered the first question, so it belongs to the other list.
+export function releasedOf(rows, today) {
+  return rows
     .filter((row) => {
       if (!row.releaseDate || row.releaseDate === 'TBA') return false;
       if (row.releaseDate > today) return false;
@@ -133,8 +146,9 @@ export function unpickedReleasedForDraft(view, season, today) {
     .sort((left, right) => right.profitTd - left.profitTd);
 }
 
-export function unpickedUnreleasedForDraft(view, season, today) {
-  return unheldInSeason(view, season)
+// Still to come, soonest first.
+export function unreleasedOf(rows, today) {
+  return rows
     .filter((row) => {
       if (!row.releaseDate || row.releaseDate === 'TBA') return true;
       if (row.releaseDate > today) return true;
@@ -148,6 +162,16 @@ export function unpickedUnreleasedForDraft(view, season, today) {
       if (leftDate < rightDate) return -1;
       return leftDate > rightDate ? 1 : 0;
     });
+}
+
+// The candidates a Season sidebar offers: Movies of this Season nobody took,
+// in the same two halves.
+export function unpickedReleasedForDraft(view, season, today) {
+  return releasedOf(unheldInSeason(view, season), today);
+}
+
+export function unpickedUnreleasedForDraft(view, season, today) {
+  return unreleasedOf(unheldInSeason(view, season), today);
 }
 
 // The Picks the highlights strip is computed from, and the same list the page

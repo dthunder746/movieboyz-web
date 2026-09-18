@@ -2305,6 +2305,10 @@ button.league-card-header:hover {
   border-bottom: none;
 }
 
+/* Only the Hits & Bombs tab carries this column: those Picks are the ones
+   whose Season is not the board they are drawn on (#89). */
+.draft-picks-table .cell-season { width: 4.5rem; }
+
 .draft-picks-table .cell-clear { display: none; padding: 0 4px; width: 1.6rem; }
 #draft-app.is-whatif .draft-picks-table .cell-clear { display: table-cell; }
 .draft-clear-pick {

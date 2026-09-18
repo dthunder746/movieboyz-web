@@ -26,16 +26,20 @@ import { buildColorMap } from '../shared/palettes.js';
 import { campaignHref } from '../shared/route.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
-import { buildDraftBoard, initialSeason, SEASON_LABEL, SEASON_ORDER } from './board.js';
+import { buildDraftBoard, SEASON_LABEL } from './board.js';
 import { loadDraft } from './data.js';
 import { buildHighlights } from './highlights.js';
 import { DRAFT_LAYOUT } from './layout.js';
 import { buildLeaderboard } from './leaderboard.js';
-import { buildPicksTable } from './picks-table.js';
+import { buildPicksTable, buildYearPicksTable } from './picks-table.js';
 import { picksForDraft, snapshotForSeason } from './season-helpers.js';
 import { whatifStandings } from './standings.js';
 import { buildStandingsStrip } from './standings-strip.js';
-import { buildUnpickedCards, installSidebarResizeListener } from './unpicked-cards.js';
+import {
+  buildUnpickedCards,
+  buildYearUnpickedCards,
+  installSidebarResizeListener,
+} from './unpicked-cards.js';
 import {
   amberOutlineRows,
   fadeResetEnvelope,
@@ -55,11 +59,20 @@ import {
   updateBannerForSeason,
 } from './whatif-mode.js';
 import * as whatifStore from './whatif-store.js';
+import {
+  initialTab,
+  isYearTab,
+  TAB_ORDER,
+  yearLongPicks,
+  YEAR_TAB,
+  YEAR_TAB_LABEL,
+} from './year-picks.js';
 
 // Which tab was open last. A cookie rather than localStorage, carried over from
 // the old site so a reader who has already picked a Season keeps it across the
-// cutover, and unscoped because the three tabs mean the same thing on every
-// draft page (`board.js`).
+// cutover, and unscoped because the tabs mean the same thing on every draft
+// page (`board.js`). Its name still says Season, because it is the key a
+// returning reader's browser already holds.
 const SEASON_COOKIE = 'draft_active_season';
 
 // How long a figure takes to travel to its new value after a swap.
@@ -87,11 +100,11 @@ function todayIso() {
 // ── The page body ─────────────────────────────────────────────────────────
 
 // The tabs, the what-if pill and the four surfaces the renderers fill. Written
-// once, because nothing above `#draft-app` changes when the Season does.
-function draftShell(openSeason) {
-  const tabs = SEASON_ORDER.map(
-    (season) =>
-      `<button class="draft-tab-btn${season === openSeason ? ' active' : ''}" data-season="${season}">${SEASON_LABEL[season]}</button>`,
+// once, because nothing above `#draft-app` changes when the tab does.
+function draftShell(openTab) {
+  const tabs = TAB_ORDER.map(
+    (tab) =>
+      `<button class="draft-tab-btn${tab === openTab ? ' active' : ''}" data-tab="${tab}">${tabLabel(tab)}</button>`,
   ).join('');
 
   return `<div class="draft-tab-nav" role="tablist">
@@ -115,6 +128,11 @@ function draftShell(openSeason) {
         <div id="draft-unpicked"></div>
       </aside>
     </div>`;
+}
+
+// The year tab is not a Season, so it has no entry in the Campaign's labels.
+function tabLabel(tab) {
+  return isYearTab(tab) ? YEAR_TAB_LABEL : SEASON_LABEL[tab];
 }
 
 function init({ campaign }) {
@@ -145,13 +163,13 @@ function init({ campaign }) {
   const root = document.getElementById('draft-app');
   if (!root) return;
 
-  let currentSeason = initialSeason(
+  let currentTab = initialTab(
     readCookie(SEASON_COOKIE),
     board.latestDate,
     board.seasonBoundaries,
   );
 
-  root.innerHTML = draftShell(currentSeason);
+  root.innerHTML = draftShell(currentTab);
 
   const picksEl = document.getElementById('draft-picks');
   const leaderboardEl = document.getElementById('draft-leaderboard');
@@ -165,8 +183,8 @@ function init({ campaign }) {
   // in step, so the four surfaces cannot disagree about what is on the board.
   let currentView = whatifStore.viewOf(board);
 
-  function render(season) {
-    currentSeason = season;
+  function render(tab) {
+    currentTab = tab;
     currentView = whatifStore.viewOf(board);
 
     // The whole year, not this Season, so it is drawn before the Season's own
@@ -180,28 +198,61 @@ function init({ campaign }) {
       { enabled: whatifEnabled },
     );
 
+    if (isYearTab(tab)) {
+      renderYearTab();
+      return;
+    }
+
     // A Season nobody has drafted yet is the whole page's answer, not four
     // empty surfaces. The sidebar in particular would otherwise list every
     // Movie of that Season as unpicked, which reads as a draft that went badly
     // rather than as one that has not happened.
-    if (!picksForDraft(currentView, season).length) {
+    if (!picksForDraft(currentView, tab).length) {
       leaderboardEl.innerHTML = '';
       highlightsEl.innerHTML = '';
       unpickedEl.innerHTML = '';
-      picksEl.innerHTML = `<div class="draft-empty-page"><p>No picks yet for the ${SEASON_LABEL[season] || season} draft — check back later.</p></div>`;
-      updateBannerForSeason(season);
+      picksEl.innerHTML = `<div class="draft-empty-page"><p>No picks yet for the ${SEASON_LABEL[tab] || tab} draft — check back later.</p></div>`;
+      updateBannerForSeason(tab);
       return;
     }
 
-    buildPicksTable(currentView, season, colorMap, picksEl);
-    buildLeaderboard(currentView, season, colorMap, leaderboardEl);
-    buildHighlights(currentView, season, colorMap, highlightsEl);
-    buildUnpickedCards(currentView, season, today, unpickedEl);
+    buildPicksTable(currentView, tab, colorMap, picksEl);
+    buildLeaderboard(currentView, tab, colorMap, leaderboardEl);
+    buildHighlights(currentView, tab, colorMap, highlightsEl);
+    buildUnpickedCards(currentView, tab, today, unpickedEl);
 
     repaintSelectionAfterRender();
     refreshLockedTooltips();
     refreshPreDraftTooltips();
-    updateBannerForSeason(season);
+    updateBannerForSeason(tab);
+  }
+
+  // The year tab: the ten Picks that belong to no Season, and the whole year's
+  // unheld films beside them (#89).
+  //
+  // Two of the four surfaces stay empty. The Season leaderboard and the
+  // highlights strip both score a Season, and a year-long Pick is deliberately
+  // not part of one (`isSeasonalOrAlt`), so there is nothing here for either of
+  // them to say. What a hit or a bomb moves is the Standings strip above,
+  // which is already drawn.
+  function renderYearTab() {
+    leaderboardEl.innerHTML = '';
+    highlightsEl.innerHTML = '';
+
+    if (!yearLongPicks(currentView).length) {
+      unpickedEl.innerHTML = '';
+      picksEl.innerHTML = '<div class="draft-empty-page"><p>No hits or bombs picked yet — check back later.</p></div>';
+      updateBannerForSeason(YEAR_TAB);
+      return;
+    }
+
+    buildYearPicksTable(currentView, colorMap, picksEl);
+    buildYearUnpickedCards(currentView, today, colorMap, unpickedEl, picksEl);
+
+    repaintSelectionAfterRender();
+    refreshLockedTooltips();
+    refreshPreDraftTooltips();
+    updateBannerForSeason(YEAR_TAB);
   }
 
   // ── The tabs ────────────────────────────────────────────────────────────
@@ -210,15 +261,15 @@ function init({ campaign }) {
     const button = event.target.closest('.draft-tab-btn');
     if (!button) return;
 
-    const season = button.dataset.season;
-    if (!SEASON_ORDER.includes(season)) return;
+    const tab = button.dataset.tab;
+    if (!TAB_ORDER.includes(tab)) return;
 
-    for (const tab of root.querySelectorAll('.draft-tab-btn')) {
-      tab.classList.toggle('active', tab.dataset.season === season);
+    for (const btn of root.querySelectorAll('.draft-tab-btn')) {
+      btn.classList.toggle('active', btn.dataset.tab === tab);
     }
-    writeCookie(SEASON_COOKIE, season);
+    writeCookie(SEASON_COOKIE, tab);
     cancelIntro();
-    render(season);
+    render(tab);
     clearSelectionOnTabChange();
   });
 
@@ -306,24 +357,24 @@ function init({ campaign }) {
     // Leaving what-if mode drops every swap at once, so there is nothing to
     // travel between: the board goes back to what it was published as.
     if (!whatifStore.getState().enabled) {
-      render(currentSeason);
+      render(currentTab);
       return;
     }
 
     // A reset changes everything at once, so it fades the page rather than
     // flashing every row it touched.
     if (whatifStore.getLastOp() === 'reset') {
-      fadeResetEnvelope(() => render(currentSeason), () => {});
+      fadeResetEnvelope(() => render(currentTab), () => {});
       return;
     }
 
-    const before = snapshotForSeason(currentView, currentSeason);
+    const before = snapshotForSeason(currentView, currentTab);
     const positions = snapshotLeaderboardPositions();
     const previousRows = currentRowImdbIds();
 
-    render(currentSeason);
+    render(currentTab);
 
-    const after = snapshotForSeason(currentView, currentSeason);
+    const after = snapshotForSeason(currentView, currentTab);
     playLeaderboardFlip(positions);
     runNumberTweens(before, after);
     flashDirectionalCells(before, after);
@@ -332,9 +383,9 @@ function init({ campaign }) {
 
   // ── First render ────────────────────────────────────────────────────────
 
-  render(currentSeason);
-  updateBannerForSeason(currentSeason);
-  attachSelectionHandlers(() => currentSeason);
+  render(currentTab);
+  updateBannerForSeason(currentTab);
+  attachSelectionHandlers(() => currentTab);
   installSidebarResizeListener();
   // Nothing on this page bakes a colour into rendered markup the way the
   // Campaign page's chart and Tabulator instance do, so the switch has
