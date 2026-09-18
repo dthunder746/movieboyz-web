@@ -10,6 +10,7 @@ import { pickIcon, userBadge } from '../shared/icons.js';
 import { SEASON_LABEL } from './board.js';
 import { picksForDraft } from './season-helpers.js';
 import {
+  isYearTab,
   lockedOnBoard,
   profitRanksEverySeason,
   yearLongPicks,
@@ -39,9 +40,9 @@ function rankCell(rank) {
 
 // An emptied slot. It keeps its place in the draft order so it can be filled
 // again, which is why it renders as a row rather than disappearing.
-function ghostRow(slot, colorMap, showSeason) {
+function ghostRow(slot, colorMap, tab) {
   const titleAttr = slot.clearedTitle ? ` title="Cleared: ${escapeHtml(slot.clearedTitle)}"` : '';
-  const seasonCell = showSeason ? '<td><span class="text-neu">—</span></td>' : '';
+  const seasonCell = isYearTab(tab) ? '<td><span class="text-neu">—</span></td>' : '';
 
   return `<tr class="draft-row-ghost draft-row-swappable" data-kind="slot-ghost"
       data-user="${escapeHtml(slot.userId ?? '')}"
@@ -62,7 +63,7 @@ function ghostRow(slot, colorMap, showSeason) {
 // One slot. Whether it is locked is the board's reading of the Pick rather than
 // the Pick itself: a hit is frozen on the Winter board and editable on the year
 // tab, and it is the same row both times (`year-picks.js`).
-function pickRow(pick, ranks, colorMap, { tab, showSeason }) {
+function pickRow(pick, ranks, colorMap, tab) {
   const locked = lockedOnBoard(pick, tab);
 
   const classes = locked
@@ -75,7 +76,7 @@ function pickRow(pick, ranks, colorMap, { tab, showSeason }) {
 
   // The Season the Movie opens in, which is the one thing about a year-long
   // Pick the Winter board cannot show: that board is already a Season.
-  const seasonCell = showSeason
+  const seasonCell = isYearTab(tab)
     ? `<td class="cell-season"><span class="text-neu">${escapeHtml(SEASON_LABEL[pick.season] || pick.season || '—')}</span></td>`
     : '';
 
@@ -93,11 +94,11 @@ function pickRow(pick, ranks, colorMap, { tab, showSeason }) {
     </tr>`;
 }
 
-// The card both tables are drawn in. They differ in their heading, in whether
-// they carry a Season column and in what the `#` column counts, and in nothing
-// else, so they share the markup.
-function tableCard(rowsHtml, { heading, pickHeader, pickTip, showSeason }) {
-  const seasonHeader = showSeason ? '<th>Season</th>' : '';
+// The card both tables are drawn in. They differ in their heading, in what the
+// `#` column's tooltip says and in whether they carry a Season column, which
+// the tab answers, and in nothing else, so they share the markup.
+function tableCard(rowsHtml, { heading, pickTip, tab }) {
+  const seasonHeader = isYearTab(tab) ? '<th>Season</th>' : '';
   const pickTipAttr = pickTip ? ` title="${pickTip}"` : '';
 
   return `<div class="info-tab-card draft-picks-card">
@@ -105,7 +106,7 @@ function tableCard(rowsHtml, { heading, pickHeader, pickTip, showSeason }) {
     <div class="draft-picks-wrap">
       <table class="draft-picks-table">
         <thead><tr>
-          <th class="text-end"${pickTipAttr}>${pickHeader}</th>
+          <th class="text-end"${pickTipAttr}>#</th>
           <th>Movie</th>
           ${seasonHeader}
           <th class="text-end">B/E</th>
@@ -137,15 +138,14 @@ export function buildPicksTable(view, season, colorMap, mountEl) {
 
   const rows = picks
     .map((pick) => (pick.ghost
-      ? ghostRow(pick, colorMap, false)
-      : pickRow(pick, ranks, colorMap, { tab: season, showSeason: false })))
+      ? ghostRow(pick, colorMap, season)
+      : pickRow(pick, ranks, colorMap, season)))
     .join('');
 
   mountEl.innerHTML = tableCard(rows, {
     heading: `${SEASON_LABEL[season] || season} Draft Order`,
-    pickHeader: '#',
     pickTip: '',
-    showSeason: false,
+    tab: season,
   });
 }
 
@@ -156,24 +156,21 @@ export function buildPicksTable(view, season, colorMap, mountEl) {
 export function buildYearPicksTable(view, colorMap, mountEl) {
   if (!mountEl) return;
 
+  // The page does not call this with an empty board: `renderYearTab` answers
+  // that case for the whole page before it gets here.
   const picks = yearLongPicks(view);
-  if (!picks.length) {
-    mountEl.innerHTML = '<p class="draft-empty">Draft hasn’t happened yet — check back after the picks are made.</p>';
-    return;
-  }
 
   const ranks = profitRanksEverySeason(view);
 
   const rows = picks
     .map((pick) => (pick.ghost
-      ? ghostRow(pick, colorMap, true)
-      : pickRow(pick, ranks, colorMap, { tab: YEAR_TAB, showSeason: true })))
+      ? ghostRow(pick, colorMap, YEAR_TAB)
+      : pickRow(pick, ranks, colorMap, YEAR_TAB)))
     .join('');
 
   mountEl.innerHTML = tableCard(rows, {
     heading: `${YEAR_TAB_LABEL} — Winter Draft`,
-    pickHeader: '#',
     pickTip: 'Winter draft pick number',
-    showSeason: true,
+    tab: YEAR_TAB,
   });
 }
