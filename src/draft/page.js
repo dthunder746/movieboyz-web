@@ -174,7 +174,7 @@ function init({ campaign }) {
     // does not make the year's figures go away (#88).
     const whatifEnabled = whatifStore.getState().enabled;
     buildStandingsStrip(
-      whatifStandings(currentView, { enabled: whatifEnabled }),
+      whatifStandings(currentView),
       colorMap,
       standingsEl,
       { enabled: whatifEnabled },

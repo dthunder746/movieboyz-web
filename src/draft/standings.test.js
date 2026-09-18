@@ -51,21 +51,21 @@ describe('roundHalfEven', () => {
 
 describe('whatifStandings', () => {
   it('gives every roster member a row, even with an empty Slate', () => {
-    const rows = whatifStandings(view(), { enabled: false });
+    const rows = whatifStandings(view());
     expect(rows.map((row) => row.userId).sort()).toEqual(['a', 'b', 'c']);
   });
 
   it('adds up the holder own non-bomb Picks', () => {
     const rows = whatifStandings(view({
       rows: [pick('a', 'seasonal', 300), pick('a', 'hit', 200), pick('b', 'alt', 100)],
-    }), { enabled: true });
+    }));
     expect(rows.map((row) => [row.userId, row.total])).toEqual([['a', 500], ['b', 100], ['c', 0]]);
   });
 
   it('ignores a Movie nobody holds and a Pick with no profit yet', () => {
     const rows = whatifStandings(view({
       rows: [pick('a', 'seasonal', 300), pick('a', 'seasonal', null), pick(null, null, 9999)],
-    }), { enabled: true });
+    }));
     expect(rows[0].total).toBe(300);
   });
 
@@ -74,7 +74,7 @@ describe('whatifStandings', () => {
   it('splits a bomb across the other roster members under split', () => {
     const rows = whatifStandings(view({
       rows: [pick('a', 'bomb', -300)],
-    }), { enabled: true });
+    }));
     const byUser = Object.fromEntries(rows.map((row) => [row.userId, row.total]));
     expect(byUser).toEqual({ a: 0, b: -150, c: -150 });
   });
@@ -86,14 +86,14 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       bombMode: 'savage',
       rows: [pick('a', 'bomb', -300)],
-    }), { enabled: true });
+    }));
     const byUser = Object.fromEntries(rows.map((row) => [row.userId, row.total]));
     expect(byUser).toEqual({ a: 0, b: -300, c: -300 });
   });
 
   it('treats an unknown bomb mode as savage and still answers', () => {
     for (const bombMode of ['SPLIT', 'wildcard', null, undefined]) {
-      const rows = whatifStandings(view({ bombMode, rows: [pick('a', 'bomb', -300)] }), { enabled: true });
+      const rows = whatifStandings(view({ bombMode, rows: [pick('a', 'bomb', -300)] }));
       const byUser = Object.fromEntries(rows.map((row) => [row.userId, row.total]));
       expect(byUser).toEqual({ a: 0, b: -300, c: -300 });
     }
@@ -103,12 +103,12 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       users: [{ userId: 'a', username: 'Ann' }],
       rows: [pick('a', 'bomb', -300), pick('a', 'seasonal', 50)],
-    }), { enabled: true });
+    }));
     expect(rows).toEqual([expect.objectContaining({ userId: 'a', total: 50 })]);
   });
 
   it('reads the pick type whatever case it is published in', () => {
-    const rows = whatifStandings(view({ rows: [pick('a', 'BOMB', -300)] }), { enabled: true });
+    const rows = whatifStandings(view({ rows: [pick('a', 'BOMB', -300)] }));
     expect(Object.fromEntries(rows.map((row) => [row.userId, row.total]))).toEqual({ a: 0, b: -150, c: -150 });
   });
 
@@ -119,7 +119,7 @@ describe('whatifStandings', () => {
   it('rounds the two halves separately rather than rounding their sum', () => {
     const rows = whatifStandings(view({
       rows: [pick('a', 'seasonal', 0.5), pick('b', 'bomb', 1)],
-    }), { enabled: true });
+    }));
     // Ann: slate 0.5 → 0, bomb 1/2 = 0.5 → 0. Summed first it would be 1.
     expect(rows.find((row) => row.userId === 'a').total).toBe(0);
   });
@@ -128,7 +128,7 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       users: [{ userId: 'a', username: 'Ann' }, { userId: 'b', username: 'Bob' }],
       rows: [pick('a', 'seasonal', 2.5), pick('a', 'seasonal', 1)],
-    }), { enabled: true });
+    }));
     // Slate 3.5 → 4 under half-to-even and under Math.round; the negative is
     // where the two part ways.
     expect(rows.find((row) => row.userId === 'a').total).toBe(4);
@@ -136,7 +136,7 @@ describe('whatifStandings', () => {
     const negative = whatifStandings(view({
       users: [{ userId: 'a', username: 'Ann' }, { userId: 'b', username: 'Bob' }],
       rows: [pick('a', 'seasonal', -2.5)],
-    }), { enabled: true });
+    }));
     // -2.5 is a tie: half-to-even gives -2, `Math.round` gives -2 as well, so
     // the case that separates them is the odd one.
     expect(negative.find((row) => row.userId === 'a').total).toBe(-2);
@@ -144,7 +144,7 @@ describe('whatifStandings', () => {
     const odd = whatifStandings(view({
       users: [{ userId: 'a', username: 'Ann' }, { userId: 'b', username: 'Bob' }],
       rows: [pick('a', 'seasonal', 4.5)],
-    }), { enabled: true });
+    }));
     // 4.5 → 4 under half-to-even, 5 under `Math.round`.
     expect(odd.find((row) => row.userId === 'a').total).toBe(4);
   });
@@ -152,23 +152,26 @@ describe('whatifStandings', () => {
   it('sorts by the what-if total, highest first, ties on the name', () => {
     const rows = whatifStandings(view({
       rows: [pick('c', 'seasonal', 900)],
-    }), { enabled: true });
+    }));
     expect(rows.map((row) => row.userId)).toEqual(['c', 'a', 'b']);
   });
 
-  // The total is computed the same way whether the mode is on or off, so there
-  // is no handover between a published figure and a computed one.
-  it('computes the total the same way with the mode off', () => {
-    const board = view({ rows: [pick('a', 'seasonal', 300)] });
-    expect(whatifStandings(board, { enabled: false })[0].total)
-      .toBe(whatifStandings(board, { enabled: true })[0].total);
+  // One code path, whether or not the mode is on: the total is always the
+  // computed one, never the published figure handed back. A renderer decides
+  // what to say about the mode, and there is nothing here for it to switch on.
+  it('reports the computed total even where the published one disagrees', () => {
+    const rows = whatifStandings(view({
+      publishedTotals: { a: 999 },
+      rows: [pick('a', 'seasonal', 300)],
+    }));
+    expect(rows.find((row) => row.userId === 'a').total).toBe(300);
   });
 
   it('measures the delta against the published total', () => {
     const rows = whatifStandings(view({
       publishedTotals: { a: 250, b: 100, c: 0 },
       rows: [pick('a', 'seasonal', 300)],
-    }), { enabled: true });
+    }));
     expect(rows.find((row) => row.userId === 'a')).toMatchObject({
       total: 300,
       publishedTotal: 250,
@@ -180,7 +183,7 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       publishedTotals: { a: 250 },
       rows: [pick('a', 'seasonal', 300)],
-    }), { enabled: true });
+    }));
     expect(rows.find((row) => row.userId === 'b')).toMatchObject({
       publishedTotal: null,
       delta: null,
@@ -193,7 +196,7 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       publishedTotals: { a: 300, b: 200, c: 100 },
       rows: [pick('c', 'seasonal', 900)],
-    }), { enabled: true });
+    }));
     const byUser = Object.fromEntries(rows.map((row) => [row.userId, row.rankChange]));
     expect(byUser).toEqual({ c: 2, a: -1, b: -1 });
   });
@@ -202,7 +205,7 @@ describe('whatifStandings', () => {
     const rows = whatifStandings(view({
       publishedTotals: { a: 300, b: 200, c: 100 },
       rows: [pick('a', 'seasonal', 300), pick('b', 'seasonal', 200), pick('c', 'seasonal', 100)],
-    }), { enabled: true });
+    }));
     expect(rows.every((row) => row.rankChange === 0)).toBe(true);
   });
 });

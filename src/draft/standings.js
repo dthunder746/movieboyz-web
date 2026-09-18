@@ -47,7 +47,7 @@ function rankMap(entries) {
   return new Map(ordered.map((entry, index) => [entry.userId, index + 1]));
 }
 
-export function whatifStandings(view, { enabled } = {}) {
+export function whatifStandings(view) {
   const users = view?.users || [];
   const roster = users.map((user) => user.userId);
   const published = view?.publishedTotals || {};
@@ -112,9 +112,6 @@ export function whatifStandings(view, { enabled } = {}) {
       rankChange: row.publishedTotal === null
         ? null
         : publishedRanks.get(row.userId) - whatifRanks.get(row.userId),
-      // Carried through so a renderer can say nothing rather than say zero when
-      // nothing was measured.
-      enabled: Boolean(enabled),
     }))
     .sort((left, right) => {
       if (right.total !== left.total) return right.total - left.total;
