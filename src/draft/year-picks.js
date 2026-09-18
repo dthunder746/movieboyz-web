@@ -9,7 +9,12 @@
 //
 // Pure: no fetching, no DOM.
 
-import { profitRanksForSeason } from './season-helpers.js';
+import {
+  ghostRowFrom,
+  profitRanksForSeason,
+  releasedOf,
+  unreleasedOf,
+} from './season-helpers.js';
 import { initialSeason, SEASON_ORDER } from './board.js';
 
 // Not a Season, deliberately. The Campaign publishes three and this is a fourth
@@ -68,21 +73,7 @@ export function yearLongPicks(view) {
 
   const ghosts = (view.ghostSlots || [])
     .filter((slot) => isYearLong(slot))
-    .map((slot) => ({
-      imdbId: null,
-      ghost: true,
-      userId: slot.userId,
-      username: slot.username,
-      pickType: slot.pickType,
-      draftPick: slot.draftPick,
-      season: slot.season,
-      title: '',
-      releaseDate: null,
-      profitTd: null,
-      breakeven: null,
-      clearedImdbId: slot.clearedImdbId,
-      clearedTitle: slot.clearedTitle,
-    }));
+    .map(ghostRowFrom);
 
   const order = (pick) => ((pick.pickType || '').toLowerCase() === 'hit' ? 0 : 1);
 
@@ -109,32 +100,14 @@ function offeredForYear(view, draftDate) {
 }
 
 // Split on whether they have opened, the same question the Season sidebar's two
-// cards answer, because the two lists say different things: what a Slate missed
-// and what is still to come.
+// cards answer and the same split, applied to the year's pool instead of a
+// Season's (`releasedOf` and `unreleasedOf` in `season-helpers.js`).
 export function yearReleasedCandidates(view, draftDate, today) {
-  return offeredForYear(view, draftDate)
-    .filter((row) => {
-      if (!row.releaseDate || row.releaseDate === 'TBA') return false;
-      if (row.releaseDate > today) return false;
-      return row.profitTd != null;
-    })
-    .sort((left, right) => right.profitTd - left.profitTd);
+  return releasedOf(offeredForYear(view, draftDate), today);
 }
 
 export function yearUnreleasedCandidates(view, draftDate, today) {
-  return offeredForYear(view, draftDate)
-    .filter((row) => {
-      if (!row.releaseDate || row.releaseDate === 'TBA') return true;
-      if (row.releaseDate > today) return true;
-      return row.profitTd == null;
-    })
-    .sort((left, right) => {
-      // An unknown date sorts last, as it does in the Season sidebar.
-      const leftDate = !left.releaseDate || left.releaseDate === 'TBA' ? 'zzzz' : left.releaseDate;
-      const rightDate = !right.releaseDate || right.releaseDate === 'TBA' ? 'zzzz' : right.releaseDate;
-      if (leftDate < rightDate) return -1;
-      return leftDate > rightDate ? 1 : 0;
-    });
+  return unreleasedOf(offeredForYear(view, draftDate), today);
 }
 
 // Every Movie's rank within its own Season, in one lookup. The year tab mixes
