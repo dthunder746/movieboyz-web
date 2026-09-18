@@ -99,6 +99,38 @@ describe('buildDraftBoard', () => {
     });
   });
 
+  // The what-if Standings strip is the one place the page applies a league
+  // rule, and this is the rule it applies (#88).
+  it('carries the bomb mode the Ruleset sets', () => {
+    const board = buildDraftBoard(campaign({
+      ruleset: { bomb_mode: 'split', season_boundaries: null },
+    }));
+    expect(board.bombMode).toBe('split');
+  });
+
+  it('leaves the bomb mode null for a Ruleset that does not name one', () => {
+    expect(buildDraftBoard(campaign()).bombMode).toBeNull();
+  });
+
+  it('carries the published Standings total per User', () => {
+    const board = buildDraftBoard(campaign({
+      users: [
+        { user_id: 'marcus', total: 400 },
+        { user_id: 'connie', total: -100 },
+      ],
+    }));
+    expect(board.publishedTotals).toEqual({ marcus: 400, connie: -100 });
+  });
+
+  // A User the Campaign has not scored has no published figure to be measured
+  // against, which is not the same thing as a published zero.
+  it('leaves out a User with no published total', () => {
+    const board = buildDraftBoard(campaign({
+      users: [{ user_id: 'marcus', total: 400 }, { user_id: 'connie', total: null }],
+    }));
+    expect(board.publishedTotals).toEqual({ marcus: 400 });
+  });
+
   // The catch-all renders any Campaign path, so a Campaign that could not be
   // read has to leave a Board the page can still draw an empty state from.
   it('builds an empty Board from nothing at all', () => {
@@ -106,6 +138,8 @@ describe('buildDraftBoard', () => {
     expect(board.rows).toEqual([]);
     expect(board.users).toEqual([]);
     expect(board.seasonBoundaries).toBeNull();
+    expect(board.bombMode).toBeNull();
+    expect(board.publishedTotals).toEqual({});
   });
 });
 
