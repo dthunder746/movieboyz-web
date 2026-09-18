@@ -76,10 +76,10 @@ function unreleasedRow(movie, colorMap) {
     + '</tr>';
 }
 
-function releasedCard(rows, label, ranks, draftDate, colorMap) {
+function releasedCard(rows, heading, ranks, draftDate, colorMap) {
   if (!rows.length) {
     return '<div class="info-tab-card draft-unpicked-card draft-unpicked-released">'
-      + `<div class="draft-unpicked-header">Released - Unpicked - ${label}</div>`
+      + `<div class="draft-unpicked-header">${heading}</div>`
       + '<p class="draft-empty draft-unpicked-empty">No unpicked releases with profit data.</p>'
       + '</div>';
   }
@@ -87,7 +87,7 @@ function releasedCard(rows, label, ranks, draftDate, colorMap) {
   const body = rows.map((movie) => releasedRow(movie, ranks, draftDate, colorMap)).join('');
 
   return '<div class="info-tab-card draft-unpicked-card draft-unpicked-released">'
-    + `<div class="draft-unpicked-header">Released - Unpicked - ${label}</div>`
+    + `<div class="draft-unpicked-header">${heading}</div>`
     + '<div class="info-card-table-wrap draft-unpicked-scroll">'
     + '<table class="scorecard-movie-table">'
     + '<colgroup><col class="col-title"><col class="col-profit"><col class="col-rank"></colgroup>'
@@ -102,12 +102,12 @@ function releasedCard(rows, label, ranks, draftDate, colorMap) {
     + '</div>';
 }
 
-function unreleasedCard(rows, label, colorMap) {
+function unreleasedCard(rows, heading, colorMap) {
   if (!rows.length) return '';
   const body = rows.map((movie) => unreleasedRow(movie, colorMap)).join('');
 
   return '<div class="info-tab-card draft-unpicked-card draft-unpicked-unreleased">'
-    + `<div class="draft-unpicked-header">Unreleased - Unpicked - ${label}</div>`
+    + `<div class="draft-unpicked-header">${heading}</div>`
     + '<div class="info-card-table-wrap draft-unpicked-scroll">'
     + '<table class="scorecard-movie-table">'
     + '<thead><tr><th>Movie</th><th class="text-end">Release date</th></tr></thead>'
@@ -126,8 +126,8 @@ export function buildUnpickedCards(view, season, today, mountEl) {
   const ranks = profitRanksForSeason(view, season);
   const draftDate = getDraftDate(season);
 
-  mountEl.innerHTML = releasedCard(released, label, ranks, draftDate, null)
-    + unreleasedCard(unreleased, label, null);
+  mountEl.innerHTML = releasedCard(released, `Released - Unpicked - ${label}`, ranks, draftDate, null)
+    + unreleasedCard(unreleased, `Unreleased - Unpicked - ${label}`, null);
   reapplyCaps = () => balanceUnpickedCards(mountEl);
   reapplyCaps();
 }
@@ -146,7 +146,8 @@ export function buildUnpickedCards(view, season, today, mountEl) {
 export function buildYearUnpickedCards(view, today, colorMap, mountEl, mainEl) {
   if (!mountEl) return;
 
-  const label = 'All Year';
+  // Not "Unpicked": a hit or a bomb can take a film somebody already holds, so
+  // the cards list held films too (#89).
   const draftDate = getDraftDate(draftDateSeasonFor(YEAR_TAB));
   const released = yearReleasedCandidates(view, draftDate, today);
   const unreleased = yearUnreleasedCandidates(view, draftDate, today);
@@ -154,8 +155,8 @@ export function buildYearUnpickedCards(view, today, colorMap, mountEl, mainEl) {
 
   // No draft date is passed down to the rows: there is nothing left in them for
   // it to mark.
-  mountEl.innerHTML = releasedCard(released, label, ranks, null, colorMap)
-    + unreleasedCard(unreleased, label, colorMap);
+  mountEl.innerHTML = releasedCard(released, 'Released - All Year', ranks, null, colorMap)
+    + unreleasedCard(unreleased, 'Unreleased - All Year', colorMap);
   reapplyCaps = () => fitUnpickedCardsTo(mountEl, mainEl);
   reapplyCaps();
 }
