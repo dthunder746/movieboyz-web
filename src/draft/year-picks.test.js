@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  TAB_ORDER,
   YEAR_TAB,
   YEAR_TAB_LABEL,
   draftDateSeasonFor,
+  initialTab,
   isYearTab,
   lockedOnBoard,
   profitRanksEverySeason,
@@ -53,6 +55,23 @@ describe('the tab key', () => {
   it('borrows the Winter draft date', () => {
     expect(draftDateSeasonFor(YEAR_TAB)).toBe('WINTER');
     expect(draftDateSeasonFor('FALL')).toBe('FALL');
+  });
+});
+
+describe('initialTab', () => {
+  const boundaries = { WINTER: '2026-01-01', SUMMER: '2026-05-01', FALL: '2026-09-01' };
+
+  it('puts the year tab after the three Seasons', () => {
+    expect(TAB_ORDER).toEqual(['WINTER', 'SUMMER', 'FALL', 'YEAR']);
+  });
+
+  it('opens on the year tab when that is what the reader last had open', () => {
+    expect(initialTab('YEAR', '2026-06-15', boundaries)).toBe('YEAR');
+  });
+
+  it('leaves the Season logic alone for everything else', () => {
+    expect(initialTab('FALL', '2026-06-15', boundaries)).toBe('FALL');
+    expect(initialTab('AUTUMN', '2026-06-15', boundaries)).toBe('SUMMER');
   });
 });
 

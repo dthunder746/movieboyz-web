@@ -10,7 +10,7 @@
 // Pure: no fetching, no DOM.
 
 import { profitRanksForSeason } from './season-helpers.js';
-import { SEASON_ORDER } from './board.js';
+import { initialSeason, SEASON_ORDER } from './board.js';
 
 // Not a Season, deliberately. The Campaign publishes three and this is a fourth
 // tab over the same Board, so it needs a key the Season checks fail on rather
@@ -21,6 +21,19 @@ export const YEAR_TAB_LABEL = 'Hits & Bombs';
 
 export function isYearTab(tab) {
   return tab === YEAR_TAB;
+}
+
+// Every tab the draft page draws, in the order they are shown. The year tab
+// sits last because it is a reading of Picks the three Season boards have
+// already shown, not a fourth part of the draft.
+export const TAB_ORDER = [...SEASON_ORDER, YEAR_TAB];
+
+// Which tab the page opens on, with the reader's last choice still winning.
+// It wraps the Season rule rather than replacing it: `initialSeason` checks a
+// cookie against the Seasons that exist, and the year tab is not one of them.
+export function initialTab(saved, latestDate, boundaries) {
+  if (isYearTab(saved)) return saved;
+  return initialSeason(saved, latestDate, boundaries);
 }
 
 // Which draft date a tab is measured against. Every year-long Pick was taken at
