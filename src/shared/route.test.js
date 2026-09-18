@@ -14,6 +14,7 @@ import {
   movieHref,
   movieIdFromSearch,
   moviePath,
+  pageForPath,
   siteRoot,
 } from './route.js';
 
@@ -212,6 +213,58 @@ describe('leagueFromPath', () => {
 
   it('finds no League at the Movies section', () => {
     expect(leagueFromPath('/movies/')).toBeNull();
+  });
+});
+
+// Which page an address names, which is the whole of what the catch-all
+// dispatches on. One `404.html` answers every path the host has no file for,
+// so the page has to be picked from the path rather than from which file was
+// reached (#101).
+//
+// The order is the point, and it is pinned here on purpose: a draft address is
+// a Campaign address with a segment on the end, and a Campaign address is a
+// League address with a year on the end, so the longest match has to be tested
+// first. `leagueFromPath` declines a Campaign path on its own, but the dispatch
+// is not left leaning on that.
+describe('pageForPath', () => {
+  it('names the draft page at a draft path', () => {
+    expect(pageForPath('/league/movieboyz/2026/draft/')).toBe('draft');
+  });
+
+  it('names the campaign page at a Campaign path', () => {
+    expect(pageForPath('/league/movieboyz/2026/')).toBe('campaign');
+  });
+
+  it('names the league page at a League landing path', () => {
+    expect(pageForPath('/league/movieboyz/')).toBe('league');
+  });
+
+  // The reason the branch exists: a League the build has never heard of is
+  // reachable the moment the processor publishes it, with no deploy.
+  it('names the league page for a slug with no built directory', () => {
+    expect(pageForPath('/league/second-league/')).toBe('league');
+  });
+
+  it('reads the page off the index.html itself', () => {
+    expect(pageForPath('/league/second-league/index.html')).toBe('league');
+  });
+
+  it('ignores whatever the path is prefixed with', () => {
+    expect(pageForPath('/movieboyz-web/league/second-league/')).toBe('league');
+  });
+
+  // The campaign entry carries the notice for an address naming no page this
+  // site has, so everything unrecognised still goes there.
+  it('falls back to the campaign page at the league marker alone', () => {
+    expect(pageForPath('/league/')).toBe('campaign');
+  });
+
+  it('falls back to the campaign page at a mistyped path', () => {
+    expect(pageForPath('/leage/movieboyz/2026/')).toBe('campaign');
+  });
+
+  it('falls back to the campaign page at the root', () => {
+    expect(pageForPath('/')).toBe('campaign');
   });
 });
 

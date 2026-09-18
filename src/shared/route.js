@@ -115,6 +115,26 @@ export function leagueFromPath(pathname) {
   return { leagueSlug: segments[marker + 1] };
 }
 
+// Which page an address names: 'draft', 'campaign' or 'league'. The whole of
+// the catch-all's decision, here rather than in `catchall/entry.js` so it can
+// be tested without a document (#101).
+//
+// Longest first, because the three addresses nest: a draft path is a Campaign
+// path with a segment on the end, and a Campaign path is a League path with a
+// year on the end. `leagueFromPath` requires the slug to be the last segment,
+// so it declines a Campaign address by itself, but the order is written out
+// here anyway rather than left resting on that.
+//
+// Anything else is the Campaign page, which is where the notice for an address
+// naming no page this site has already lives. `/league/` on its own and a
+// mistyped path both land there.
+export function pageForPath(pathname) {
+  if (draftFromPath(pathname)) return 'draft';
+  if (campaignFromPath(pathname)) return 'campaign';
+  if (leagueFromPath(pathname)) return 'league';
+  return 'campaign';
+}
+
 export function isMoviesPath(pathname) {
   const segments = directorySegments(pathname);
   // A League could be slugged `movies`, so the League marker is checked first
