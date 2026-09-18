@@ -8,7 +8,14 @@ import { escapeHtml, fmt, fmtPct, colorClass } from '../shared/format.js';
 import { pickIcon, userBadge } from '../shared/icons.js';
 
 import { SEASON_LABEL } from './board.js';
-import { picksForDraft, profitRanksForSeason } from './season-helpers.js';
+import { picksForDraft } from './season-helpers.js';
+import {
+  lockedOnBoard,
+  profitRanksEverySeason,
+  yearLongPicks,
+  YEAR_TAB,
+  YEAR_TAB_LABEL,
+} from './year-picks.js';
 
 const RANK_TIP = "Profit rank within the movie's release season";
 
@@ -32,8 +39,9 @@ function rankCell(rank) {
 
 // An emptied slot. It keeps its place in the draft order so it can be filled
 // again, which is why it renders as a row rather than disappearing.
-function ghostRow(slot, colorMap) {
+function ghostRow(slot, colorMap, showSeason) {
   const titleAttr = slot.clearedTitle ? ` title="Cleared: ${escapeHtml(slot.clearedTitle)}"` : '';
+  const seasonCell = showSeason ? '<td><span class="text-neu">—</span></td>' : '';
 
   return `<tr class="draft-row-ghost draft-row-swappable" data-kind="slot-ghost"
       data-user="${escapeHtml(slot.userId ?? '')}"
@@ -42,6 +50,7 @@ function ghostRow(slot, colorMap) {
       data-cleared-imdb="${escapeHtml(slot.clearedImdbId ?? '')}"${titleAttr}>
       <td class="text-end">${slot.draftPick}</td>
       <td>${userBadge(slot.userId, slot.username, colorMap)}<span class="draft-row-ghost-label">— cleared —</span></td>
+      ${seasonCell}
       <td class="text-end"><span class="text-neu">—</span></td>
       <td class="text-end cell-profit"><span class="text-neu">—</span></td>
       <td class="text-end cell-roi"><span class="text-neu">—</span></td>
@@ -50,32 +59,65 @@ function ghostRow(slot, colorMap) {
     </tr>`;
 }
 
-function pickRow(pick, ranksBySeason, colorMap) {
-  // `hit` and `bomb` are the year's fixed Picks. What-if cannot move them, so
-  // they are shown dimmed and are not swap targets.
-  const type = (pick.pickType || '').toLowerCase();
-  const locked = type === 'hit' || type === 'bomb';
+// One slot. Whether it is locked is the board's reading of the Pick rather than
+// the Pick itself: a hit is frozen on the Winter board and editable on the year
+// tab, and it is the same row both times (`year-picks.js`).
+function pickRow(pick, ranks, colorMap, { tab, showSeason }) {
+  const locked = lockedOnBoard(pick, tab);
 
   const classes = locked
     ? 'draft-row-dimmed draft-row-locked'
     : 'draft-row-swappable';
 
-  const ranks = ranksBySeason[pick.season] || {};
   const clearCell = locked
     ? '<td class="cell-clear"></td>'
     : '<td class="cell-clear"><button type="button" class="draft-clear-pick" aria-label="Clear pick">×</button></td>';
+
+  // The Season the Movie opens in, which is the one thing about a year-long
+  // Pick the Winter board cannot show: that board is already a Season.
+  const seasonCell = showSeason
+    ? `<td class="cell-season"><span class="text-neu">${escapeHtml(SEASON_LABEL[pick.season] || pick.season || '—')}</span></td>`
+    : '';
 
   return `<tr class="${classes}" data-imdb="${escapeHtml(pick.imdbId)}"
       data-user="${escapeHtml(pick.userId ?? '')}"
       data-pick-type="${escapeHtml(pick.pickType ?? '')}" data-kind="slot">
       <td class="text-end">${pick.draftPick}</td>
       <td class="cell-title" title="${escapeHtml(pick.title)}">${userBadge(pick.userId, pick.username, colorMap)}${pickIcon(pick.pickType, pick.season)}<span class="draft-pick-title">${escapeHtml(pick.title)}</span></td>
+      ${seasonCell}
       <td class="text-end">${pick.breakeven != null ? fmt(pick.breakeven) : '<span class="text-neu">—</span>'}</td>
       <td class="text-end cell-profit">${profitCell(pick.profitTd)}</td>
       <td class="text-end cell-roi">${roiCell(pick.profitTd, pick.breakeven)}</td>
       <td class="text-end" title="${RANK_TIP}">${rankCell(ranks[pick.imdbId])}</td>
       ${clearCell}
     </tr>`;
+}
+
+// The card both tables are drawn in. They differ in their heading, in whether
+// they carry a Season column and in what the `#` column counts, and in nothing
+// else, so they share the markup.
+function tableCard(rowsHtml, { heading, pickHeader, pickTip, showSeason }) {
+  const seasonHeader = showSeason ? '<th>Season</th>' : '';
+  const pickTipAttr = pickTip ? ` title="${pickTip}"` : '';
+
+  return `<div class="info-tab-card draft-picks-card">
+    <div class="draft-unpicked-header">${heading}</div>
+    <div class="draft-picks-wrap">
+      <table class="draft-picks-table">
+        <thead><tr>
+          <th class="text-end"${pickTipAttr}>${pickHeader}</th>
+          <th>Movie</th>
+          ${seasonHeader}
+          <th class="text-end">B/E</th>
+          <th class="text-end">Profit</th>
+          <th class="text-end">ROI</th>
+          <th class="text-end" title="${RANK_TIP}">Rank</th>
+          <th class="cell-clear" aria-hidden="true"></th>
+        </tr></thead>
+        <tbody>${rowsHtml}</tbody>
+      </table>
+    </div>
+  </div>`;
 }
 
 export function buildPicksTable(view, season, colorMap, mountEl) {
@@ -89,32 +131,49 @@ export function buildPicksTable(view, season, colorMap, mountEl) {
 
   // A Pick is ranked against the Season its Movie opened in, which is not
   // always the Season it was drafted in: a `hit` sits on the Winter board
-  // whenever its film comes out.
-  const ranksBySeason = {
-    WINTER: profitRanksForSeason(view, 'WINTER'),
-    SUMMER: profitRanksForSeason(view, 'SUMMER'),
-    FALL: profitRanksForSeason(view, 'FALL'),
-  };
+  // whenever its film comes out. One lookup over all three answers that,
+  // because a Movie is in exactly one of them.
+  const ranks = profitRanksEverySeason(view);
 
   const rows = picks
-    .map((pick) => (pick.ghost ? ghostRow(pick, colorMap) : pickRow(pick, ranksBySeason, colorMap)))
+    .map((pick) => (pick.ghost
+      ? ghostRow(pick, colorMap, false)
+      : pickRow(pick, ranks, colorMap, { tab: season, showSeason: false })))
     .join('');
 
-  mountEl.innerHTML = `<div class="info-tab-card draft-picks-card">
-    <div class="draft-unpicked-header">${SEASON_LABEL[season] || season} Draft Order</div>
-    <div class="draft-picks-wrap">
-      <table class="draft-picks-table">
-        <thead><tr>
-          <th class="text-end">#</th>
-          <th>Movie</th>
-          <th class="text-end">B/E</th>
-          <th class="text-end">Profit</th>
-          <th class="text-end">ROI</th>
-          <th class="text-end" title="${RANK_TIP}">Rank</th>
-          <th class="cell-clear" aria-hidden="true"></th>
-        </tr></thead>
-        <tbody>${rows}</tbody>
-      </table>
-    </div>
-  </div>`;
+  mountEl.innerHTML = tableCard(rows, {
+    heading: `${SEASON_LABEL[season] || season} Draft Order`,
+    pickHeader: '#',
+    pickTip: '',
+    showSeason: false,
+  });
+}
+
+// The year tab's board: the ten Picks that are not bound to a Season, hits then
+// bombs, each carrying the Season its Movie opens in (#89). The `#` column is
+// still the Winter draft pick, which is where all ten were taken, and it is
+// only unique within that draft: pick 7 exists on all three boards.
+export function buildYearPicksTable(view, colorMap, mountEl) {
+  if (!mountEl) return;
+
+  const picks = yearLongPicks(view);
+  if (!picks.length) {
+    mountEl.innerHTML = '<p class="draft-empty">Draft hasn’t happened yet — check back after the picks are made.</p>';
+    return;
+  }
+
+  const ranks = profitRanksEverySeason(view);
+
+  const rows = picks
+    .map((pick) => (pick.ghost
+      ? ghostRow(pick, colorMap, true)
+      : pickRow(pick, ranks, colorMap, { tab: YEAR_TAB, showSeason: true })))
+    .join('');
+
+  mountEl.innerHTML = tableCard(rows, {
+    heading: `${YEAR_TAB_LABEL} — Winter Draft`,
+    pickHeader: '#',
+    pickTip: 'Winter draft pick number',
+    showSeason: true,
+  });
 }
