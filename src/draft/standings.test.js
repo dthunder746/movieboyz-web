@@ -149,6 +149,21 @@ describe('whatifStandings', () => {
     expect(odd.find((row) => row.userId === 'a').total).toBe(4);
   });
 
+  it('numbers the rows in the order it returns them', () => {
+    const rows = whatifStandings(view({ rows: [pick('c', 'seasonal', 900)] }));
+    expect(rows.map((row) => [row.userId, row.rank])).toEqual([['c', 1], ['a', 2], ['b', 3]]);
+  });
+
+  // Every roster member is numbered, including one the Campaign has published
+  // nothing for, which is what separates the place shown from the move.
+  it('numbers a User with no published total too', () => {
+    const rows = whatifStandings(view({
+      publishedTotals: { a: 250 },
+      rows: [pick('a', 'seasonal', 300)],
+    }));
+    expect(rows.map((row) => row.rank)).toEqual([1, 2, 3]);
+  });
+
   it('sorts by the what-if total, highest first, ties on the name', () => {
     const rows = whatifStandings(view({
       rows: [pick('c', 'seasonal', 900)],

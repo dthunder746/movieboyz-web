@@ -104,7 +104,7 @@ export function whatifStandings(view) {
   const publishedRanks = rankMap(scored.map((row) => ({ ...row, value: row.publishedTotal })));
   const whatifRanks = rankMap(scored.map((row) => ({ ...row, value: row.total })));
 
-  return totals
+  const ordered = totals
     .map((row) => ({
       ...row,
       delta: row.publishedTotal === null ? null : row.total - row.publishedTotal,
@@ -117,4 +117,11 @@ export function whatifStandings(view) {
       if (right.total !== left.total) return right.total - left.total;
       return String(left.username ?? left.userId).localeCompare(String(right.username ?? right.userId));
     });
+
+  // The place the strip shows, which is the row's place in this list and so
+  // counts every roster member. Not the same number `rankChange` is measured
+  // in: that one is a move within the Users the Campaign published a total
+  // for, because a User with no published figure has nowhere to have moved
+  // from and would otherwise shift everybody behind them.
+  return ordered.map((row, index) => ({ ...row, rank: index + 1 }));
 }
