@@ -48,12 +48,19 @@ export function buildMoviesChart(built) {
       // first frames and then jump. Every rebuild here destroys the instance
       // and makes a new one, so this is the only animation there was.
       animation: false,
-      // Every line is on the same integer-day axis, so hovering a day lines the
-      // whole comparison up rather than answering about one film.
-      interaction: { mode: 'x', intersect: false },
+      // Every line carries a point for every day, so an index is a day and
+      // hovering one lines the whole comparison up rather than answering about
+      // one film. `x` mode did the same job on paper and not in the hand: it is
+      // a hit test inside `radius + hitRadius` of a plotted point, which with
+      // `pointRadius: 0` is about a pixel, so the tooltip only answered while
+      // the pointer sat on a point and flickered everywhere else (#82). `index`
+      // has no such radius, and it drops the nulls itself.
+      interaction: { mode: 'index', intersect: false },
       plugins: {
         legend: { labels: { color: tick, boxWidth: 12, padding: 16 } },
         tooltip: {
+          // A null is a day the Movie has no gross for, not a zero.
+          filter: (item) => item.parsed.y !== null,
           itemSort: (a, b) => b.parsed.y - a.parsed.y,
           callbacks: {
             title: (items) => `Day ${items[0].parsed.x}`,

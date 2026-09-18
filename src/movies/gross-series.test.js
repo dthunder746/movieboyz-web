@@ -51,6 +51,65 @@ describe('buildGrossSeries', () => {
     ]);
   });
 
+  // Chart.js lines a hover up by array index, so index has to mean the same day
+  // in every line or a hover would compare unrelated days (#82). A day the
+  // Movie has no gross for is a null rather than a zero: a gap in the line, not
+  // a drop to the floor.
+  it('carries a null on a day the Movie has no gross for, so index is the day', () => {
+    const rows = [row('tt-gap', {
+      releaseDate: '2025-07-04',
+      gross: {
+        '2025-07-04': 10 * MILLION,
+        '2025-07-07': 30 * MILLION,
+      },
+    })];
+
+    const { series } = buildGrossSeries(rows, { selectedIds: ['tt-gap'] });
+
+    expect(series[0].points).toEqual([
+      { x: 0, y: 10 },
+      { x: 1, y: null },
+      { x: 2, y: null },
+      { x: 3, y: 30 },
+    ]);
+    series[0].points.forEach((point, index) => expect(point.x).toBe(index));
+  });
+
+  // A Movie first measured a few days into its run starts its line there, and
+  // the days before it are nulls so its index still equals its day.
+  it('pads a late starting Movie back to day zero with nulls', () => {
+    const rows = [row('tt-late', {
+      releaseDate: '2025-07-04',
+      gross: { '2025-07-06': 50 * MILLION, '2025-07-07': 60 * MILLION },
+    })];
+
+    const { series, maxDay } = buildGrossSeries(rows, { selectedIds: ['tt-late'] });
+
+    expect(series[0].points).toEqual([
+      { x: 0, y: null },
+      { x: 1, y: null },
+      { x: 2, y: 50 },
+      { x: 3, y: 60 },
+    ]);
+    expect(maxDay).toBe(3);
+  });
+
+  // The padding stops at the last day the Movie has gross for inside the
+  // window, so the axis still ends where the data does rather than being
+  // stretched to the window by trailing nulls.
+  it('does not pad past the last plotted day inside the window', () => {
+    const rows = [row('tt-tail', {
+      releaseDate: '2025-07-04',
+      gross: { '2025-07-04': 10 * MILLION, '2026-01-20': 20 * MILLION },
+    })];
+
+    const { series, maxDay, skipped } = buildGrossSeries(rows, { windowDays: 90 });
+
+    expect(series[0].points).toEqual([{ x: 0, y: 10 }]);
+    expect(maxDay).toBe(0);
+    expect(skipped).toBe(0);
+  });
+
   // The chart says something before the reader has chosen anything, and what it
   // says follows the sort they are looking at, because the rows arrive already
   // sorted.

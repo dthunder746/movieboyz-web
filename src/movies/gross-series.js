@@ -18,6 +18,16 @@ export const DEFAULT_SELECTION_SIZE = 5;
 
 // One Movie's published series on the days axis, before the window is applied.
 //
+// Dense: one point for every day from 0 to the last day the Movie has gross
+// for, carrying a null where nothing is published. Index therefore equals day
+// in every line, which is what lets the chart hover by index and answer about
+// every film on the day under the pointer (#82). Sparse arrays could not: index
+// 5 of one film was day 5 and of another day 30. A missing day is a null and
+// never a zero, because a null draws as a gap and a zero would drop the line to
+// the floor and read as a Movie that took nothing that day. The padding stops
+// at the Movie's last published day rather than running on to the window, so
+// the axis still ends where the data does.
+//
 // The slice carries flat zeros from before a Movie opened, which say nothing on
 // this axis and would drag every line back to a negative day, so they go. A
 // Movie with no release date cannot be placed on the axis at all, which is the
@@ -25,13 +35,31 @@ export const DEFAULT_SELECTION_SIZE = 5;
 function daysAxis(row) {
   if (!row.releaseDate) return [];
 
-  const points = [];
+  const byDay = new Map();
   for (const date of Object.keys(row.gross || {}).sort()) {
     const day = daysBetween(row.releaseDate, date);
     if (day === null || day < 0) continue;
-    points.push({ x: day, y: row.gross[date] / MILLION });
+    byDay.set(day, row.gross[date] / MILLION);
+  }
+  if (byDay.size === 0) return [];
+
+  const lastDay = Math.max(...byDay.keys());
+  const points = [];
+  for (let day = 0; day <= lastDay; day += 1) {
+    points.push({ x: day, y: byDay.has(day) ? byDay.get(day) : null });
   }
   return points;
+}
+
+// The same line inside the window. The trailing nulls go with the days past the
+// window: a line that ends in padding would stretch the axis to the window and
+// claim a run the Movie never had. What is left ends on a published day, so
+// `maxDay` and the skipped count read exactly as they did before the padding.
+function withinWindow(points, window) {
+  const inside = points.filter((point) => point.x <= window);
+  let last = inside.length - 1;
+  while (last >= 0 && inside[last].y === null) last -= 1;
+  return inside.slice(0, last + 1);
 }
 
 // Why the chart is empty, so the page can say which of the three it is.
@@ -73,7 +101,7 @@ export function buildGrossSeries(rows, { selectedIds = [], windowDays } = {}) {
     .filter((line) => line.points.length > 0);
 
   const plottable = published
-    .map((line) => ({ ...line, points: line.points.filter((point) => point.x <= window) }))
+    .map((line) => ({ ...line, points: withinWindow(line.points, window) }))
     .filter((line) => line.points.length > 0);
 
   // The default is the top five rows the axis can carry rather than the top
