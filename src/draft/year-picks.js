@@ -83,16 +83,23 @@ export function yearLongPicks(view) {
   });
 }
 
-// Everything nobody holds that was on the table at the Winter draft. A film
-// already in cinemas that day was never available to take, so it is filtered
-// out here rather than dimmed the way a Season sidebar dims one: the year tab
-// draws its candidates from the whole year, and a dimmed row nobody may click
-// would be 19 of them on the 2026 Board for no reader benefit.
+// Everything that was on the table at the Winter draft, whoever holds it now.
 //
-// A film with no date yet had certainly not opened, so it stays in.
+// Both kinds on this tab are made at the first draft of the year: the hits are
+// the very first Picks anybody makes, and the bombs are taken in the same
+// draft. Nobody held anything yet, so at that moment every film of the year
+// was available, including the ones that later became somebody's seasonal or
+// alt. That is what the pool is: the whole year minus the ten Picks the tab is
+// already drawing as its slots.
+//
+// A film already in cinemas on draft day was never available to take, so it is
+// filtered out here rather than dimmed the way a Season sidebar dims one: a
+// dimmed row nobody may click would be 19 of them on the 2026 Board for no
+// reader benefit. A film with no date yet had certainly not opened, so it
+// stays in.
 function offeredForYear(view, draftDate) {
   return (view.rows || []).filter((row) => {
-    if (row.userId !== null) return false;
+    if (isYearLong(row)) return false;
     if (!draftDate) return true;
     if (!row.releaseDate || row.releaseDate === 'TBA') return true;
     return row.releaseDate >= draftDate;

@@ -136,6 +136,10 @@ describe('yearLongPicks', () => {
   });
 });
 
+// What the tab offers in exchange for a hit or a bomb. Both kinds are made at
+// the first draft of the year, before anybody holds anything, so the pool is
+// every film that is not itself one of the ten, whoever holds it now.
+//
 // A film that was already in cinemas on draft day was never available to take,
 // so the year tab does not offer it at all.
 describe('the year tab candidates', () => {
@@ -144,6 +148,9 @@ describe('the year tab candidates', () => {
 
   const rows = [
     row({ imdbId: 'ttHeld', releaseDate: '2026-06-01', userId: 'a', pickType: 'seasonal', draftPick: 3, profitTd: 10 }),
+    row({ imdbId: 'ttHit', releaseDate: '2026-07-01', userId: 'b', pickType: 'hit', draftPick: 1, profitTd: 60 }),
+    row({ imdbId: 'ttBombHeld', releaseDate: '2026-08-01', userId: 'c', pickType: 'bomb', draftPick: 7, profitTd: 20 }),
+    row({ imdbId: 'ttHeldEarly', releaseDate: '2026-01-05', season: 'WINTER', userId: 'd', pickType: 'alt', draftPick: 4, profitTd: 15 }),
     row({ imdbId: 'ttEarly', releaseDate: '2026-01-05', season: 'WINTER', profitTd: 50 }),
     row({ imdbId: 'ttOnDay', releaseDate: '2026-01-31', season: 'WINTER', profitTd: 40 }),
     row({ imdbId: 'ttOpened', releaseDate: '2026-06-01', profitTd: 30 }),
@@ -151,33 +158,54 @@ describe('the year tab candidates', () => {
     row({ imdbId: 'ttTba', releaseDate: 'TBA', season: 'FALL' }),
   ];
 
-  it('offers every unheld film of the year that opened on or after draft day', () => {
-    const released = yearReleasedCandidates(view(rows), draftDate, today);
-    const unreleased = yearUnreleasedCandidates(view(rows), draftDate, today);
-    const offered = [...released, ...unreleased].map((movie) => movie.imdbId).sort();
-    expect(offered).toEqual(['ttOnDay', 'ttOpened', 'ttSoon', 'ttTba']);
+  function offeredWith(date) {
+    return [
+      ...yearReleasedCandidates(view(rows), date, today),
+      ...yearUnreleasedCandidates(view(rows), date, today),
+    ].map((movie) => movie.imdbId).sort();
+  }
+
+  it('offers every film of the year that opened on or after draft day', () => {
+    expect(offeredWith(draftDate)).toEqual(['ttHeld', 'ttOnDay', 'ttOpened', 'ttSoon', 'ttTba']);
+  });
+
+  it('offers a film somebody else holds as a Season Pick', () => {
+    expect(offeredWith(draftDate)).toContain('ttHeld');
+  });
+
+  it('never offers one of the ten, because they are the slots', () => {
+    expect(offeredWith(draftDate)).not.toContain('ttHit');
+    expect(offeredWith(draftDate)).not.toContain('ttBombHeld');
+    expect(offeredWith(null)).not.toContain('ttHit');
+    expect(offeredWith(null)).not.toContain('ttBombHeld');
+  });
+
+  it('still refuses a held film that had already opened on draft day', () => {
+    expect(offeredWith(draftDate)).not.toContain('ttHeldEarly');
   });
 
   it('splits them on whether they have opened, not on Season', () => {
     expect(yearReleasedCandidates(view(rows), draftDate, today).map((m) => m.imdbId))
-      .toEqual(['ttOnDay', 'ttOpened']);
+      .toEqual(['ttOnDay', 'ttOpened', 'ttHeld']);
     expect(yearUnreleasedCandidates(view(rows), draftDate, today).map((m) => m.imdbId))
       .toEqual(['ttSoon', 'ttTba']);
   });
 
   it('offers a film that opened earlier once the draft date moves back', () => {
-    const offered = yearReleasedCandidates(view(rows), '2026-01-01', today).map((m) => m.imdbId);
+    const offered = offeredWith('2026-01-01');
     expect(offered).toContain('ttEarly');
+    expect(offered).toContain('ttHeldEarly');
   });
 
-  it('offers everything unheld when no draft date is set', () => {
-    const offered = yearReleasedCandidates(view(rows), null, today).map((m) => m.imdbId);
-    expect(offered).toContain('ttEarly');
+  it('offers everything but the ten when no draft date is set', () => {
+    expect(offeredWith(null)).toEqual([
+      'ttEarly', 'ttHeld', 'ttHeldEarly', 'ttOnDay', 'ttOpened', 'ttSoon', 'ttTba',
+    ]);
   });
 
   it('sorts the opened ones by Profit and the rest by date', () => {
     expect(yearReleasedCandidates(view(rows), '2026-01-01', today).map((m) => m.profitTd))
-      .toEqual([50, 40, 30]);
+      .toEqual([50, 40, 30, 15, 10]);
   });
 });
 
