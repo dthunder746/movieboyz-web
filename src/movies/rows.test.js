@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_SORT,
   buildMovieRows,
+  latestWeekColumn,
   missingLastSorter,
   parseSortId,
   sortIdFromSorters,
@@ -224,11 +225,9 @@ describe('sortIdFromSorters', () => {
     expect(sortIdFromSorters([sorter])).toBe('budget_asc');
   });
 
-  // A header the menu has no entry for, and the state before the table has
-  // sorted anything. Neither is a menu id, and answering with one would put the
-  // menu label out of step with the table.
-  it('answers nothing for a column the menu does not offer', () => {
-    expect(sortIdFromSorters([{ field: 'season', dir: 'desc' }])).toBe(null);
+  // The state before the table has sorted anything. A header the menu has no
+  // entry for reads as `custom` instead, which the block further down covers.
+  it('answers nothing before the table has sorted anything', () => {
     expect(sortIdFromSorters([])).toBe(null);
     expect(sortIdFromSorters(undefined)).toBe(null);
   });
@@ -342,5 +341,78 @@ describe('buildMovieRows week and day fields', () => {
     expect(row.weeks).toEqual([]);
     expect(row.thisWeek).toBe(null);
     expect(Object.keys(row).some((key) => key.startsWith('week_'))).toBe(false);
+  });
+});
+
+// ── This week's gross, and the sorts the menu cannot name ─────────────────
+
+describe("this week's gross as a sort", () => {
+  const rows = [
+    { imdbId: 'quiet', thisWeek: 1 * MILLION },
+    { imdbId: 'none', thisWeek: null },
+    { imdbId: 'loud', thisWeek: 40 * MILLION },
+  ];
+
+  it('sorts by what each Movie took this week, highest first', () => {
+    expect(sortMovieRows(rows, 'week_desc').map((r) => r.imdbId))
+      .toEqual(['loud', 'quiet', 'none']);
+  });
+
+  // The column the figure is in is named for the week, so the table is sorted
+  // on that rather than on `thisWeek`, which no column carries.
+  it('reads as the latest week column when the table is asked', () => {
+    expect(tableSortSpec('week_desc', 'week_2026-W10'))
+      .toEqual([{ column: 'week_2026-W10', dir: 'desc' }]);
+  });
+
+  it('falls back to the default when the page has no week columns yet', () => {
+    expect(tableSortSpec('week_desc', null)).toEqual(tableSortSpec(DEFAULT_SORT));
+  });
+
+  it('reads a click on the latest week column back as the menu entry', () => {
+    expect(sortIdFromSorters([{ field: 'week_2026-W10', dir: 'desc' }], 'week_2026-W10'))
+      .toBe('week_desc');
+  });
+});
+
+// A click on any other week or on a day column is a real sort the table is
+// honouring; the menu has no entry for it and says so rather than going on
+// claiming the last entry the reader picked.
+describe('a sort the menu has no entry for', () => {
+  it('reads as custom', () => {
+    expect(sortIdFromSorters([{ field: 'week_2026-W03', dir: 'desc' }], 'week_2026-W10'))
+      .toBe('custom');
+    expect(sortIdFromSorters([{ field: 'daily_2026-03-06', dir: 'asc' }], 'week_2026-W10'))
+      .toBe('custom');
+    expect(sortIdFromSorters([{ field: 'season', dir: 'desc' }])).toBe('custom');
+  });
+
+  // Nothing sorted at all is not a custom sort, and answering with one would
+  // wipe the label before the reader has touched a header.
+  it('is not what an unsorted table reads as', () => {
+    expect(sortIdFromSorters([])).toBe(null);
+    expect(sortIdFromSorters(undefined)).toBe(null);
+  });
+
+  // The rows still have to be in some order for the cards and for the chart's
+  // default plot, and the page's own default is the one to fall back on.
+  it('leaves the rows in the default order', () => {
+    const unsorted = [
+      { imdbId: 'small', grossTd: 10 * MILLION },
+      { imdbId: 'big', grossTd: 900 * MILLION },
+    ];
+
+    expect(sortMovieRows(unsorted, 'custom').map((r) => r.imdbId))
+      .toEqual(sortMovieRows(unsorted, DEFAULT_SORT).map((r) => r.imdbId));
+  });
+});
+
+describe('latestWeekColumn', () => {
+  it('names the column the newest week landed in', () => {
+    expect(latestWeekColumn(buildMovieRows(weekSlices()))).toBe('week_2026-W10');
+  });
+
+  it('answers nothing when nothing has reported a week', () => {
+    expect(latestWeekColumn([{ weeklyGross: {} }])).toBe(null);
   });
 });

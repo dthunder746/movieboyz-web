@@ -121,6 +121,10 @@ const SORT_FIELDS = {
   rating: 'ratingLetterboxd',
   release: 'releaseDate',
   budget: 'budget',
+  // What the Movie took in the newest week anything on the page reported. The
+  // rows carry it as `thisWeek`; the table carries it in a column named for
+  // the week itself, which is what `tableSortSpec` swaps in below.
+  week: 'thisWeek',
 };
 
 export const DEFAULT_SORT = 'gross_desc';
@@ -134,24 +138,51 @@ const SORT_IDS = Object.fromEntries(
 // Which sort menu entry a click on a column header amounts to, so the menu
 // keeps showing what the table is actually sorted by. Tabulator shaped, and
 // tested here rather than beside the table, which is untested wiring.
-export function sortIdFromSorters(sorters) {
+export function sortIdFromSorters(sorters, latestWeekField) {
+  // Nothing sorted at all, which is not a sort the reader made. It is not
+  // `custom` either: answering with one would wipe the menu's label before a
+  // header had been touched.
   if (!sorters || !sorters.length) return null;
 
   const [sorter] = sorters;
   const field = sorter.field
     ?? (sorter.column?.getField ? sorter.column.getField() : null);
-  const name = SORT_IDS[field];
-  if (!name) return null;
+  const direction = sorter.dir === 'asc' ? 'asc' : 'desc';
 
-  return `${name}_${sorter.dir === 'asc' ? 'asc' : 'desc'}`;
+  if (latestWeekField && field === latestWeekField) return `week_${direction}`;
+
+  const name = SORT_IDS[field];
+  // Any other week column, any day column, and anything else the menu cannot
+  // name. The table is sorted by it and the menu says so rather than going on
+  // claiming the last entry the reader picked (#162).
+  if (!name || name === 'week') return 'custom';
+
+  return `${name}_${direction}`;
+}
+
+// The column the newest week's gross landed in, or nothing when no Movie on
+// the page has reported a week yet.
+export function latestWeekColumn(rows) {
+  const weekKeys = collectWeekKeys(rows || []);
+  const latest = weekKeys[weekKeys.length - 1];
+  return latest ? `week_${latest}` : null;
 }
 
 // The menu id as Tabulator's own sorter spec, so the page can put the table's
 // header into the order the menu asked for. Without it Tabulator keeps whatever
 // sorter the last header click left on the column and re-applies it to every
 // `replaceData`, and the menu, the chart and the table stop agreeing.
-export function tableSortSpec(sortId) {
+export function tableSortSpec(sortId, latestWeekField) {
   const spec = parseSortId(sortId) ?? parseSortId(DEFAULT_SORT);
+
+  // No column carries `thisWeek`: the figure is in the column named for the
+  // week it belongs to. A page with no week columns yet has nothing to sort on
+  // and falls back rather than asking Tabulator for a column that is not there.
+  if (spec.field === 'thisWeek') {
+    if (!latestWeekField) return tableSortSpec(DEFAULT_SORT);
+    return [{ column: latestWeekField, dir: spec.direction }];
+  }
+
   return [{ column: spec.field, dir: spec.direction }];
 }
 
