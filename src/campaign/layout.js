@@ -6,6 +6,11 @@
 //
 // It is markup and not a view model: nothing here reads an artifact. Every
 // element it defines is filled in by `page.js` once the artifacts land.
+//
+// The one piece it does not spell out is the swap overlay, which comes from the
+// shared module that drives it so both pages carry the same skeleton (#160).
+
+import { RENDER_OVERLAY_MARKUP } from '../shared/swap.js';
 
 export const CAMPAIGN_LAYOUT = `
 <!-- ── Header ─────────────────────────────────────────────────────────── -->
@@ -135,7 +140,7 @@ export const CAMPAIGN_LAYOUT = `
     <div id="table-surface">
       <div id="movie-table"></div>
       <div id="movie-cards" class="d-none"></div>
-      <div id="render-overlay" class="d-none" aria-hidden="true"><div class="skeleton-fill"></div></div>
+      ${RENDER_OVERLAY_MARKUP}
     </div>
     <p id="daily-neg-footnote" class="d-none">* Negative daily gross values are not true negatives. They reflect revised estimates for earlier days in the week, superseded by more accurate figures.</p>
   </div>

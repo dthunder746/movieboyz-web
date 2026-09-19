@@ -18,6 +18,7 @@ import { currentRoot } from '../shared/location.js';
 import { buildColorMap } from '../shared/palettes.js';
 import { draftHref } from '../shared/route.js';
 import { createSelection } from '../shared/selection.js';
+import { beginSwap } from '../shared/swap.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildBoard } from './board.js';
@@ -63,10 +64,6 @@ const SORT_COLUMNS = {
   roi: 'roi',
   lb: 'rating_letterboxd',
 };
-
-// How long the skeleton stays up during a view swap. Below this the overlay
-// reads as a flicker rather than a transition.
-const SWAP_MIN_MS = 220;
 
 function init({ campaign, slices }) {
   const board = buildBoard(campaign, slices);
@@ -271,44 +268,6 @@ function init({ campaign, slices }) {
     if (footnote) {
       footnote.classList.toggle('d-none', !(boardHasNegativeDaily && mode === 'detailed'));
     }
-  }
-
-  // Reserve the surface's height and fade a skeleton over it during the swap.
-  // Tabulator renders asynchronously, so without this the page collapses to
-  // nothing for a frame and takes the reader's scroll position with it.
-  function beginSwap(isSwitch) {
-    const surface = document.getElementById('table-surface');
-    const overlay = document.getElementById('render-overlay');
-    const scrollY = window.scrollY;
-
-    if (isSwitch && surface) {
-      const height = surface.offsetHeight;
-      if (height) surface.style.minHeight = `${height}px`;
-      if (overlay) {
-        overlay.classList.remove('d-none');
-        void overlay.offsetWidth; // reflow, so the opacity transition runs
-        overlay.classList.add('is-visible');
-      }
-    }
-
-    const shownAt = performance.now();
-    let done = false;
-
-    return function finish() {
-      if (done) return;
-      const elapsed = performance.now() - shownAt;
-      if (isSwitch && elapsed < SWAP_MIN_MS) {
-        setTimeout(finish, SWAP_MIN_MS - elapsed);
-        return;
-      }
-      done = true;
-      if (surface) surface.style.minHeight = '';
-      if (isSwitch) window.scrollTo(0, scrollY);
-      if (overlay) {
-        overlay.classList.remove('is-visible');
-        setTimeout(() => overlay.classList.add('d-none'), 200);
-      }
-    };
   }
 
   function renderTable(mode) {
