@@ -220,16 +220,27 @@ function newestWeeksFirst(rows) {
   return collectWeekKeys(rows).slice().reverse();
 }
 
+// Which rows the columns are worked out from. The filters narrow what the table
+// shows, and `replaceData` swaps the rows without rebuilding the columns, so
+// deriving the week and day columns from the filtered rows would leave a
+// column set that answers to whatever the filter happened to be when the view
+// was built. `columnRows` is every Movie on the page, so the columns are the
+// same set whatever is filtered in (#162).
+function columnSource({ columnRows }, rows) {
+  return columnRows && columnRows.length ? columnRows : rows;
+}
+
 export function buildCompactMovieTable(rows, options) {
-  const weekColumns = newestWeeksFirst(rows).map(compactWeekColumn);
+  const weekColumns = newestWeeksFirst(columnSource(options, rows)).map(compactWeekColumn);
 
   return buildTable(rows, [...columns(), ...weekColumns], options);
 }
 
 export function buildDetailedMovieTable(rows, options) {
-  const dates = collectDailyDates(rows);
+  const source = columnSource(options, rows);
+  const dates = collectDailyDates(source);
   const datesByWeek = groupDatesByWeek(dates);
-  const newestFirst = newestWeeksFirst(rows);
+  const newestFirst = newestWeeksFirst(source);
 
   // The group definitions have to exist before the instance they belong to, so
   // the expanders are handed a box and it is filled in below.

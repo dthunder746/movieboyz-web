@@ -384,6 +384,10 @@ function init({ manifest, slices, missingYears }) {
 
     suppressSortEcho = true;
     table = build(visibleRows, {
+      // Every Movie on the page, so the week and day columns are the same set
+      // whatever the filters have left. The rows handed over are the filtered
+      // ones; only the columns are worked out from the whole page.
+      columnRows: allRows,
       // The remembered sort, so the header shows what the menu says from the
       // first paint rather than only after the reader touches something.
       initialSort: tableSortSpec(sortId, weekColumn),
