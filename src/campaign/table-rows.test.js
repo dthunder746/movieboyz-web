@@ -14,8 +14,6 @@ import {
   groupDatesByWeek,
   hasNegativeDaily,
   roiMeter,
-  weekAxisIndexes,
-  weekDeltas,
 } from './table-rows.js';
 
 // Three Movies across two ISO weeks: one in profit with a full run of
@@ -390,58 +388,6 @@ describe('roiMeter', () => {
 
   it('never runs the lane past the end of the bar', () => {
     expect(roiMeter(999999).breakoutPct).toBeCloseTo(15);
-  });
-});
-
-describe('weekAxisIndexes', () => {
-  it('labels every bar while there are few enough to fit', () => {
-    expect(weekAxisIndexes(1)).toEqual([0]);
-    expect(weekAxisIndexes(3)).toEqual([0, 1, 2]);
-    expect(weekAxisIndexes(4)).toEqual([0, 1, 2, 3]);
-  });
-
-  it('thins the labels out as the run gets longer', () => {
-    expect(weekAxisIndexes(10)).toEqual([0, 2, 5, 7, 9]);
-    expect(weekAxisIndexes(20)).toHaveLength(6);
-  });
-
-  it('always labels the first and the latest bar', () => {
-    for (const n of [2, 5, 9, 13, 30]) {
-      const idx = weekAxisIndexes(n);
-      expect(idx[0]).toBe(0);
-      expect(idx.at(-1)).toBe(n - 1);
-    }
-  });
-
-  it('never labels the same bar twice', () => {
-    for (const n of [1, 2, 3, 5, 6, 7, 9, 13]) {
-      const idx = weekAxisIndexes(n);
-      expect(new Set(idx).size).toBe(idx.length);
-    }
-  });
-});
-
-describe('weekDeltas', () => {
-  it('measures each week against the one before it', () => {
-    expect(weekDeltas([
-      { num: 10, gross: 200 },
-      { num: 11, gross: 300 },
-      { num: 12, gross: 150 },
-    ])).toEqual([
-      { num: 10, gross: 200, deltaPct: null },
-      { num: 11, gross: 300, deltaPct: 50 },
-      { num: 12, gross: 150, deltaPct: -50 },
-    ]);
-  });
-
-  it('has no delta against a week that took nothing', () => {
-    expect(weekDeltas([{ num: 10, gross: 0 }, { num: 11, gross: 500 }])[1].deltaPct).toBeNull();
-  });
-
-  it('measures against the size of the drop, not its sign', () => {
-    // A revised-down week can read negative. Dividing by the signed figure
-    // would flip the delta's sign and show a recovery as a collapse.
-    expect(weekDeltas([{ num: 10, gross: -200 }, { num: 11, gross: -100 }])[1].deltaPct).toBe(50);
   });
 });
 

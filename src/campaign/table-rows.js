@@ -218,37 +218,3 @@ export function roiMeter(roi) {
 
   return { positive, fillPct, breakoutPct };
 }
-
-// Which sparkline bars get an axis label. The first and the latest always do,
-// with a few evenly spaced between, scaled to the run so a long season does not
-// end up with the labels overprinting each other.
-export function weekAxisIndexes(n) {
-  if (n <= 0) return [];
-  let count;
-  if (n <= 4) count = n;
-  else if (n <= 8) count = 4;
-  else if (n <= 12) count = 5;
-  else count = 6;
-
-  // Every branch above leaves count no greater than n, so the step between
-  // labels is never less than one bar and no two labels can land together.
-  const indexes = [];
-  for (let j = 0; j < count; j += 1) {
-    indexes.push(Math.round((j * (n - 1)) / (count - 1 || 1)));
-  }
-  return indexes;
-}
-
-// Week-on-week change for the card's expanded table. The divisor is the size of
-// the previous week rather than its signed value: a revised-down week reads
-// negative, and dividing by it would flip the sign and show a recovery as a
-// collapse.
-export function weekDeltas(weeks) {
-  return weeks.map((week, i) => {
-    const previous = i > 0 ? weeks[i - 1].gross : null;
-    const deltaPct = (previous === null || previous === 0)
-      ? null
-      : Math.round(((week.gross - previous) / Math.abs(previous)) * 100);
-    return { ...week, deltaPct };
-  });
-}

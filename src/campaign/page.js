@@ -18,6 +18,7 @@ import { currentRoot } from '../shared/location.js';
 import { buildColorMap } from '../shared/palettes.js';
 import { draftHref } from '../shared/route.js';
 import { createSelection } from '../shared/selection.js';
+import { beginSwap } from '../shared/swap.js';
 import { createThemeSwitch } from '../shared/theme.js';
 
 import { buildBoard } from './board.js';
@@ -34,7 +35,7 @@ import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
 import { createToolbar } from './toolbar.js';
-import { createModeSwitcher, initialMode } from './view-mode.js';
+import { createModeSwitcher, initialMode } from '../shared/view-mode.js';
 
 const SORT_KEY = 'mbTableSort';
 
@@ -63,10 +64,6 @@ const SORT_COLUMNS = {
   roi: 'roi',
   lb: 'rating_letterboxd',
 };
-
-// How long the skeleton stays up during a view swap. Below this the overlay
-// reads as a flicker rather than a transition.
-const SWAP_MIN_MS = 220;
 
 function init({ campaign, slices }) {
   const board = buildBoard(campaign, slices);
@@ -273,44 +270,6 @@ function init({ campaign, slices }) {
     }
   }
 
-  // Reserve the surface's height and fade a skeleton over it during the swap.
-  // Tabulator renders asynchronously, so without this the page collapses to
-  // nothing for a frame and takes the reader's scroll position with it.
-  function beginSwap(isSwitch) {
-    const surface = document.getElementById('table-surface');
-    const overlay = document.getElementById('render-overlay');
-    const scrollY = window.scrollY;
-
-    if (isSwitch && surface) {
-      const height = surface.offsetHeight;
-      if (height) surface.style.minHeight = `${height}px`;
-      if (overlay) {
-        overlay.classList.remove('d-none');
-        void overlay.offsetWidth; // reflow, so the opacity transition runs
-        overlay.classList.add('is-visible');
-      }
-    }
-
-    const shownAt = performance.now();
-    let done = false;
-
-    return function finish() {
-      if (done) return;
-      const elapsed = performance.now() - shownAt;
-      if (isSwitch && elapsed < SWAP_MIN_MS) {
-        setTimeout(finish, SWAP_MIN_MS - elapsed);
-        return;
-      }
-      done = true;
-      if (surface) surface.style.minHeight = '';
-      if (isSwitch) window.scrollTo(0, scrollY);
-      if (overlay) {
-        overlay.classList.remove('is-visible');
-        setTimeout(() => overlay.classList.add('d-none'), 200);
-      }
-    };
-  }
-
   function renderTable(mode) {
     if (!CARD_SORT[sortId]) sortId = 'default';
     const finishSwap = beginSwap(!!(table || cards));
@@ -318,6 +277,8 @@ function init({ campaign, slices }) {
     if (table) { table.destroy(); table = null; }
     if (cards) { cards.destroy(); cards = null; }
 
+    // `movie-table` and `movie-cards` are part of the markup contract both pages
+    // carry: the two surfaces the view switch shows one of at a time.
     const tableElement = document.getElementById('movie-table');
     const cardsElement = document.getElementById('movie-cards');
     tableElement.classList.toggle('d-none', mode === 'cards');
