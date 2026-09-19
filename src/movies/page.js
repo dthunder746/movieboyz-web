@@ -11,8 +11,12 @@
 import { escapeHtml } from '../shared/format.js';
 import { mountNav } from '../shared/nav.js';
 import { createSelection } from '../shared/selection.js';
+import { RENDER_OVERLAY_MARKUP, beginSwap } from '../shared/swap.js';
 import { createThemeSwitch } from '../shared/theme.js';
+import { createModeSwitcher, initialMode } from '../shared/view-mode.js';
+import { hasNegativeDaily } from '../shared/week-fields.js';
 
+import { buildMovieCards } from './cards.js';
 import { applyChartTheme, buildMoviesChart } from './chart.js';
 import { loadMovies } from './data.js';
 import { createMovieFilters, publishedYears } from './filters.js';
@@ -26,11 +30,15 @@ import {
 import {
   DEFAULT_SORT,
   buildMovieRows,
+  latestWeekColumn,
+  parseSortId,
   sortIdFromSorters,
   sortMovieRows,
+  sortRowsByField,
+  sorterField,
   tableSortSpec,
 } from './rows.js';
-import { buildMovieTable } from './table.js';
+import { buildCompactMovieTable, buildDetailedMovieTable } from './table.js';
 import { createToolbar } from './toolbar.js';
 
 const SORT_KEY = 'mbMoviesSort';
@@ -45,9 +53,14 @@ const SORT_WORDS = {
   rating: 'rating',
   release: 'release date',
   budget: 'budget',
+  week: "this week's gross",
 };
 
-// The four questions the ticket names, each both ways round.
+// The four questions the ticket names, each both ways round, and this week's
+// gross, which the menu offers one way round: the question is what is taking
+// money now, and the quietest week on the page is nobody's question. The other
+// direction is still named, because a click on the week column's header can
+// put the table in it.
 const SORT_LABELS = {
   gross_desc: 'Gross ↓ (highest)',
   gross_asc: 'Gross ↑ (lowest)',
@@ -57,7 +70,13 @@ const SORT_LABELS = {
   budget_asc: 'Budget ↑ (lowest)',
   rating_desc: 'Letterboxd ↓ (highest)',
   rating_asc: 'Letterboxd ↑ (lowest)',
+  week_desc: "This week's gross ↓ (highest)",
+  week_asc: "This week's gross ↑ (lowest)",
 };
+
+// What the label reads while the table is in an order the menu cannot name: a
+// header click on a week or a day column (#162).
+const CUSTOM_SORT_LABEL = 'Custom';
 
 // The window the reader last chose, if it is still one the control offers.
 function savedWindow() {
@@ -74,13 +93,25 @@ function init({ manifest, slices, missingYears }) {
   const allRows = buildMovieRows(slices);
   const latestDate = newestMeasuredDate(slices);
 
+  // The column the newest week's gross landed in, which is what the menu's
+  // "this week" entry has to be pushed into the table as, and the footnote's
+  // question, which only the detailed view can raise.
+  const weekColumn = latestWeekColumn(allRows);
+  const pageHasNegativeDaily = hasNegativeDaily(allRows);
+
   renderChrome(manifest, missingYears, latestDate);
 
   // ── Shared state ────────────────────────────────────────────────────────
 
   let chart = null;
   let table = null;
+  let cards = null;
+  let renderedMode = initialMode();
   let sortId = savedSort();
+  // The field and direction a header click left the table in, while `sortId`
+  // is `custom`. The rows are put in the same order, because the chart's
+  // default plot is the top of the table.
+  let customOrder = null;
   let windowDays = savedWindow();
   let visibleRows = [];
 
@@ -97,6 +128,9 @@ function init({ manifest, slices, missingYears }) {
   const selection = createSelection((activeMovieIds) => {
     rebuildChart();
     if (clearSelectionButton) clearSelectionButton.disabled = activeMovieIds.length === 0;
+    // Repainted rather than re-rendered, so a card the reader has expanded
+    // stays expanded when another one is plotted.
+    if (cards) cards.syncSelection();
   });
 
   const filters = createMovieFilters({ onChange: () => rerender() });
@@ -150,14 +184,31 @@ function init({ manifest, slices, missingYears }) {
   function chartHeadingText(built) {
     if (selection.size() > 0) return `${selection.size()} selected`;
 
+    // Under a header sort the menu cannot name there is no word for the
+    // order, so the heading says where the rows came from instead.
+    if (sortId === 'custom') {
+      return `First ${built.series.length} in the table order with box office`;
+    }
+
     const sortWord = SORT_WORDS[String(sortId).split('_')[0]] ?? 'gross';
     return `First ${built.series.length} by ${sortWord} with box office`;
   }
 
   // ── Rows in view ────────────────────────────────────────────────────────
 
+  // The rows the page is showing, in the order it is showing them. A header
+  // click on a week or a day column is an order the menu has no name for, and
+  // the rows are put in it all the same so the chart's default plot is the top
+  // of the table rather than the top of some other list.
+  function orderRows(rows) {
+    if (sortId === 'custom' && customOrder) {
+      return sortRowsByField(rows, customOrder.field, customOrder.direction);
+    }
+    return sortMovieRows(rows, sortId);
+  }
+
   function rerender() {
-    visibleRows = sortMovieRows(filters.filter(allRows, latestDate), sortId);
+    visibleRows = orderRows(filters.filter(allRows, latestDate));
 
     toolbar.refresh();
 
@@ -165,6 +216,11 @@ function init({ manifest, slices, missingYears }) {
     if (count) {
       count.textContent = `${visibleRows.length} of ${allRows.length} Movies`;
     }
+
+    // The cards hold every row and are narrowed by id; the tables are handed
+    // the rows that are left. Either way the surface answers to the same
+    // filter state.
+    if (cards) cards.setVisibleIds(visibleRows.map((row) => row.imdbId));
 
     if (table) {
       suppressSortEcho = true;
@@ -180,26 +236,38 @@ function init({ manifest, slices, missingYears }) {
   // ── Sorting ─────────────────────────────────────────────────────────────
 
   function markActiveSort() {
-    if (sortToggle) sortToggle.textContent = `Sort: ${SORT_LABELS[sortId]}`;
+    const label = SORT_LABELS[sortId] ?? CUSTOM_SORT_LABEL;
+    if (sortToggle) sortToggle.textContent = `Sort: ${label}`;
     if (!sortMenu) return;
     for (const button of sortMenu.querySelectorAll('[data-sort]')) {
       button.classList.toggle('active', button.dataset.sort === sortId);
     }
   }
 
+  // `fromHeader` says the table is already in this order. A custom sort only
+  // ever arrives that way: it is a column the menu cannot name, so there is
+  // nothing to push back into the table and nothing worth remembering between
+  // visits either.
   function applySort(id, fromHeader) {
-    if (!SORT_LABELS[id]) return;
+    if (!id || (!SORT_LABELS[id] && id !== 'custom')) return;
     sortId = id;
-    localStorage.setItem(SORT_KEY, id);
+    if (id !== 'custom') localStorage.setItem(SORT_KEY, id);
     markActiveSort();
 
     // A header click has already put the table in this order. Re-sorting the
     // rows here is for the chart, whose default is the top five of the sort
     // the reader is looking at.
     if (fromHeader) {
-      visibleRows = sortMovieRows(filters.filter(allRows, latestDate), sortId);
+      visibleRows = orderRows(filters.filter(allRows, latestDate));
       rebuildChart();
       return;
+    }
+
+    // A card view has no header to click, so the menu's pick goes straight
+    // into the cards' own comparator.
+    if (cards) {
+      const spec = cardSortSpec();
+      cards.setSort(spec.field, spec.direction);
     }
 
     // The menu's pick has to be pushed into Tabulator as well as into the rows.
@@ -208,11 +276,27 @@ function init({ manifest, slices, missingYears }) {
     // the header and the menu, the chart and the row order to the menu.
     if (table) {
       suppressSortEcho = true;
-      table.setSort(tableSortSpec(sortId));
+      table.setSort(tableSortSpec(sortId, weekColumn));
       suppressSortEcho = false;
     }
 
     rerender();
+  }
+
+  // The same order, as the row field the cards sort themselves on.
+  function cardSortSpec() {
+    if (sortId === 'custom' && customOrder) return customOrder;
+    return parseSortId(sortId) ?? parseSortId(DEFAULT_SORT);
+  }
+
+  // A Tabulator sort, read back as the menu entry it amounts to. A column the
+  // menu cannot name reads as custom, and the order it left the table in is
+  // kept so the rows and the cards can be put in it too.
+  function sortFromHeader(sorters) {
+    const id = sortIdFromSorters(sorters, weekColumn);
+    if (!id) return;
+    customOrder = id === 'custom' ? sorterField(sorters) : null;
+    if (id !== sortId || id === 'custom') applySort(id, true);
   }
 
   // ── Table ───────────────────────────────────────────────────────────────
@@ -230,26 +314,119 @@ function init({ manifest, slices, missingYears }) {
     suppressSelectionEcho = false;
   }
 
+  // ── The surface: cards, compact or detailed ─────────────────────────────
+
+  // The tooltip on the help icon, which says what the gestures are, and they
+  // are not the same on a card as on a row.
+  let helperTooltip = null;
+  function updateHelperText(mode) {
+    const element = document.getElementById('table-helper-info');
+    if (!element) return;
+
+    const text = mode === 'cards'
+      ? 'Tap a card to expand. Long-press (or right-click) to plot it on the chart.'
+      : 'Click rows to plot them on the chart.';
+
+    if (!helperTooltip && window.bootstrap?.Tooltip) {
+      helperTooltip = new window.bootstrap.Tooltip(element, {
+        title: text, trigger: 'hover focus', placement: 'bottom',
+      });
+    } else if (helperTooltip) {
+      helperTooltip.setContent({ '.tooltip-inner': text });
+    }
+  }
+
+  // The footnote explains the daily columns, which only the detailed view has.
+  function updateDailyFootnote(mode) {
+    const footnote = document.getElementById('daily-neg-footnote');
+    if (footnote) {
+      footnote.classList.toggle('d-none', !(pageHasNegativeDaily && mode === 'detailed'));
+    }
+  }
+
+  // Build one of the three views, tearing down whichever is up. Switching
+  // holds the surface's height and shows the skeleton while Tabulator renders,
+  // which is asynchronous: without it the page collapses to nothing for a
+  // frame and takes the reader's scroll position with it (#160).
+  function renderSurface(mode) {
+    const finishSwap = beginSwap(!!(table || cards));
+
+    if (table) { table.destroy(); table = null; }
+    if (cards) { cards.destroy(); cards = null; }
+
+    // `movie-table` and `movie-cards` are part of the markup contract both
+    // pages carry: the two surfaces the view switch shows one of at a time.
+    const tableElement = document.getElementById('movie-table');
+    const cardsElement = document.getElementById('movie-cards');
+    tableElement.classList.toggle('d-none', mode === 'cards');
+    cardsElement.classList.toggle('d-none', mode !== 'cards');
+    tableElement.classList.toggle('mode-compact', mode === 'compact');
+    tableElement.classList.toggle('mode-detailed', mode === 'detailed');
+
+    renderedMode = mode;
+    updateHelperText(mode);
+    updateDailyFootnote(mode);
+    markActiveSort();
+
+    if (mode === 'cards') {
+      const spec = cardSortSpec();
+      cards = buildMovieCards(allRows, {
+        selection,
+        visibleIds: visibleRows.map((row) => row.imdbId),
+        sortField: spec.field,
+        sortDir: spec.direction,
+      });
+      requestAnimationFrame(finishSwap);
+      return;
+    }
+
+    const build = mode === 'compact' ? buildCompactMovieTable : buildDetailedMovieTable;
+
+    suppressSortEcho = true;
+    table = build(visibleRows, {
+      // The remembered sort, so the header shows what the menu says from the
+      // first paint rather than only after the reader touches something.
+      initialSort: tableSortSpec(sortId, weekColumn),
+      onSelectionChange: (ids) => {
+        if (suppressSelectionEcho) return;
+        selection.set(ids);
+      },
+      onSorted: (sorters) => {
+        if (suppressSortEcho) return;
+        sortFromHeader(sorters);
+      },
+    });
+
+    // Tabulator ignores `deselectRow` and `getRow` until it has built its
+    // rows: called synchronously after construction they warn and then do
+    // nothing, which dropped the row highlight on every view swap.
+    const onBuilt = () => {
+      syncSelectionIntoTable();
+      suppressSortEcho = false;
+      requestAnimationFrame(finishSwap);
+    };
+    if (table.initialized) onBuilt();
+    else table.on('tableBuilt', onBuilt);
+
+    // In case `tableBuilt` has already fired. Both are idempotent.
+    setTimeout(() => {
+      suppressSortEcho = false;
+      finishSwap();
+    }, 250);
+  }
+
   // ── First render ────────────────────────────────────────────────────────
 
-  visibleRows = sortMovieRows(allRows, sortId);
+  // The skeleton belongs inside the swapped surface and comes from the module
+  // that drives it, so both pages carry the same one rather than a copy each.
+  document.getElementById('table-surface')?.insertAdjacentHTML('beforeend', RENDER_OVERLAY_MARKUP);
+
+  visibleRows = orderRows(allRows);
   markActiveSort();
   rerender();
+  renderSurface(renderedMode);
 
-  table = buildMovieTable(visibleRows, {
-    // The remembered sort, so the header shows what the menu says from the
-    // first paint rather than only after the reader touches something.
-    initialSort: tableSortSpec(sortId),
-    onSelectionChange: (ids) => {
-      if (suppressSelectionEcho) return;
-      selection.set(ids);
-    },
-    onSorted: (sorters) => {
-      if (suppressSortEcho) return;
-      const id = sortIdFromSorters(sorters);
-      if (id && id !== sortId) applySort(id, true);
-    },
-  });
+  createModeSwitcher({ initial: renderedMode, onChange: renderSurface });
 
   // ── Controls ────────────────────────────────────────────────────────────
 

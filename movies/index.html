@@ -95,6 +95,8 @@
           <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_desc">Letterboxd &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_asc">Letterboxd &uarr; (lowest)</button></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="button" data-sort="week_desc">This week's gross &darr; (highest)</button></li>
         </ul>
       </div>
       <button id="clear-movie-selection" class="btn btn-sm btn-outline-secondary" type="button" aria-label="Clear chart selection" disabled>
@@ -102,14 +104,39 @@
         <span class="clear-label">Clear selection</span>
       </button>
       <span id="row-count" class="text-muted ms-auto" style="font-size:0.8rem"></span>
+      <!-- The view switch and the help icon are the Campaign page's, markup and
+           all: `shared/view-mode.js` finds this group by its label, and the
+           tooltip text is set per mode by `page.js` (#162). -->
+      <div class="btn-group btn-group-sm" role="group" aria-label="View mode">
+        <button class="btn btn-outline-secondary" data-mode="cards" type="button" aria-label="Cards view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span class="mode-label">Cards</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="compact" type="button" aria-label="Compact view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span class="mode-label">Compact</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="detailed" type="button" aria-label="Detailed view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <span class="mode-label">Detailed</span>
+        </button>
+      </div>
+      <button id="table-helper-info" class="btn btn-sm btn-link p-0 text-secondary" type="button" data-bs-toggle="tooltip" aria-label="How to use this view">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      </button>
     </div>
 
     <div id="filters-panel" class="d-none"></div>
     <div id="filter-chips" class="d-none"></div>
+    <!-- The two surfaces the view switch shows one of at a time. The swap
+         skeleton goes in here from `shared/swap.js`, so both pages carry the
+         same one rather than a copy each (#160). -->
     <div id="table-surface">
       <div id="movie-table"></div>
+      <div id="movie-cards" class="d-none"></div>
     </div>
     <p id="budget-footnote">≈ marks a budget upstream estimated rather than reported.</p>
+    <p id="daily-neg-footnote" class="d-none">* Negative daily gross values are not true negatives. They reflect revised estimates for earlier days in the week, superseded by more accurate figures.</p>
   </div>
 
 </div>

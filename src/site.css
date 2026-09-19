@@ -1580,7 +1580,30 @@ details:not([open]) > .site-directory-summary::after {
 
 @media (max-width: 600px) {
   .filter-row .filter-label { min-width: 86px; }
+  /* The toolbar is one line at this width and the view switch has to fit on
+     it, so the row count gives up its place. The same count is in the chips
+     row and in the table's own footer. */
+  #row-count { display: none; }
 }
+
+/* The lookup card. It is the Campaign's card without a holder: no owner colour
+   down the edge, and the headline is what the Movie took rather than what a
+   Pick made. */
+.movies-card { border-left-color: var(--bs-border-color); }
+
+/* The word beside the headline figure, saying what the figure is. Plain muted
+   text in the slot the Campaign's ROI chip sits in, because there is nothing
+   to read it against: it is a fact, not a verdict. */
+.movie-card-hero .hero-unit {
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+}
+
+/* No holder means no colour to draw the sparkline in, so it takes the same
+   green the gross column does. `weeklyModule` fills with `currentColor` here,
+   which is what lets one rule answer for both themes. */
+.movies-card .spark { color: #75b798; }
+[data-bs-theme="light"] .movies-card .spark { color: #198754; }
 
 /* ── Movie detail page ──────────────────────────────────────────────────── */
 /* One film at its own address. It reuses the chart machinery above
