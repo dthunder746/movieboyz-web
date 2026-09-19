@@ -123,33 +123,90 @@ describe('movieTitleLink', () => {
 });
 
 describe('buildCards', () => {
+  // The grid the builder is handed is faked rather than a real DOM, so the fake
+  // has to model the few operations the builder performs on it: a full rewrite
+  // through `innerHTML`, and, for the show-more button, finding it, inserting
+  // the next slice of cards in front of it, relabelling it and taking it away.
+  // Holding the markup as a string lets a test assert on exactly what was drawn.
+  const SHOW_MORE_RE = /<button[^>]*cards-show-more[^>]*>[\s\S]*?<\/button>/;
+
   function container() {
     const listeners = new Map();
-    return {
+    const repainted = [];
+    const grid = {
       innerHTML: '',
       addEventListener: (type, handler) => listeners.set(type, handler),
-      querySelectorAll: () => [],
       listeners,
+      repainted,
+      // Only the cards actually drawn exist to be found, which is the point of
+      // the syncSelection test below.
+      querySelectorAll: () => [...grid.innerHTML.matchAll(/data-imdb-id="([^"]+)"/g)]
+        .map((match) => ({
+          dataset: { imdbId: match[1] },
+          classList: { toggle: (name, on) => repainted.push([match[1], name, on]) },
+        })),
+      querySelector(selector) {
+        if (selector !== '.cards-show-more') return null;
+        const match = SHOW_MORE_RE.exec(grid.innerHTML);
+        if (!match) return null;
+        return {
+          insertAdjacentHTML(position, html) {
+            if (position !== 'beforebegin') return;
+            grid.innerHTML = grid.innerHTML.slice(0, match.index)
+              + html
+              + grid.innerHTML.slice(match.index);
+          },
+          remove() {
+            grid.innerHTML = grid.innerHTML.replace(SHOW_MORE_RE, '');
+          },
+          set textContent(text) {
+            grid.innerHTML = grid.innerHTML.replace(
+              SHOW_MORE_RE,
+              (button) => button.replace(/>[\s\S]*?<\/button>/, `>${text}</button>`),
+            );
+          },
+        };
+      },
     };
+    return grid;
   }
 
-  function harness(rows, visibleIds) {
+  function harness(rows, visibleIds, pageSize) {
     const grid = container();
     vi.stubGlobal('document', { getElementById: (id) => (id === 'movie-cards' ? grid : null) });
 
+    const selected = new Set();
     const cardMarkup = vi.fn((row) => `<div data-imdb-id="${row.imdbId}"></div>`);
     const cards = buildCards({
       rows,
       compare: () => (a, b) => a.imdbId.localeCompare(b.imdbId),
       cardMarkup,
-      selection: { has: () => false, toArray: () => [] },
+      selection: { has: (id) => selected.has(id), toArray: () => [...selected] },
       visibleIds,
+      pageSize,
     });
 
-    return { cards, grid, cardMarkup };
+    return {
+      cards, grid, cardMarkup, selected,
+    };
+  }
+
+  function drawnIds(grid) {
+    return [...grid.innerHTML.matchAll(/data-imdb-id="([^"]+)"/g)].map((match) => match[1]);
+  }
+
+  function clickShowMore(grid) {
+    grid.listeners.get('click')({
+      target: { closest: (selector) => (selector === '.cards-show-more' ? {} : null) },
+    });
   }
 
   const ROWS = [{ imdbId: 'tt1' }, { imdbId: 'tt2' }, { imdbId: 'tt3' }];
+
+  // Ids sort in the order they are made, which keeps the slices predictable.
+  function manyRows(n) {
+    return Array.from({ length: n }, (unused, i) => ({ imdbId: `tt${String(i).padStart(3, '0')}` }));
+  }
 
   it('draws one card per row, through the markup it was given', () => {
     const { grid, cardMarkup } = harness(ROWS);
@@ -181,5 +238,106 @@ describe('buildCards', () => {
   it('is inert when the page carries no card grid', () => {
     vi.stubGlobal('document', { getElementById: () => null });
     expect(buildCards({ rows: ROWS, compare: () => () => 0, cardMarkup: () => '' })).toBeNull();
+  });
+
+  describe('show more', () => {
+    it('draws the first page only, and offers the rest by the page', () => {
+      const { grid, cardMarkup } = harness(manyRows(7), null, 3);
+
+      expect(cardMarkup).toHaveBeenCalledTimes(3);
+      expect(drawnIds(grid)).toEqual(['tt000', 'tt001', 'tt002']);
+      expect(grid.innerHTML).toContain('cards-show-more');
+      expect(grid.innerHTML).toContain('Show 3 more');
+    });
+
+    it('offers only what is left when fewer remain than a page', () => {
+      const { grid } = harness(manyRows(5), null, 3);
+      clickShowMore(grid);
+
+      expect(drawnIds(grid)).toHaveLength(5);
+      expect(grid.innerHTML).not.toContain('cards-show-more');
+    });
+
+    it('appends the next page without rebuilding the cards already drawn', () => {
+      const { grid, cardMarkup } = harness(manyRows(7), null, 3);
+      cardMarkup.mockClear();
+
+      clickShowMore(grid);
+
+      // Only the new slice is built, and it lands after what was there.
+      expect(cardMarkup).toHaveBeenCalledTimes(3);
+      expect(drawnIds(grid)).toEqual(['tt000', 'tt001', 'tt002', 'tt003', 'tt004', 'tt005']);
+      expect(grid.innerHTML).toContain('Show 1 more');
+
+      clickShowMore(grid);
+
+      expect(drawnIds(grid)).toHaveLength(7);
+      expect(grid.innerHTML).not.toContain('cards-show-more');
+    });
+
+    it('draws no button when everything fits on the first page', () => {
+      const { grid } = harness(manyRows(3), null, 3);
+      expect(grid.innerHTML).not.toContain('cards-show-more');
+    });
+
+    it('draws no button behind the empty message', () => {
+      const { grid } = harness(manyRows(7), [], 3);
+      expect(grid.innerHTML).toContain('No movies match the current filters.');
+      expect(grid.innerHTML).not.toContain('cards-show-more');
+    });
+
+    it('goes back to the first page on a sort, a filter or a redraw', () => {
+      const { cards, grid } = harness(manyRows(7), null, 3);
+
+      clickShowMore(grid);
+      cards.setSort('title', 'asc');
+      expect(drawnIds(grid)).toHaveLength(3);
+
+      clickShowMore(grid);
+      cards.setVisibleIds(null);
+      expect(drawnIds(grid)).toHaveLength(3);
+
+      clickShowMore(grid);
+      cards.rerender();
+      expect(drawnIds(grid)).toHaveLength(3);
+    });
+
+    it('starts no card press when the button is pressed', () => {
+      vi.useFakeTimers();
+      try {
+        const { grid } = harness(manyRows(7), null, 3);
+        const button = { dataset: {} };
+        // The real button answers to its own selector and to nothing else.
+        // In particular it is inside no `.movie-card`, so the gesture handler
+        // has nothing to take hold of and the press never begins.
+        const target = {
+          closest: (selector) => (selector === '.cards-show-more' ? button : null),
+        };
+
+        grid.listeners.get('pointerdown')({
+          isPrimary: true, target, clientX: 0, clientY: 0,
+        });
+
+        // Had a press begun, holding it this long would plot the "card" through
+        // `selection.toggle`, which this harness does not provide, and the
+        // timer would throw.
+        expect(() => vi.advanceTimersByTime(1000)).not.toThrow();
+
+        grid.listeners.get('pointerup')({ target });
+        expect(drawnIds(grid)).toHaveLength(3);
+      } finally {
+        vi.useRealTimers();
+      }
+    });
+
+    it('repaints the drawn cards on a selection change and ignores the rest', () => {
+      const { cards, grid, selected } = harness(manyRows(7), null, 3);
+      selected.add('tt005'); // plotted from the chart, its card not drawn yet
+
+      expect(() => cards.syncSelection()).not.toThrow();
+
+      expect(grid.repainted.map(([id]) => id)).toEqual(['tt000', 'tt001', 'tt002']);
+      expect(grid.repainted.every(([, , on]) => on === false)).toBe(true);
+    });
   });
 });

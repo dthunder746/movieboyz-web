@@ -1540,6 +1540,15 @@ details:not([open]) > .site-directory-summary::after {
   text-align: center;
   font-size: 0.9rem;
 }
+/* The button that draws the next page of cards (#163). It is the last thing in
+   the grid rather than part of any card, so it takes the full width the cards
+   take and reads as the end of what has been drawn so far. Its colours come
+   from Bootstrap's outline button, which follows the theme in both directions. */
+.cards-show-more {
+  display: block;
+  width: 100%;
+  margin: 2px 0 14px;
+}
 /* View-mode buttons and Clear-selection: text labels on tablet/desktop, icons
    on mobile to keep the toolbar on a single row.
 

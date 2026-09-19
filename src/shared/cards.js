@@ -15,6 +15,13 @@
 //
 // Ticket 41 (#162) makes the Movies page's rows carry the same names.
 //
+// How much of the list a first draw puts on screen is the builder's too, and
+// so is the button that asks for more of it (#163). A Movies page holding
+// hundreds of Movies used to build every card up front, which is a long wait
+// for a reader who only ever reads the first screenful, so the grid is drawn a
+// page at a time. Both pages get it from here rather than each carrying its
+// own copy.
+//
 // ── The card markup contract ──────────────────────────────────────────────
 // The gestures below find a card by `.movie-card` and read its
 // `data-imdb-id`; a tap toggles `.movie-card-extra`, and the plot button is
@@ -170,6 +177,26 @@ export function movieTitleLink(imdbId, inner) {
   return `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(imdbId))}">${inner}</a>`;
 }
 
+// ── Paging ────────────────────────────────────────────────────────────────
+
+// How many cards a page of the grid holds. Twenty-four is a few screenfuls on
+// a phone, which is enough that a reader scrolling casually reaches the button
+// rather than meeting it straight away.
+const DEFAULT_PAGE_SIZE = 24;
+
+const SHOW_MORE_CLASS = 'cards-show-more';
+
+// The label counts what pressing it will actually draw, so the last press says
+// how short the last page is rather than promising a full one.
+function showMoreLabel(remaining, pageSize) {
+  return `Show ${Math.min(pageSize, remaining)} more`;
+}
+
+function showMoreHtml(remaining, pageSize) {
+  return `<button type="button" class="btn btn-sm btn-outline-secondary ${SHOW_MORE_CLASS}">`
+    + `${showMoreLabel(remaining, pageSize)}</button>`;
+}
+
 // ── Gestures ──────────────────────────────────────────────────────────────
 
 const LONG_PRESS_MS = 500;
@@ -180,6 +207,7 @@ const MOVE_TOLERANCE = 10; // px of slop still counted as a tap rather than a dr
 // is the same whichever page is asking.
 export function buildCards({
   rows: allRows, compare, cardMarkup, selection, visibleIds, sortField, sortDir,
+  pageSize = DEFAULT_PAGE_SIZE,
 }) {
   // `movie-cards` is part of the markup contract both pages carry: the grid the
   // cards are drawn into.
@@ -199,11 +227,41 @@ export function buildCards({
 
   let rows = rowsToShow();
 
+  // How far down the sorted list the grid has been drawn. Every full render
+  // starts again from the top, because a new sort or a new set of filters is a
+  // different list and the reader is being shown its beginning.
+  let drawn = 0;
+
+  function cardsHtml(from, to) {
+    return rows.slice(from, to).map((row) => cardMarkup(row, selection.has(row.imdbId))).join('');
+  }
+
   function render() {
     rows.sort(compare(field, direction));
-    container.innerHTML = rows.length
-      ? rows.map((row) => cardMarkup(row, selection.has(row.imdbId))).join('')
-      : '<div class="cards-empty text-muted">No movies match the current filters.</div>';
+    if (!rows.length) {
+      drawn = 0;
+      container.innerHTML = '<div class="cards-empty text-muted">No movies match the current filters.</div>';
+      return;
+    }
+    drawn = Math.min(pageSize, rows.length);
+    container.innerHTML = cardsHtml(0, drawn)
+      + (drawn < rows.length ? showMoreHtml(rows.length - drawn, pageSize) : '');
+  }
+
+  // The next page is appended rather than redrawn: a card the reader has
+  // already opened stays open, and the page does not jump under them. The
+  // button keeps its place at the end by having the new cards put in front of
+  // it, and goes away once there is nothing left to ask for.
+  function showMore() {
+    const button = container.querySelector(`.${SHOW_MORE_CLASS}`);
+    if (!button) return;
+
+    const next = Math.min(drawn + pageSize, rows.length);
+    button.insertAdjacentHTML('beforebegin', cardsHtml(drawn, next));
+    drawn = next;
+
+    if (drawn >= rows.length) button.remove();
+    else button.textContent = showMoreLabel(rows.length - drawn, pageSize);
   }
 
   render();
@@ -288,6 +346,12 @@ export function buildCards({
 
   // The plot button is a real button, so its click fires reliably.
   container.addEventListener('click', (event) => {
+    // The show-more button sits in the grid but outside every card, so it is
+    // answered here and nowhere near the card gestures.
+    if (event.target.closest(`.${SHOW_MORE_CLASS}`)) {
+      showMore();
+      return;
+    }
     if (!event.target.closest('.movie-card-plot-btn')) return;
     const card = event.target.closest('.movie-card');
     if (card) selection.toggle(card.dataset.imdbId);
