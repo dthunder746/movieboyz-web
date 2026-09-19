@@ -106,7 +106,13 @@
         <svg class="clear-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
         <span class="clear-label">Clear selection</span>
       </button>
-      <span id="row-count" class="text-muted ms-auto" style="font-size:0.8rem"></span>
+      <span id="row-count" class="text-muted" style="font-size:0.8rem"></span>
+      <!-- The gap that holds the view switch against the right edge, and it is
+           an element of its own rather than an `ms-auto` on the row count: the
+           count gives up its place under 600px, and with the margin on it the
+           switch came away from the edge and packed left. The Campaign's bar
+           carries the same empty span for the same reason. -->
+      <span class="ms-auto"></span>
       <!-- The view switch and the help icon are the Campaign page's, markup and
            all: `shared/view-mode.js` finds this group by its label, and the
            tooltip text is set per mode by `page.js` (#162). -->
