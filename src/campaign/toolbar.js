@@ -6,6 +6,18 @@
 // pushes into `filters.js` and every repaint reads back out of it, so the panel
 // and the chips cannot disagree with what the table is actually showing.
 
+import {
+  bindDateRange,
+  bindReleasedStatus,
+  bindSearch,
+  dateSection,
+  releasedSection,
+  searchSection,
+  segmentedSection,
+  syncDateRange,
+  syncSearch,
+  syncSegmented,
+} from '../shared/filter-sections.js';
 import { escapeHtml } from '../shared/format.js';
 import { createFilterShell } from '../shared/filters-shell.js';
 
@@ -15,12 +27,6 @@ const PICK_TYPES = [
   { key: 'hit', label: 'Hit' },
   { key: 'seasonal', label: 'Seasonal' },
   { key: 'bomb', label: 'Bomb' },
-];
-
-const RELEASED_OPTIONS = [
-  { key: 'all', label: 'All' },
-  { key: 'released', label: 'Released only' },
-  { key: 'upcoming', label: 'Upcoming only' },
 ];
 
 const PROFITABILITY_OPTIONS = [
@@ -35,14 +41,6 @@ function capitalise(value) {
 
 export function createToolbar({ filters, users, colorMap }) {
   // ── Panel sections ──────────────────────────────────────────────────────
-
-  function searchSection(snapshot) {
-    return '<div class="filter-row">'
-      + '<span class="filter-label">Search</span>'
-      + '<input type="text" id="filter-search" class="form-control form-control-sm"'
-      + ` style="max-width:280px" placeholder="Title contains…" value="${escapeHtml(snapshot.search)}">`
-      + '</div>';
-  }
 
   // Keyed on user id, so the colour a chip carries is the colour that User's
   // line has on the chart.
@@ -73,30 +71,6 @@ export function createToolbar({ filters, users, colorMap }) {
       + `<div class="filter-chips-toggle">${chips}</div></div>`;
   }
 
-  function dateSection(snapshot) {
-    return '<div class="filter-row">'
-      + '<span class="filter-label">Release date</span>'
-      + '<input type="date" id="filter-date-from" class="form-control form-control-sm"'
-      + ` style="width:auto" value="${snapshot.releaseFrom || ''}">`
-      + '<span class="text-muted" style="font-size:0.78rem">to</span>'
-      + '<input type="date" id="filter-date-to" class="form-control form-control-sm"'
-      + ` style="width:auto" value="${snapshot.releaseTo || ''}">`
-      + '</div>';
-  }
-
-  function segmentedSection(label, options, attribute, current) {
-    const buttons = options.map((option) => `<button class="filter-segmented-btn`
-      + `${current === option.key ? ' on' : ''}" data-${attribute}="${option.key}"`
-      + ` type="button">${option.label}</button>`).join('');
-
-    return `<div class="filter-row"><span class="filter-label">${label}</span>`
-      + `<div class="filter-segmented">${buttons}</div></div>`;
-  }
-
-  function releasedSection(snapshot) {
-    return segmentedSection('Released', RELEASED_OPTIONS, 'released-status', snapshot.released);
-  }
-
   function profitabilitySection(snapshot) {
     return segmentedSection('Profitability', PROFITABILITY_OPTIONS, 'profitability', snapshot.profitability);
   }
@@ -124,23 +98,13 @@ export function createToolbar({ filters, users, colorMap }) {
     for (const button of panel.querySelectorAll('[data-pick-type]')) {
       button.classList.toggle('on', !!activeTypes && activeTypes.has(button.dataset.pickType));
     }
-    for (const button of panel.querySelectorAll('[data-released-status]')) {
-      button.classList.toggle('on', snapshot.released === button.dataset.releasedStatus);
-    }
-    for (const button of panel.querySelectorAll('[data-profitability]')) {
-      button.classList.toggle('on', snapshot.profitability === button.dataset.profitability);
-    }
-
-    const from = panel.querySelector('#filter-date-from');
-    const to = panel.querySelector('#filter-date-to');
-    if (from && document.activeElement !== from) from.value = snapshot.releaseFrom || '';
-    if (to && document.activeElement !== to) to.value = snapshot.releaseTo || '';
+    syncSegmented(panel, 'released-status', snapshot.released);
+    syncSegmented(panel, 'profitability', snapshot.profitability);
+    syncDateRange(panel, snapshot);
+    syncSearch(panel, snapshot);
 
     const unowned = panel.querySelector('#filter-unowned');
     if (unowned) unowned.checked = snapshot.showUnowned;
-
-    const search = panel.querySelector('#filter-search');
-    if (search && document.activeElement !== search) search.value = snapshot.search;
   }
 
   function bindPanel(panel) {
@@ -151,9 +115,6 @@ export function createToolbar({ filters, users, colorMap }) {
       const typeButton = event.target.closest('[data-pick-type]');
       if (typeButton) return filters.togglePickType(typeButton.dataset.pickType);
 
-      const releasedButton = event.target.closest('[data-released-status]');
-      if (releasedButton) return filters.setReleasedStatus(releasedButton.dataset.releasedStatus);
-
       const profitButton = event.target.closest('[data-profitability]');
       if (profitButton) return filters.setProfitability(profitButton.dataset.profitability);
 
@@ -162,24 +123,12 @@ export function createToolbar({ filters, users, colorMap }) {
     });
 
     panel.addEventListener('change', (event) => {
-      if (event.target.id === 'filter-date-from' || event.target.id === 'filter-date-to') {
-        const from = panel.querySelector('#filter-date-from');
-        const to = panel.querySelector('#filter-date-to');
-        filters.setReleaseRange(from ? from.value : '', to ? to.value : '');
-        return;
-      }
       if (event.target.id === 'filter-unowned') filters.setShowUnowned(event.target.checked);
     });
 
-    // Typing debounced: without it every keystroke re-filters the table, and on
-    // the detailed view that is a full redraw per character.
-    let debounce = null;
-    panel.addEventListener('input', (event) => {
-      if (event.target.id !== 'filter-search') return;
-      const { value } = event.target;
-      if (debounce) clearTimeout(debounce);
-      debounce = setTimeout(() => filters.setSearch(value), SEARCH_DEBOUNCE_MS);
-    });
+    bindReleasedStatus(panel, filters);
+    bindDateRange(panel, filters);
+    bindSearch(panel, filters, SEARCH_DEBOUNCE_MS);
   }
 
   // ── Chips ───────────────────────────────────────────────────────────────
