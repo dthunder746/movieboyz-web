@@ -344,11 +344,38 @@ function init({ manifest, slices, missingYears }) {
     }
   }
 
+  // The order to open a view in. A header sort the menu cannot name is an
+  // order like any other and has to survive a view swap: without this the new
+  // table would come up sorted by the default while the menu still read
+  // `Custom` and the rows and the chart stayed in the old order.
+  function tableInitialSort() {
+    if (sortId === 'custom' && customOrder) {
+      return [{ column: customOrder.field, dir: customOrder.direction }];
+    }
+    return tableSortSpec(sortId, weekColumn);
+  }
+
+  // Only the detailed view has day columns, so a day sort cannot be carried
+  // into the compact table: there is no column to put it on. The page drops
+  // back to its own default and the menu says so, rather than reading `Custom`
+  // over an order nothing asked for.
+  function dropSortThisModeCannotHold(mode) {
+    const daily = sortId === 'custom' && customOrder?.field?.startsWith('daily_');
+    if (mode !== 'compact' || !daily) return;
+
+    sortId = DEFAULT_SORT;
+    customOrder = null;
+    visibleRows = orderRows(filters.filter(allRows, latestDate));
+    rebuildChart();
+  }
+
   // Build one of the three views, tearing down whichever is up. Switching
   // holds the surface's height and shows the skeleton while Tabulator renders,
   // which is asynchronous: without it the page collapses to nothing for a
   // frame and takes the reader's scroll position with it (#160).
   function renderSurface(mode) {
+    dropSortThisModeCannotHold(mode);
+
     const finishSwap = beginSwap(!!(table || cards));
 
     if (table) { table.destroy(); table = null; }
@@ -388,9 +415,9 @@ function init({ manifest, slices, missingYears }) {
       // whatever the filters have left. The rows handed over are the filtered
       // ones; only the columns are worked out from the whole page.
       columnRows: allRows,
-      // The remembered sort, so the header shows what the menu says from the
-      // first paint rather than only after the reader touches something.
-      initialSort: tableSortSpec(sortId, weekColumn),
+      // The order the page is in, so the header shows what the menu says from
+      // the first paint rather than only after the reader touches something.
+      initialSort: tableInitialSort(),
       onSelectionChange: (ids) => {
         if (suppressSelectionEcho) return;
         selection.set(ids);
