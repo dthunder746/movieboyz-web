@@ -21,6 +21,7 @@ import {
 import {
   buildCards as buildSharedCards,
   movieLink,
+  movieTitleLink,
   plotButton,
   weekTable,
   weeklyModule,
@@ -38,10 +39,18 @@ const SPARK_COLOR = 'currentColor';
 
 // A Movie from a slice written before the identity fields has no title (#60).
 // Its imdb id is the only name it has, which is what the table shows too.
+//
+// The name is the way into the Movie's own page, as it is in the table (#63).
+// The expanded area keeps its "Open Movie page" line: this card is the whole
+// row on a phone, and a reader should not have to open it to find the way in.
+// The link class is what keeps the tap on it from being read as the gesture
+// that expands the card.
 function titleText(row) {
-  return row.title
+  const label = row.title
     ? `<span class="movie-title-text">${escapeHtml(row.title)}</span>`
     : `<span class="movie-title-text text-neu">${escapeHtml(row.imdbId)}</span>`;
+
+  return movieTitleLink(row.imdbId, label);
 }
 
 // Release date, budget and how long it has been out. The ≈ marks a budget

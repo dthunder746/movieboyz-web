@@ -158,6 +158,18 @@ export function movieLink(row) {
     + 'Open Movie page</a>';
 }
 
+// The same way in, worn by the card's own title, for a page that wants the
+// name itself to lead somewhere as well as the line in the expanded area.
+//
+// It is safe to put on the title because it carries `MOVIE_LINK_CLASS`, which
+// is the class every gesture below stands off: a pointerdown on it starts no
+// press, so the tap navigates instead of expanding the card and a hold plots
+// nothing, and a right-click gets the browser's own menu rather than the
+// plot. `inner` is the page's own title markup, already escaped.
+export function movieTitleLink(imdbId, inner) {
+  return `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(imdbId))}">${inner}</a>`;
+}
+
 // ── Gestures ──────────────────────────────────────────────────────────────
 
 const LONG_PRESS_MS = 500;

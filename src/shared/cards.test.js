@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import {
-  buildCards, weekAxisIndexes, weekDeltas, weekTable, weeklyModule,
+  buildCards, movieTitleLink, weekAxisIndexes, weekDeltas, weekTable, weeklyModule,
 } from './cards.js';
 
 afterEach(() => {
@@ -104,6 +104,21 @@ describe('weekTable', () => {
 
   it('says so when a Movie has no weekly data yet', () => {
     expect(weekTable([])).toContain('No weekly data yet');
+  });
+});
+
+describe('movieTitleLink', () => {
+  // The class is the contract: the gestures stand off anything carrying it, so
+  // a tap on the title navigates rather than expanding the card.
+  it('wraps the title markup in a link the card gestures stand off', () => {
+    vi.stubGlobal('window', { location: { pathname: '/movies/' } });
+    vi.stubGlobal('document', { querySelector: () => null });
+
+    const html = movieTitleLink('tt0111161', '<span class="movie-title-text">Heat</span>');
+
+    expect(html).toContain('class="movie-title-link"');
+    expect(html).toContain('<span class="movie-title-text">Heat</span>');
+    expect(html).toMatch(/href="[^"]*tt0111161[^"]*"/);
   });
 });
 

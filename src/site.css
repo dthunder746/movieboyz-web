@@ -1115,6 +1115,18 @@ details:not([open]) > .site-directory-summary::after {
   white-space: nowrap;
   font-weight: 500;
 }
+/* A card whose title is itself the link into the Movie. The anchor is the
+   flex item that gives, the same arrangement the table's Movie cell uses, so
+   a long name still truncates at the card's edge rather than pushing the plot
+   button off it. The Campaign's card has no such anchor and is untouched. */
+.movie-card-title .movie-title-link {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.movie-card-title .movie-title-link .movie-title-text {
+  display: block;
+}
 .movie-card-meta {
   color: var(--bs-secondary-color);
   font-size: 0.78rem;
