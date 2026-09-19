@@ -1,6 +1,13 @@
-// The Movies lookup table, one Tabulator instance over the rows `rows.js`
-// builds. Wiring, untested by the site's convention: the reshaping and the
-// sorting rules it renders are tested next door.
+// The Movies lookup table: the compact and the detailed view, two Tabulator
+// instances over the rows `rows.js` builds. Wiring, untested by the site's
+// convention: the reshaping and the sorting rules it renders are tested next
+// door.
+//
+// Both views carry the same seven columns. Compact adds one Gross Week column
+// per week, newest first; detailed adds the per-day gross grid grouped under
+// each week, which is the only place on this page a daily figure appears
+// (#162). The week and day columns, their formatters and their widths are
+// `shared/table-columns.js`, which knows nothing about a League or a lookup.
 //
 // This is `campaign/table.js` with the League dimensions taken out (#62). No
 // holder, no Pick type, no Profit, no Breakeven, no ROI. Gross where Profit
@@ -20,6 +27,15 @@ import {
   ratingColorClass,
 } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
+import {
+  compactWeekColumn,
+  weekGroup,
+} from '../shared/table-columns.js';
+import {
+  collectDailyDates,
+  collectWeekKeys,
+  groupDatesByWeek,
+} from '../shared/week-fields.js';
 
 import { SEASON_LABELS, missingLastSorter } from './rows.js';
 
@@ -158,24 +174,33 @@ function columns() {
   ];
 }
 
-export function buildMovieTable(rows, { initialSort, onSelectionChange, onSorted }) {
+// Shared Tabulator options. The two views are the same table with different
+// columns, so anything a reader would notice switching between them belongs
+// here rather than in either builder.
+const TABLE_OPTIONS = {
+  layout: 'fitDataFill',
+  responsiveLayout: false,
+  resizableColumns: false,
+  selectableRows: true,
+  pagination: true,
+  paginationSize: 50,
+  paginationSizeSelector: [25, 50, 100, 250, true],
+  // Addressing rows by imdb id is what lets the page push a chart selection
+  // back into the table, as it does on the Campaign page.
+  index: 'imdbId',
+  placeholder: 'No Movie matches these filters.',
+};
+
+function buildTable(rows, columns, { initialSort, onSelectionChange, onSorted }) {
+  // `movie-table` is part of the markup contract both pages carry: the element
+  // a Tabulator instance is built into.
   const table = new Tabulator('#movie-table', {
-    layout: 'fitDataFill',
+    ...TABLE_OPTIONS,
     // The page's remembered sort, handed over so the header carries the same
     // answer the menu does. `page.js` keeps the two in step from here on.
     initialSort,
-    responsiveLayout: false,
-    resizableColumns: false,
-    selectableRows: true,
-    pagination: true,
-    paginationSize: 50,
-    paginationSizeSelector: [25, 50, 100, 250, true],
-    // Addressing rows by imdb id is what lets the page push a chart selection
-    // back into the table, as it does on the Campaign page.
-    index: 'imdbId',
     data: rows,
-    columns: columns(),
-    placeholder: 'No Movie matches these filters.',
+    columns,
   });
 
   guardMovieLinks('movie-table');
@@ -185,6 +210,40 @@ export function buildMovieTable(rows, { initialSort, onSelectionChange, onSorted
   });
 
   table.on('dataSorted', (sorters) => onSorted(sorters));
+
+  return table;
+}
+
+// Newest week leftmost, so the columns a reader wants are the ones they land
+// on rather than the ones they have to scroll to.
+function newestWeeksFirst(rows) {
+  return collectWeekKeys(rows).slice().reverse();
+}
+
+export function buildCompactMovieTable(rows, options) {
+  const weekColumns = newestWeeksFirst(rows).map(compactWeekColumn);
+
+  return buildTable(rows, [...columns(), ...weekColumns], options);
+}
+
+export function buildDetailedMovieTable(rows, options) {
+  const dates = collectDailyDates(rows);
+  const datesByWeek = groupDatesByWeek(dates);
+  const newestFirst = newestWeeksFirst(rows);
+
+  // The group definitions have to exist before the instance they belong to, so
+  // the expanders are handed a box and it is filled in below.
+  const tableRef = { current: null };
+
+  const weekColumns = dates.length > 0 && newestFirst.length > 0
+    ? [{
+      title: 'Weekly Gross',
+      columns: newestFirst.map((key, index) => weekGroup(key, index === 0, datesByWeek, tableRef)),
+    }]
+    : [];
+
+  const table = buildTable(rows, [...columns(), ...weekColumns], options);
+  tableRef.current = table;
 
   return table;
 }

@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   DEFAULT_SORT,
   buildMovieRows,
+  cardCompare,
   latestWeekColumn,
   missingLastSorter,
   parseSortId,
@@ -414,5 +415,29 @@ describe('latestWeekColumn', () => {
 
   it('answers nothing when nothing has reported a week', () => {
     expect(latestWeekColumn([{ weeklyGross: {} }])).toBe(null);
+  });
+});
+
+// The cards sort themselves rather than being handed a sorted list, because a
+// filter change re-narrows them without a re-sort. Same rule as the table's,
+// against the row field the sort names.
+describe('cardCompare', () => {
+  const rows = () => [
+    { imdbId: 'quiet', grossTd: 1 * MILLION, thisWeek: null },
+    { imdbId: 'loud', grossTd: 900 * MILLION, thisWeek: 4 * MILLION },
+  ];
+
+  it('orders on the field it is given', () => {
+    expect(rows().sort(cardCompare('grossTd', 'asc')).map((r) => r.imdbId))
+      .toEqual(['quiet', 'loud']);
+    expect(rows().sort(cardCompare('thisWeek', 'desc')).map((r) => r.imdbId))
+      .toEqual(['loud', 'quiet']);
+  });
+
+  // A card view under a sort the page cannot name still has to be in some
+  // order, and the page's own default is the one to fall back on.
+  it('falls back to the default order for a field it does not know', () => {
+    expect(rows().sort(cardCompare('nonsense', 'asc')).map((r) => r.imdbId))
+      .toEqual(['loud', 'quiet']);
   });
 });

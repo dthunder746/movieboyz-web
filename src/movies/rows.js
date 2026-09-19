@@ -212,6 +212,18 @@ function compare(field, direction) {
   };
 }
 
+// The same rule as a comparator over row fields, for the shared card view: the
+// cards sort themselves rather than being handed a sorted list, because a
+// filter change re-narrows them without a re-sort. A field the page cannot
+// name (a header click on a week or a day column) falls back to the default,
+// so the cards are always in some order a reader can follow.
+export function cardCompare(field, direction) {
+  const known = SORT_IDS[field]
+    ? { field, direction: direction === 'asc' ? 'asc' : 'desc' }
+    : parseSortId(DEFAULT_SORT);
+  return compare(known.field, known.direction);
+}
+
 // A copy, sorted. The page holds one list of rows and several views of it, so
 // sorting in place would reorder the list under whatever else is reading it.
 export function sortMovieRows(rows, sortId) {
