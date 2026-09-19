@@ -29,6 +29,12 @@
 // the catch-all page sets a `<base>` a `../` would be counted against twice
 // (`route.js`).
 //
+// The bar is one row of a fixed height at every width (#165). Three entries
+// side by side do not fit a phone, so below 992px they are one button opening a
+// single overlay, and `buildCompactMenu` is the second reading of the same view
+// model that says what the overlay holds. Both readings are drawn into the slot
+// together and a media query picks between them, so a resize is a repaint.
+//
 // The file splits in two at the divider below: a pure view model above, the DOM
 // it becomes underneath, which is the split every page group in this site sits
 // on.
@@ -187,7 +193,12 @@ export function buildCompactMenu(nav) {
     }
   }
 
-  items.push(link('Movies', nav.movies.href, { current: nav.movies.current, marked: nav.movies.current }));
+  items.push(
+    link('Movies', nav.movies.href, {
+      current: nav.movies.current,
+      marked: nav.movies.current,
+    }),
+  );
 
   return items;
 }
