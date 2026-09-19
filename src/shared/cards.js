@@ -193,7 +193,7 @@ function showMoreLabel(remaining, pageSize) {
 }
 
 function showMoreHtml(remaining, pageSize) {
-  return `<button type="button" class="btn btn-outline-secondary ${SHOW_MORE_CLASS}">`
+  return `<button type="button" class="btn btn-sm btn-outline-secondary ${SHOW_MORE_CLASS}">`
     + `${showMoreLabel(remaining, pageSize)}</button>`;
 }
 
