@@ -7,6 +7,7 @@
 // Nothing here reads a Campaign file, which is what lets the page work for a
 // reader who is in no League (#62).
 
+import { TABLE_RATING_KEYS } from '../shared/ratings.js';
 import {
   collectDailyDates,
   collectWeekKeys,
@@ -27,10 +28,20 @@ export const SEASON_LABELS = {
   FALL: 'Fall',
 };
 
-// Ratings flattened onto the row so the table can sort on them. Letterboxd is
-// the one the League watches and the only one the lookup table shows; the rest
-// ride along for the tooltip, as they do on the Campaign page.
-export const RATING_KEY = 'letterboxd';
+// Ratings flattened onto the row so the table can sort on them, one field per
+// source the detailed view has a column for. The raw ratings object rides
+// along beside them for the vote-count tooltips, as it does on the Campaign
+// page. Letterboxd is the one the sort menu names, because it is the one the
+// League watches.
+export const RATING_FIELD_PREFIX = 'rating_';
+
+function ratingFields(ratings) {
+  const flat = {};
+  for (const key of TABLE_RATING_KEYS) {
+    flat[`${RATING_FIELD_PREFIX}${key}`] = ratings?.[key]?.score ?? null;
+  }
+  return flat;
+}
 
 function releaseYear(movie, slice) {
   const date = movie.release_date;
@@ -72,7 +83,7 @@ export function buildMovieRows(slices) {
         weeklyGross: movie.weekly_gross || {},
         dailyChange: movie.daily_change || {},
         ratings: movie.ratings ?? null,
-        ratingLetterboxd: movie.ratings?.[RATING_KEY]?.score ?? null,
+        ...ratingFields(movie.ratings),
         releasedDigital: movie.released_digital ?? null,
         status: movie.status ?? null,
 
@@ -118,7 +129,7 @@ function withWeekAndDayFields(rows) {
 
 const SORT_FIELDS = {
   gross: 'grossTd',
-  rating: 'ratingLetterboxd',
+  rating: 'rating_letterboxd',
   release: 'releaseDate',
   budget: 'budget',
   // What the Movie took in the newest week anything on the page reported. The
@@ -245,7 +256,7 @@ export function cardCompare(field, direction) {
 // A field the rows can be put in order by: one the menu names, or one of the
 // week and day columns a header click can sort on.
 function isSortableField(field) {
-  return !!SORT_IDS[field] || /^(week_|daily_)/.test(String(field ?? ''));
+  return !!SORT_IDS[field] || /^(week_|daily_|rating_)/.test(String(field ?? ''));
 }
 
 // The same order a header click left the table in, applied to the rows

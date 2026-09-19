@@ -3,10 +3,12 @@
 // convention: the reshaping and the sorting rules it renders are tested next
 // door.
 //
-// Both views carry the same six columns. Compact adds one Gross Week column
-// per week, newest first; detailed adds the per-day gross grid grouped under
-// each week, which is the only place on this page a daily figure appears
-// (#162). The week and day columns, their formatters and their widths are
+// Both views carry the same five columns. Compact adds one Gross Week column
+// per week, newest first; detailed adds the Ratings group, whose expander
+// opens the other five sources beside Letterboxd, and the per-day gross grid
+// grouped under each week, which is the only place on this page a daily figure
+// appears (#162). The ratings group is the Campaign table's, shared rather
+// than copied. The week and day columns, their formatters and their widths are
 // `shared/table-columns.js`, which knows nothing about a League or a lookup.
 //
 // This is `campaign/table.js` with the League dimensions taken out (#62). No
@@ -24,11 +26,11 @@ import {
   escapeHtml,
   fmt,
   formatShortDate,
-  ratingColorClass,
 } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 import {
   compactWeekColumn,
+  ratingsGroup,
   weekGroup,
 } from '../shared/table-columns.js';
 import {
@@ -97,16 +99,9 @@ function daysCell(cell) {
   return String(value);
 }
 
-// Letterboxd publishes out of 100 and its readers know it out of 5.
-function ratingCell(cell) {
-  const value = cell.getValue();
-  if (value === null || value === undefined) return DASH;
-  return `<span class="${ratingColorClass(value)}">${(value / 20).toFixed(1)}</span>`;
-}
-
 // ── Columns ───────────────────────────────────────────────────────────────
 
-function columns() {
+function baseColumns() {
   return [
     {
       title: 'Movie',
@@ -151,19 +146,6 @@ function columns() {
       headerTooltip: 'Days running as at the day the figures were measured on',
       headerSort: false,
       formatter: daysCell,
-    },
-    {
-      title: 'Letterboxd',
-      field: 'ratingLetterboxd',
-      hozAlign: 'center',
-      minWidth: 110,
-      sorter: missingLastSorter,
-      formatter: ratingCell,
-      tooltip(event, cell) {
-        const votes = cell.getRow().getData().ratings?.letterboxd?.votes;
-        if (votes === null || votes === undefined) return false;
-        return `${votes.toLocaleString()} votes`;
-      },
     },
   ];
 }
@@ -227,7 +209,7 @@ function columnSource({ columnRows }, rows) {
 export function buildCompactMovieTable(rows, options) {
   const weekColumns = newestWeeksFirst(columnSource(options, rows)).map(compactWeekColumn);
 
-  return buildTable(rows, [...columns(), ...weekColumns], options);
+  return buildTable(rows, [...baseColumns(), ...weekColumns], options);
 }
 
 export function buildDetailedMovieTable(rows, options) {
@@ -247,7 +229,11 @@ export function buildDetailedMovieTable(rows, options) {
     }]
     : [];
 
-  const table = buildTable(rows, [...columns(), ...weekColumns], options);
+  const table = buildTable(
+    rows,
+    [...baseColumns(), ratingsGroup(tableRef), ...weekColumns],
+    options,
+  );
   tableRef.current = table;
 
   return table;

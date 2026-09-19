@@ -75,9 +75,10 @@ function cardMarkup(row, isSelected) {
   const hasGross = row.grossTd !== null && row.grossTd !== undefined;
   const gross = hasGross ? fmt(row.grossTd) : '—';
 
-  const ratingChip = row.ratingLetterboxd === null || row.ratingLetterboxd === undefined ? ''
-    : `<span class="rating-chip ${ratingColorClass(row.ratingLetterboxd)}">`
-      + `${LETTERBOXD_ICON}${(row.ratingLetterboxd / 20).toFixed(1)}</span>`;
+  const letterboxd = row.rating_letterboxd;
+  const ratingChip = letterboxd === null || letterboxd === undefined ? ''
+    : `<span class="rating-chip ${ratingColorClass(letterboxd)}">`
+      + `${LETTERBOXD_ICON}${(letterboxd / 20).toFixed(1)}</span>`;
 
   const spark = weeklyModule(row.weeks, SPARK_COLOR, row.thisWeek);
 

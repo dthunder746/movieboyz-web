@@ -16,6 +16,7 @@
 // spell them differently sorts on columns that are not there. Ticket 41 (#162)
 // makes the Movies page's rows carry the same names.
 
+import { RATING_SOURCES, TABLE_RATING_KEYS } from './ratings.js';
 import {
   colorClass,
   fmt,
@@ -24,6 +25,7 @@ import {
   formatShortDate,
   getWeekdayAbbr,
   isoWeekBounds,
+  ratingColorClass,
   shiftIsoDate,
   weekTitle,
 } from './format.js';
@@ -161,6 +163,69 @@ export function makeExpandableGroup(title, childColumns, hiddenFields, tableRef,
     },
     columns: childColumns,
   };
+}
+
+// ── Ratings ───────────────────────────────────────────────────────────────
+
+// Six of the seven sources the platform publishes, on one axis. Only
+// Letterboxd is shown by default, because it is the one the league watches;
+// the rest come in behind the group's expander. What each source is called and
+// how its score is read are the shared catalogue's answer (`shared/ratings.js`);
+// what this adds is the column over them.
+//
+// Driven off the catalogue and narrowed by the keys the rows carry, rather
+// than the other way round. A key naming no source would otherwise build a
+// column with no label whose formatter throws on the first score it is handed;
+// this way it simply has no column.
+//
+// The rows are expected to carry `rating_<key>` per source, which is what both
+// pages' row builders write.
+const RATING_COLUMN_SOURCES = RATING_SOURCES
+  .filter((source) => TABLE_RATING_KEYS.includes(source.key))
+  .map((source) => ({
+    ...source,
+    field: `rating_${source.key}`,
+    visible: source.key === 'letterboxd',
+  }));
+
+export function ratingColumns() {
+  return RATING_COLUMN_SOURCES.map((source, index) => ({
+    title: source.label,
+    field: source.field,
+    cssClass: index === 0 ? 'week-sep' : undefined,
+    titleFormatter() {
+      if (source.emoji) return `<span style="font-size:14px;line-height:1">${source.icon}</span>`;
+      return `<img src="${source.icon}" width="16" height="16"`
+        + ` style="vertical-align:middle" alt="${source.label}">`;
+    },
+    headerTooltip: source.label,
+    hozAlign: 'center',
+    minWidth: source.visible ? 120 : 50,
+    visible: source.visible,
+    sorter: 'number',
+    formatter(cell) {
+      const value = cell.getValue();
+      if (value === null || value === undefined) return DASH;
+      return `<span class="${ratingColorClass(value)}">${source.display(value)}</span>`;
+    },
+    // How many people the score speaks for. A source that does not publish a
+    // count gets no tooltip rather than a misleading zero.
+    tooltip(event, cell) {
+      const votes = cell.getRow().getData().ratings?.[source.key]?.votes;
+      if (votes === null || votes === undefined) return false;
+      return `${votes.toLocaleString()} votes`;
+    },
+  }));
+}
+
+// The Ratings group as both tables carry it: Letterboxd in the open and the
+// other five behind the [+] on the group header.
+export function ratingsGroup(tableRef) {
+  const hidden = RATING_COLUMN_SOURCES
+    .filter((source) => !source.visible)
+    .map((source) => source.field);
+
+  return makeExpandableGroup('Ratings', ratingColumns(), hidden, tableRef, false);
 }
 
 // ── Sort orders ───────────────────────────────────────────────────────────

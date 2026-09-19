@@ -84,9 +84,29 @@ describe('buildMovieRows', () => {
       grossTd: 250 * MILLION,
       daysRunning: 412,
       status: 'RELEASED',
-      ratingLetterboxd: 78,
+      rating_letterboxd: 78,
     });
     expect(released.gross).toEqual({ '2025-07-04': 40 * MILLION, '2025-07-05': 90 * MILLION });
+  });
+
+  // The detailed view carries a column per rating source behind one expander,
+  // and Tabulator sorts on fields, so every source the table shows has to be
+  // on the row. A source that has not scored the Movie is null rather than
+  // absent: the column exists for every row or for none.
+  it('flattens every rating source the table shows onto the row', () => {
+    const [built] = buildMovieRows([{
+      release_year: 2026,
+      latest_date: '2026-08-20',
+      movies: [{
+        imdb_id: 'tt-rated',
+        ratings: { letterboxd: { score: 78, votes: 90 }, imdb: { score: 66, votes: 12 } },
+      }],
+    }]);
+
+    expect(built.rating_letterboxd).toBe(78);
+    expect(built.rating_imdb).toBe(66);
+    expect(built.rating_metacritic).toBeNull();
+    expect(built.ratings.letterboxd.votes).toBe(90);
   });
 
   // The deploy window: a slice published before the identity fields existed
@@ -118,7 +138,7 @@ describe('buildMovieRows', () => {
 // Sorting runs over built rows, so the fixtures below are rows rather than
 // slices: only the field each sort names matters.
 function row(imdbId, fields) {
-  return { imdbId, title: imdbId, releaseDate: null, grossTd: null, budget: null, ratingLetterboxd: null, ...fields };
+  return { imdbId, title: imdbId, releaseDate: null, grossTd: null, budget: null, rating_letterboxd: null, ...fields };
 }
 
 describe('sortMovieRows', () => {
@@ -146,9 +166,9 @@ describe('sortMovieRows', () => {
 
   it('sorts by release date, by rating and by budget', () => {
     const rows = [
-      row('mid', { releaseDate: '2026-06-05', ratingLetterboxd: 60, budget: 50 * MILLION }),
-      row('old', { releaseDate: '2019-04-24', ratingLetterboxd: 90, budget: 356 * MILLION }),
-      row('new', { releaseDate: '2027-01-01', ratingLetterboxd: 30, budget: 10 * MILLION }),
+      row('mid', { releaseDate: '2026-06-05', rating_letterboxd: 60, budget: 50 * MILLION }),
+      row('old', { releaseDate: '2019-04-24', rating_letterboxd: 90, budget: 356 * MILLION }),
+      row('new', { releaseDate: '2027-01-01', rating_letterboxd: 30, budget: 10 * MILLION }),
     ];
 
     expect(sortMovieRows(rows, 'release_desc').map((r) => r.imdbId)).toEqual(['new', 'mid', 'old']);
@@ -250,7 +270,7 @@ describe('sortIdFromSorters', () => {
 // order it picked, or a header click leaves the table sorting itself.
 describe('tableSortSpec', () => {
   it('reads a menu id as a Tabulator sorter', () => {
-    expect(tableSortSpec('rating_desc')).toEqual([{ column: 'ratingLetterboxd', dir: 'desc' }]);
+    expect(tableSortSpec('rating_desc')).toEqual([{ column: 'rating_letterboxd', dir: 'desc' }]);
   });
 
   it('falls back to the default sort rather than leaving the table unsorted', () => {

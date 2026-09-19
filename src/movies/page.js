@@ -274,9 +274,17 @@ function init({ manifest, slices, missingYears }) {
     // Tabulator keeps the sorter a header click left on the column and puts it
     // back on every `replaceData`, so without this the table would answer to
     // the header and the menu, the chart and the row order to the menu.
+    // Only the detailed view has a Ratings column, and only it has day
+    // columns, so the order the menu asks for is not always one the view on
+    // screen can be put in. The rows have already been sorted by it either
+    // way; the table is cleared rather than told to sort on a column it does
+    // not have, so it shows them in the order they arrived in.
     if (table) {
       suppressSortEcho = true;
-      table.setSort(tableSortSpec(sortId, weekColumn));
+      const spec = tableSortSpec(sortId, weekColumn)
+        .filter((entry) => table.getColumn(entry.column));
+      if (spec.length) table.setSort(spec);
+      else table.clearSort();
       suppressSortEcho = false;
     }
 

@@ -18,6 +18,7 @@ import {
   valueOrNull,
   weeksFromWeekly,
 } from '../shared/week-fields.js';
+import { TABLE_RATING_KEYS } from '../shared/ratings.js';
 
 export {
   collectDailyDates, collectWeekKeys, groupDatesByWeek, hasNegativeDaily,
@@ -25,10 +26,10 @@ export {
 
 // Rating sources the detailed table has a column for, flattened onto each row
 // so Tabulator can sort them. The raw ratings object rides along beside them
-// for the vote-count tooltips.
-export const RATING_KEYS = [
-  'letterboxd', 'imdb', 'rt_audience', 'rt_critic', 'tmdb', 'metacritic',
-];
+// for the vote-count tooltips. The list is the shared catalogue's, because the
+// Movies table shows the same six (#162); it is re-exported here because this
+// is where the Campaign's call sites and its tests have always read it from.
+export const RATING_KEYS = TABLE_RATING_KEYS;
 
 // Fields every mode shows. `releaseDate` falls back to the literal 'TBA' the
 // old table sorted on: the column is a string sort, so an undated Movie has to

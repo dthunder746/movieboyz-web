@@ -3,23 +3,19 @@
 // Row data comes from `table-rows.js`, which is where the reshaping and the
 // sorting rules are tested. The formatters, the week and day columns and the
 // sort orders come from `shared/table-columns.js`, which knows nothing about a
-// League. What lives here is the Campaign's own columns over them: the Movie
-// title with its badge and Pick glyph, the ratings, and the financials.
+// League, the ratings group among them (#162). What lives here is the
+// Campaign's own columns over them: the Movie title with its badge and Pick
+// glyph, and the financials.
 // Tabulator itself is a CDN global.
 
-import {
-  escapeHtml,
-  ratingColorClass,
-} from '../shared/format.js';
+import { escapeHtml } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
-import { RATING_SOURCES } from '../shared/ratings.js';
 import {
-  DASH,
   buildSortMap,
   compactWeekColumn,
   defaultSort,
-  makeExpandableGroup,
   moneyCell,
+  ratingsGroup,
   releaseDateCell,
   roiCell,
   roundedRoiCell,
@@ -29,7 +25,6 @@ import {
 
 import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 import {
-  RATING_KEYS,
   collectDailyDates,
   collectWeekKeys,
   compactRows,
@@ -96,56 +91,6 @@ function releasedColumn(widths) {
 
 // ── Detailed table ────────────────────────────────────────────────────────
 
-// Six of the seven sources the platform publishes, on one axis. Only Letterboxd
-// is shown by default, because it is the one the league watches; the rest come
-// in behind the Ratings group's expander. What each source is called and how
-// its score is read are the shared catalogue's answer (`shared/ratings.js`);
-// what this list adds is the Campaign table's own columns over them.
-//
-// Driven off the catalogue and narrowed by the keys the flattened rows carry,
-// rather than the other way round. A key naming no source would otherwise
-// build a column with no label whose formatter throws on the first score it is
-// handed; this way it simply has no column, and `table-rows.test.js` fails
-// before either happens. The catalogue's order is the column order, which is
-// the order `RATING_KEYS` already lists them in.
-const RATING_COLUMNS = RATING_SOURCES
-  .filter((source) => RATING_KEYS.includes(source.key))
-  .map((source) => ({
-    ...source,
-    field: `rating_${source.key}`,
-    visible: source.key === 'letterboxd',
-  }));
-
-function ratingColumns() {
-  return RATING_COLUMNS.map((source, index) => ({
-    title: source.label,
-    field: source.field,
-    cssClass: index === 0 ? 'week-sep' : undefined,
-    titleFormatter() {
-      if (source.emoji) return `<span style="font-size:14px;line-height:1">${source.icon}</span>`;
-      return `<img src="${source.icon}" width="16" height="16"`
-        + ` style="vertical-align:middle" alt="${source.label}">`;
-    },
-    headerTooltip: source.label,
-    hozAlign: 'center',
-    minWidth: source.visible ? 120 : 50,
-    visible: source.visible,
-    sorter: 'number',
-    formatter(cell) {
-      const value = cell.getValue();
-      if (value === null || value === undefined) return DASH;
-      return `<span class="${ratingColorClass(value)}">${source.display(value)}</span>`;
-    },
-    // How many people the score speaks for. A source that does not publish a
-    // count gets no tooltip rather than a misleading zero.
-    tooltip(event, cell) {
-      const votes = cell.getRow().getData().ratings?.[source.key]?.votes;
-      if (votes === null || votes === undefined) return false;
-      return `${votes.toLocaleString()} votes`;
-    },
-  }));
-}
-
 function financialColumns() {
   return [
     {
@@ -194,14 +139,10 @@ export function buildDetailedTable(board, colorMap) {
 
   const tableRef = { current: null };
 
-  const hiddenRatingFields = RATING_COLUMNS
-    .filter((source) => !source.visible)
-    .map((source) => source.field);
-
   const columns = [
     titleColumn(colorMap, { minWidth: 230 }),
     releasedColumn({ minWidth: 80 }),
-    makeExpandableGroup('Ratings', ratingColumns(), hiddenRatingFields, tableRef, false),
+    ratingsGroup(tableRef),
     { title: 'Financials', columns: financialColumns() },
   ];
 

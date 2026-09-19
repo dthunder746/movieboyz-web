@@ -66,6 +66,16 @@ export const RATING_SOURCES = [
   },
 ];
 
+// The sources a lookup table carries a column for, in the catalogue's order.
+// Trakt is left out: it is the one source whose figure is a popularity score
+// rather than a review, and both tables have always stopped at six.
+//
+// Here rather than beside either table, because the Campaign table and the
+// Movies table show the same six and a second list would drift.
+export const TABLE_RATING_KEYS = [
+  'letterboxd', 'imdb', 'rt_audience', 'rt_critic', 'tmdb', 'metacritic',
+];
+
 // One Movie's ratings as a list ready to render: every source that has scored
 // it, in the catalogue's order, each carrying the figure in its own units.
 //
