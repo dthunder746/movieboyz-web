@@ -1019,9 +1019,16 @@ details:not([open]) > .site-directory-summary::after {
    cut every title at the same short mark whatever the column was resized to,
    so a 480px column ellipsised at about 220px. The cell is the flex row, the
    badge and the season glyph keep their own size, and the link is the one
-   part that gives, so the cutoff lands at the column's edge. */
-.col-movie-title .tabulator-cell {
-  display: flex;
+   part that gives, so the cutoff lands at the column's edge.
+
+   Tabulator puts a column's `cssClass` on the cell element itself, not on a
+   wrapper, so the row below is `.tabulator-cell.col-movie-title` and not a
+   descendant of it. As a descendant it matched nothing, the cell stayed
+   inline-block, and the title's `display: block` inside an inline anchor broke
+   the line under the glyph. `inline-flex` rather than `flex` because a row
+   lays its cells out inline: a block-level cell would take a line to itself. */
+.tabulator-cell.col-movie-title {
+  display: inline-flex;
   align-items: center;
   overflow: hidden;
 }
