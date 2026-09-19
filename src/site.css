@@ -1014,16 +1014,31 @@ details:not([open]) > .site-directory-summary::after {
   min-width: 52px;
 }
 
+/* The Movie column on both tables. The title takes whatever width the badges
+   in front of it leave, rather than a fixed measure: a `max-width` in `ch`
+   cut every title at the same short mark whatever the column was resized to,
+   so a 480px column ellipsised at about 220px. The cell is the flex row, the
+   badge and the season glyph keep their own size, and the link is the one
+   part that gives, so the cutoff lands at the column's edge. */
 .col-movie-title .tabulator-cell {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.col-movie-title .owner-badge,
+.col-movie-title .scorecard-pick-icon {
+  flex: 0 0 auto;
+}
+.col-movie-title .movie-title-link {
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
 }
 .col-movie-title .movie-title-text {
-  display: inline-block;
-  max-width: 14ch;
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  vertical-align: middle;
 }
 
 .compact-delta {
