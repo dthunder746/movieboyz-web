@@ -187,7 +187,7 @@ function sidebarCards(mountEl) {
 // off: there is no table beside them to line up with.
 function clearCaps(cards) {
   cards.forEach((card) => { card.style.maxHeight = ''; });
-  return window.innerWidth > 935;
+  return window.innerWidth > 989;
 }
 
 // Both cards scroll inside a fixed height, and the height is whatever the

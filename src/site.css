@@ -2149,13 +2149,14 @@ button.league-card-header:hover {
   width: 100%;
 }
 
-@media (min-width: 936px) {
+@media (min-width: 990px) {
   /* The sidebar's cards below are absolutely positioned and take their height
      from the main column beside them. Wrapping would put the sidebar on a line
      of its own with no in-flow height, and the cards would vanish into a
      zero-height box. The columns' bases (580 + 360 + the gap) do not fit until
-     about 988px, so the row is held on one line here and both columns shrink
-     instead. */
+     about 988px; the breakpoint sits just above that, and holding the row
+     on one line here covers a browser whose scrollbar takes the last few
+     pixels. */
   .draft-body { flex-wrap: nowrap; }
   .draft-sidebar > #draft-unpicked {
     position: absolute;
@@ -2166,7 +2167,7 @@ button.league-card-header:hover {
   }
 }
 
-@media (max-width: 935px) {
+@media (max-width: 989px) {
   .draft-sidebar { flex-basis: 100%; position: static; }
 }
 
@@ -2521,7 +2522,7 @@ button.league-card-header:hover {
   min-height: 0;
 }
 
-@media (max-width: 935px) {
+@media (max-width: 989px) {
   .draft-sidebar .info-tab-card {
     flex: 0 0 auto;
   }
@@ -2533,7 +2534,7 @@ button.league-card-header:hover {
   overflow-y: auto;
 }
 
-@media (max-width: 935px) {
+@media (max-width: 989px) {
   .draft-sidebar > .info-tab-card { max-height: 420px; }
 }
 
@@ -2584,7 +2585,7 @@ button.league-card-header:hover {
   padding: 1rem;
 }
 
-@media (max-width: 935px) {
+@media (max-width: 989px) {
   .draft-sidebar .info-card-table-wrap {
     max-height: 360px;
     overflow-y: auto;
@@ -2614,7 +2615,7 @@ button.league-card-header:hover {
 
 .draft-unpicked-card + .draft-unpicked-card { margin-top: 0.75rem; }
 .draft-unpicked-scroll { overflow-y: auto; min-height: 0; flex: 1 1 auto; }
-@media (max-width: 935px) {
+@media (max-width: 989px) {
   .draft-unpicked-scroll { max-height: 14rem; }
 }
 
