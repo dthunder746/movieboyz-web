@@ -2150,6 +2150,13 @@ button.league-card-header:hover {
 }
 
 @media (min-width: 936px) {
+  /* The sidebar's cards below are absolutely positioned and take their height
+     from the main column beside them. Wrapping would put the sidebar on a line
+     of its own with no in-flow height, and the cards would vanish into a
+     zero-height box. The columns' bases (580 + 360 + the gap) do not fit until
+     about 988px, so the row is held on one line here and both columns shrink
+     instead. */
+  .draft-body { flex-wrap: nowrap; }
   .draft-sidebar > #draft-unpicked {
     position: absolute;
     top: 0;
