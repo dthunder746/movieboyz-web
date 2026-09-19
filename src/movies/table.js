@@ -3,7 +3,7 @@
 // convention: the reshaping and the sorting rules it renders are tested next
 // door.
 //
-// Both views carry the same seven columns. Compact adds one Gross Week column
+// Both views carry the same six columns. Compact adds one Gross Week column
 // per week, newest first; detailed adds the per-day gross grid grouped under
 // each week, which is the only place on this page a daily figure appears
 // (#162). The week and day columns, their formatters and their widths are
@@ -36,8 +36,9 @@ import {
   collectWeekKeys,
   groupDatesByWeek,
 } from '../shared/week-fields.js';
+import { pickOrSeasonIcon } from '../shared/icons.js';
 
-import { SEASON_LABELS, missingLastSorter } from './rows.js';
+import { missingLastSorter } from './rows.js';
 
 const DASH = '<span class="text-neu">—</span>';
 
@@ -50,6 +51,11 @@ const DASH = '<span class="text-neu">—</span>';
 // The title is the way into the Movie's own page (#63). A real anchor rather
 // than a row-click handler, so the address can be copied, opened in a tab and
 // read by a screen reader as the link it is.
+//
+// The Season rides in front of the name as a glyph, which is what the Campaign
+// table and this page's own cards already do. It is one symbol where a column
+// was a whole column, and it stays outside the link: the link is to the Movie,
+// the glyph is a reading of when it opens.
 function titleCell(cell) {
   const row = cell.getRow().getData();
   const value = cell.getValue();
@@ -57,19 +63,14 @@ function titleCell(cell) {
     ? `<span class="movie-title-text">${escapeHtml(value)}</span>`
     : `<span class="movie-title-text text-neu">${escapeHtml(row.imdbId)}</span>`;
 
-  return `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
+  return pickOrSeasonIcon(null, row.season)
+    + `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
 }
 
 function releaseDateCell(cell) {
   const value = cell.getValue();
   if (!value || value === 'TBA') return '<span class="text-neu">TBA</span>';
   return `${formatShortDate(value)} ${value.slice(0, 4)}`;
-}
-
-function seasonCell(cell) {
-  const value = cell.getValue();
-  if (!value) return DASH;
-  return SEASON_LABELS[value] ?? value;
 }
 
 // Upstream's own word on whether it read the budget or guessed it (#62). A
@@ -123,13 +124,6 @@ function columns() {
       minWidth: 110,
       sorter: missingLastSorter,
       formatter: releaseDateCell,
-    },
-    {
-      title: 'Season',
-      field: 'season',
-      minWidth: 90,
-      headerSort: false,
-      formatter: seasonCell,
     },
     {
       title: 'Budget',
