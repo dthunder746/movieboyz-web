@@ -255,3 +255,92 @@ describe('tableSortSpec', () => {
     expect(tableSortSpec('nonsense')).toEqual(tableSortSpec(DEFAULT_SORT));
   });
 });
+
+// ── The fields the shared table columns and cards read ────────────────────
+//
+// `week_<key>`, `daily_<date>`, `weeks` and `thisWeek` are the names
+// `shared/table-columns.js` and `shared/cards.js` document at the top of
+// themselves (#162). A row that spells any of them differently loses the
+// column or the sparkline that reads it, silently.
+
+function weekSlices() {
+  return [
+    {
+      release_year: 2026,
+      latest_date: '2026-03-10',
+      movies: [
+        {
+          imdb_id: 'tt-early',
+          title: 'Early',
+          release_date: '2026-02-20',
+          weekly_gross: { '2026-W08': 30 * MILLION, '2026-W09': 12 * MILLION },
+          daily_change: { '2026-02-20': 20 * MILLION, '2026-02-21': 10 * MILLION },
+        },
+        {
+          imdb_id: 'tt-late',
+          title: 'Late',
+          release_date: '2026-03-06',
+          weekly_gross: { '2026-W10': 44 * MILLION },
+          daily_change: { '2026-03-06': 44 * MILLION },
+        },
+      ],
+    },
+  ];
+}
+
+describe('buildMovieRows week and day fields', () => {
+  it('carries a week_<key> column for every week any Movie reported', () => {
+    const rows = buildMovieRows(weekSlices());
+    const early = rows.find((r) => r.imdbId === 'tt-early');
+    const late = rows.find((r) => r.imdbId === 'tt-late');
+
+    expect(early).toMatchObject({
+      'week_2026-W08': 30 * MILLION,
+      'week_2026-W09': 12 * MILLION,
+    });
+    // A week the Movie never reported is null and not zero: zero is a real
+    // figure and the two would sort together.
+    expect(early['week_2026-W10']).toBe(null);
+    expect(late['week_2026-W08']).toBe(null);
+    expect(late['week_2026-W10']).toBe(44 * MILLION);
+  });
+
+  it('carries a daily_<date> column for every day any Movie reported', () => {
+    const rows = buildMovieRows(weekSlices());
+    const early = rows.find((r) => r.imdbId === 'tt-early');
+    const late = rows.find((r) => r.imdbId === 'tt-late');
+
+    expect(early['daily_2026-02-20']).toBe(20 * MILLION);
+    expect(early['daily_2026-03-06']).toBe(null);
+    expect(late['daily_2026-03-06']).toBe(44 * MILLION);
+  });
+
+  it('carries the sparkline weeks, oldest first, for the weeks it reported', () => {
+    const rows = buildMovieRows(weekSlices());
+    const early = rows.find((r) => r.imdbId === 'tt-early');
+
+    expect(early.weeks).toEqual([
+      { num: 8, gross: 30 * MILLION },
+      { num: 9, gross: 12 * MILLION },
+    ]);
+  });
+
+  // The current week is the newest any Movie reported, not the newest this one
+  // did: a Movie whose run finished has bars but nothing this week.
+  it('carries this week from the newest week on the page, or null', () => {
+    const rows = buildMovieRows(weekSlices());
+
+    expect(rows.find((r) => r.imdbId === 'tt-late').thisWeek).toBe(44 * MILLION);
+    expect(rows.find((r) => r.imdbId === 'tt-early').thisWeek).toBe(null);
+  });
+
+  it('leaves a page with no gross at all with no week fields and no this week', () => {
+    const [row] = buildMovieRows([
+      { release_year: 2027, latest_date: null, movies: [{ imdb_id: 'tt-none' }] },
+    ]);
+
+    expect(row.weeks).toEqual([]);
+    expect(row.thisWeek).toBe(null);
+    expect(Object.keys(row).some((key) => key.startsWith('week_'))).toBe(false);
+  });
+});

@@ -7,6 +7,13 @@
 // Nothing here reads a Campaign file, which is what lets the page work for a
 // reader who is in no League (#62).
 
+import {
+  collectDailyDates,
+  collectWeekKeys,
+  valueOrNull,
+  weeksFromWeekly,
+} from '../shared/week-fields.js';
+
 // The Seasons a Movie can be in, in calendar order, and how each one is
 // written for a reader. A closed set the platform derives from a release date
 // rather than a file it publishes (CONTEXT.md), so it is a constant here rather
@@ -35,6 +42,14 @@ function releaseYear(movie, slice) {
   return Number.isNaN(year) ? (slice.release_year ?? null) : year;
 }
 
+// Every Movie in every slice, with the week and day fields the shared table
+// columns and the shared cards read hung off each one.
+//
+// The columns are a union over the whole page rather than one Movie's own
+// weeks: a column has to exist for every row or for none, and Tabulator sorts
+// on fields, so a week a Movie never reported has to be there and null. The
+// derivation is `shared/week-fields.js`, the same one the Campaign's Board
+// rows use (#162).
 export function buildMovieRows(slices) {
   const rows = [];
 
@@ -67,6 +82,29 @@ export function buildMovieRows(slices) {
         measuredOn: slice.latest_date ?? null,
       });
     }
+  }
+
+  return withWeekAndDayFields(rows);
+}
+
+// `weeks` and `thisWeek` are what `shared/cards.js` draws the sparkline and
+// its caption from; `week_<key>` and `daily_<date>` are the columns
+// `shared/table-columns.js` builds. The names are the interface, so they are
+// spelled here exactly as those two modules document them.
+//
+// `thisWeek` is the newest week anything on the page reported rather than the
+// newest this Movie did: a Movie whose run finished has bars but has taken
+// nothing this week, and the caption says so.
+function withWeekAndDayFields(rows) {
+  const weekKeys = collectWeekKeys(rows);
+  const dates = collectDailyDates(rows);
+  const currentWeek = weekKeys[weekKeys.length - 1] ?? null;
+
+  for (const row of rows) {
+    for (const key of weekKeys) row[`week_${key}`] = valueOrNull(row.weeklyGross, key);
+    for (const date of dates) row[`daily_${date}`] = valueOrNull(row.dailyChange, date);
+    row.weeks = weeksFromWeekly(row.weeklyGross);
+    row.thisWeek = currentWeek ? valueOrNull(row.weeklyGross, currentWeek) : null;
   }
 
   return rows;
