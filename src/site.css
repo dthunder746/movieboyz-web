@@ -1581,8 +1581,9 @@ details:not([open]) > .site-directory-summary::after {
 @media (max-width: 600px) {
   .filter-row .filter-label { min-width: 86px; }
   /* The toolbar is one line at this width and the view switch has to fit on
-     it, so the row count gives up its place. The same count is in the chips
-     row and in the table's own footer. */
+     it, so the row count gives up its place. It is the one thing on the bar a
+     reader can work out from what is in front of them, and the filters panel
+     names the filters that narrowed it. */
   #row-count { display: none; }
 }
 

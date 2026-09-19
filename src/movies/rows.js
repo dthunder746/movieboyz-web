@@ -98,7 +98,7 @@ export function buildMovieRows(slices) {
 function withWeekAndDayFields(rows) {
   const weekKeys = collectWeekKeys(rows);
   const dates = collectDailyDates(rows);
-  const currentWeek = weekKeys[weekKeys.length - 1] ?? null;
+  const currentWeek = newestWeekKey(rows);
 
   for (const row of rows) {
     for (const key of weekKeys) row[`week_${key}`] = valueOrNull(row.weeklyGross, key);
@@ -171,11 +171,18 @@ export function sortIdFromSorters(sorters, latestWeekField) {
   return `${name}_${direction}`;
 }
 
-// The column the newest week's gross landed in, or nothing when no Movie on
-// the page has reported a week yet.
-export function latestWeekColumn(rows) {
+// The newest week anything on the page reported, or nothing when no Movie has
+// reported one yet. One definition, because `thisWeek` and the column the
+// menu's "this week" sort points at have to be the same week: two answers here
+// would put the menu out of step with the figure on the card.
+function newestWeekKey(rows) {
   const weekKeys = collectWeekKeys(rows || []);
-  const latest = weekKeys[weekKeys.length - 1];
+  return weekKeys[weekKeys.length - 1] ?? null;
+}
+
+// The column the newest week's gross landed in.
+export function latestWeekColumn(rows) {
+  const latest = newestWeekKey(rows);
   return latest ? `week_${latest}` : null;
 }
 

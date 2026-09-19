@@ -191,7 +191,7 @@ const TABLE_OPTIONS = {
   placeholder: 'No Movie matches these filters.',
 };
 
-function buildTable(rows, columns, { initialSort, onSelectionChange, onSorted }) {
+function buildTable(rows, columnDefs, { initialSort, onSelectionChange, onSorted }) {
   // `movie-table` is part of the markup contract both pages carry: the element
   // a Tabulator instance is built into.
   const table = new Tabulator('#movie-table', {
@@ -200,7 +200,7 @@ function buildTable(rows, columns, { initialSort, onSelectionChange, onSorted })
     // answer the menu does. `page.js` keeps the two in step from here on.
     initialSort,
     data: rows,
-    columns,
+    columns: columnDefs,
   });
 
   guardMovieLinks('movie-table');
