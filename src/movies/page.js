@@ -1,8 +1,8 @@
 // The Movies page's entry point: it fetches the Movie slices, builds the rows
-// once, and wires the search, the year chips, the sort menu, the chart and the
-// table to each other.
+// once, and wires the Filters panel, the sort menu, the chart and the table to
+// each other.
 //
-// The shared state lives in one place each. The search and the year set are in
+// The shared state lives in one place each. What the page is filtered to is in
 // `filters.js`, the plotted selection is in `shared`'s selection helper, and
 // the two instances this module owns (`chart`, `table`) are rebuilt from those
 // rather than kept in step by hand. It is the Campaign page's shape with the
@@ -25,20 +25,17 @@ import {
 } from './gross-series.js';
 import {
   DEFAULT_SORT,
-  SEASONS,
-  SEASON_LABELS,
   buildMovieRows,
   sortIdFromSorters,
   sortMovieRows,
   tableSortSpec,
 } from './rows.js';
 import { buildMovieTable } from './table.js';
+import { createToolbar } from './toolbar.js';
 
 const SORT_KEY = 'mbMoviesSort';
 const WINDOW_KEY = 'mbMoviesWindow';
 const CHART_OPEN_KEY = 'mbMoviesChartOpen';
-
-const SEARCH_DEBOUNCE_MS = 150;
 
 // What each sort is called in the chart heading. Read off the sort id rather
 // than out of the menu label below, which is a display string with an arrow in
@@ -75,10 +72,9 @@ function savedSort() {
 
 function init({ manifest, slices, missingYears }) {
   const allRows = buildMovieRows(slices);
+  const latestDate = newestMeasuredDate(slices);
 
-  renderChrome(manifest, slices, missingYears);
-  renderYearChips(manifest);
-  renderSeasonChips();
+  renderChrome(manifest, missingYears, latestDate);
 
   // ── Shared state ────────────────────────────────────────────────────────
 
@@ -104,6 +100,7 @@ function init({ manifest, slices, missingYears }) {
   });
 
   const filters = createMovieFilters({ onChange: () => rerender() });
+  const toolbar = createToolbar({ filters, manifest });
 
   // ── Chart ───────────────────────────────────────────────────────────────
 
@@ -160,7 +157,9 @@ function init({ manifest, slices, missingYears }) {
   // ── Rows in view ────────────────────────────────────────────────────────
 
   function rerender() {
-    visibleRows = sortMovieRows(filters.filter(allRows), sortId);
+    visibleRows = sortMovieRows(filters.filter(allRows, latestDate), sortId);
+
+    toolbar.refresh();
 
     const count = document.getElementById('row-count');
     if (count) {
@@ -198,7 +197,7 @@ function init({ manifest, slices, missingYears }) {
     // rows here is for the chart, whose default is the top five of the sort
     // the reader is looking at.
     if (fromHeader) {
-      visibleRows = sortMovieRows(filters.filter(allRows), sortId);
+      visibleRows = sortMovieRows(filters.filter(allRows, latestDate), sortId);
       rebuildChart();
       return;
     }
@@ -253,57 +252,6 @@ function init({ manifest, slices, missingYears }) {
   });
 
   // ── Controls ────────────────────────────────────────────────────────────
-
-  const searchInput = document.getElementById('movies-search');
-  if (searchInput) {
-    let debounce = null;
-    searchInput.addEventListener('input', () => {
-      clearTimeout(debounce);
-      debounce = setTimeout(() => filters.setSearch(searchInput.value), SEARCH_DEBOUNCE_MS);
-    });
-  }
-
-  // Both chip rows work the same way and both paint from the filter state
-  // rather than from their own classes, so the two sets cannot end up
-  // disagreeing with `filters` about what is on.
-  function wireChips(id, { read, clear, toggle, parse = (value) => value }) {
-    const chips = document.getElementById(id);
-    if (!chips) return;
-
-    function paint() {
-      const active = read(filters.snapshot());
-      for (const chip of chips.querySelectorAll('[data-value]')) {
-        const on = chip.dataset.value === 'all'
-          ? active === null
-          : !!active && active.includes(parse(chip.dataset.value));
-        chip.classList.toggle('on', on);
-      }
-    }
-
-    chips.addEventListener('click', (event) => {
-      const button = event.target.closest('[data-value]');
-      if (!button) return;
-
-      if (button.dataset.value === 'all') clear();
-      else toggle(parse(button.dataset.value));
-      paint();
-    });
-
-    paint();
-  }
-
-  wireChips('year-chips', {
-    read: (snapshot) => snapshot.years,
-    clear: () => filters.clearYears(),
-    toggle: (year) => filters.toggleYear(year),
-    parse: (value) => parseInt(value, 10),
-  });
-
-  wireChips('season-chips', {
-    read: (snapshot) => snapshot.seasons,
-    clear: () => filters.clearSeasons(),
-    toggle: (season) => filters.toggleSeason(season),
-  });
 
   sortMenu?.addEventListener('click', (event) => {
     const button = event.target.closest('[data-sort]');
@@ -371,48 +319,24 @@ function wireChartCollapse(getChart) {
   });
 }
 
-// ── Filter chips ──────────────────────────────────────────────────────────
-//
-// Two rows, one markup builder, and `wireChips` above paints both from the
-// filter state.
-
-// The year chips come from the Manifest rather than from the rows, so a release year
-// the platform has published is offered the moment its slice lands and needs no
-// code change to appear (#62).
-function renderYearChips(manifest) {
-  const chips = document.getElementById('year-chips');
-  if (!chips) return;
-
-  chips.innerHTML = chipRow('All years', publishedYears(manifest));
-}
-
-// Season's chips are fixed where the year chips are published, because a Season
-// is one of three the platform derives rather than a file it writes (decision 2
-// of the parent spec, #58).
-function renderSeasonChips() {
-  const chips = document.getElementById('season-chips');
-  if (!chips) return;
-
-  chips.innerHTML = chipRow(
-    'All seasons',
-    SEASONS.map((season) => ({ value: season, label: SEASON_LABELS[season] })),
-  );
-}
-
-function chipRow(allLabel, options) {
-  const chips = options.map((option) => {
-    const { value, label } = typeof option === 'object' ? option : { value: option, label: option };
-    return `<button class="filter-chip-toggle" data-value="${value}" type="button">${label}</button>`;
-  });
-  return `<button class="filter-chip-toggle on" data-value="all" type="button">${allLabel}</button>`
-    + chips.join('');
-}
-
 // ── Header and footer ─────────────────────────────────────────────────────
+
+// The newest day any loaded slice is measured on. Each slice carries its own
+// (ADR 0008), but the page reports and filters on one of them, because the
+// question a reader asks of the Released filter is "out as of the latest box
+// office day the page knows", not "out as of whichever day this row's own file
+// happens to be measured on".
+function newestMeasuredDate(slices) {
+  const measured = (slices || [])
+    .map((slice) => slice.latest_date)
+    .filter(Boolean)
+    .sort();
+  return measured.length ? measured[measured.length - 1] : null;
+}
 
 // A slice the Manifest publishes that did not load leaves the page legible and
 // says which year is missing, rather than breaking (#62).
-function renderChrome(manifest, slices, missingYears) {
+function renderChrome(manifest, missingYears, latestDate) {
   mountNav(manifest);
 
   const notice = document.getElementById('slice-notice');
@@ -432,15 +356,9 @@ function renderChrome(manifest, slices, missingYears) {
     notice.classList.remove('d-none');
   }
 
-  // Each slice is measured on its own day (ADR 0008), so the page reports the
-  // newest of them rather than claiming one date for the whole list.
-  const measured = slices
-    .map((slice) => slice.latest_date)
-    .filter(Boolean)
-    .sort();
   const element = document.getElementById('data-updated');
-  if (element && measured.length) {
-    element.textContent = `Box office measured to ${measured[measured.length - 1]}`;
+  if (element && latestDate) {
+    element.textContent = `Box office measured to ${latestDate}`;
   }
 }
 

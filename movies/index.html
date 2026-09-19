@@ -75,8 +75,12 @@
 
   <!-- Movie table -->
   <div id="table-wrapper">
-    <div id="toolbar" class="d-flex align-items-center gap-2 mb-2 flex-wrap">
-      <input type="search" id="movies-search" class="form-control form-control-sm" style="max-width:260px" placeholder="Search by title…" aria-label="Search by title">
+    <div id="toolbar" class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+      <button id="filters-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-expanded="false" aria-controls="filters-panel">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+        Filters
+        <span id="filters-badge" class="badge bg-primary ms-1 is-collapsed">0</span>
+      </button>
       <div class="dropdown" id="sort-dropdown">
         <button id="sort-toggle" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sort</button>
         <ul class="dropdown-menu" id="sort-menu">
@@ -100,16 +104,8 @@
       <span id="row-count" class="text-muted ms-auto" style="font-size:0.8rem"></span>
     </div>
 
-    <div class="filter-row mb-2">
-      <span class="filter-label">Release year</span>
-      <div id="year-chips" class="filter-chips-toggle"></div>
-    </div>
-
-    <div class="filter-row mb-2">
-      <span class="filter-label">Season</span>
-      <div id="season-chips" class="filter-chips-toggle"></div>
-    </div>
-
+    <div id="filters-panel" class="d-none"></div>
+    <div id="filter-chips" class="d-none"></div>
     <div id="table-surface">
       <div id="movie-table"></div>
     </div>
