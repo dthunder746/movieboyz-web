@@ -8,6 +8,8 @@ import {
   missingLastSorter,
   parseSortId,
   sortIdFromSorters,
+  sortRowsByField,
+  sorterField,
   tableSortSpec,
   sortMovieRows,
 } from './rows.js';
@@ -439,5 +441,47 @@ describe('cardCompare', () => {
   it('falls back to the default order for a field it does not know', () => {
     expect(rows().sort(cardCompare('nonsense', 'asc')).map((r) => r.imdbId))
       .toEqual(['loud', 'quiet']);
+  });
+});
+
+// A header click on a week or a day column is an order the menu cannot name,
+// but the rows still have to be put in it: the chart's default plot is the top
+// of the table, so an order the rows do not share would plot five Movies that
+// are not the five at the top.
+describe('a custom order', () => {
+  const rows = () => [
+    { imdbId: 'mid', 'week_2026-W03': 5 * MILLION },
+    { imdbId: 'none' },
+    { imdbId: 'top', 'week_2026-W03': 50 * MILLION },
+  ];
+
+  it('reads the field and the direction off a Tabulator sorter', () => {
+    expect(sorterField([{ field: 'week_2026-W03', dir: 'asc' }]))
+      .toEqual({ field: 'week_2026-W03', direction: 'asc' });
+    expect(sorterField([{ column: { getField: () => 'daily_2026-03-06' }, dir: 'desc' }]))
+      .toEqual({ field: 'daily_2026-03-06', direction: 'desc' });
+    expect(sorterField([])).toBe(null);
+  });
+
+  it('sorts the rows by that field, missing last', () => {
+    expect(sortRowsByField(rows(), 'week_2026-W03', 'desc').map((r) => r.imdbId))
+      .toEqual(['top', 'mid', 'none']);
+    expect(sortRowsByField(rows(), 'week_2026-W03', 'asc').map((r) => r.imdbId))
+      .toEqual(['mid', 'top', 'none']);
+  });
+
+  it('leaves the list it was given alone', () => {
+    const given = rows();
+
+    sortRowsByField(given, 'week_2026-W03', 'desc');
+
+    expect(given.map((r) => r.imdbId)).toEqual(['mid', 'none', 'top']);
+  });
+
+  // The cards are in the same order as the table they were switched from, so
+  // the comparator has to take a week or a day column too.
+  it('orders the cards by a week or a day column as well', () => {
+    expect(rows().sort(cardCompare('week_2026-W03', 'desc')).map((r) => r.imdbId))
+      .toEqual(['top', 'mid', 'none']);
   });
 });

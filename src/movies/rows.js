@@ -138,16 +138,27 @@ const SORT_IDS = Object.fromEntries(
 // Which sort menu entry a click on a column header amounts to, so the menu
 // keeps showing what the table is actually sorted by. Tabulator shaped, and
 // tested here rather than beside the table, which is untested wiring.
-export function sortIdFromSorters(sorters, latestWeekField) {
-  // Nothing sorted at all, which is not a sort the reader made. It is not
-  // `custom` either: answering with one would wipe the menu's label before a
-  // header had been touched.
+// What the table is sorted by, as a row field and a direction. Tabulator hands
+// the column object rather than a bare field on some events, so both are read.
+export function sorterField(sorters) {
   if (!sorters || !sorters.length) return null;
 
   const [sorter] = sorters;
   const field = sorter.field
     ?? (sorter.column?.getField ? sorter.column.getField() : null);
-  const direction = sorter.dir === 'asc' ? 'asc' : 'desc';
+  if (!field) return null;
+
+  return { field, direction: sorter.dir === 'asc' ? 'asc' : 'desc' };
+}
+
+export function sortIdFromSorters(sorters, latestWeekField) {
+  // Nothing sorted at all, which is not a sort the reader made. It is not
+  // `custom` either: answering with one would wipe the menu's label before a
+  // header had been touched.
+  const sorted = sorterField(sorters);
+  if (!sorted) return null;
+
+  const { field, direction } = sorted;
 
   if (latestWeekField && field === latestWeekField) return `week_${direction}`;
 
@@ -218,10 +229,24 @@ function compare(field, direction) {
 // name (a header click on a week or a day column) falls back to the default,
 // so the cards are always in some order a reader can follow.
 export function cardCompare(field, direction) {
-  const known = SORT_IDS[field]
+  const known = isSortableField(field)
     ? { field, direction: direction === 'asc' ? 'asc' : 'desc' }
     : parseSortId(DEFAULT_SORT);
   return compare(known.field, known.direction);
+}
+
+// A field the rows can be put in order by: one the menu names, or one of the
+// week and day columns a header click can sort on.
+function isSortableField(field) {
+  return !!SORT_IDS[field] || /^(week_|daily_)/.test(String(field ?? ''));
+}
+
+// The same order a header click left the table in, applied to the rows
+// themselves, so the chart's default plot is the top of the table rather than
+// the top of some other list.
+export function sortRowsByField(rows, field, direction) {
+  if (!isSortableField(field)) return sortMovieRows(rows, DEFAULT_SORT);
+  return [...(rows || [])].sort(compare(field, direction === 'asc' ? 'asc' : 'desc'));
 }
 
 // A copy, sorted. The page holds one list of rows and several views of it, so
