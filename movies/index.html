@@ -75,7 +75,10 @@
 
   <!-- Movie table -->
   <div id="table-wrapper">
-    <div id="toolbar" class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+    <!-- The Campaign's toolbar, button for button. `toolbar-counted` says this
+         one also carries a row count, which is what makes it condense to icons
+         a breakpoint earlier than the Campaign's does. -->
+    <div id="toolbar" class="toolbar-counted d-flex align-items-center gap-2 mb-1 flex-wrap">
       <button id="filters-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-expanded="false" aria-controls="filters-panel">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
         Filters
