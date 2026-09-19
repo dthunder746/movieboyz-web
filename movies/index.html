@@ -83,18 +83,18 @@
       </button>
       <div class="dropdown" id="sort-dropdown">
         <button id="sort-toggle" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sort</button>
+        <!-- The Campaign's menu, entry for entry: the order the page opens in
+             leads and is named as the default, one divider under it, and every
+             other order listed plain beneath. -->
         <ul class="dropdown-menu" id="sort-menu">
-          <li><button class="dropdown-item" type="button" data-sort="week_desc">This week's gross &darr; (highest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="week_desc">Default (wkly gross)</button></li>
           <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_asc">Released &uarr; (oldest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_desc">Released &darr; (newest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="gross_desc">Gross &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="gross_asc">Gross &uarr; (lowest)</button></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><button class="dropdown-item" type="button" data-sort="release_desc">Released &darr; (newest)</button></li>
-          <li><button class="dropdown-item" type="button" data-sort="release_asc">Released &uarr; (oldest)</button></li>
-          <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" type="button" data-sort="budget_desc">Budget &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="budget_asc">Budget &uarr; (lowest)</button></li>
-          <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_desc">Letterboxd &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_asc">Letterboxd &uarr; (lowest)</button></li>
         </ul>

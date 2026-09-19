@@ -56,24 +56,27 @@ const SORT_WORDS = {
   week: "this week's gross",
 };
 
-// The four questions the ticket names, each both ways round, and this week's
-// gross, which the menu offers one way round and leads with: it is the order
-// the page opens in, the same one the Campaign table defaults to. The
-// quietest week on the page is nobody's question, so the other direction is
-// named but not offered; a click on the week column's header can still put
-// the table in it.
-const SORT_LABELS = {
-  gross_desc: 'Gross ↓ (highest)',
-  gross_asc: 'Gross ↑ (lowest)',
-  release_desc: 'Released ↓ (newest)',
-  release_asc: 'Released ↑ (oldest)',
-  budget_desc: 'Budget ↓ (highest)',
-  budget_asc: 'Budget ↑ (lowest)',
-  rating_desc: 'Letterboxd ↓ (highest)',
-  rating_asc: 'Letterboxd ↑ (lowest)',
-  week_desc: "This week's gross ↓ (highest)",
-  week_asc: "This week's gross ↑ (lowest)",
-};
+// Every order the page will accept: the four questions the ticket names, each
+// both ways round, and this week's gross, which the menu leads with and names
+// as the default because it is the order the page opens in, the same one the
+// Campaign table defaults to. The quietest week on the page is nobody's
+// question, so `week_asc` is accepted but not offered; a click on the week
+// column's header can still put the table in it.
+//
+// Ids only. What each one is called is in the menu's markup and nowhere else,
+// so a label and the entry it sits on cannot drift apart.
+const SORT_IDS = new Set([
+  'gross_desc',
+  'gross_asc',
+  'release_desc',
+  'release_asc',
+  'budget_desc',
+  'budget_asc',
+  'rating_desc',
+  'rating_asc',
+  'week_desc',
+  'week_asc',
+]);
 
 // The window the reader last chose, if it is still one the control offers.
 function savedWindow() {
@@ -83,7 +86,7 @@ function savedWindow() {
 
 function savedSort() {
   const saved = localStorage.getItem(SORT_KEY);
-  return SORT_LABELS[saved] ? saved : DEFAULT_SORT;
+  return SORT_IDS.has(saved) ? saved : DEFAULT_SORT;
 }
 
 function init({ manifest, slices, missingYears }) {
@@ -248,7 +251,7 @@ function init({ manifest, slices, missingYears }) {
   // nothing to push back into the table and nothing worth remembering between
   // visits either.
   function applySort(id, fromHeader) {
-    if (!id || (!SORT_LABELS[id] && id !== 'custom')) return;
+    if (!id || (!SORT_IDS.has(id) && id !== 'custom')) return;
     sortId = id;
     if (id !== 'custom') localStorage.setItem(SORT_KEY, id);
     markActiveSort();
