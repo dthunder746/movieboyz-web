@@ -144,6 +144,58 @@ function buildYears(league, root, here) {
     }));
 }
 
+// The same navigation, flattened, for the widths where the bar is one button
+// (#165). Below the breakpoint three menus side by side do not fit, so the
+// entries become one overlay list, one level deep: every League, then the
+// reader's own League's Overview and years, then the lookup. It is a reading of
+// `buildNav` rather than a second reading of the Manifest, so the two cannot
+// drift: what the bar holds is what the overlay holds, in the same order.
+//
+// `current` is the highlight and `marked` is the mark, kept apart for the
+// reason the bar keeps them apart: a listed League is highlighted to say which
+// of them the reader is in, while exactly one item is marked to say which page
+// they are on. A header is a label with nowhere to go.
+export function buildCompactMenu(nav) {
+  const items = [];
+
+  if (nav.leagues) {
+    items.push({ kind: 'header', label: 'Leagues' });
+    for (const league of nav.leagues.items) {
+      items.push(link(league.name, league.href, { current: league.current }));
+    }
+    // The way out of one League and into the directory that lists them all,
+    // which is the job the bar's own Leagues menu ends on.
+    items.push(link('Show all', nav.leagues.showAllHref));
+  }
+
+  if (nav.league) {
+    // The League names its own section, so the years below it need no prefix
+    // and Overview is labelled for its job, exactly as in the bar's menu.
+    items.push({ kind: 'header', label: nav.league.name });
+    items.push(
+      link('Overview', nav.league.href, { current: nav.league.landing, marked: nav.league.landing }),
+    );
+    for (const year of nav.league.years) {
+      items.push(
+        link(year.label, year.href, {
+          current: year.current,
+          marked: year.current,
+          state: year.state,
+          stateLabel: year.stateLabel,
+        }),
+      );
+    }
+  }
+
+  items.push(link('Movies', nav.movies.href, { current: nav.movies.current, marked: nav.movies.current }));
+
+  return items;
+}
+
+function link(label, href, { current = false, marked = false, state, stateLabel } = {}) {
+  return { kind: 'link', label, href, current, marked, state, stateLabel };
+}
+
 // ── The DOM it becomes ────────────────────────────────────────────────────
 //
 // Untested by design, as the rest of the site's wiring is. Everything decided
