@@ -147,6 +147,12 @@ function baseColumns() {
 const TABLE_OPTIONS = {
   layout: 'fitDataFill',
   responsiveLayout: false,
+  // Header titles sit on the bottom of the header, which is what lines an
+  // ungrouped column's title up with the ones under a group heading. Without
+  // it the detailed view's Budget, Gross TD and Days rode at the top of a
+  // header the Ratings and Weekly Gross groups had made two rows tall. It is
+  // the Campaign table's setting, and the two now read the same.
+  columnHeaderVertAlign: 'bottom',
   resizableColumns: false,
   selectableRows: true,
   pagination: true,
