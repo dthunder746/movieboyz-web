@@ -2,6 +2,10 @@
 //
 // A cookie rather than localStorage, carried over from the old site so a reader
 // who has already picked a view keeps it across the cutover.
+//
+// Page-agnostic: the switch knows the three modes and the cookie, and nothing
+// about what any one mode renders. The page passes what to do on a change
+// (#160).
 
 const COOKIE = 'mb_table_mode';
 const MODES = ['cards', 'compact', 'detailed'];
@@ -27,6 +31,9 @@ export function initialMode() {
 }
 
 export function createModeSwitcher({ initial, onChange }) {
+  // The `View mode` group is part of the markup contract both pages carry: a
+  // page that wants this switch renders a `[role="group"]` labelled `View mode`
+  // holding a `button[data-mode]` per mode.
   const container = document.querySelector('[role="group"][aria-label="View mode"]');
   if (!container) return null;
 

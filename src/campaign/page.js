@@ -34,7 +34,7 @@ import { buildStandings } from './standings.js';
 import { buildCompactTable, buildDetailedTable } from './table.js';
 import { hasNegativeDaily } from './table-rows.js';
 import { createToolbar } from './toolbar.js';
-import { createModeSwitcher, initialMode } from './view-mode.js';
+import { createModeSwitcher, initialMode } from '../shared/view-mode.js';
 
 const SORT_KEY = 'mbTableSort';
 
