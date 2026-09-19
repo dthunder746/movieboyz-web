@@ -177,13 +177,18 @@ describe('sortMovieRows', () => {
     expect(sortMovieRows(rows, 'budget_desc').map((r) => r.imdbId)).toEqual(['old', 'mid', 'new']);
   });
 
+  // The same default the Campaign table opens in: what each Movie took in the
+  // newest week anything on the page reported, highest first.
+  it('defaults to this week\'s gross, highest first', () => {
+    expect(DEFAULT_SORT).toBe('week_desc');
+  });
+
   // A sort id off localStorage can outlive the menu that wrote it.
-  it('falls back to gross, highest first, for an id it does not know', () => {
+  it('falls back to the default for an id it does not know', () => {
     // Alphabetically the other way round, so a fallback that sorted on
     // anything else would show.
-    const rows = [row('a-small', { grossTd: 10 * MILLION }), row('z-big', { grossTd: 900 * MILLION })];
+    const rows = [row('a-small', { thisWeek: 10 * MILLION }), row('z-big', { thisWeek: 900 * MILLION })];
 
-    expect(DEFAULT_SORT).toBe('gross_desc');
     expect(sortMovieRows(rows, 'profit_desc').map((r) => r.imdbId)).toEqual(['z-big', 'a-small']);
   });
 
@@ -388,8 +393,12 @@ describe("this week's gross as a sort", () => {
       .toEqual([{ column: 'week_2026-W10', dir: 'desc' }]);
   });
 
-  it('falls back to the default when the page has no week columns yet', () => {
-    expect(tableSortSpec('week_desc', null)).toEqual(tableSortSpec(DEFAULT_SORT));
+  // The default itself names this week, so the fallback cannot be the default:
+  // a page with no week columns yet sorts on gross to date, which every row
+  // carries a column for.
+  it('falls back to gross to date when the page has no week columns yet', () => {
+    expect(tableSortSpec('week_desc', null)).toEqual([{ column: 'grossTd', dir: 'desc' }]);
+    expect(tableSortSpec(DEFAULT_SORT, null)).toEqual([{ column: 'grossTd', dir: 'desc' }]);
   });
 
   it('reads a click on the latest week column back as the menu entry', () => {

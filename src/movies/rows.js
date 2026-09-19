@@ -138,7 +138,16 @@ const SORT_FIELDS = {
   week: 'thisWeek',
 };
 
-export const DEFAULT_SORT = 'gross_desc';
+// What the page opens in: this week's gross, highest first. The same order the
+// Campaign table defaults to (its multi-column default takes the newest week
+// as its primary key), so the two pages open the same way round.
+export const DEFAULT_SORT = 'week_desc';
+
+// Where the table falls back when the page has no week columns yet, which is
+// the state before anything has reported. It cannot be the default: the
+// default names this week, and this is the answer for a page that has no such
+// column to sort on.
+const NO_WEEK_SORT = 'gross_desc';
 
 // The same map read backwards, so a sortable column and the menu entry that
 // names it cannot drift apart: adding a sort above adds both directions here.
@@ -208,7 +217,7 @@ export function tableSortSpec(sortId, latestWeekField) {
   // week it belongs to. A page with no week columns yet has nothing to sort on
   // and falls back rather than asking Tabulator for a column that is not there.
   if (spec.field === 'thisWeek') {
-    if (!latestWeekField) return tableSortSpec(DEFAULT_SORT);
+    if (!latestWeekField) return tableSortSpec(NO_WEEK_SORT);
     return [{ column: latestWeekField, dir: spec.direction }];
   }
 

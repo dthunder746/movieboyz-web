@@ -57,10 +57,11 @@ const SORT_WORDS = {
 };
 
 // The four questions the ticket names, each both ways round, and this week's
-// gross, which the menu offers one way round: the question is what is taking
-// money now, and the quietest week on the page is nobody's question. The other
-// direction is still named, because a click on the week column's header can
-// put the table in it.
+// gross, which the menu offers one way round and leads with: it is the order
+// the page opens in, the same one the Campaign table defaults to. The
+// quietest week on the page is nobody's question, so the other direction is
+// named but not offered; a click on the week column's header can still put
+// the table in it.
 const SORT_LABELS = {
   gross_desc: 'Gross ↓ (highest)',
   gross_asc: 'Gross ↑ (lowest)',
