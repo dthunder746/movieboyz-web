@@ -75,10 +75,6 @@ const SORT_LABELS = {
   week_asc: "This week's gross ↑ (lowest)",
 };
 
-// What the label reads while the table is in an order the menu cannot name: a
-// header click on a week or a day column (#162).
-const CUSTOM_SORT_LABEL = 'Custom';
-
 // The window the reader last chose, if it is still one the control offers.
 function savedWindow() {
   const saved = parseInt(localStorage.getItem(WINDOW_KEY) ?? '', 10);
@@ -124,7 +120,6 @@ function init({ manifest, slices, missingYears }) {
 
   const clearSelectionButton = document.getElementById('clear-movie-selection');
   const sortMenu = document.getElementById('sort-menu');
-  const sortToggle = document.getElementById('sort-toggle');
 
   const selection = createSelection((activeMovieIds) => {
     rebuildChart();
@@ -236,9 +231,12 @@ function init({ manifest, slices, missingYears }) {
 
   // ── Sorting ─────────────────────────────────────────────────────────────
 
+  // The button stays the word "Sort" and its arrow, as the Campaign's does.
+  // Which order the table is in is the ticked entry in the menu, not the
+  // length of the button: writing the order onto it made the button grow and
+  // shrink as the reader changed their mind, and shoved the rest of the
+  // toolbar along with it.
   function markActiveSort() {
-    const label = SORT_LABELS[sortId] ?? CUSTOM_SORT_LABEL;
-    if (sortToggle) sortToggle.textContent = `Sort: ${label}`;
     if (!sortMenu) return;
     for (const button of sortMenu.querySelectorAll('[data-sort]')) {
       button.classList.toggle('active', button.dataset.sort === sortId);
