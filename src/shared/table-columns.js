@@ -46,14 +46,28 @@ export const DASH = '<span class="text-neu">—</span>';
 // view carries a week group per published week and a column per day inside
 // each, which on the 2026 slate is about 310 leaf columns; Tabulator's default
 // `'basic'` renderer builds a cell for every one of them on every rendered
-// row, and that is what made both tables lag on a resize. The virtual renderer
-// builds only the columns in view.
+// row. The virtual renderer builds only the columns in view.
 //
 // It is safe over the shape both tables have. The renderer leaves a frozen
 // column out of the virtual window and appends it to every row itself, so the
 // frozen Movie column is unaffected, and Tabulator's own compatibility check
 // objects only to a `fitDataTable` layout, responsive columns and right-to-left
 // text, none of which are here.
+//
+// `autoResize: false` is what actually stopped both tables lagging on a resize
+// (#164). Tabulator watches the table element and, on every resize event,
+// relays the whole table out: with `fitDataFill` it clears and re-measures the
+// width of every column, hidden day columns included, each one forcing the
+// browser to lay the table out again, then rebuilds the visible cells and
+// re-measures every row's height. Profiled headless over the 2026 slate that
+// was about 0.7 s per event in detailed and 0.27 s in compact, and a window
+// drag fires one per frame; the virtual renderer limits which cells exist, not
+// that relayout, which is why it barely helped. Nothing here needs the
+// relayout: the table overflows sideways, pagination keeps its height off the
+// window, and the column renderer reads the live width whenever the table
+// scrolls. The one thing it could leave stale is a window widened past about
+// twice the width the table was last drawn at, where the columns beyond the
+// right edge stay blank until the next sideways scroll.
 export const BASE_TABLE_OPTIONS = {
   layout: 'fitDataFill',
   responsiveLayout: false,
@@ -71,6 +85,7 @@ export const BASE_TABLE_OPTIONS = {
   // carry, and `getRow(imdbId)` silently finds nothing.
   index: 'imdbId',
   renderHorizontal: 'virtual',
+  autoResize: false,
 };
 
 // ── Formatters ────────────────────────────────────────────────────────────

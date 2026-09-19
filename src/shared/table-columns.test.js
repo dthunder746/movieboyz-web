@@ -135,10 +135,18 @@ describe('buildSortMap', () => {
 describe('BASE_TABLE_OPTIONS', () => {
   // The detailed view carries a column per day of every published week, which
   // is about 310 of them. Tabulator's default renderer builds a cell for every
-  // column on every rendered row, and that is what made both tables lag on a
-  // resize. Virtual rendering builds only the columns in view.
+  // column on every rendered row. Virtual rendering builds only the columns in
+  // view.
   it('renders columns virtually, so a 310-column table is not built whole', () => {
     expect(BASE_TABLE_OPTIONS.renderHorizontal).toBe('virtual');
+  });
+
+  // What made both tables lag on a resize (#164): Tabulator relaid the whole
+  // table out on every resize event, re-measuring every column, hidden ones
+  // included, at about 0.7 s a time in detailed. Nothing here needs it, so it
+  // is off.
+  it('does not relayout on a window resize', () => {
+    expect(BASE_TABLE_OPTIONS.autoResize).toBe(false);
   });
 
   // Anything a reader would notice moving between the two views, or between
