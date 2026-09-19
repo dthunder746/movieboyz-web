@@ -1,9 +1,10 @@
-// The column definitions a Tabulator table over Movies is built from.
+// The column definitions a Tabulator table over Movies is built from, and the
+// options it is built with.
 //
 // Tabulator itself is a CDN global and each page builds its own instance; what
 // is here is the parts of that instance that say nothing about a League: the
-// cell formatters, the week and day columns, and the sort orders over them
-// (#160). A page adds its own columns either side of these.
+// base options, the cell formatters, the week and day columns, and the sort
+// orders over them (#160). A page adds its own columns either side of these.
 //
 // ── The row fields this module reads ──────────────────────────────────────
 // The rows a page hands its table carry, per Movie:
@@ -31,6 +32,46 @@ import {
 } from './format.js';
 
 export const DASH = '<span class="text-neu">—</span>';
+
+// ── The options both tables are built with ────────────────────────────────
+
+// Anything a reader would notice switching between the compact and the
+// detailed view, or between the Movies page and a Campaign, belongs here
+// rather than in either table. Each page spreads this and overrides only what
+// is genuinely its own: the page-size selector and, on the Movies page, the
+// placeholder. Both used to keep their own copy of the list and the two had
+// already begun to drift.
+//
+// `renderHorizontal: 'virtual'` is the reason the list moved. The detailed
+// view carries a week group per published week and a column per day inside
+// each, which on the 2026 slate is about 310 leaf columns; Tabulator's default
+// `'basic'` renderer builds a cell for every one of them on every rendered
+// row, and that is what made both tables lag on a resize. The virtual renderer
+// builds only the columns in view.
+//
+// It is safe over the shape both tables have. The renderer leaves a frozen
+// column out of the virtual window and appends it to every row itself, so the
+// frozen Movie column is unaffected, and Tabulator's own compatibility check
+// objects only to a `fitDataTable` layout, responsive columns and right-to-left
+// text, none of which are here.
+export const BASE_TABLE_OPTIONS = {
+  layout: 'fitDataFill',
+  responsiveLayout: false,
+  // Header titles sit on the bottom of the header, which is what lines an
+  // ungrouped column's title up with the ones under a group heading. Without
+  // it the detailed view's plain columns rode at the top of a header the
+  // Ratings and Weekly Gross groups had made two rows tall.
+  columnHeaderVertAlign: 'bottom',
+  resizableColumns: false,
+  selectableRows: true,
+  pagination: true,
+  paginationSize: 50,
+  // Addressing rows by imdb id is what lets a page push a chart selection back
+  // into the table. Without it Tabulator indexes on a field these rows do not
+  // carry, and `getRow(imdbId)` silently finds nothing.
+  index: 'imdbId',
+  renderHorizontal: 'virtual',
+};
 
 // ── Formatters ────────────────────────────────────────────────────────────
 // Tabulator hands each of these a cell and takes an HTML string back.

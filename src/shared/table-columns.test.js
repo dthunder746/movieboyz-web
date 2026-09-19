@@ -13,6 +13,7 @@ globalThis.document = {
 };
 
 const {
+  BASE_TABLE_OPTIONS,
   buildSortMap,
   compactWeekColumn,
   dayColumn,
@@ -128,5 +129,37 @@ describe('buildSortMap', () => {
   it('falls back to the default order when there is no week to sort on', () => {
     const initial = defaultSort([]);
     expect(buildSortMap([], initial).thisWeek).toBe(initial);
+  });
+});
+
+describe('BASE_TABLE_OPTIONS', () => {
+  // The detailed view carries a column per day of every published week, which
+  // is about 310 of them. Tabulator's default renderer builds a cell for every
+  // column on every rendered row, and that is what made both tables lag on a
+  // resize. Virtual rendering builds only the columns in view.
+  it('renders columns virtually, so a 310-column table is not built whole', () => {
+    expect(BASE_TABLE_OPTIONS.renderHorizontal).toBe('virtual');
+  });
+
+  // Anything a reader would notice moving between the two views, or between
+  // the Movies page and a Campaign, is here rather than in either table, so
+  // the two cannot drift. Each page overrides only its own page-size selector
+  // and its own placeholder.
+  it('holds the settings both pages share', () => {
+    expect(BASE_TABLE_OPTIONS).toMatchObject({
+      layout: 'fitDataFill',
+      responsiveLayout: false,
+      columnHeaderVertAlign: 'bottom',
+      resizableColumns: false,
+      selectableRows: true,
+      pagination: true,
+      paginationSize: 50,
+      index: 'imdbId',
+    });
+  });
+
+  it('leaves the page-size selector and the placeholder to each page', () => {
+    expect(BASE_TABLE_OPTIONS.paginationSizeSelector).toBeUndefined();
+    expect(BASE_TABLE_OPTIONS.placeholder).toBeUndefined();
   });
 });

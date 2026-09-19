@@ -25,6 +25,7 @@
 import { escapeHtml, fmt } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 import {
+  BASE_TABLE_OPTIONS,
   compactWeekColumn,
   ratingsGroup,
   releaseDateCell,
@@ -141,26 +142,14 @@ function baseColumns() {
   ];
 }
 
-// Shared Tabulator options. The two views are the same table with different
-// columns, so anything a reader would notice switching between them belongs
-// here rather than in either builder.
+// The two views are the same table with different columns, and the Campaign's
+// two are the same table again, so everything a reader would notice switching
+// between any of them is the shared base (`shared/table-columns.js`). What is
+// left here is this page's own: how many rows a page offers, and the sentence
+// an empty table carries.
 const TABLE_OPTIONS = {
-  layout: 'fitDataFill',
-  responsiveLayout: false,
-  // Header titles sit on the bottom of the header, which is what lines an
-  // ungrouped column's title up with the ones under a group heading. Without
-  // it the detailed view's Budget, Gross TD and Days rode at the top of a
-  // header the Ratings and Weekly Gross groups had made two rows tall. It is
-  // the Campaign table's setting, and the two now read the same.
-  columnHeaderVertAlign: 'bottom',
-  resizableColumns: false,
-  selectableRows: true,
-  pagination: true,
-  paginationSize: 50,
+  ...BASE_TABLE_OPTIONS,
   paginationSizeSelector: [25, 50, 100, 250, true],
-  // Addressing rows by imdb id is what lets the page push a chart selection
-  // back into the table, as it does on the Campaign page.
-  index: 'imdbId',
   placeholder: 'No Movie matches these filters.',
 };
 

@@ -11,6 +11,7 @@
 import { escapeHtml } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 import {
+  BASE_TABLE_OPTIONS,
   buildSortMap,
   compactWeekColumn,
   defaultSort,
@@ -32,23 +33,15 @@ import {
   groupDatesByWeek,
 } from './table-rows.js';
 
-// Shared Tabulator options. Both views are the same table with different
-// columns, so anything a reader would notice switching between them (page size,
-// where the header sits, whether a row can be picked) belongs here rather than
-// in either builder.
+// Both views are the same table with different columns, and the Movies page's
+// two are the same table again, so anything a reader would notice switching
+// between any of them (where the header sits, whether a row can be picked, how
+// the columns are rendered) is the shared base
+// (`shared/table-columns.js`). What is left here is this page's own: how many
+// rows a page offers.
 const TABLE_OPTIONS = {
-  layout: 'fitDataFill',
-  responsiveLayout: false,
-  columnHeaderVertAlign: 'bottom',
-  resizableColumns: false,
-  selectableRows: true,
-  pagination: true,
-  paginationSize: 50,
+  ...BASE_TABLE_OPTIONS,
   paginationSizeSelector: [10, 25, 50, 100, true],
-  // Addressing rows by imdb id is what lets the page push a chart selection back
-  // into the table. Without it Tabulator indexes on a field these rows do not
-  // carry, and `getRow(imdbId)` silently finds nothing.
-  index: 'imdbId',
 };
 
 // ── Shared columns ────────────────────────────────────────────────────────
