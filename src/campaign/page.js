@@ -277,6 +277,8 @@ function init({ campaign, slices }) {
     if (table) { table.destroy(); table = null; }
     if (cards) { cards.destroy(); cards = null; }
 
+    // `movie-table` and `movie-cards` are part of the markup contract both pages
+    // carry: the two surfaces the view switch shows one of at a time.
     const tableElement = document.getElementById('movie-table');
     const cardsElement = document.getElementById('movie-cards');
     tableElement.classList.toggle('d-none', mode === 'cards');
