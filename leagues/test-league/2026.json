@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-18T22:08:44.926757Z",
+  "generated_at": "2026-09-19T01:08:53.743983Z",
   "league_slug": "test-league",
   "league_name": "test league",
   "year": 2026,
@@ -23535,8 +23535,8 @@
       "title": "Resident Evil",
       "release_date": "2026-09-18",
       "season": "FALL",
-      "budget": 80000000,
-      "breakeven": 160000000,
+      "budget": 75000000,
+      "breakeven": 150000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -23699,7 +23699,7 @@
         "2026-09-14": 0,
         "2026-09-15": 0,
         "2026-09-16": 0,
-        "2026-09-17": -151200000
+        "2026-09-17": -141200000
       },
       "profit_td": null
     },
@@ -26374,8 +26374,8 @@
       "title": "Daniel and the Fiery Furnace",
       "release_date": "2026-09-18",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 2000000,
+      "breakeven": 4000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
