@@ -29,6 +29,12 @@
 // the catch-all page sets a `<base>` a `../` would be counted against twice
 // (`route.js`).
 //
+// The bar is one row of a fixed height at every width (#165). Three entries
+// side by side do not fit a phone, so below 992px they are one button opening a
+// single overlay, and `buildCompactMenu` is the second reading of the same view
+// model that says what the overlay holds. Both readings are drawn into the slot
+// together and a media query picks between them, so a resize is a repaint.
+//
 // The file splits in two at the divider below: a pure view model above, the DOM
 // it becomes underneath, which is the split every page group in this site sits
 // on.
@@ -144,11 +150,73 @@ function buildYears(league, root, here) {
     }));
 }
 
+// The same navigation, flattened, for the widths where the bar is one button
+// (#165). Below the breakpoint three menus side by side do not fit, so the
+// entries become one overlay list, one level deep: every League, then the
+// reader's own League's Overview and years, then the lookup. It is a reading of
+// `buildNav` rather than a second reading of the Manifest, so the two cannot
+// drift: what the bar holds is what the overlay holds, in the same order.
+//
+// `current` is the highlight and `marked` is the mark, kept apart for the
+// reason the bar keeps them apart: a listed League is highlighted to say which
+// of them the reader is in, while exactly one item is marked to say which page
+// they are on. A header is a label with nowhere to go.
+export function buildCompactMenu(nav) {
+  const items = [];
+
+  if (nav.leagues) {
+    items.push({ kind: 'header', label: 'Leagues' });
+    for (const league of nav.leagues.items) {
+      items.push(link(league.name, league.href, { current: league.current }));
+    }
+    // The way out of one League and into the directory that lists them all,
+    // which is the job the bar's own Leagues menu ends on.
+    items.push(link('Show all', nav.leagues.showAllHref));
+  }
+
+  if (nav.league) {
+    // The League names its own section, so the years below it need no prefix
+    // and Overview is labelled for its job, exactly as in the bar's menu.
+    items.push({ kind: 'header', label: nav.league.name });
+    items.push(
+      link('Overview', nav.league.href, { current: nav.league.landing, marked: nav.league.landing }),
+    );
+    for (const year of nav.league.years) {
+      items.push(
+        link(year.label, year.href, {
+          current: year.current,
+          marked: year.current,
+          state: year.state,
+          stateLabel: year.stateLabel,
+        }),
+      );
+    }
+  }
+
+  items.push(
+    link('Movies', nav.movies.href, {
+      current: nav.movies.current,
+      marked: nav.movies.current,
+    }),
+  );
+
+  return items;
+}
+
+function link(label, href, { current = false, marked = false, state, stateLabel } = {}) {
+  return { kind: 'link', label, href, current, marked, state, stateLabel };
+}
+
 // ── The DOM it becomes ────────────────────────────────────────────────────
 //
 // Untested by design, as the rest of the site's wiring is. Everything decided
 // rather than rendered is above the divider.
 
+// Both readings of the navigation go into the slot together, and a media query
+// picks which one the reader sees (`site.css`): the entries side by side above
+// 992px, the one button below it. Drawing both means a resize is a repaint
+// rather than a re-render, and it means neither reading can be missing at the
+// width that wants it (#165).
 export function mountNav(manifest) {
   const host = document.getElementById('site-nav');
   if (!host) return;
@@ -160,13 +228,82 @@ export function mountNav(manifest) {
 
   // The bar is the view model's `entries` in its own order, so the shape is
   // decided above the divider and only the drawing happens here.
-  host.innerHTML = nav.entries
+  const entries = nav.entries
     .map((entry) => {
       if (entry.kind === 'leagues') return leaguesMenu(nav.leagues, entry);
       if (entry.kind === 'league') return leagueMenu(nav.league, entry);
       return moviesLink(nav.movies, entry);
     })
     .join('');
+
+  // One write, so the placeholders below are replaced in a single frame rather
+  // than the slot emptying first.
+  host.innerHTML =
+    compactShell(compactItems(buildCompactMenu(nav)))
+    + `<div class="site-nav-wide">${entries}</div>`;
+}
+
+// What the slot holds before the Manifest lands, written the moment the page's
+// shell is, so the bar is never an empty slot that fills later (#165).
+//
+// Three boxes at an entry's own height, padding and radius, with a faint fill
+// and no text. Three because that is the most the bar can hold; a Manifest
+// naming one League replaces them with two entries, and the slot getting
+// shorter moves nothing, because the bar's height is pinned rather than
+// measured. They are `aria-hidden` for the reason they have no text: there is
+// nothing there yet to announce.
+//
+// Below the breakpoint it is the menu button instead, drawn at once and inert,
+// because a button that will work in a moment reads better than one that
+// appears from nowhere under the reader's thumb.
+export function mountNavPlaceholder() {
+  const host = document.getElementById('site-nav');
+  if (!host) return;
+
+  host.innerHTML =
+    compactShell(null)
+    + `<div class="site-nav-wide" aria-hidden="true">${PLACEHOLDER_BOXES}</div>`;
+}
+
+const PLACEHOLDER_BOXES = '<span class="site-nav-link site-nav-placeholder"></span>'.repeat(3);
+
+// The narrow reading: one toggle and the overlay that drops from it. `items` is
+// null before the Manifest lands, which is the inert button with nothing behind
+// it. The menu is a Bootstrap dropdown, so it is positioned absolutely and
+// opens over the page rather than pushing it down.
+function compactShell(items) {
+  const inert = items === null;
+
+  const button = `<button class="site-nav-link site-nav-compact-toggle dropdown-toggle" type="button"${
+    inert ? ' disabled' : ' data-bs-toggle="dropdown" aria-expanded="false"'
+  }>Menu</button>`;
+
+  const menu = inert ? '' : `<ul class="dropdown-menu site-nav-compact-menu">${items}</ul>`;
+
+  return `<div class="site-nav-compact${inert ? '' : ' dropdown'}">${button}${menu}</div>`;
+}
+
+function compactItems(items) {
+  return items
+    .map((item) =>
+      item.kind === 'header'
+        ? `<li><h6 class="dropdown-header">${escapeHtml(item.label)}</h6></li>`
+        : `<li>${compactLink(item)}</li>`,
+    )
+    .join('');
+}
+
+// One row of the overlay. The badge, the highlight and the mark are the ones
+// the view model already decided, drawn exactly as the bar's own menus draw
+// them, because a year reads the same wherever it is listed.
+function compactLink(item) {
+  const badge = item.stateLabel
+    ? ` <span class="badge ${stateTone(item.state)} site-nav-badge">${escapeHtml(item.stateLabel)}</span>`
+    : '';
+
+  return `<a class="dropdown-item${item.current ? ' is-current' : ''}" href="${escapeHtml(item.href)}"${
+    item.marked ? ' aria-current="page"' : ''
+  }>${escapeHtml(item.label)}${badge}</a>`;
 }
 
 // The shell both menus are: a toggle carrying the bar's highlight and the list

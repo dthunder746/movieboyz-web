@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildNav } from './nav.js';
+import { buildCompactMenu, buildNav } from './nav.js';
 
 const ONE_LEAGUE = {
   leagues: [
@@ -489,5 +489,114 @@ describe('buildNav', () => {
     expect(nav.leagues).toBeNull();
     expect(nav.league).toBeNull();
     expect(nav.movies.href).toBe('/movies/');
+  });
+});
+
+// Below the bar's breakpoint the three entries are one menu button, and every
+// menu the bar holds is flattened into the single list it opens (#165). The
+// list is the same content in the same order, one level deep, so a narrow
+// reader is offered what a wide one is offered rather than a reduced menu.
+describe('buildCompactMenu', () => {
+  // The labels down the list, with a header marked off from a link, which is
+  // the shape the reader reads.
+  function lines(nav) {
+    return buildCompactMenu(nav).map((item) =>
+      item.kind === 'header' ? `# ${item.label}` : item.label,
+    );
+  }
+
+  it('leads with the Leagues section when a second League is published', () => {
+    expect(lines(buildNav(TWO_LEAGUES, CAMPAIGN_PATH))).toEqual([
+      '# Leagues',
+      'MovieBoyz',
+      'Film Fellas',
+      'Show all',
+      '# MovieBoyz',
+      'Overview',
+      '2027',
+      '2026',
+      '2025',
+      'Movies',
+    ]);
+  });
+
+  // One League is no choice, exactly as in the bar, so there is no Leagues
+  // section and no Show all to offer.
+  it('drops the Leagues section and Show all while one League is published', () => {
+    expect(lines(buildNav(ONE_LEAGUE, CAMPAIGN_PATH))).toEqual([
+      '# MovieBoyz',
+      'Overview',
+      '2027',
+      '2026',
+      '2025',
+      'Movies',
+    ]);
+  });
+
+  it('offers Show all only once there is more than one League to show', () => {
+    const labels = (manifest) =>
+      buildCompactMenu(buildNav(manifest, CAMPAIGN_PATH)).map((item) => item.label);
+
+    expect(labels(ONE_LEAGUE)).not.toContain('Show all');
+    expect(labels(TWO_LEAGUES)).toContain('Show all');
+    expect(labels(TEN_LEAGUES)).toContain('Show all');
+  });
+
+  it('points Show all at the site root, where every League is listed', () => {
+    const showAll = buildCompactMenu(buildNav(TWO_LEAGUES, CAMPAIGN_PATH)).find(
+      (item) => item.label === 'Show all',
+    );
+
+    expect(showAll.href).toBe('/');
+  });
+
+  // Exactly one item is marked, as in the bar: a Campaign marks its year, the
+  // landing page marks Overview, and the Movies page marks Movies.
+  it('marks the one item the reader is standing on', () => {
+    const marks = (manifest, path) =>
+      buildCompactMenu(buildNav(manifest, path))
+        .filter((item) => item.marked)
+        .map((item) => item.label);
+
+    expect(marks(TWO_LEAGUES, CAMPAIGN_PATH)).toEqual(['2026']);
+    expect(marks(TWO_LEAGUES, LANDING_PATH)).toEqual(['Overview']);
+    expect(marks(TWO_LEAGUES, MOVIES_PATH)).toEqual(['Movies']);
+  });
+
+  // The League the reader is inside is highlighted where it is listed, without
+  // being marked: it says which of the Leagues they are in, not which page they
+  // are on, which is the reading the bar's own toggle carries.
+  it('highlights the reader’s League in the list without marking it', () => {
+    const inside = buildCompactMenu(buildNav(TWO_LEAGUES, CAMPAIGN_PATH)).filter(
+      (item) => item.current && !item.marked,
+    );
+
+    expect(inside.map((item) => item.label)).toEqual(['MovieBoyz']);
+
+    const elsewhere = buildCompactMenu(buildNav(TWO_LEAGUES, OTHER_CAMPAIGN_PATH));
+    expect(elsewhere.filter((item) => item.current).map((item) => item.label)).toEqual([
+      'Film Fellas',
+      '2026',
+    ]);
+  });
+
+  // The badges are the bar's own, carried through rather than rebuilt, so a
+  // drafting year reads the same in the overlay as in the menu it came from.
+  it('carries each year’s Lifecycle badge through', () => {
+    const years = buildCompactMenu(buildNav(ONE_LEAGUE, CAMPAIGN_PATH)).filter(
+      (item) => item.stateLabel,
+    );
+
+    expect(years.map((item) => [item.label, item.state, item.stateLabel])).toEqual([
+      ['2027', 'drafting', 'Drafting'],
+      ['2026', 'active', 'Active'],
+      ['2025', 'final', 'Final'],
+    ]);
+  });
+
+  // A path naming no League, and a Manifest that never loaded. The lookup is
+  // the one thing every reader can still reach, so it is what the list holds.
+  it('falls back to the Movies lookup alone when nothing else is known', () => {
+    expect(lines(buildNav(null, MOVIES_PATH))).toEqual(['Movies']);
   });
 });

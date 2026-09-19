@@ -16,11 +16,12 @@
 // and calls in, which is what lets the same page serve both the real directory
 // for the current year and the catch-all for every other year (#64).
 
+import { loadManifest } from '../shared/artifacts.js';
 import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 import { colorClass, fmt, fmtPct, fmtTimestamp } from '../shared/format.js';
 import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
 import { currentRoot } from '../shared/location.js';
-import { mountNav } from '../shared/nav.js';
+import { mountNav, mountNavPlaceholder } from '../shared/nav.js';
 import { renderNotice } from '../shared/notice.js';
 import { buildColorMap } from '../shared/palettes.js';
 import { campaignHref } from '../shared/route.js';
@@ -437,6 +438,12 @@ export async function startDraftPage({ leagueSlug, year }) {
   const page = document.getElementById('page');
   if (page) page.innerHTML = DRAFT_LAYOUT;
 
+  mountNavPlaceholder();
+  // Deliberately not awaited: it runs beside the load below. `loadManifest`
+  // hands out one promise per page load, so this rides the request the page's
+  // own loader is already making (#165).
+  loadManifest().then(mountNav, () => mountNav(null));
+
   paintCachedFavicon();
   whatifStore.hydrate({ leagueSlug, year });
 
@@ -448,7 +455,6 @@ export async function startDraftPage({ leagueSlug, year }) {
     return;
   }
 
-  mountNav(loaded.manifest);
   init(loaded);
 }
 

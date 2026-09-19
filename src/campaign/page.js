@@ -10,9 +10,10 @@
 // own URL and calls in, which is what lets the same page serve both the real
 // directory for the current year and the catch-all for every other year (#64).
 
+import { loadManifest } from '../shared/artifacts.js';
 import { paintCachedFavicon, paintLeaderFavicon } from '../shared/favicon.js';
 import { fmtRelativeAgo, fmtTimestamp, formatDayMonth, getWeekdayAbbr } from '../shared/format.js';
-import { mountNav } from '../shared/nav.js';
+import { mountNav, mountNavPlaceholder } from '../shared/nav.js';
 import { renderNotice } from '../shared/notice.js';
 import { currentRoot } from '../shared/location.js';
 import { buildColorMap } from '../shared/palettes.js';
@@ -466,13 +467,22 @@ function renderChrome(campaign) {
 
 // Show one Campaign, named by the caller. The markup goes in first so that the
 // surfaces exist before anything paints into them, and the navigation goes in
-// with the rest once the artifacts land. It waits on the whole load rather than
-// on the Manifest alone because `loadManifest` does not dedupe, so mounting the
-// navigation early would cost a second fetch of the same file to save a few
-// milliseconds of a wave that is already running in parallel.
+// the moment the Manifest lands rather than at the end of the load (#165). It
+// used to wait for the whole load, because the Manifest fetch was not shared
+// and an early mount would have bought a few milliseconds for a second copy of
+// the same file. `loadManifest` hands out one promise per page load now
+// (`artifacts.js`), so the early mount rides the request the Campaign's own
+// loader is already making and the slot is filled while the artifacts are still
+// in the air.
 export async function startCampaignPage({ leagueSlug, year }) {
   const page = document.getElementById('page');
   if (page) page.innerHTML = CAMPAIGN_LAYOUT;
+
+  mountNavPlaceholder();
+  // Deliberately not awaited: it runs beside the load below. A Manifest that
+  // failed leaves the navigation with nothing rather than nothing at all, which
+  // is still the Movies lookup and the way out of a dead end.
+  loadManifest().then(mountNav, () => mountNav(null));
 
   paintCachedFavicon();
 
@@ -484,7 +494,6 @@ export async function startCampaignPage({ leagueSlug, year }) {
     return;
   }
 
-  mountNav(loaded.manifest);
   init(loaded);
 }
 

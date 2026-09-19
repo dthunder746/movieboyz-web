@@ -704,12 +704,73 @@ body { font-size: 0.9rem; }
 /* Built by src/shared/nav.js on every page. Entries are years while one League
    is published and League menus once a second one is, and the same rules dress
    both, because a year link reads the same wherever it is listed. */
+
+/* One row, always, at every width (#165). The height is pinned rather than
+   measured, so it is the same before the Manifest lands and after, and the page
+   under the bar never moves. 57px is what the bar measures empty at the default
+   font, which is the height it has always had on a desktop. Nothing inside is
+   allowed to wrap it onto a second line: below 992px the entries are one button
+   and the status text is gone, which is what makes that fit. */
+.site-navbar {
+  min-height: 57px;
+}
+
+.site-navbar > .container-fluid {
+  flex-wrap: nowrap;
+}
+
 .site-nav {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   gap: 0.25rem;
   margin-left: 0.75rem;
+}
+
+/* The two readings of the navigation, both in the slot, one of them shown.
+   Which one is a media query rather than a decision the page makes, so a resize
+   costs nothing and neither reading is ever missing at the width that wants it. */
+.site-nav-wide {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.site-nav-compact {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .site-nav-wide {
+    display: none;
+  }
+  .site-nav-compact {
+    display: block;
+  }
+}
+
+/* The overlay the button opens. Bootstrap positions a dropdown absolutely, so
+   it sits over the page; the width keeps a year and its badge on one line. */
+.site-nav-compact-menu {
+  min-width: 13rem;
+}
+
+/* An entry before there is anything to put in it. An entry's own padding,
+   radius and height, a faint fill, no text. */
+.site-nav-placeholder {
+  width: 70px;
+  min-height: 1.75rem;
+  background: var(--bs-tertiary-bg);
+  border-color: transparent;
+  opacity: 0.6;
+}
+
+/* The inert button says what it will be rather than nothing at all, and takes
+   no hover, because there is nowhere to go yet. */
+.site-nav-compact-toggle:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .site-nav-link {
@@ -978,7 +1039,13 @@ details:not([open]) > .site-directory-summary::after {
   border-color: var(--bs-border-color);
 }
 
-@media (min-width: 660px) {
+/* The status text is the widest thing in the bar and the least urgent, so it
+   shows only where the bar has room for it beside the entries: 992px, the same
+   breakpoint the entries themselves collapse at (#165). Below it the reader
+   gets the info button instead, which says the same thing in a popover. The
+   old 660px rule is what squeezed the entries onto a second line between 660
+   and 780px. */
+@media (min-width: 992px) {
   .navbar-status {
     display: inline-flex;
   }

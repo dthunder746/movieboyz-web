@@ -12,7 +12,7 @@
 
 export const LEAGUE_LAYOUT = `
 <!-- ── Header ─────────────────────────────────────────────────────────── -->
-<nav class="navbar navbar-expand-sm mb-3 border-bottom">
+<nav class="navbar navbar-expand-lg site-navbar mb-3 border-bottom">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold" id="site-brand">🎬 MBZ</a>
     <div id="site-nav" class="site-nav"></div>

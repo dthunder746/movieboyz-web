@@ -42,6 +42,38 @@ export function speculate(path) {
 // The manifest on its own, for the pages that read nothing else: the root
 // directory, which lists what it holds, and the nothing-here notice, which
 // draws the navigation out of it.
-export async function loadManifest() {
-  return fetchArtifact('index.json');
+//
+// One request per page load, shared by everyone who asks. Several parts of a
+// page want the manifest and want it at different moments: the entry script
+// reads it to route, the page's own loader reads it beside its artifacts, and
+// the navigation mounts off it as soon as it lands (#165). Handing them all the
+// same in-flight promise is what lets the navigation go in early without paying
+// for a second copy of the file, and it matches the one-cache-buster-per-load
+// rule above: one load, one answer.
+//
+// A rejection is not kept. The promise is dropped the moment it fails, so a
+// page that retries asks the network again rather than being handed the old
+// failure forever. The `catch` that drops it also marks the rejection handled
+// at the moment it is made, exactly as `speculate` does, so a manifest nobody
+// ends up awaiting cannot surface as an unhandled rejection; whoever does await
+// it still sees it throw.
+let inFlightManifest = null;
+
+export function loadManifest() {
+  if (!inFlightManifest) {
+    inFlightManifest = fetchArtifact('index.json');
+    inFlightManifest.catch(() => {
+      inFlightManifest = null;
+    });
+  }
+  return inFlightManifest;
+}
+
+// Test support, and nothing the site calls: in a browser a page load is the
+// lifetime of this module, so there is no moment at which the site wants the
+// shared promise forgotten. A test file runs many page loads in one module, so
+// `heldNetwork` calls this as it stubs the network and each test starts on a
+// load of its own.
+export function forgetManifest() {
+  inFlightManifest = null;
 }
