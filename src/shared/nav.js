@@ -201,6 +201,11 @@ function link(label, href, { current = false, marked = false, state, stateLabel 
 // Untested by design, as the rest of the site's wiring is. Everything decided
 // rather than rendered is above the divider.
 
+// Both readings of the navigation go into the slot together, and a media query
+// picks which one the reader sees (`site.css`): the entries side by side above
+// 992px, the one button below it. Drawing both means a resize is a repaint
+// rather than a re-render, and it means neither reading can be missing at the
+// width that wants it (#165).
 export function mountNav(manifest) {
   const host = document.getElementById('site-nav');
   if (!host) return;
@@ -212,13 +217,82 @@ export function mountNav(manifest) {
 
   // The bar is the view model's `entries` in its own order, so the shape is
   // decided above the divider and only the drawing happens here.
-  host.innerHTML = nav.entries
+  const entries = nav.entries
     .map((entry) => {
       if (entry.kind === 'leagues') return leaguesMenu(nav.leagues, entry);
       if (entry.kind === 'league') return leagueMenu(nav.league, entry);
       return moviesLink(nav.movies, entry);
     })
     .join('');
+
+  // One write, so the placeholders below are replaced in a single frame rather
+  // than the slot emptying first.
+  host.innerHTML =
+    compactShell(compactItems(buildCompactMenu(nav)))
+    + `<div class="site-nav-wide">${entries}</div>`;
+}
+
+// What the slot holds before the Manifest lands, written the moment the page's
+// shell is, so the bar is never an empty slot that fills later (#165).
+//
+// Three boxes at an entry's own height, padding and radius, with a faint fill
+// and no text. Three because that is the most the bar can hold; a Manifest
+// naming one League replaces them with two entries, and the slot getting
+// shorter moves nothing, because the bar's height is pinned rather than
+// measured. They are `aria-hidden` for the reason they have no text: there is
+// nothing there yet to announce.
+//
+// Below the breakpoint it is the menu button instead, drawn at once and inert,
+// because a button that will work in a moment reads better than one that
+// appears from nowhere under the reader's thumb.
+export function mountNavPlaceholder() {
+  const host = document.getElementById('site-nav');
+  if (!host) return;
+
+  host.innerHTML =
+    compactShell(null)
+    + `<div class="site-nav-wide" aria-hidden="true">${PLACEHOLDER_BOXES}</div>`;
+}
+
+const PLACEHOLDER_BOXES = '<span class="site-nav-link site-nav-placeholder"></span>'.repeat(3);
+
+// The narrow reading: one toggle and the overlay that drops from it. `items` is
+// null before the Manifest lands, which is the inert button with nothing behind
+// it. The menu is a Bootstrap dropdown, so it is positioned absolutely and
+// opens over the page rather than pushing it down.
+function compactShell(items) {
+  const inert = items === null;
+
+  const button = `<button class="site-nav-link site-nav-compact-toggle dropdown-toggle" type="button"${
+    inert ? ' disabled' : ' data-bs-toggle="dropdown" aria-expanded="false"'
+  }>Menu</button>`;
+
+  const menu = inert ? '' : `<ul class="dropdown-menu site-nav-compact-menu">${items}</ul>`;
+
+  return `<div class="site-nav-compact${inert ? '' : ' dropdown'}">${button}${menu}</div>`;
+}
+
+function compactItems(items) {
+  return items
+    .map((item) =>
+      item.kind === 'header'
+        ? `<li><h6 class="dropdown-header">${escapeHtml(item.label)}</h6></li>`
+        : `<li>${compactLink(item)}</li>`,
+    )
+    .join('');
+}
+
+// One row of the overlay. The badge, the highlight and the mark are the ones
+// the view model already decided, drawn exactly as the bar's own menus draw
+// them, because a year reads the same wherever it is listed.
+function compactLink(item) {
+  const badge = item.stateLabel
+    ? ` <span class="badge ${stateTone(item.state)} site-nav-badge">${escapeHtml(item.stateLabel)}</span>`
+    : '';
+
+  return `<a class="dropdown-item${item.current ? ' is-current' : ''}" href="${escapeHtml(item.href)}"${
+    item.marked ? ' aria-current="page"' : ''
+  }>${escapeHtml(item.label)}${badge}</a>`;
 }
 
 // The shell both menus are: a toggle carrying the bar's highlight and the list

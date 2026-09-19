@@ -12,7 +12,7 @@ import { loadManifest } from '../../shared/artifacts.js';
 import { colorClass, escapeHtml, fmt, formatFullDate } from '../../shared/format.js';
 import { stateLabel, stateTone } from '../../shared/lifecycle.js';
 import { currentRoot } from '../../shared/location.js';
-import { mountNav } from '../../shared/nav.js';
+import { mountNav, mountNavPlaceholder } from '../../shared/nav.js';
 import { renderNotice } from '../../shared/notice.js';
 import { campaignHref, movieIdFromSearch } from '../../shared/route.js';
 import { createThemeSwitch } from '../../shared/theme.js';
@@ -224,9 +224,7 @@ function renderChart(view, asOf) {
 // A slice the Manifest publishes that did not load. It is worth saying here
 // rather than only on the lookup page: the missing slice could be the one
 // carrying a Pick, so the Campaign list below may be short.
-function renderChrome(manifest, view, missingYears) {
-  mountNav(manifest);
-
+function renderChrome(view, missingYears) {
   const notice = document.getElementById('slice-notice');
   if (notice && missingYears.length > 0) {
     notice.textContent = `The Movies for ${missingYears.join(', ')} did not load,`
@@ -260,7 +258,7 @@ function init({ manifest, slices, campaigns, missingYears }, imdbId) {
     return;
   }
 
-  renderChrome(manifest, view, missingYears);
+  renderChrome(view, missingYears);
   renderHeader(view);
   renderFacts(view);
   renderRatings(view);
@@ -276,6 +274,13 @@ function init({ manifest, slices, campaigns, missingYears }, imdbId) {
     if (chart) applyChartTheme(chart, theme);
   });
 }
+
+// The navigation goes in as soon as the Manifest lands rather than at the end of
+// the load, and the slot holds placeholders until it does, so the bar is never
+// an empty strip that fills later (#165). `loadManifest` hands out one promise
+// per page load, so this rides the request the loader below is already making.
+mountNavPlaceholder();
+loadManifest().then(mountNav, () => mountNav(null));
 
 const imdbId = movieIdFromSearch(window.location.search);
 
@@ -295,9 +300,8 @@ if (!imdbId) {
   loadMovie()
     .then((loaded) => init(loaded, imdbId))
     .catch((error) => {
-      // The navigation still goes in, so a page that could not load its own
-      // data is not also a dead end (#64).
-      mountNav(null);
+      // The navigation is already in, mounted off the Manifest alone above, so
+      // a page that could not load its own data is not also a dead end (#64).
       document.body.insertAdjacentHTML(
         'beforeend',
         `<div class="alert alert-danger m-3">Failed to load the Movie: ${escapeHtml(error.message)}</div>`,

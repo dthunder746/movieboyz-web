@@ -12,9 +12,10 @@
 // league is summed in the projection and published (spec #58, decision 16), and
 // the order is published with it.
 
+import { loadManifest } from '../shared/artifacts.js';
 import { escapeHtml, fmt, fmtPct, colorClass, fmtTimestamp } from '../shared/format.js';
 import { stateTone } from '../shared/lifecycle.js';
-import { mountNav } from '../shared/nav.js';
+import { mountNav, mountNavPlaceholder } from '../shared/nav.js';
 import { buildColorMap } from '../shared/palettes.js';
 import { renderNotice } from '../shared/notice.js';
 import { currentRoot } from '../shared/location.js';
@@ -160,8 +161,7 @@ function standingsTable(campaign) {
 
 // ── Wiring ────────────────────────────────────────────────────────────────
 
-function init({ manifest, landing }) {
-  mountNav(manifest);
+function init({ landing }) {
   createThemeSwitch(() => {});
 
   const name = landing.league_name ?? landing.league_slug ?? 'League';
@@ -248,6 +248,12 @@ function wireAccordion(host, leagueSlug) {
 export function startLeaguePage({ leagueSlug }) {
   const page = document.getElementById('page');
   if (page) page.innerHTML = LEAGUE_LAYOUT;
+
+  mountNavPlaceholder();
+  // Deliberately not awaited: it runs beside the load below. `loadManifest`
+  // hands out one promise per page load, so this rides the request the page's
+  // own loader is already making (#165).
+  loadManifest().then(mountNav, () => mountNav(null));
 
   loadLeague({ leagueSlug })
     .then(init)

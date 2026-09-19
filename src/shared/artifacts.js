@@ -68,3 +68,12 @@ export function loadManifest() {
   }
   return inFlightManifest;
 }
+
+// Test support, and nothing the site calls: in a browser a page load is the
+// lifetime of this module, so there is no moment at which the site wants the
+// shared promise forgotten. A test file runs many page loads in one module, so
+// `heldNetwork` calls this as it stubs the network and each test starts on a
+// load of its own.
+export function forgetManifest() {
+  inFlightManifest = null;
+}

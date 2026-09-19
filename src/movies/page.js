@@ -9,7 +9,8 @@
 // League taken out: no Standings, no scorecards, no User colours (#62).
 
 import { escapeHtml } from '../shared/format.js';
-import { mountNav } from '../shared/nav.js';
+import { loadManifest } from '../shared/artifacts.js';
+import { mountNav, mountNavPlaceholder } from '../shared/nav.js';
 import { createSelection } from '../shared/selection.js';
 import { RENDER_OVERLAY_MARKUP, beginSwap } from '../shared/swap.js';
 import { createThemeSwitch } from '../shared/theme.js';
@@ -555,8 +556,6 @@ function newestMeasuredDate(slices) {
 // A slice the Manifest publishes that did not load leaves the page legible and
 // says which year is missing, rather than breaking (#62).
 function renderChrome(manifest, missingYears, latestDate) {
-  mountNav(manifest);
-
   const notice = document.getElementById('slice-notice');
 
   // Nothing published at all, which is the state before the platform has
@@ -585,12 +584,18 @@ function renderChrome(manifest, missingYears, latestDate) {
 // No favicon paint. The Campaign page's tab icon is its League's leader, and
 // this page belongs to no League (#62).
 
+// The navigation goes in as soon as the Manifest lands rather than at the end of
+// the load, and the slot holds placeholders until it does, so the bar is never
+// an empty strip that fills later (#165). `loadManifest` hands out one promise
+// per page load, so this rides the request the loader below is already making.
+mountNavPlaceholder();
+loadManifest().then(mountNav, () => mountNav(null));
+
 loadMovies()
   .then(init)
   .catch((error) => {
-    // The navigation still goes in, with whatever the Manifest failure left it,
-    // so a page that could not load its own data is not also a dead end (#64).
-    mountNav(null);
+    // The navigation is already in, mounted off the Manifest alone above, so a
+    // page that could not load its own data is not also a dead end (#64).
     document.body.insertAdjacentHTML(
       'beforeend',
       `<div class="alert alert-danger m-3">Failed to load the Movies: ${escapeHtml(error.message)}</div>`,

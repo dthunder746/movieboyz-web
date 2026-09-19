@@ -1,16 +1,7 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
+import { loadManifest } from './artifacts.js';
 import { heldNetwork } from './testing/held-network.js';
-
-// The module holds the page load's one manifest promise, so each test needs a
-// fresh copy of it rather than the one the test before left behind. That is the
-// behaviour under test here, not an accident of the harness.
-let artifacts;
-
-beforeEach(async () => {
-  vi.resetModules();
-  artifacts = await import('./artifacts.js');
-});
 
 afterEach(() => {
   vi.unstubAllGlobals();
@@ -22,7 +13,7 @@ describe('loadManifest', () => {
   it('reads index.json', async () => {
     const net = heldNetwork();
 
-    const pending = artifacts.loadManifest();
+    const pending = loadManifest();
     await net.settle();
     net.respond('index.json', { movie_years: [2026] });
 
@@ -35,8 +26,8 @@ describe('loadManifest', () => {
   it('asks the network once however many callers ask', async () => {
     const net = heldNetwork();
 
-    const first = artifacts.loadManifest();
-    const second = artifacts.loadManifest();
+    const first = loadManifest();
+    const second = loadManifest();
     await net.settle();
     net.respond('index.json', { movie_years: [2026] });
 
@@ -50,12 +41,12 @@ describe('loadManifest', () => {
   it('hands a late caller the answer already in hand', async () => {
     const net = heldNetwork();
 
-    const first = artifacts.loadManifest();
+    const first = loadManifest();
     await net.settle();
     net.respond('index.json', { movie_years: [2026] });
     await first;
 
-    expect(await artifacts.loadManifest()).toEqual({ movie_years: [2026] });
+    expect(await loadManifest()).toEqual({ movie_years: [2026] });
     expect(net.requested).toEqual(['index.json']);
   });
 
@@ -64,12 +55,12 @@ describe('loadManifest', () => {
   it('does not keep a failure', async () => {
     const net = heldNetwork();
 
-    const first = artifacts.loadManifest();
+    const first = loadManifest();
     await net.settle();
     net.missing('index.json');
     await expect(first).rejects.toThrow('index.json: 404');
 
-    const second = artifacts.loadManifest();
+    const second = loadManifest();
     await net.settle();
     net.respond('index.json', { movie_years: [2026] });
 

@@ -12,7 +12,14 @@
 
 import { vi } from 'vitest';
 
+import { forgetManifest } from '../artifacts.js';
+
 export function heldNetwork() {
+  // A fresh page load. The manifest is fetched once per load and shared
+  // (`../artifacts.js`), so a test that did not start its own load would be
+  // handed the one the test before it left behind.
+  forgetManifest();
+
   const requested = [];
   const held = new Map();
 
