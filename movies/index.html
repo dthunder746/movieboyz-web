@@ -75,7 +75,10 @@
 
   <!-- Movie table -->
   <div id="table-wrapper">
-    <div id="toolbar" class="d-flex align-items-center gap-2 mb-1 flex-wrap">
+    <!-- The Campaign's toolbar, button for button. `toolbar-counted` says this
+         one also carries a row count, which is what makes it condense to icons
+         a breakpoint earlier than the Campaign's does. -->
+    <div id="toolbar" class="toolbar-counted d-flex align-items-center gap-2 mb-1 flex-wrap">
       <button id="filters-toggle" class="btn btn-sm btn-outline-secondary" type="button" aria-expanded="false" aria-controls="filters-panel">
         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
         Filters
@@ -83,16 +86,18 @@
       </button>
       <div class="dropdown" id="sort-dropdown">
         <button id="sort-toggle" class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Sort</button>
+        <!-- The Campaign's menu, entry for entry: the order the page opens in
+             leads and is named as the default, one divider under it, and every
+             other order listed plain beneath. -->
         <ul class="dropdown-menu" id="sort-menu">
+          <li><button class="dropdown-item" type="button" data-sort="week_desc">Default (wkly gross)</button></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_asc">Released &uarr; (oldest)</button></li>
+          <li><button class="dropdown-item" type="button" data-sort="release_desc">Released &darr; (newest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="gross_desc">Gross &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="gross_asc">Gross &uarr; (lowest)</button></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><button class="dropdown-item" type="button" data-sort="release_desc">Released &darr; (newest)</button></li>
-          <li><button class="dropdown-item" type="button" data-sort="release_asc">Released &uarr; (oldest)</button></li>
-          <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" type="button" data-sort="budget_desc">Budget &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="budget_asc">Budget &uarr; (lowest)</button></li>
-          <li><hr class="dropdown-divider"></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_desc">Letterboxd &darr; (highest)</button></li>
           <li><button class="dropdown-item" type="button" data-sort="rating_asc">Letterboxd &uarr; (lowest)</button></li>
         </ul>
@@ -101,15 +106,46 @@
         <svg class="clear-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
         <span class="clear-label">Clear selection</span>
       </button>
-      <span id="row-count" class="text-muted ms-auto" style="font-size:0.8rem"></span>
+      <span id="row-count" class="text-muted" style="font-size:0.8rem"></span>
+      <!-- The gap that holds the view switch against the right edge, and it is
+           an element of its own rather than an `ms-auto` on the row count: the
+           count gives up its place under 600px, and with the margin on it the
+           switch came away from the edge and packed left. The Campaign's bar
+           carries the same empty span for the same reason. -->
+      <span class="ms-auto"></span>
+      <!-- The view switch and the help icon are the Campaign page's, markup and
+           all: `shared/view-mode.js` finds this group by its label, and the
+           tooltip text is set per mode by `page.js` (#162). -->
+      <div class="btn-group btn-group-sm" role="group" aria-label="View mode">
+        <button class="btn btn-outline-secondary" data-mode="cards" type="button" aria-label="Cards view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+          <span class="mode-label">Cards</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="compact" type="button" aria-label="Compact view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          <span class="mode-label">Compact</span>
+        </button>
+        <button class="btn btn-outline-secondary" data-mode="detailed" type="button" aria-label="Detailed view">
+          <svg class="mode-icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+          <span class="mode-label">Detailed</span>
+        </button>
+      </div>
+      <button id="table-helper-info" class="btn btn-sm btn-link p-0 text-secondary" type="button" data-bs-toggle="tooltip" aria-label="How to use this view">
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      </button>
     </div>
 
     <div id="filters-panel" class="d-none"></div>
     <div id="filter-chips" class="d-none"></div>
+    <!-- The two surfaces the view switch shows one of at a time. The swap
+         skeleton goes in here from `shared/swap.js`, so both pages carry the
+         same one rather than a copy each (#160). -->
     <div id="table-surface">
       <div id="movie-table"></div>
+      <div id="movie-cards" class="d-none"></div>
     </div>
     <p id="budget-footnote">≈ marks a budget upstream estimated rather than reported.</p>
+    <p id="daily-neg-footnote" class="d-none">* Negative daily gross values are not true negatives. They reflect revised estimates for earlier days in the week, superseded by more accurate figures.</p>
   </div>
 
 </div>

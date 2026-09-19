@@ -66,6 +66,14 @@ export function formatShortDate(isoDate) {
   return `${MONTHS[parseInt(month, 10) - 1]} ${parseInt(day, 10)}`;
 }
 
+// A release date in full, and the day is padded to two characters on purpose:
+// these are read down a column, and an unpadded day leaves every year a
+// character out of line with the one above it.
+export function formatFullDate(isoDate) {
+  const [year, month, day] = isoDate.split('-');
+  return `${MONTHS[parseInt(month, 10) - 1]} ${day.padStart(2, '0')} ${year}`;
+}
+
 export function formatDayMonth(isoDate) {
   const [, month, day] = isoDate.split('-');
   return `${day}/${month}`;

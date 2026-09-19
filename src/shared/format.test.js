@@ -10,6 +10,7 @@ import {
   fmtRelativeAgo,
   fmtTimestamp,
   formatDayMonth,
+  formatFullDate,
   formatShortDate,
   getWeekdayAbbr,
   isoWeekBounds,
@@ -82,6 +83,16 @@ describe('formatShortDate', () => {
   it('renders an ISO date as an abbreviated month and unpadded day', () => {
     expect(formatShortDate('2026-08-12')).toBe('Aug 12');
     expect(formatShortDate('2026-01-04')).toBe('Jan 4');
+  });
+});
+
+// Release dates are read down a column, so the day is padded: an unpadded one
+// leaves the year of every single-digit day a character out of line.
+describe('formatFullDate', () => {
+  it('renders an ISO date as month, padded day and year', () => {
+    expect(formatFullDate('2026-04-18')).toBe('Apr 18 2026');
+    expect(formatFullDate('2026-01-04')).toBe('Jan 04 2026');
+    expect(formatFullDate('2025-12-31')).toBe('Dec 31 2025');
   });
 });
 

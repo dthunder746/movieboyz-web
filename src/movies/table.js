@@ -1,6 +1,15 @@
-// The Movies lookup table, one Tabulator instance over the rows `rows.js`
-// builds. Wiring, untested by the site's convention: the reshaping and the
-// sorting rules it renders are tested next door.
+// The Movies lookup table: the compact and the detailed view, two Tabulator
+// instances over the rows `rows.js` builds. Wiring, untested by the site's
+// convention: the reshaping and the sorting rules it renders are tested next
+// door.
+//
+// Both views carry the same five columns. Compact adds one Gross Week column
+// per week, newest first; detailed adds the Ratings group, whose expander
+// opens the other five sources beside Letterboxd, and the per-day gross grid
+// grouped under each week, which is the only place on this page a daily figure
+// appears (#162). The ratings group is the Campaign table's, shared rather
+// than copied. The week and day columns, their formatters and their widths are
+// `shared/table-columns.js`, which knows nothing about a League or a lookup.
 //
 // This is `campaign/table.js` with the League dimensions taken out (#62). No
 // holder, no Pick type, no Profit, no Breakeven, no ROI. Gross where Profit
@@ -13,15 +22,23 @@
 // menu cannot disagree about which five rows are at the top, which is what the
 // chart's default plots.
 
-import {
-  escapeHtml,
-  fmt,
-  formatShortDate,
-  ratingColorClass,
-} from '../shared/format.js';
+import { escapeHtml, fmt } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
+import {
+  BASE_TABLE_OPTIONS,
+  compactWeekColumn,
+  ratingsGroup,
+  releaseDateCell,
+  weekGroup,
+} from '../shared/table-columns.js';
+import {
+  collectDailyDates,
+  collectWeekKeys,
+  groupDatesByWeek,
+} from '../shared/week-fields.js';
+import { pickOrSeasonIcon } from '../shared/icons.js';
 
-import { SEASON_LABELS, missingLastSorter } from './rows.js';
+import { missingLastSorter } from './rows.js';
 
 const DASH = '<span class="text-neu">—</span>';
 
@@ -34,6 +51,11 @@ const DASH = '<span class="text-neu">—</span>';
 // The title is the way into the Movie's own page (#63). A real anchor rather
 // than a row-click handler, so the address can be copied, opened in a tab and
 // read by a screen reader as the link it is.
+//
+// The Season rides in front of the name as a glyph, which is what the Campaign
+// table and this page's own cards already do. It is one symbol where a column
+// was a whole column, and it stays outside the link: the link is to the Movie,
+// the glyph is a reading of when it opens.
 function titleCell(cell) {
   const row = cell.getRow().getData();
   const value = cell.getValue();
@@ -41,19 +63,8 @@ function titleCell(cell) {
     ? `<span class="movie-title-text">${escapeHtml(value)}</span>`
     : `<span class="movie-title-text text-neu">${escapeHtml(row.imdbId)}</span>`;
 
-  return `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
-}
-
-function releaseDateCell(cell) {
-  const value = cell.getValue();
-  if (!value || value === 'TBA') return '<span class="text-neu">TBA</span>';
-  return `${formatShortDate(value)} ${value.slice(0, 4)}`;
-}
-
-function seasonCell(cell) {
-  const value = cell.getValue();
-  if (!value) return DASH;
-  return SEASON_LABELS[value] ?? value;
+  return pickOrSeasonIcon(null, row.season)
+    + `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
 }
 
 // Upstream's own word on whether it read the budget or guessed it (#62). A
@@ -80,16 +91,9 @@ function daysCell(cell) {
   return String(value);
 }
 
-// Letterboxd publishes out of 100 and its readers know it out of 5.
-function ratingCell(cell) {
-  const value = cell.getValue();
-  if (value === null || value === undefined) return DASH;
-  return `<span class="${ratingColorClass(value)}">${(value / 20).toFixed(1)}</span>`;
-}
-
 // ── Columns ───────────────────────────────────────────────────────────────
 
-function columns() {
+function baseColumns() {
   return [
     {
       title: 'Movie',
@@ -107,13 +111,6 @@ function columns() {
       minWidth: 110,
       sorter: missingLastSorter,
       formatter: releaseDateCell,
-    },
-    {
-      title: 'Season',
-      field: 'season',
-      minWidth: 90,
-      headerSort: false,
-      formatter: seasonCell,
     },
     {
       title: 'Budget',
@@ -142,40 +139,30 @@ function columns() {
       headerSort: false,
       formatter: daysCell,
     },
-    {
-      title: 'Letterboxd',
-      field: 'ratingLetterboxd',
-      hozAlign: 'center',
-      minWidth: 110,
-      sorter: missingLastSorter,
-      formatter: ratingCell,
-      tooltip(event, cell) {
-        const votes = cell.getRow().getData().ratings?.letterboxd?.votes;
-        if (votes === null || votes === undefined) return false;
-        return `${votes.toLocaleString()} votes`;
-      },
-    },
   ];
 }
 
-export function buildMovieTable(rows, { initialSort, onSelectionChange, onSorted }) {
+// The two views are the same table with different columns, and the Campaign's
+// two are the same table again, so everything a reader would notice switching
+// between any of them is the shared base (`shared/table-columns.js`). What is
+// left here is this page's own: how many rows a page offers, and the sentence
+// an empty table carries.
+const TABLE_OPTIONS = {
+  ...BASE_TABLE_OPTIONS,
+  paginationSizeSelector: [25, 50, 100, 250, true],
+  placeholder: 'No Movie matches these filters.',
+};
+
+function buildTable(rows, columnDefs, { initialSort, onSelectionChange, onSorted }) {
+  // `movie-table` is part of the markup contract both pages carry: the element
+  // a Tabulator instance is built into.
   const table = new Tabulator('#movie-table', {
-    layout: 'fitDataFill',
+    ...TABLE_OPTIONS,
     // The page's remembered sort, handed over so the header carries the same
     // answer the menu does. `page.js` keeps the two in step from here on.
     initialSort,
-    responsiveLayout: false,
-    resizableColumns: false,
-    selectableRows: true,
-    pagination: true,
-    paginationSize: 50,
-    paginationSizeSelector: [25, 50, 100, 250, true],
-    // Addressing rows by imdb id is what lets the page push a chart selection
-    // back into the table, as it does on the Campaign page.
-    index: 'imdbId',
     data: rows,
-    columns: columns(),
-    placeholder: 'No Movie matches these filters.',
+    columns: columnDefs,
   });
 
   guardMovieLinks('movie-table');
@@ -185,6 +172,55 @@ export function buildMovieTable(rows, { initialSort, onSelectionChange, onSorted
   });
 
   table.on('dataSorted', (sorters) => onSorted(sorters));
+
+  return table;
+}
+
+// Newest week leftmost, so the columns a reader wants are the ones they land
+// on rather than the ones they have to scroll to.
+function newestWeeksFirst(rows) {
+  return collectWeekKeys(rows).slice().reverse();
+}
+
+// Which rows the columns are worked out from. The filters narrow what the table
+// shows, and `replaceData` swaps the rows without rebuilding the columns, so
+// deriving the week and day columns from the filtered rows would leave a
+// column set that answers to whatever the filter happened to be when the view
+// was built. `columnRows` is every Movie on the page, so the columns are the
+// same set whatever is filtered in (#162).
+function columnSource({ columnRows }, rows) {
+  return columnRows && columnRows.length ? columnRows : rows;
+}
+
+export function buildCompactMovieTable(rows, options) {
+  const weekColumns = newestWeeksFirst(columnSource(options, rows)).map(compactWeekColumn);
+
+  return buildTable(rows, [...baseColumns(), ...weekColumns], options);
+}
+
+export function buildDetailedMovieTable(rows, options) {
+  const source = columnSource(options, rows);
+  const dates = collectDailyDates(source);
+  const datesByWeek = groupDatesByWeek(dates);
+  const newestFirst = newestWeeksFirst(source);
+
+  // The group definitions have to exist before the instance they belong to, so
+  // the expanders are handed a box and it is filled in below.
+  const tableRef = { current: null };
+
+  const weekColumns = dates.length > 0 && newestFirst.length > 0
+    ? [{
+      title: 'Weekly Gross',
+      columns: newestFirst.map((key, index) => weekGroup(key, index === 0, datesByWeek, tableRef)),
+    }]
+    : [];
+
+  const table = buildTable(
+    rows,
+    [...baseColumns(), ratingsGroup(tableRef), ...weekColumns],
+    options,
+  );
+  tableRef.current = table;
 
   return table;
 }

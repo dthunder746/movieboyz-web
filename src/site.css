@@ -1014,16 +1014,47 @@ details:not([open]) > .site-directory-summary::after {
   min-width: 52px;
 }
 
-.col-movie-title .tabulator-cell {
+/* The Movie column on both tables. The title takes whatever width the badges
+   in front of it leave, rather than a fixed measure: a `max-width` in `ch`
+   cut every title at the same short mark whatever the column was resized to,
+   so a 480px column ellipsised at about 220px. The cell is the flex row, the
+   badge and the season glyph keep their own size, and the link is the one
+   part that gives, so the cutoff lands at the column's edge.
+
+   Tabulator puts a column's `cssClass` on the cell element itself, not on a
+   wrapper, so the row below names `.tabulator-cell.col-movie-title` and not a
+   descendant of it. As a descendant it matched nothing, the cell stayed
+   inline-block, and the title's `display: block` inside an inline anchor broke
+   the line under the glyph. `inline-flex` rather than `flex` because a row
+   lays its cells out inline: a block-level cell would take a line to itself.
+
+   `.tabulator-row` leads the selector to outrank Tabulator's own
+   `.tabulator-row .tabulator-cell.tabulator-frozen { display: inline-block }`,
+   which is three classes to this rule's two and applies to exactly this cell:
+   the Movie column is frozen on both tables. Two classes lost to it, the cell
+   stayed inline-block, and the line broke anyway. Matched at three the two
+   rules tie and this stylesheet is linked after the Tabulator theme, so this
+   one wins. Tabulator sets the sticky positioning inline, which nothing here
+   can disturb. */
+.tabulator-row .tabulator-cell.col-movie-title {
+  display: inline-flex;
+  align-items: center;
+  overflow: hidden;
+}
+.col-movie-title .owner-badge,
+.col-movie-title .scorecard-pick-icon {
+  flex: 0 0 auto;
+}
+.col-movie-title .movie-title-link {
+  flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
 }
 .col-movie-title .movie-title-text {
-  display: inline-block;
-  max-width: 14ch;
+  display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  vertical-align: middle;
 }
 
 .compact-delta {
@@ -1092,6 +1123,18 @@ details:not([open]) > .site-directory-summary::after {
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
+}
+/* A card whose title is itself the link into the Movie. The anchor is the
+   flex item that gives, the same arrangement the table's Movie cell uses, so
+   a long name still truncates at the card's edge rather than pushing the plot
+   button off it. The Campaign's card has no such anchor and is untouched. */
+.movie-card-title .movie-title-link {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+}
+.movie-card-title .movie-title-link .movie-title-text {
+  display: block;
 }
 .movie-card-meta {
   color: var(--bs-secondary-color);
@@ -1497,12 +1540,21 @@ details:not([open]) > .site-directory-summary::after {
   text-align: center;
   font-size: 0.9rem;
 }
-/* View-mode buttons and Clear-selection: text labels on tablet/desktop,
-   icons on mobile to keep the toolbar on a single row. */
+/* View-mode buttons and Clear-selection: text labels on tablet/desktop, icons
+   on mobile to keep the toolbar on a single row.
+
+   Which of the two a toolbar is showing is one pair of variables rather than a
+   rule per breakpoint, because the two pages condense at different widths: the
+   rules below are the mechanism and each page's media query only flips the
+   pair. */
+#toolbar {
+  --toolbar-label: inline;
+  --toolbar-icon: none;
+}
 #toolbar .btn-group .mode-icon,
-#clear-movie-selection .clear-icon { display: none; vertical-align: -2px; }
+#clear-movie-selection .clear-icon { display: var(--toolbar-icon); vertical-align: -2px; }
 #toolbar .btn-group .mode-label,
-#clear-movie-selection .clear-label { display: inline; }
+#clear-movie-selection .clear-label { display: var(--toolbar-label); }
 
 @media (max-width: 600px) {
   #toolbar { flex-wrap: nowrap !important; gap: 0.3rem; }
@@ -1510,14 +1562,25 @@ details:not([open]) > .site-directory-summary::after {
   .filter-label { min-width: 86px; font-size: 0.68rem; }
   /* Keep the toolbar on one line: collapse view modes and Clear-selection to
      icons, and tighten Filters/Sort. */
+  #toolbar { --toolbar-label: none; --toolbar-icon: inline; }
   #toolbar #filters-toggle,
   #toolbar #sort-toggle { padding-left: 0.45rem; padding-right: 0.45rem; }
-  #toolbar .btn-group .mode-icon,
-  #clear-movie-selection .clear-icon { display: inline; }
-  #toolbar .btn-group .mode-label,
-  #clear-movie-selection .clear-label { display: none; }
   #toolbar .btn-group .btn { padding-left: 0.5rem; padding-right: 0.5rem; }
   #clear-movie-selection { padding-left: 0.5rem; padding-right: 0.5rem; }
+}
+
+/* A toolbar that also carries a row count condenses a breakpoint earlier.
+   With every label showing, the Campaign's bar measures about 545px of
+   buttons and gaps and wraps a little under 600. The Movies bar carries
+   "228 of 228 Movies" as well, about 110px more, so the same slack puts its
+   flip at 720: below that the labels go and the icons come in, and the row
+   count itself drops out at 600 where even the icons would be tight. */
+@media (max-width: 720px) {
+  #toolbar.toolbar-counted {
+    --toolbar-label: none;
+    --toolbar-icon: inline;
+    flex-wrap: nowrap !important;
+  }
 }
 
 /* ── Movies lookup page ─────────────────────────────────────────────────── */
@@ -1580,7 +1643,31 @@ details:not([open]) > .site-directory-summary::after {
 
 @media (max-width: 600px) {
   .filter-row .filter-label { min-width: 86px; }
+  /* The toolbar is one line at this width and the view switch has to fit on
+     it, so the row count gives up its place. It is the one thing on the bar a
+     reader can work out from what is in front of them, and the filters panel
+     names the filters that narrowed it. */
+  #row-count { display: none; }
 }
+
+/* The lookup card. It is the Campaign's card without a holder: no owner colour
+   down the edge, and the headline is what the Movie took rather than what a
+   Pick made. */
+.movies-card { border-left-color: var(--bs-border-color); }
+
+/* The word beside the headline figure, saying what the figure is. Plain muted
+   text in the slot the Campaign's ROI chip sits in, because there is nothing
+   to read it against: it is a fact, not a verdict. */
+.movie-card-hero .hero-unit {
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+}
+
+/* No holder means no colour to draw the sparkline in, so it takes the same
+   green the gross column does. `weeklyModule` fills with `currentColor` here,
+   which is what lets one rule answer for both themes. */
+.movies-card .spark { color: #75b798; }
+[data-bs-theme="light"] .movies-card .spark { color: #198754; }
 
 /* ── Movie detail page ──────────────────────────────────────────────────── */
 /* One film at its own address. It reuses the chart machinery above

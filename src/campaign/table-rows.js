@@ -6,53 +6,30 @@
 // definitions and the formatters stay in the DOM layer; what lives here is the
 // reshaping the columns read from and the arithmetic behind the card visuals.
 
-import { dateToIsoWeekKey } from '../shared/format.js';
+// The week and day fields themselves are derived in `shared/week-fields.js`,
+// so the Movies page's rows carry the same ones (#162). They are re-exported
+// here because this is where the Campaign's call sites and its tests have
+// always read them from.
+import {
+  collectDailyDates,
+  collectWeekKeys,
+  groupDatesByWeek,
+  hasNegativeDaily,
+  valueOrNull,
+  weeksFromWeekly,
+} from '../shared/week-fields.js';
+import { TABLE_RATING_KEYS } from '../shared/ratings.js';
+
+export {
+  collectDailyDates, collectWeekKeys, groupDatesByWeek, hasNegativeDaily,
+};
 
 // Rating sources the detailed table has a column for, flattened onto each row
 // so Tabulator can sort them. The raw ratings object rides along beside them
-// for the vote-count tooltips.
-export const RATING_KEYS = [
-  'letterboxd', 'imdb', 'rt_audience', 'rt_critic', 'tmdb', 'metacritic',
-];
-
-function sortedUnion(rows, pick) {
-  const keys = new Set();
-  for (const row of rows) {
-    for (const key of Object.keys(pick(row) || {})) keys.add(key);
-  }
-  return [...keys].sort();
-}
-
-export function collectWeekKeys(rows) {
-  return sortedUnion(rows, (row) => row.weeklyGross);
-}
-
-export function collectDailyDates(rows) {
-  return sortedUnion(rows, (row) => row.dailyChange);
-}
-
-export function groupDatesByWeek(dates) {
-  const byWeek = {};
-  for (const date of dates) {
-    const key = dateToIsoWeekKey(date);
-    (byWeek[key] ||= []).push(date);
-  }
-  return byWeek;
-}
-
-// A day the source revised downward. It is not money handed back, so the page
-// footnotes the column rather than colouring it as a loss.
-export function hasNegativeDaily(rows) {
-  return rows.some((row) => Object.values(row.dailyChange).some((value) => value < 0));
-}
-
-// A day or week the Movie never reported reads null, not zero. Zero is a real
-// figure (a day that took nothing) and collapsing the two would sort an
-// unreported day alongside genuine flops.
-function valueOrNull(series, key) {
-  const value = series[key];
-  return value === undefined ? null : value;
-}
+// for the vote-count tooltips. The list is the shared catalogue's, because the
+// Movies table shows the same six (#162); it is re-exported here because this
+// is where the Campaign's call sites and its tests have always read it from.
+export const RATING_KEYS = TABLE_RATING_KEYS;
 
 // Fields every mode shows. `releaseDate` falls back to the literal 'TBA' the
 // old table sorted on: the column is a string sort, so an undated Movie has to
@@ -122,10 +99,7 @@ export function cardRows(board) {
     lastWeek: lastKey ? valueOrNull(row.weeklyGross, lastKey) : null,
     weekBefore: beforeKey ? valueOrNull(row.weeklyGross, beforeKey) : null,
     weeklyGross: row.weeklyGross,
-    weeks: Object.keys(row.weeklyGross).sort().map((key) => ({
-      num: parseInt(key.split('-W')[1], 10),
-      gross: row.weeklyGross[key] ?? 0,
-    })),
+    weeks: weeksFromWeekly(row.weeklyGross),
     ratingLetterboxd: row.ratings?.letterboxd?.score ?? null,
     rank: null,
     rankTotal: 0,

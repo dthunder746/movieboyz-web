@@ -7,6 +7,14 @@
 // Nothing here reads a Campaign file, which is what lets the page work for a
 // reader who is in no League (#62).
 
+import { TABLE_RATING_KEYS } from '../shared/ratings.js';
+import {
+  collectDailyDates,
+  collectWeekKeys,
+  valueOrNull,
+  weeksFromWeekly,
+} from '../shared/week-fields.js';
+
 // The Seasons a Movie can be in, in calendar order, and how each one is
 // written for a reader. A closed set the platform derives from a release date
 // rather than a file it publishes (CONTEXT.md), so it is a constant here rather
@@ -20,10 +28,20 @@ export const SEASON_LABELS = {
   FALL: 'Fall',
 };
 
-// Ratings flattened onto the row so the table can sort on them. Letterboxd is
-// the one the League watches and the only one the lookup table shows; the rest
-// ride along for the tooltip, as they do on the Campaign page.
-export const RATING_KEY = 'letterboxd';
+// Ratings flattened onto the row so the table can sort on them, one field per
+// source the detailed view has a column for. The raw ratings object rides
+// along beside them for the vote-count tooltips, as it does on the Campaign
+// page. Letterboxd is the one the sort menu names, because it is the one the
+// League watches.
+const RATING_FIELD_PREFIX = 'rating_';
+
+function ratingFields(ratings) {
+  const flat = {};
+  for (const key of TABLE_RATING_KEYS) {
+    flat[`${RATING_FIELD_PREFIX}${key}`] = ratings?.[key]?.score ?? null;
+  }
+  return flat;
+}
 
 function releaseYear(movie, slice) {
   const date = movie.release_date;
@@ -35,6 +53,14 @@ function releaseYear(movie, slice) {
   return Number.isNaN(year) ? (slice.release_year ?? null) : year;
 }
 
+// Every Movie in every slice, with the week and day fields the shared table
+// columns and the shared cards read hung off each one.
+//
+// The columns are a union over the whole page rather than one Movie's own
+// weeks: a column has to exist for every row or for none, and Tabulator sorts
+// on fields, so a week a Movie never reported has to be there and null. The
+// derivation is `shared/week-fields.js`, the same one the Campaign's Board
+// rows use (#162).
 export function buildMovieRows(slices) {
   const rows = [];
 
@@ -57,7 +83,7 @@ export function buildMovieRows(slices) {
         weeklyGross: movie.weekly_gross || {},
         dailyChange: movie.daily_change || {},
         ratings: movie.ratings ?? null,
-        ratingLetterboxd: movie.ratings?.[RATING_KEY]?.score ?? null,
+        ...ratingFields(movie.ratings),
         releasedDigital: movie.released_digital ?? null,
         status: movie.status ?? null,
 
@@ -67,6 +93,29 @@ export function buildMovieRows(slices) {
         measuredOn: slice.latest_date ?? null,
       });
     }
+  }
+
+  return withWeekAndDayFields(rows);
+}
+
+// `weeks` and `thisWeek` are what `shared/cards.js` draws the sparkline and
+// its caption from; `week_<key>` and `daily_<date>` are the columns
+// `shared/table-columns.js` builds. The names are the interface, so they are
+// spelled here exactly as those two modules document them.
+//
+// `thisWeek` is the newest week anything on the page reported rather than the
+// newest this Movie did: a Movie whose run finished has bars but has taken
+// nothing this week, and the caption says so.
+function withWeekAndDayFields(rows) {
+  const weekKeys = collectWeekKeys(rows);
+  const dates = collectDailyDates(rows);
+  const currentWeek = newestWeekKey(rows);
+
+  for (const row of rows) {
+    for (const key of weekKeys) row[`week_${key}`] = valueOrNull(row.weeklyGross, key);
+    for (const date of dates) row[`daily_${date}`] = valueOrNull(row.dailyChange, date);
+    row.weeks = weeksFromWeekly(row.weeklyGross);
+    row.thisWeek = currentWeek ? valueOrNull(row.weeklyGross, currentWeek) : null;
   }
 
   return rows;
@@ -80,12 +129,25 @@ export function buildMovieRows(slices) {
 
 const SORT_FIELDS = {
   gross: 'grossTd',
-  rating: 'ratingLetterboxd',
+  rating: 'rating_letterboxd',
   release: 'releaseDate',
   budget: 'budget',
+  // What the Movie took in the newest week anything on the page reported. The
+  // rows carry it as `thisWeek`; the table carries it in a column named for
+  // the week itself, which is what `tableSortSpec` swaps in below.
+  week: 'thisWeek',
 };
 
-export const DEFAULT_SORT = 'gross_desc';
+// What the page opens in: this week's gross, highest first. The same order the
+// Campaign table defaults to (its multi-column default takes the newest week
+// as its primary key), so the two pages open the same way round.
+export const DEFAULT_SORT = 'week_desc';
+
+// Where the table falls back when the page has no week columns yet, which is
+// the state before anything has reported. It cannot be the default: the
+// default names this week, and this is the answer for a page that has no such
+// column to sort on.
+const NO_WEEK_SORT = 'gross_desc';
 
 // The same map read backwards, so a sortable column and the menu entry that
 // names it cannot drift apart: adding a sort above adds both directions here.
@@ -96,24 +158,69 @@ const SORT_IDS = Object.fromEntries(
 // Which sort menu entry a click on a column header amounts to, so the menu
 // keeps showing what the table is actually sorted by. Tabulator shaped, and
 // tested here rather than beside the table, which is untested wiring.
-export function sortIdFromSorters(sorters) {
+// What the table is sorted by, as a row field and a direction. Tabulator hands
+// the column object rather than a bare field on some events, so both are read.
+export function sorterField(sorters) {
   if (!sorters || !sorters.length) return null;
 
   const [sorter] = sorters;
   const field = sorter.field
     ?? (sorter.column?.getField ? sorter.column.getField() : null);
-  const name = SORT_IDS[field];
-  if (!name) return null;
+  if (!field) return null;
 
-  return `${name}_${sorter.dir === 'asc' ? 'asc' : 'desc'}`;
+  return { field, direction: sorter.dir === 'asc' ? 'asc' : 'desc' };
+}
+
+export function sortIdFromSorters(sorters, latestWeekField) {
+  // Nothing sorted at all, which is not a sort the reader made. It is not
+  // `custom` either: answering with one would wipe the menu's label before a
+  // header had been touched.
+  const sorted = sorterField(sorters);
+  if (!sorted) return null;
+
+  const { field, direction } = sorted;
+
+  if (latestWeekField && field === latestWeekField) return `week_${direction}`;
+
+  const name = SORT_IDS[field];
+  // Any other week column, any day column, and anything else the menu cannot
+  // name. The table is sorted by it and the menu says so rather than going on
+  // claiming the last entry the reader picked (#162).
+  if (!name || name === 'week') return 'custom';
+
+  return `${name}_${direction}`;
+}
+
+// The newest week anything on the page reported, or nothing when no Movie has
+// reported one yet. One definition, because `thisWeek` and the column the
+// menu's "this week" sort points at have to be the same week: two answers here
+// would put the menu out of step with the figure on the card.
+function newestWeekKey(rows) {
+  const weekKeys = collectWeekKeys(rows || []);
+  return weekKeys[weekKeys.length - 1] ?? null;
+}
+
+// The column the newest week's gross landed in.
+export function latestWeekColumn(rows) {
+  const latest = newestWeekKey(rows);
+  return latest ? `week_${latest}` : null;
 }
 
 // The menu id as Tabulator's own sorter spec, so the page can put the table's
 // header into the order the menu asked for. Without it Tabulator keeps whatever
 // sorter the last header click left on the column and re-applies it to every
 // `replaceData`, and the menu, the chart and the table stop agreeing.
-export function tableSortSpec(sortId) {
+export function tableSortSpec(sortId, latestWeekField) {
   const spec = parseSortId(sortId) ?? parseSortId(DEFAULT_SORT);
+
+  // No column carries `thisWeek`: the figure is in the column named for the
+  // week it belongs to. A page with no week columns yet has nothing to sort on
+  // and falls back rather than asking Tabulator for a column that is not there.
+  if (spec.field === 'thisWeek') {
+    if (!latestWeekField) return tableSortSpec(NO_WEEK_SORT);
+    return [{ column: latestWeekField, dir: spec.direction }];
+  }
+
   return [{ column: spec.field, dir: spec.direction }];
 }
 
@@ -141,6 +248,32 @@ function compare(field, direction) {
     }
     return (left - right) * multiplier;
   };
+}
+
+// The same rule as a comparator over row fields, for the shared card view: the
+// cards sort themselves rather than being handed a sorted list, because a
+// filter change re-narrows them without a re-sort. A field the page cannot
+// name (a header click on a week or a day column) falls back to the default,
+// so the cards are always in some order a reader can follow.
+export function cardCompare(field, direction) {
+  const known = isSortableField(field)
+    ? { field, direction: direction === 'asc' ? 'asc' : 'desc' }
+    : parseSortId(DEFAULT_SORT);
+  return compare(known.field, known.direction);
+}
+
+// A field the rows can be put in order by: one the menu names, or one of the
+// week and day columns a header click can sort on.
+function isSortableField(field) {
+  return !!SORT_IDS[field] || /^(week_|daily_|rating_)/.test(String(field ?? ''));
+}
+
+// The same order a header click left the table in, applied to the rows
+// themselves, so the chart's default plot is the top of the table rather than
+// the top of some other list.
+export function sortRowsByField(rows, field, direction) {
+  if (!isSortableField(field)) return sortMovieRows(rows, DEFAULT_SORT);
+  return [...(rows || [])].sort(compare(field, direction === 'asc' ? 'asc' : 'desc'));
 }
 
 // A copy, sorted. The page holds one list of rows and several views of it, so
