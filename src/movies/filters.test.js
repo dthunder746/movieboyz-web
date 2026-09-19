@@ -84,14 +84,30 @@ describe('createMovieFilters', () => {
     filters.setSearch('mar');
     filters.toggleYear(2026);
 
-    expect(filters.snapshot())
-      .toEqual({ search: 'mar', years: [2026], seasons: null, isDefault: false });
+    expect(filters.snapshot()).toEqual({
+      search: 'mar',
+      years: [2026],
+      seasons: null,
+      releaseFrom: '',
+      releaseTo: '',
+      released: 'all',
+      activeCount: 2,
+      isDefault: false,
+    });
     expect(onChange).toHaveBeenCalledTimes(2);
 
     filters.clearAll();
 
-    expect(filters.snapshot())
-      .toEqual({ search: '', years: null, seasons: null, isDefault: true });
+    expect(filters.snapshot()).toEqual({
+      search: '',
+      years: null,
+      seasons: null,
+      releaseFrom: '',
+      releaseTo: '',
+      released: 'all',
+      activeCount: 0,
+      isDefault: true,
+    });
     expect(filters.filter(rows())).toHaveLength(4);
   });
 });
@@ -171,7 +187,16 @@ describe('createMovieFilters, by Season', () => {
     filters.toggleSeason('WINTER');
     filters.clearAll();
 
-    expect(filters.snapshot()).toEqual({ search: '', years: null, seasons: null, isDefault: true });
+    expect(filters.snapshot()).toEqual({
+      search: '',
+      years: null,
+      seasons: null,
+      releaseFrom: '',
+      releaseTo: '',
+      released: 'all',
+      activeCount: 0,
+      isDefault: true,
+    });
   });
 
   it('announces a Season change to the page', () => {
@@ -183,5 +208,233 @@ describe('createMovieFilters, by Season', () => {
     expect(onChange).toHaveBeenCalledWith(
       expect.objectContaining({ seasons: ['SUMMER'] }),
     );
+  });
+});
+
+// The three dimensions #161 adds with the Filters panel. The semantics are the
+// Campaign's own, verbatim: an empty bound is open, a Movie with no announced
+// date cannot be inside a range, and it counts as upcoming.
+function datedRows() {
+  return [
+    {
+      imdbId: 'tt-jan', title: 'January Film', releaseYear: 2026, season: 'WINTER', releaseDate: '2026-01-15',
+    },
+    {
+      imdbId: 'tt-jun', title: 'June Film', releaseYear: 2026, season: 'SUMMER', releaseDate: '2026-06-20',
+    },
+    {
+      imdbId: 'tt-dec', title: 'December Film', releaseYear: 2026, season: 'FALL', releaseDate: '2026-12-05',
+    },
+    {
+      imdbId: 'tt-old', title: 'Old Film', releaseYear: 2025, season: 'SUMMER', releaseDate: '2025-07-01',
+    },
+    {
+      imdbId: 'tt-tba', title: 'Untitled Sequel', releaseYear: 2026, season: null, releaseDate: 'TBA',
+    },
+    {
+      imdbId: 'tt-nil', title: 'No Date', releaseYear: 2026, season: null, releaseDate: null,
+    },
+  ];
+}
+
+function ids(filters, latestDate) {
+  return filters.filter(datedRows(), latestDate).map((row) => row.imdbId);
+}
+
+describe('createMovieFilters, by release date range', () => {
+  it('keeps only the Movies inside both bounds', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2026-01-01', '2026-06-30');
+
+    expect(ids(filters)).toEqual(['tt-jan', 'tt-jun']);
+  });
+
+  it('reads a missing upper bound as open-ended', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2026-01-01', '');
+
+    expect(ids(filters)).toEqual(['tt-jan', 'tt-jun', 'tt-dec']);
+  });
+
+  it('reads a missing lower bound as open-ended', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('', '2026-01-31');
+
+    expect(ids(filters)).toEqual(['tt-jan', 'tt-old']);
+  });
+
+  // A Movie with no announced date is not inside any range, whichever way the
+  // bounds are set: the reader asked for a window of the calendar.
+  it('drops a TBA and an absent date from any range', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2020-01-01', '2030-01-01');
+
+    expect(ids(filters)).not.toContain('tt-tba');
+    expect(ids(filters)).not.toContain('tt-nil');
+  });
+
+  it('narrows on the range and the year chips together', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2025-01-01', '2026-12-31');
+    filters.setYears([2025]);
+
+    expect(ids(filters)).toEqual(['tt-old']);
+  });
+
+  it('clears the range on its own', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2026-01-01', '2026-06-30');
+    filters.clearReleaseRange();
+
+    expect(filters.snapshot().releaseFrom).toBe('');
+    expect(filters.snapshot().releaseTo).toBe('');
+    expect(ids(filters)).toHaveLength(6);
+  });
+});
+
+describe('createMovieFilters, by released status', () => {
+  it('keeps the Movies already out as of the latest box office day', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleasedStatus('released');
+
+    expect(ids(filters, '2026-06-30')).toEqual(['tt-jan', 'tt-jun', 'tt-old']);
+  });
+
+  // A Movie with no announced date has not come out, so it is upcoming rather
+  // than neither.
+  it('counts a TBA and an absent date as upcoming', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleasedStatus('upcoming');
+
+    expect(ids(filters, '2026-06-30')).toEqual(['tt-dec', 'tt-tba', 'tt-nil']);
+  });
+
+  // Nothing published yet means no day to measure against, so a dated Movie
+  // cannot be called released or upcoming and only the undated ones answer.
+  it('answers only for the undated Movies when there is no latest date', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleasedStatus('released');
+    expect(ids(filters, null)).toEqual([]);
+
+    filters.setReleasedStatus('upcoming');
+    expect(ids(filters, null)).toEqual(['tt-tba', 'tt-nil']);
+  });
+
+  it('ignores a status it does not offer', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleasedStatus('sideways');
+
+    expect(filters.snapshot().released).toBe('all');
+  });
+});
+
+describe('createMovieFilters, counting what is on', () => {
+  it('counts one per dimension, however many values it holds', () => {
+    const filters = createMovieFilters();
+
+    expect(filters.snapshot().activeCount).toBe(0);
+
+    filters.setYears([2026, 2025]);
+
+    expect(filters.snapshot().activeCount).toBe(1);
+
+    filters.setSearch('film');
+    filters.toggleSeason('WINTER');
+    filters.toggleSeason('SUMMER');
+    filters.setReleasedStatus('released');
+
+    expect(filters.snapshot().activeCount).toBe(4);
+  });
+
+  // A range is one narrowing whether the reader set one end or both.
+  it('counts a range with a single bound once', () => {
+    const filters = createMovieFilters();
+
+    filters.setReleaseRange('2026-01-01', '');
+
+    expect(filters.snapshot().activeCount).toBe(1);
+
+    filters.setReleaseRange('2026-01-01', '2026-06-30');
+
+    expect(filters.snapshot().activeCount).toBe(1);
+  });
+});
+
+describe('createMovieFilters, clearing one dimension', () => {
+  function everythingOn() {
+    const filters = createMovieFilters();
+    filters.setSearch('film');
+    filters.setYears([2026]);
+    filters.toggleSeason('WINTER');
+    filters.setReleaseRange('2026-01-01', '2026-06-30');
+    filters.setReleasedStatus('released');
+    return filters;
+  }
+
+  it('clears the dimension a chip names and leaves the rest', () => {
+    const cleared = {
+      search: 'search',
+      years: 'years',
+      seasons: 'seasons',
+      releaseRange: 'releaseRange',
+      released: 'released',
+    };
+
+    const filters = everythingOn();
+    expect(filters.snapshot().activeCount).toBe(5);
+
+    filters.clearDimension(cleared.search);
+    expect(filters.snapshot().search).toBe('');
+    expect(filters.snapshot().activeCount).toBe(4);
+
+    filters.clearDimension(cleared.years);
+    expect(filters.snapshot().years).toBe(null);
+
+    filters.clearDimension(cleared.seasons);
+    expect(filters.snapshot().seasons).toBe(null);
+
+    filters.clearDimension(cleared.releaseRange);
+    expect(filters.snapshot().releaseFrom).toBe('');
+    expect(filters.snapshot().releaseTo).toBe('');
+
+    filters.clearDimension(cleared.released);
+    expect(filters.snapshot().released).toBe('all');
+    expect(filters.snapshot().isDefault).toBe(true);
+  });
+
+  it('does nothing for a name it does not hold', () => {
+    const filters = everythingOn();
+    const before = filters.snapshot();
+
+    filters.clearDimension('profitability');
+
+    expect(filters.snapshot()).toEqual(before);
+  });
+
+  it('clears the new dimensions along with everything else', () => {
+    const filters = everythingOn();
+
+    filters.clearAll();
+
+    expect(filters.snapshot()).toEqual({
+      search: '',
+      years: null,
+      seasons: null,
+      releaseFrom: '',
+      releaseTo: '',
+      released: 'all',
+      activeCount: 0,
+      isDefault: true,
+    });
   });
 });

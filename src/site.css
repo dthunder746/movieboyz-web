@@ -1579,7 +1579,6 @@ details:not([open]) > .site-directory-summary::after {
 }
 
 @media (max-width: 600px) {
-  #movies-search { max-width: none !important; flex: 1 1 auto; }
   .filter-row .filter-label { min-width: 86px; }
 }
 
