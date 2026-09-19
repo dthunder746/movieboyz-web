@@ -303,20 +303,31 @@ describe('buildCards', () => {
     });
 
     it('starts no card press when the button is pressed', () => {
-      const { grid } = harness(manyRows(7), null, 3);
-      const pointerdown = grid.listeners.get('pointerdown');
+      vi.useFakeTimers();
+      try {
+        const { grid } = harness(manyRows(7), null, 3);
+        const button = { dataset: {} };
+        // The real button answers to its own selector and to nothing else.
+        // In particular it is inside no `.movie-card`, so the gesture handler
+        // has nothing to take hold of and the press never begins.
+        const target = {
+          closest: (selector) => (selector === '.cards-show-more' ? button : null),
+        };
 
-      // The button is not inside a card, so the gesture handler has nothing to
-      // take hold of and the press never begins.
-      expect(() => pointerdown({
-        isPrimary: true,
-        target: { closest: () => null },
-        clientX: 0,
-        clientY: 0,
-      })).not.toThrow();
+        grid.listeners.get('pointerdown')({
+          isPrimary: true, target, clientX: 0, clientY: 0,
+        });
 
-      grid.listeners.get('pointerup')({ target: { closest: () => null } });
-      expect(drawnIds(grid)).toHaveLength(3);
+        // Had a press begun, holding it this long would plot the "card" through
+        // `selection.toggle`, which this harness does not provide, and the
+        // timer would throw.
+        expect(() => vi.advanceTimersByTime(1000)).not.toThrow();
+
+        grid.listeners.get('pointerup')({ target });
+        expect(drawnIds(grid)).toHaveLength(3);
+      } finally {
+        vi.useRealTimers();
+      }
     });
 
     it('repaints the drawn cards on a selection change and ignores the rest', () => {
