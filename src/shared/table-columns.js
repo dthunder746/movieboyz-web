@@ -23,7 +23,6 @@ import {
   fmtPct,
   formatDayMonth,
   formatFullDate,
-  formatShortDate,
   getWeekdayAbbr,
   isoWeekBounds,
   ratingColorClass,

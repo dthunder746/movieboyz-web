@@ -33,7 +33,7 @@ export const SEASON_LABELS = {
 // along beside them for the vote-count tooltips, as it does on the Campaign
 // page. Letterboxd is the one the sort menu names, because it is the one the
 // League watches.
-export const RATING_FIELD_PREFIX = 'rating_';
+const RATING_FIELD_PREFIX = 'rating_';
 
 function ratingFields(ratings) {
   const flat = {};
