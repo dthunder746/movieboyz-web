@@ -141,7 +141,7 @@ export function buildDetailedTable(board, colorMap) {
 
   const columns = [
     titleColumn(colorMap, { minWidth: 230 }),
-    releasedColumn({ minWidth: 80 }),
+    releasedColumn({ minWidth: 110 }),
     ratingsGroup(tableRef),
     { title: 'Financials', columns: financialColumns() },
   ];
@@ -192,7 +192,7 @@ export function buildCompactTable(board, colorMap) {
 
   const columns = [
     titleColumn(colorMap, { width: 224, minWidth: 184 }),
-    releasedColumn({ width: 96, minWidth: 88 }),
+    releasedColumn({ width: 112, minWidth: 104 }),
     {
       title: 'B/E',
       field: 'breakeven',

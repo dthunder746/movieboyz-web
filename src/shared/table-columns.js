@@ -22,6 +22,7 @@ import {
   fmt,
   fmtPct,
   formatDayMonth,
+  formatFullDate,
   formatShortDate,
   getWeekdayAbbr,
   isoWeekBounds,
@@ -89,7 +90,7 @@ export function dailyCell(cell) {
 export function releaseDateCell(cell) {
   const value = cell.getValue();
   if (!value || value === 'TBA') return '<span class="text-neu">TBA</span>';
-  return formatShortDate(value);
+  return formatFullDate(value);
 }
 
 // ── Column widths measured off the rendered font ──────────────────────────

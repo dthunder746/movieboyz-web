@@ -22,15 +22,12 @@
 // menu cannot disagree about which five rows are at the top, which is what the
 // chart's default plots.
 
-import {
-  escapeHtml,
-  fmt,
-  formatShortDate,
-} from '../shared/format.js';
+import { escapeHtml, fmt } from '../shared/format.js';
 import { MOVIE_LINK_CLASS, guardMovieLinks, movieUrl } from '../shared/location.js';
 import {
   compactWeekColumn,
   ratingsGroup,
+  releaseDateCell,
   weekGroup,
 } from '../shared/table-columns.js';
 import {
@@ -67,12 +64,6 @@ function titleCell(cell) {
 
   return pickOrSeasonIcon(null, row.season)
     + `<a class="${MOVIE_LINK_CLASS}" href="${escapeHtml(movieUrl(row.imdbId))}">${label}</a>`;
-}
-
-function releaseDateCell(cell) {
-  const value = cell.getValue();
-  if (!value || value === 'TBA') return '<span class="text-neu">TBA</span>';
-  return `${formatShortDate(value)} ${value.slice(0, 4)}`;
 }
 
 // Upstream's own word on whether it read the budget or guessed it (#62). A

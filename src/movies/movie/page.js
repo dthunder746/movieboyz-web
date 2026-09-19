@@ -9,7 +9,7 @@
 // sentence where the canvas would be.
 
 import { loadManifest } from '../../shared/artifacts.js';
-import { colorClass, escapeHtml, fmt, formatShortDate } from '../../shared/format.js';
+import { colorClass, escapeHtml, fmt, formatFullDate } from '../../shared/format.js';
 import { stateLabel, stateTone } from '../../shared/lifecycle.js';
 import { currentRoot } from '../../shared/location.js';
 import { mountNav } from '../../shared/nav.js';
@@ -41,10 +41,10 @@ function pickLabel(pickType) {
   return PICK_LABELS[String(pickType ?? '').toLowerCase()] ?? pickType;
 }
 
-// A date as the rest of the site writes one: "Jun 5 2026".
+// A date as the rest of the site writes one: "Jun 05 2026".
 function longDate(isoDate) {
   if (!isoDate || isoDate === 'TBA') return null;
-  return `${formatShortDate(isoDate)} ${isoDate.slice(0, 4)}`;
+  return formatFullDate(isoDate);
 }
 
 // ── The film itself ───────────────────────────────────────────────────────

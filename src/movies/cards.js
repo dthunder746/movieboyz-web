@@ -15,7 +15,7 @@
 import {
   escapeHtml,
   fmt,
-  formatShortDate,
+  formatFullDate,
   ratingColorClass,
 } from '../shared/format.js';
 import {
@@ -52,7 +52,7 @@ function metaLine(row) {
   const parts = [];
 
   parts.push(row.releaseDate
-    ? `Opened ${formatShortDate(row.releaseDate)} ${row.releaseDate.slice(0, 4)}`
+    ? `Opened ${formatFullDate(row.releaseDate)}`
     : 'Release TBA');
 
   if (row.budget !== null && row.budget !== undefined) {

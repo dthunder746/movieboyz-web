@@ -14,7 +14,7 @@ import {
   colorClass,
   escapeHtml,
   fmt,
-  formatShortDate,
+  formatFullDate,
   ratingColorClass,
 } from '../shared/format.js';
 import {
@@ -85,7 +85,7 @@ function cardMarkup(row, colorMap, isSelected) {
       + `${LETTERBOXD_ICON}${(row.ratingLetterboxd / 20).toFixed(1)}</span>`;
 
   const breakevenMeta = row.breakeven ? `  ·  B/E ${fmt(row.breakeven)}` : '';
-  const opened = row.releaseDate === 'TBA' ? 'TBA' : formatShortDate(row.releaseDate);
+  const opened = row.releaseDate === 'TBA' ? 'TBA' : formatFullDate(row.releaseDate);
 
   // Rank is over the whole Board, so it stays put as the toolbar is worked. A
   // Movie with no published profit has no rank and the line is left out.
