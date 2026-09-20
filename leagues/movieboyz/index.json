@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-19T22:10:02.863702Z",
+  "generated_at": "2026-09-20T21:11:15.656676Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
@@ -8,8 +8,8 @@
       "user_id": "marcus",
       "username": "Marcus",
       "color": "#76b7b2",
-      "profit": 2111280269,
-      "gross": 3720280268.75,
+      "profit": 2193280269,
+      "gross": 3802280268.75,
       "breakeven": 1609000000,
       "bomb_impact_absorbed": -110566153,
       "bomb_impact_dealt": 15838416,
