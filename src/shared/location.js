@@ -14,7 +14,7 @@
 // Untested by design, as the site's other DOM wiring is. What it decides
 // (`siteRoot`, `movieHref`) is tested next door in `route.test.js`.
 
-import { movieHref, siteRoot } from './route.js';
+import { letterboxdIconHref, movieHref, siteRoot } from './route.js';
 
 // The root a `<base>` declares, if the page declares one. Only the catch-all
 // page does, and it is the only page whose own address does not say where the
@@ -36,6 +36,13 @@ export function currentRoot() {
 
 export function movieUrl(imdbId) {
   return movieHref(currentRoot(), imdbId);
+}
+
+// Where the Letterboxd badge sits from here. Asked of the document for the
+// same reason a Movie link is: the file is one file at the site root, and
+// only the page knows how far above it that root is.
+export function letterboxdIconUrl() {
+  return letterboxdIconHref(currentRoot());
 }
 
 // The class every link into a Movie page carries, so the guard below and the

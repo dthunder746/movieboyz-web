@@ -9,6 +9,7 @@ import {
   draftPath,
   isMoviesPath,
   leagueFromPath,
+  letterboxdIconHref,
   leagueHref,
   leaguePath,
   movieHref,
@@ -503,5 +504,25 @@ describe('movieIdFromSearch', () => {
     expect(movieIdFromSearch('?id=%20')).toBe(null);
     expect(movieIdFromSearch(null)).toBe(null);
     expect(movieIdFromSearch(undefined)).toBe(null);
+  });
+});
+
+// The Letterboxd badge ships with the site, so its address is written the way
+// every other address here is: a file name the module owns, hung off a root the
+// caller worked out. A page nested three segments deep has to reach the same
+// file as the root does, and a Pages project path puts a prefix in front of
+// both.
+describe('letterboxdIconHref', () => {
+  it('hangs the asset off the site root', () => {
+    expect(letterboxdIconHref('/')).toBe('/letterboxd.svg');
+  });
+
+  it('carries a project-path prefix', () => {
+    expect(letterboxdIconHref('/movieboyz-web/')).toBe('/movieboyz-web/letterboxd.svg');
+  });
+
+  it('is the same file whatever depth the page sits at', () => {
+    const root = siteRoot('/league/movieboyz/2026/');
+    expect(letterboxdIconHref(root)).toBe(letterboxdIconHref('/'));
   });
 });
