@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { leagueLede } from './page.js';
+import { leagueLede } from './heading.js';
 
 // The lede names the League, so it has the title's problem: the name is the
 // artifact's and the artifact may not carry one. It answers it the same way the

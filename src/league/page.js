@@ -25,6 +25,7 @@ import { expansionAction } from './accordion.js';
 import { buildAllTimeRows } from './all-time.js';
 import { buildCampaignCards } from './cards.js';
 import { LeagueUnavailable, loadCampaignYear, loadLeague } from './data.js';
+import { leagueLede, leagueName } from './heading.js';
 import { LEAGUE_LAYOUT } from './layout.js';
 import { buildYearStandings } from './standings.js';
 
@@ -160,19 +161,6 @@ function standingsTable(campaign) {
 }
 
 // ── Wiring ────────────────────────────────────────────────────────────────
-
-// The name the page shows for the League it is on. The artifact carries one,
-// but the slug is what the address names it by and is always there, so that is
-// what stands in when the name has not arrived.
-function leagueName(landing) {
-  return landing.league_name ?? landing.league_slug ?? 'League';
-}
-
-// The lede is the title's sentence, so it takes the title's name and its
-// fallback rather than a second reading of the same artifact.
-export function leagueLede(landing) {
-  return `Every campaign that ${leagueName(landing)} has run, and who is ahead across all of them.`;
-}
 
 function init({ landing }) {
   createThemeSwitch(() => {});
