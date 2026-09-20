@@ -25,6 +25,7 @@ import { expansionAction } from './accordion.js';
 import { buildAllTimeRows } from './all-time.js';
 import { buildCampaignCards } from './cards.js';
 import { LeagueUnavailable, loadCampaignYear, loadLeague } from './data.js';
+import { leagueLede, leagueName } from './heading.js';
 import { LEAGUE_LAYOUT } from './layout.js';
 import { buildYearStandings } from './standings.js';
 
@@ -164,9 +165,11 @@ function standingsTable(campaign) {
 function init({ landing }) {
   createThemeSwitch(() => {});
 
-  const name = landing.league_name ?? landing.league_slug ?? 'League';
+  const name = leagueName(landing);
   const title = document.getElementById('league-title');
   if (title) title.textContent = name;
+  const lede = document.querySelector('.league-lede');
+  if (lede) lede.textContent = leagueLede(landing);
   // The house form is "<what> · MovieBoyz", and it reads oddly for the one
   // League whose name is the site's own. The suffix says which site a tab
   // belongs to, and it adds nothing when the name already does.

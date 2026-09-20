@@ -1909,8 +1909,10 @@ details:not([open]) > .site-directory-summary::after {
 }
 
 /* The mega league is the wider of the two: nine columns against six, and its
-   figures are whole-league totals rather than one year's. Below the breakpoint
-   the columns stack and the table keeps its own horizontal scroll. */
+   figures are whole-league totals rather than one year's. Below 1300px the
+   columns stack and the table keeps its own horizontal scroll: side by side,
+   the nine columns wrap their headers and the table scrolls well before the
+   viewport is narrow enough to call a phone. */
 .league-columns {
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
@@ -1918,7 +1920,7 @@ details:not([open]) > .site-directory-summary::after {
   align-items: start;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1299.98px) {
   .league-columns { grid-template-columns: minmax(0, 1fr); }
 }
 
@@ -1939,15 +1941,10 @@ details:not([open]) > .site-directory-summary::after {
 }
 
 .league-panel-note,
-.league-panel-footnote,
 .league-empty {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
   margin-bottom: 0.75rem;
-}
-
-.league-panel-footnote {
-  margin: 0.6rem 0 0;
 }
 
 .league-empty {

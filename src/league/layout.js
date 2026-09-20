@@ -29,7 +29,7 @@ export const LEAGUE_LAYOUT = `
 <div class="container-fluid px-3">
 
   <h1 id="league-title" class="league-title"></h1>
-  <p class="league-lede text-muted">Every campaign this crew has run, and who is ahead across all of them.</p>
+  <p class="league-lede text-muted"></p>
 
   <div class="league-columns">
 
@@ -37,8 +37,8 @@ export const LEAGUE_LAYOUT = `
     <section class="league-panel" aria-labelledby="all-time-heading">
       <h2 id="all-time-heading" class="league-panel-heading">All time</h2>
       <p class="league-panel-note">
-        Every player who has competed, ranked by all-time profit. Each year is
-        added at its own scale, so this is a lifetime total rather than an average.
+        Every player who has competed, ranked by all-time profit. Each year's
+        profit is added according to the rules used that year.
       </p>
       <div class="league-table-scroll">
         <table class="table table-sm league-table">
@@ -59,11 +59,6 @@ export const LEAGUE_LAYOUT = `
         </table>
       </div>
       <p id="all-time-empty" class="league-empty d-none">Nobody has competed in this league yet.</p>
-      <p class="league-panel-footnote">
-        There is no all-time breakeven line: each year's multiplier is already
-        inside that year's profit, so being in the black is the sign of the
-        profit column.
-      </p>
     </section>
 
     <!-- One card per Campaign, newest first. -->
