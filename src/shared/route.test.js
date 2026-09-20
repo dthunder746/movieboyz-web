@@ -10,6 +10,7 @@ import {
   isMoviesPath,
   leagueFromPath,
   leagueHref,
+  ratingIconHref,
   leaguePath,
   movieHref,
   movieIdFromSearch,
@@ -503,5 +504,25 @@ describe('movieIdFromSearch', () => {
     expect(movieIdFromSearch('?id=%20')).toBe(null);
     expect(movieIdFromSearch(null)).toBe(null);
     expect(movieIdFromSearch(undefined)).toBe(null);
+  });
+});
+
+// Every rating source's badge ships with the site, so its address is written
+// the way every other address here is: a file name the catalogue owns, hung
+// off a root the caller worked out. A page nested three segments deep has to
+// reach the same file as the root does, and a Pages project path puts a prefix
+// in front of both.
+describe('ratingIconHref', () => {
+  it('hangs the badge off the site root', () => {
+    expect(ratingIconHref('/', 'letterboxd.svg')).toBe('/letterboxd.svg');
+  });
+
+  it('carries a project-path prefix', () => {
+    expect(ratingIconHref('/movieboyz-web/', 'imdb.svg')).toBe('/movieboyz-web/imdb.svg');
+  });
+
+  it('is the same file whatever depth the page sits at', () => {
+    const root = siteRoot('/league/movieboyz/2026/');
+    expect(ratingIconHref(root, 'tmdb.svg')).toBe(ratingIconHref('/', 'tmdb.svg'));
   });
 });

@@ -27,10 +27,18 @@ import {
   weeklyModule,
 } from '../shared/cards.js';
 import { pickOrSeasonIcon } from '../shared/icons.js';
+import { ratingIconUrl } from '../shared/location.js';
+import { LETTERBOXD_ICON } from '../shared/ratings.js';
 
 import { cardCompare } from './rows.js';
 
-const LETTERBOXD_ICON = '<img class="rating-icon" src="https://www.google.com/s2/favicons?domain=letterboxd.com&sz=32" alt="Letterboxd" width="14" height="14">';
+// The badge ships with the site (`public/letterboxd.svg`), so the card makes
+// no request to a third party for it. Built per render rather than held as a
+// constant, because the address hangs off the site root and only the document
+// knows where that is (#167).
+function letterboxdIcon() {
+  return `<img class="rating-icon" src="${ratingIconUrl(LETTERBOXD_ICON)}" alt="Letterboxd" width="14" height="14">`;
+}
 
 // The sparkline takes the colour off the card rather than a figure, because
 // there is no holder here to colour it by. `.movies-card .spark` sets it, in
@@ -87,7 +95,7 @@ function cardMarkup(row, isSelected) {
   const letterboxd = row.rating_letterboxd;
   const ratingChip = letterboxd === null || letterboxd === undefined ? ''
     : `<span class="rating-chip ${ratingColorClass(letterboxd)}">`
-      + `${LETTERBOXD_ICON}${(letterboxd / 20).toFixed(1)}</span>`;
+      + `${letterboxdIcon()}${(letterboxd / 20).toFixed(1)}</span>`;
 
   const spark = weeklyModule(row.weeks, SPARK_COLOR, row.thisWeek);
 

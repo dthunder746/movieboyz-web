@@ -249,3 +249,18 @@ export function movieIdFromSearch(search) {
   const id = new URLSearchParams(String(search ?? '')).get(MOVIE_PARAM);
   return id?.trim() || null;
 }
+
+// A rating source's badge, shipped with the site rather than fetched from a
+// favicon service.
+//
+// They were `img`s pointing at Google's, which is a request to a third party
+// for every badge on a page and, since nothing here controls what comes back,
+// the one class of image that could quietly fail and leave a broken mark where
+// a score was (#167). The files sit at the site root, so the address is
+// composed the way every other one here is: a name the rating catalogue owns
+// (`shared/ratings.js`), hung off a root the caller has worked out. Every page
+// depth reaches the same file, and a Pages project path prefixes it like
+// everything else.
+export function ratingIconHref(root, file) {
+  return `${root}${file}`;
+}
