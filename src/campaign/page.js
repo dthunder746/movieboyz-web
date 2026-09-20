@@ -28,6 +28,7 @@ import { applyChartTheme, buildChart } from './chart.js';
 import { loadCampaign } from './data.js';
 import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 import { createFilterState } from './filters.js';
+import { campaignHeading } from './heading.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
 import { CAMPAIGN_LAYOUT } from './layout.js';
@@ -415,6 +416,18 @@ function init({ campaign, slices }) {
 // published it already localised. Rendering through a Date puts it back into the
 // reader's own zone rather than showing them somebody else's clock.
 function renderChrome(campaign) {
+  // The heading and the tab say the same sentence, composed next door
+  // (`heading.js`). No brand suffix: the house form is "<what> · MovieBoyz",
+  // and the suffix says which site a tab belongs to, which this title already
+  // says itself for the one League named after the site. The draft page, which
+  // is this page's pair and carries the mirror of this heading row, titles
+  // itself the same plain way, and a tab reading one thing and the heading
+  // under it another would be the odder split (#167).
+  const title = campaignHeading(campaign);
+  document.title = title;
+  const heading = document.getElementById('campaign-title');
+  if (heading) heading.textContent = title;
+
   // The link to this Campaign's own draft page. It is written from the League
   // and the year the artifact carries rather than from the address the page was
   // served at, so the catch-all's copy of the page points at the year it is
@@ -423,10 +436,9 @@ function renderChrome(campaign) {
   // The markup ships it hidden, so an artifact carrying neither a League nor a
   // year renders no link at all rather than one pointing back at this page.
   const draftLink = document.getElementById('campaign-draft-link');
-  const draftLinkWrap = document.getElementById('campaign-draft-link-wrap');
-  if (draftLink && draftLinkWrap && campaign.league_slug && campaign.year) {
+  if (draftLink && campaign.league_slug && campaign.year) {
     draftLink.setAttribute('href', draftHref(currentRoot(), campaign.league_slug, campaign.year));
-    draftLinkWrap.hidden = false;
+    draftLink.hidden = false;
   }
 
   const capturedAt = campaign.generated_at ? new Date(campaign.generated_at) : null;
