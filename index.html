@@ -29,15 +29,16 @@
      rather than a bar with nothing in it, which is what the first cut drew
      and what the operator sent back.
 
-     Movies comes first because it belongs to no League. The Leagues section
-     and each League inside it fold, on native <details>: the page loads no
-     Bootstrap JS, and there is no menu to open, so nothing else is needed.
-     The panels are the League page's own.
+     The Leagues section and each League inside it fold, on native <details>:
+     the page loads no Bootstrap JS, and there is no menu to open, so nothing
+     else is needed. The panels are the League page's own. Movies gets no
+     section here (it lives in the navbar); the page module's Movies write is
+     a no-op without the panel.
 
      The markup sits here rather than in a module because one file needs it,
-     as the Movies page's does. `src/root/page.js` writes the brand and Movies
-     links before anything is fetched, since both hang off the path alone, and
-     fills the Leagues section once the Manifest lands. -->
+     as the Movies page's does. `src/root/page.js` writes the brand before
+     anything is fetched, since it hangs off the path alone, and fills the
+     Leagues section once the Manifest lands. -->
 
 <div class="site-root">
 
@@ -49,15 +50,10 @@
   <!-- ── Header ─────────────────────────────────────────────────────────── -->
   <header class="site-root-head">
     <h1 class="site-root-brand"><a id="site-brand">🎬 MBZ</a></h1>
-    <p class="site-root-lede">Fantasy box office. Every league and every year the platform holds.</p>
+    <p class="site-root-lede">Fantasy box office.</p>
   </header>
 
   <!-- ── Main ───────────────────────────────────────────────────────────── -->
-  <section class="site-directory" aria-labelledby="movies-heading">
-    <h2 id="movies-heading" class="site-directory-heading">Movies</h2>
-    <div class="league-panel" id="directory-movies"></div>
-  </section>
-
   <details class="site-directory" aria-labelledby="leagues-heading" open>
     <summary class="site-directory-summary">
       <h2 id="leagues-heading" class="site-directory-heading">Leagues</h2>
