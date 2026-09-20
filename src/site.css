@@ -1939,15 +1939,10 @@ details:not([open]) > .site-directory-summary::after {
 }
 
 .league-panel-note,
-.league-panel-footnote,
 .league-empty {
   font-size: 0.78rem;
   color: var(--bs-secondary-color);
   margin-bottom: 0.75rem;
-}
-
-.league-panel-footnote {
-  margin: 0.6rem 0 0;
 }
 
 .league-empty {
