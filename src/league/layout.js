@@ -29,7 +29,7 @@ export const LEAGUE_LAYOUT = `
 <div class="container-fluid px-3">
 
   <h1 id="league-title" class="league-title"></h1>
-  <p class="league-lede text-muted">Every campaign this crew has run, and who is ahead across all of them.</p>
+  <p class="league-lede text-muted"></p>
 
   <div class="league-columns">
 

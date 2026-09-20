@@ -161,12 +161,27 @@ function standingsTable(campaign) {
 
 // ── Wiring ────────────────────────────────────────────────────────────────
 
+// The name the page shows for the League it is on. The artifact carries one,
+// but the slug is what the address names it by and is always there, so that is
+// what stands in when the name has not arrived.
+function leagueName(landing) {
+  return landing.league_name ?? landing.league_slug ?? 'League';
+}
+
+// The lede is the title's sentence, so it takes the title's name and its
+// fallback rather than a second reading of the same artifact.
+export function leagueLede(landing) {
+  return `Every campaign that ${leagueName(landing)} has run, and who is ahead across all of them.`;
+}
+
 function init({ landing }) {
   createThemeSwitch(() => {});
 
-  const name = landing.league_name ?? landing.league_slug ?? 'League';
+  const name = leagueName(landing);
   const title = document.getElementById('league-title');
   if (title) title.textContent = name;
+  const lede = document.querySelector('.league-lede');
+  if (lede) lede.textContent = leagueLede(landing);
   // The house form is "<what> · MovieBoyz", and it reads oddly for the one
   // League whose name is the site's own. The suffix says which site a tab
   // belongs to, and it adds nothing when the name already does.
