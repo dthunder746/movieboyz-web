@@ -1,0 +1,460 @@
+/* PROTOTYPE — throwaway styles for platform#168. Loaded only by
+   /prototype/nav/, which is not a build entry. Written against the site's own
+   tokens (`--bs-*`) so whatever wins can be lifted rather than translated. */
+
+/* ── Prototype chrome ───────────────────────────────────────────────────── */
+
+.proto-tag {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 2000;
+  padding: 0.2rem 0.6rem;
+  background: #ffc107;
+  color: #111;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border-bottom-left-radius: 6px;
+}
+
+/* The switcher. Deliberately unlike anything else on the page, so nothing here
+   is mistaken for the design being judged. Every control writes its value into
+   the URL, so any combination is shareable and survives a reload. */
+.proto-switcher {
+  position: fixed;
+  bottom: 0.9rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem 0.9rem;
+  max-width: calc(100vw - 1.5rem);
+  padding: 0.5rem 0.9rem;
+  border-radius: 14px;
+  background: #ffc107;
+  color: #111;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.proto-switcher label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.proto-switcher select {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  background: #fff;
+  color: #111;
+  padding: 0.12rem 0.3rem;
+  font-size: 0.78rem;
+  max-width: 15rem;
+}
+
+.proto-switcher-note {
+  opacity: 0.75;
+  font-weight: 500;
+}
+
+/* ── The bar ────────────────────────────────────────────────────────────── */
+
+.proto-navbar {
+  position: relative;
+  z-index: 10;
+}
+
+/* `Leagues` and `Movies` and nothing else, however many Leagues are published.
+   The bar's width is the same for one League and for ten, which is the whole
+   claim #168 makes. */
+.proto-menu {
+  position: relative;
+}
+
+.proto-toggle {
+  cursor: pointer;
+}
+
+/* ── The panels ─────────────────────────────────────────────────────────── */
+
+.proto-panel {
+  min-width: 13rem;
+  padding: 0.3rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  background: var(--bs-body-bg);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.proto-panel-1 {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  z-index: 20;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* The second level, to the right of the first and level with the row that
+   opened it. That is the cascade the ticket describes. */
+.proto-panel-2 {
+  position: absolute;
+  top: -0.3rem;
+  left: 100%;
+  z-index: 30;
+  margin-left: 0.15rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.proto-l1 {
+  position: relative;
+}
+
+.proto-l1-sep {
+  height: 1px;
+  margin: 0.3rem 0;
+  background: var(--bs-border-color);
+}
+
+/* ── Rows ───────────────────────────────────────────────────────────────── */
+
+.proto-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--bs-body-color);
+  font-size: 0.88rem;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.proto-item:hover,
+.proto-item:focus-visible {
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  outline: none;
+}
+
+.proto-item:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+/* The mark: the page the reader is on. Exactly one row ever carries it. */
+.proto-item.is-current,
+.proto-draft.is-current {
+  font-weight: 700;
+  background: var(--bs-tertiary-bg);
+  outline: 1px solid var(--bs-border-color);
+}
+
+/* The highlight: which League the reader is inside. Lighter than the mark,
+   because it says where they are rather than what they are looking at. */
+.proto-item-row.is-inside,
+.proto-l1row.is-inside {
+  color: var(--bs-body-color);
+  background: var(--bs-tertiary-bg);
+}
+
+/* In `rows-only` the bar says nothing, so this row is carrying it alone. */
+.proto-item-row.is-inside-strong,
+.proto-l1row.is-inside-strong {
+  outline: 1px solid var(--bs-border-color);
+  font-weight: 600;
+}
+
+.proto-caret {
+  margin-left: auto;
+  opacity: 0.55;
+  font-size: 0.8rem;
+}
+
+/* `split`: the name is a link to the League's Overview and the chevron beside
+   it is the only thing that opens the second level. */
+.proto-l1row {
+  display: flex;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.proto-item-split {
+  flex: 1;
+  min-width: 0;
+}
+
+.proto-chev {
+  flex: none;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid transparent;
+  border-left: 1px solid var(--bs-border-color);
+  border-radius: 0 6px 6px 0;
+  background: transparent;
+  color: var(--bs-secondary-color);
+  cursor: pointer;
+}
+
+.proto-chev:hover,
+.proto-chev:focus-visible {
+  background: var(--bs-tertiary-bg);
+  outline: none;
+}
+
+.proto-chev:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+.proto-chev .proto-caret {
+  margin-left: 0;
+}
+
+/* The year row. The badge is pushed to the end of it so the eye runs down a
+   rail of years on the left and a rail of states on the right. */
+.proto-year .site-nav-badge {
+  margin-left: auto;
+}
+
+.proto-yearlabel {
+  min-width: 2.7rem;
+}
+
+.proto-sub {
+  color: var(--bs-secondary-color);
+  font-size: 0.8rem;
+}
+
+.proto-year-second {
+  padding-left: 1.4rem;
+}
+
+/* `trailing`: two targets in one row, the year taking the width and Draft a
+   smaller thing on the end of it. */
+.proto-yearrow {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.proto-year-grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.proto-draft {
+  flex: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  color: var(--bs-secondary-color);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+
+.proto-draft:hover,
+.proto-draft:focus-visible {
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  outline: none;
+}
+
+.proto-draft:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+/* The back row belongs to drill, compact, and nowhere else: it is the only
+   reading where the second level replaces the first. */
+.proto-back {
+  display: none;
+  color: var(--bs-secondary-color);
+  font-size: 0.8rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  border-radius: 6px 6px 0 0;
+  margin-bottom: 0.25rem;
+}
+
+.proto-back .proto-caret {
+  margin-left: 0;
+}
+
+/* ── The compact reading ────────────────────────────────────────────────── */
+
+/* Below 992px the bar is one button (#165) and the whole cascade lives inside
+   the overlay it opens. `site.css` already decides which reading is shown; this
+   only says what the cascade does once it is the compact one. */
+.proto-menu--compact .proto-panel-1 {
+  right: 0;
+  left: auto;
+  min-width: 15rem;
+}
+
+/* `tap-row` and `split` compact: the second level opens in place, under the
+   row, indented. No room to the right of a phone-width panel. */
+.proto-menu--compact .proto-panel-2 {
+  position: static;
+  margin: 0.15rem 0 0.35rem 0.75rem;
+  border-left: 2px solid var(--bs-border-color);
+  border-radius: 0 6px 6px 0;
+  box-shadow: none;
+  max-height: none;
+}
+
+/* `drill` compact: the second level replaces the first. Every other row goes
+   away, the row that opened it goes away, and the back row appears. */
+.proto-menu--drill.proto-menu--compact[data-open-league] .proto-l1:not(.is-open) {
+  display: none;
+}
+
+.proto-menu--drill.proto-menu--compact[data-open-league] .proto-l1-sep,
+.proto-menu--drill.proto-menu--compact[data-open-league] .proto-item-flat {
+  display: none;
+}
+
+.proto-menu--drill.proto-menu--compact .proto-l1.is-open > .proto-item-row,
+.proto-menu--drill.proto-menu--compact .proto-l1.is-open > .proto-l1row {
+  display: none;
+}
+
+.proto-menu--drill.proto-menu--compact .proto-l1.is-open > .proto-panel-2 {
+  margin: 0;
+  border: none;
+  border-radius: 0;
+}
+
+.proto-menu--drill.proto-menu--compact .proto-back {
+  display: flex;
+}
+
+/* ── The page under the bar ─────────────────────────────────────────────── */
+
+.proto-standin {
+  opacity: 0.55;
+  padding-bottom: 7rem;
+}
+
+.proto-standin-titlerow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* Loud on purpose. In `alone` this cross link is the entire way from a year's
+   standings page to its draft page, so how much work it is being asked to do
+   has to be visible through the fade. */
+.proto-standin-crosslink {
+  flex: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bs-primary);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.proto-standin-crosslink:hover {
+  color: #fff;
+  filter: brightness(1.12);
+}
+
+.proto-standin-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.proto-standin-card,
+.proto-standin-chart,
+.proto-standin-slot {
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  background: var(--bs-tertiary-bg);
+}
+
+.proto-standin-card {
+  padding: 0.6rem 0.75rem;
+}
+
+.proto-standin-cardtitle {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--bs-secondary-color);
+}
+
+.proto-standin-cardvalue {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.proto-standin-chart {
+  height: 170px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bs-secondary-color);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.proto-standin-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.proto-standin-board {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+}
+
+.proto-standin-slot {
+  padding: 0.9rem 0.6rem;
+  margin-top: 0.5rem;
+  font-size: 0.78rem;
+  color: var(--bs-secondary-color);
+}
+
+.proto-standin-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 2rem 1rem;
+  border: 1px dashed var(--bs-border-color);
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* The root is the directory of every League and year (#84), so it carries the
+   brand and no bar. Listed here only so the marking modes can be checked
+   against a page that is inside no League at all. */
+.proto-rootlist {
+  list-style: none;
+  padding-left: 0;
+}
+
+.proto-rootleague {
+  font-weight: 600;
+  margin-top: 1rem;
+}
