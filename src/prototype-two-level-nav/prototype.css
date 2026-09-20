@@ -97,6 +97,12 @@
   top: calc(100% + 0.3rem);
   left: 0;
   z-index: 20;
+  /* No overflow rule here: the second level is positioned outside this panel
+     and any overflow clips it into scrollbars. The compact reading, where the
+     second level sits inline, sets its own. */
+}
+
+.proto-menu--compact .proto-panel-1 {
   max-height: 80vh;
   overflow-y: auto;
 }
