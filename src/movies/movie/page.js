@@ -11,7 +11,7 @@
 import { loadManifest } from '../../shared/artifacts.js';
 import { colorClass, escapeHtml, fmt, formatFullDate } from '../../shared/format.js';
 import { stateLabel, stateTone } from '../../shared/lifecycle.js';
-import { currentRoot } from '../../shared/location.js';
+import { currentRoot, ratingIconUrl } from '../../shared/location.js';
 import { mountNav, mountNavPlaceholder } from '../../shared/nav.js';
 import { renderNotice } from '../../shared/notice.js';
 import { campaignHref, movieIdFromSearch } from '../../shared/route.js';
@@ -125,7 +125,7 @@ function renderRatings(view) {
   const cards = view.ratings.map((rating) => {
     const icon = rating.emoji
       ? `<span class="movie-rating-icon">${rating.icon}</span>`
-      : `<img class="movie-rating-icon" src="${escapeHtml(rating.icon)}" alt="" width="16" height="16">`;
+      : `<img class="movie-rating-icon" src="${escapeHtml(ratingIconUrl(rating.icon))}" alt="" width="16" height="16">`;
     const votes = rating.votes === null
       ? ''
       : `<div class="movie-rating-votes">${escapeHtml(rating.votes.toLocaleString())} votes</div>`;

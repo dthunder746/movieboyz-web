@@ -26,7 +26,8 @@ import {
 } from '../shared/cards.js';
 
 import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
-import { letterboxdIconUrl } from '../shared/location.js';
+import { ratingIconUrl } from '../shared/location.js';
+import { LETTERBOXD_ICON } from '../shared/ratings.js';
 import {
   cardRows,
   collectWeekKeys,
@@ -41,7 +42,7 @@ const UNHELD_COLOR = '#6c757d';
 // constant, because the address hangs off the site root and only the document
 // knows where that is (#167).
 function letterboxdIcon() {
-  return `<img class="rating-icon" src="${letterboxdIconUrl()}" alt="Letterboxd" width="14" height="14">`;
+  return `<img class="rating-icon" src="${ratingIconUrl(LETTERBOXD_ICON)}" alt="Letterboxd" width="14" height="14">`;
 }
 
 // ── The ROI meter ─────────────────────────────────────────────────────────

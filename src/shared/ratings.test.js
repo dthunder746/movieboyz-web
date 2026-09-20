@@ -32,6 +32,18 @@ describe('RATING_SOURCES', () => {
     });
   });
 
+  // The badges ship with the site. They were favicon-service URLs, which is a
+  // request to a third party for every badge on a page and a mark that can
+  // quietly fail to load (#167). A file name rather than an address keeps this
+  // module pure: where the site root sits is the document's answer, not this
+  // catalogue's.
+  it('names a local file for every badge that is not an emoji', () => {
+    for (const source of RATING_SOURCES) {
+      if (source.emoji) continue;
+      expect(source.icon, source.key).toMatch(/^[a-z]+\.svg$/);
+    }
+  });
+
   it('names every source without repeating one', () => {
     const keys = RATING_SOURCES.map((source) => source.key);
     expect(new Set(keys).size).toBe(keys.length);

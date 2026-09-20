@@ -250,17 +250,17 @@ export function movieIdFromSearch(search) {
   return id?.trim() || null;
 }
 
-// The Letterboxd badge, shipped with the site rather than fetched from a
+// A rating source's badge, shipped with the site rather than fetched from a
 // favicon service.
 //
-// It was an `img` pointing at Google's, which is a request to a third party on
-// every card and the one badge on the page that could fail to load, leaving a
-// broken image where a rating was (#167). The file sits at the site root, so
-// the address is composed the way every other one here is: a name this module
-// owns, hung off a root the caller has worked out. Every page depth reaches the
-// same file, and a Pages project path prefixes it like everything else.
-const LETTERBOXD_ICON_FILE = 'letterboxd.svg';
-
-export function letterboxdIconHref(root) {
-  return `${root}${LETTERBOXD_ICON_FILE}`;
+// They were `img`s pointing at Google's, which is a request to a third party
+// for every badge on a page and, since nothing here controls what comes back,
+// the one class of image that could quietly fail and leave a broken mark where
+// a score was (#167). The files sit at the site root, so the address is
+// composed the way every other one here is: a name the rating catalogue owns
+// (`shared/ratings.js`), hung off a root the caller has worked out. Every page
+// depth reaches the same file, and a Pages project path prefixes it like
+// everything else.
+export function ratingIconHref(root, file) {
+  return `${root}${file}`;
 }

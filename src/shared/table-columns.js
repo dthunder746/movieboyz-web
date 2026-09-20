@@ -17,6 +17,7 @@
 // spell them differently sorts on columns that are not there. Ticket 41 (#162)
 // makes the Movies page's rows carry the same names.
 
+import { ratingIconUrl } from './location.js';
 import { RATING_SOURCES, TABLE_RATING_KEYS } from './ratings.js';
 import {
   colorClass,
@@ -251,7 +252,9 @@ export function ratingColumns() {
     cssClass: index === 0 ? 'week-sep' : undefined,
     titleFormatter() {
       if (source.emoji) return `<span style="font-size:14px;line-height:1">${source.icon}</span>`;
-      return `<img src="${source.icon}" width="16" height="16"`
+      // Resolved here rather than in the catalogue: the badge is a file at the
+      // site root and only the document knows how far above it this page sits.
+      return `<img src="${ratingIconUrl(source.icon)}" width="16" height="16"`
         + ` style="vertical-align:middle" alt="${source.label}">`;
     },
     headerTooltip: source.label,

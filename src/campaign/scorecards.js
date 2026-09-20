@@ -11,7 +11,8 @@
 import { fmt, fmtPct, colorClass, escapeHtml } from '../shared/format.js';
 
 import { pickIcon } from '../shared/icons.js';
-import { letterboxdIconUrl } from '../shared/location.js';
+import { ratingIconUrl } from '../shared/location.js';
+import { LETTERBOXD_ICON } from '../shared/ratings.js';
 
 const BOMB_ICON_SM = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="13" r="9"/><path d="m19.5 9.5 1.8-1.8a2.4 2.4 0 0 0 0-3.4l-1.6-1.6a2.4 2.4 0 0 0-3.4 0l-1.8 1.8"/><path d="m22 2-1.5 1.5"/></svg>';
 
@@ -19,7 +20,7 @@ const BOMB_ICON_SM = '<svg xmlns="http://www.w3.org/2000/svg" width="9" height="
 // (`public/letterboxd.svg`). Built per render because the address hangs off
 // the site root, which only the document knows (#167).
 function letterboxdLogo() {
-  return `<img src="${letterboxdIconUrl()}" width="14" height="14"`
+  return `<img src="${ratingIconUrl(LETTERBOXD_ICON)}" width="14" height="14"`
     + ' style="vertical-align:middle;margin-left:2px" alt="Letterboxd">';
 }
 

@@ -9,8 +9,8 @@ import {
   draftPath,
   isMoviesPath,
   leagueFromPath,
-  letterboxdIconHref,
   leagueHref,
+  ratingIconHref,
   leaguePath,
   movieHref,
   movieIdFromSearch,
@@ -507,22 +507,22 @@ describe('movieIdFromSearch', () => {
   });
 });
 
-// The Letterboxd badge ships with the site, so its address is written the way
-// every other address here is: a file name the module owns, hung off a root the
-// caller worked out. A page nested three segments deep has to reach the same
-// file as the root does, and a Pages project path puts a prefix in front of
-// both.
-describe('letterboxdIconHref', () => {
-  it('hangs the asset off the site root', () => {
-    expect(letterboxdIconHref('/')).toBe('/letterboxd.svg');
+// Every rating source's badge ships with the site, so its address is written
+// the way every other address here is: a file name the catalogue owns, hung
+// off a root the caller worked out. A page nested three segments deep has to
+// reach the same file as the root does, and a Pages project path puts a prefix
+// in front of both.
+describe('ratingIconHref', () => {
+  it('hangs the badge off the site root', () => {
+    expect(ratingIconHref('/', 'letterboxd.svg')).toBe('/letterboxd.svg');
   });
 
   it('carries a project-path prefix', () => {
-    expect(letterboxdIconHref('/movieboyz-web/')).toBe('/movieboyz-web/letterboxd.svg');
+    expect(ratingIconHref('/movieboyz-web/', 'imdb.svg')).toBe('/movieboyz-web/imdb.svg');
   });
 
   it('is the same file whatever depth the page sits at', () => {
     const root = siteRoot('/league/movieboyz/2026/');
-    expect(letterboxdIconHref(root)).toBe(letterboxdIconHref('/'));
+    expect(ratingIconHref(root, 'tmdb.svg')).toBe(ratingIconHref('/', 'tmdb.svg'));
   });
 });
