@@ -302,9 +302,12 @@
    the overlay it opens. `site.css` already decides which reading is shown; this
    only says what the cascade does once it is the compact one. */
 .proto-menu--compact .proto-panel-1 {
-  right: 0;
-  left: auto;
+  /* The Menu button sits beside the brand at the left of the bar, so the
+     panel hangs from its left edge; hung from the right it runs off screen. */
+  left: 0;
+  right: auto;
   min-width: 15rem;
+  max-width: calc(100vw - 2rem);
 }
 
 /* `tap-row` and `split` compact: the second level opens in place, under the
