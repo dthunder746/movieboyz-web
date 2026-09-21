@@ -701,9 +701,12 @@ body { font-size: 0.9rem; }
 }
 
 /* ── Site navigation ────────────────────────────────────────────────────── */
-/* Built by src/shared/nav.js on every page. Entries are years while one League
-   is published and League menus once a second one is, and the same rules dress
-   both, because a year link reads the same wherever it is listed. */
+/* Built by src/shared/nav.js on every page. The bar is Leagues and Movies at
+   every League count (#170); the Leagues menu is two levels, every published
+   League at the first and that League's own pages at the second. The same
+   rules dress both readings, because a year row reads the same whether it sits
+   to the right of its League on the wide bar or indented under it in the
+   compact overlay. */
 
 /* One row, always, at every width (#165). The height is pinned rather than
    measured, so it is the same before the Manifest lands and after, and the page
@@ -750,12 +753,6 @@ body { font-size: 0.9rem; }
   }
 }
 
-/* The overlay the button opens. Bootstrap positions a dropdown absolutely, so
-   it sits over the page; the width keeps a year and its badge on one line. */
-.site-nav-compact-menu {
-  min-width: 13rem;
-}
-
 /* An entry before there is anything to put in it. An entry's own padding,
    radius and height, a faint fill, no text. */
 .site-nav-placeholder {
@@ -768,7 +765,7 @@ body { font-size: 0.9rem; }
 
 /* The inert button says what it will be rather than nothing at all, and takes
    no hover, because there is nowhere to go yet. */
-.site-nav-compact-toggle:disabled {
+.site-nav-menu-toggle:disabled {
   opacity: 0.6;
   cursor: default;
 }
@@ -801,15 +798,155 @@ body { font-size: 0.9rem; }
   background: var(--bs-tertiary-bg);
 }
 
-.site-nav .dropdown-item.is-current {
-  font-weight: 600;
+/* ── The two level Leagues menu ─────────────────────────────────────────── */
+/* Lifted from the prototype the operator judged the shape against
+   (prototype/168-two-level-nav), which was written against these same tokens. */
+
+.site-nav-menu {
+  position: relative;
 }
 
-.site-nav .dropdown-item {
+.site-nav-menu-toggle {
+  cursor: pointer;
+}
+
+.site-nav-panel {
+  min-width: 13rem;
+  padding: 0.3rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: 8px;
+  background: var(--bs-body-bg);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.3);
+}
+
+.site-nav-panel-1 {
+  position: absolute;
+  top: calc(100% + 0.3rem);
+  left: 0;
+  z-index: 1030;
+  /* No overflow rule here: on the wide reading the second level is positioned
+     outside this panel, and any overflow clips it into scrollbars. The compact
+     reading, where the second level sits inline, sets its own below. */
+}
+
+/* The second level, to the right of the first and level with the row that
+   opened it. That is the cascade the bar reads as. */
+.site-nav-panel-2 {
+  position: absolute;
+  top: -0.3rem;
+  left: 100%;
+  z-index: 1031;
+  margin-left: 0.15rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.site-nav-l1 {
+  position: relative;
+}
+
+.site-nav-rowsep {
+  height: 1px;
+  margin: 0.3rem 0;
+  background: var(--bs-border-color);
+}
+
+/* One row of either level. */
+.site-nav-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--bs-body-color);
+  font-size: 0.88rem;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.site-nav-row:hover,
+.site-nav-row:focus-visible {
+  background: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
+  outline: none;
+}
+
+/* The mark: the page the reader is on, and the League they are inside. Both
+   have to read as unmistakably not the hover, which a fill alone does not: the
+   rail down the left edge is what tells them apart at a glance. */
+.site-nav-row.is-current,
+.site-nav-row.is-inside {
+  font-weight: 600;
+  background: var(--bs-tertiary-bg);
+  border-left-color: var(--bs-primary);
+  border-left-width: 3px;
+  padding-left: calc(0.55rem - 2px);
+}
+
+/* The page row is the stronger of the two, because the League row says where
+   the reader is and this says what they are looking at. */
+.site-nav-row.is-current {
+  font-weight: 700;
+  outline: 1px solid var(--bs-border-color);
+}
+
+/* The focus ring, last and specific enough to beat the mark's own outline: the
+   menu puts focus on the League the reader is inside the moment it opens, and
+   that is exactly the row a mark would otherwise leave with no ring. */
+.site-nav-row:focus-visible,
+.site-nav-row.is-current:focus-visible,
+.site-nav-row.is-inside:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
+}
+
+/* The arrow on a League row, which turns to a down chevron while its second
+   level is open. */
+.site-nav-caret {
+  display: inline-block;
+  margin-left: auto;
+  opacity: 0.55;
+  font-size: 0.8rem;
+}
+
+.site-nav-l1.is-open > .site-nav-l1row > .site-nav-caret {
+  transform: rotate(90deg);
+}
+
+/* The year row. The badge is pushed to the end of it so the eye runs down a
+   rail of years on the left and a rail of states on the right. */
+.site-nav-year .site-nav-badge {
+  margin-left: auto;
+}
+
+/* Below 992px the bar is one button (#165) and the whole cascade lives inside
+   the overlay it opens. The panel hangs from the button's left edge: the button
+   sits beside the brand at the left of the bar, and hung from the right the
+   panel runs off screen. It may scroll at ten Leagues with a five year League
+   open, which is accepted. */
+.site-nav-menu--compact .site-nav-panel-1 {
+  left: 0;
+  right: auto;
+  min-width: 15rem;
+  max-width: calc(100vw - 2rem);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* The second level opens in place, under the row and indented: there is no room
+   to the right of a phone width panel. */
+.site-nav-menu--compact .site-nav-panel-2 {
+  position: static;
+  margin: 0.15rem 0 0.35rem 0.75rem;
+  border-left: 2px solid var(--bs-border-color);
+  border-radius: 0 6px 6px 0;
+  box-shadow: none;
+  max-height: none;
 }
 
 /* The Lifecycle badge. Small enough to sit inside a nav entry without setting
