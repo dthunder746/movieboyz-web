@@ -212,7 +212,7 @@ describe('buildNav', () => {
       ]);
     });
 
-    it('links Overview at the League landing page', () => {
+    it('gives every League an Overview link to its own landing page', () => {
       const nav = buildNav(TWO_LEAGUES, MOVIES_PATH);
 
       expect(nav.leagues.items.map((league) => league.href)).toEqual([

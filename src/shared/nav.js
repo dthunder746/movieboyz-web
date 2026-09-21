@@ -219,19 +219,26 @@ function wideReading(nav) {
       })
     : '';
 
-  return `<div class="site-nav-wide">${leagues}${moviesLink(nav.movies, 'site-nav-link')}</div>`;
+  return `<div class="site-nav-wide">${leagues}${moviesLink(nav.movies, { row: false })}</div>`;
 }
 
 // The compact reading: one `Menu` button holding the same cascade, with Movies
-// folded in as a row of it.
+// folded in as a row of it. It renders `buildCompactMenu` rather than reaching
+// past it into `nav.leagues`, so the overlay that ships is the one the tests
+// beside that function hold to the bar's own order.
 function compactReading(nav) {
-  const blocks = (nav.leagues?.items ?? []).map((league) => leagueBlock(league)).join('');
-  const movies = `<div class="site-nav-rowsep"></div>${moviesLink(nav.movies, 'site-nav-row')}`;
+  const rows = buildCompactMenu(nav)
+    .map((row) =>
+      row.kind === 'league'
+        ? leagueBlock(row)
+        : `<div class="site-nav-rowsep"></div>${moviesLink(row, { row: true })}`,
+    )
+    .join('');
 
   return `<div class="site-nav-compact">${menu({
     label: 'Menu',
     current: false,
-    rows: `${blocks}${movies}`,
+    rows,
     compact: true,
   })}</div>`;
 }
@@ -249,7 +256,7 @@ function menu({ label, current, rows, compact }) {
   return `<div class="${classes}" data-nav-menu>
       <button class="site-nav-link site-nav-menu-toggle dropdown-toggle${current ? ' is-current' : ''}"
         type="button" data-nav-toggle aria-haspopup="true" aria-expanded="false">${escapeHtml(label)}</button>
-      <div class="site-nav-panel site-nav-panel-1" data-nav-level="1" role="menu" hidden>${rows}</div>
+      <div class="site-nav-panel site-nav-panel-1" data-nav-level="1" hidden>${rows}</div>
     </div>`;
 }
 
@@ -267,7 +274,7 @@ function leagueBlock(league) {
         data-nav-row data-nav-open aria-haspopup="true" aria-expanded="false"${
           league.inside ? ' aria-current="true"' : ''
         }>${escapeHtml(league.name)}${caret}</button>
-      <div class="site-nav-panel site-nav-panel-2" data-nav-level="2" role="menu" hidden>
+      <div class="site-nav-panel site-nav-panel-2" data-nav-level="2" hidden>
         ${overviewRow(league)}${league.years.map((year) => yearRow(year)).join('')}
       </div>
     </div>`;
@@ -295,10 +302,15 @@ function yearRow(year) {
       }>${escapeHtml(year.label)}${badge}</a>`;
 }
 
-function moviesLink(movies, className) {
+// The lookup, in either reading. `row` says which one: in the compact overlay
+// it is a row of the menu and the arrow keys have to reach it, on the wide bar
+// it is an entry beside the menu and they must not.
+function moviesLink(movies, { row }) {
+  const className = row ? 'site-nav-row' : 'site-nav-link';
+
   return `<a class="${className}${movies.current ? ' is-current' : ''}" href="${escapeHtml(movies.href)}"${
     movies.current ? ' aria-current="page"' : ''
-  }${className === 'site-nav-row' ? ' data-nav-row' : ''}>Movies</a>`;
+  }${row ? ' data-nav-row' : ''}>Movies</a>`;
 }
 
 // ── Opening and closing ───────────────────────────────────────────────────
@@ -343,12 +355,14 @@ function wireMenu(menuEl) {
     else openMenu(menuEl);
   });
 
+  // Opening a League, and only opening it. A click that toggled would close the
+  // level a hover had just opened on the wide bar, and on a touch screen at
+  // that width the synthesized `mouseenter` fires before the tap, so a tap
+  // would open and immediately close. Left and Escape are what close a level.
   for (const opener of menuEl.querySelectorAll('[data-nav-open]')) {
     opener.addEventListener('click', (event) => {
       event.preventDefault();
-      const block = opener.closest('.site-nav-l1');
-      if (block.classList.contains('is-open')) closeLevelTwo(menuEl);
-      else openLevelTwo(menuEl, block);
+      openLevelTwo(menuEl, opener.closest('.site-nav-l1'));
     });
   }
 
@@ -388,7 +402,7 @@ function onKey(event, menuEl, toggle) {
 
   if (key === 'ArrowDown' || key === 'ArrowUp') {
     event.preventDefault();
-    const items = rows(panel);
+    const items = walkable(menuEl, panel);
     const index = items.indexOf(target.closest('[data-nav-row]'));
     const next = (index + (key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
     items[next]?.focus();
@@ -456,6 +470,22 @@ function closeLevelTwo(menuEl) {
     block.querySelector('.site-nav-panel-2').hidden = true;
     rowOf(block)?.setAttribute('aria-expanded', 'false');
   }
+}
+
+// What Down and Up walk, which is what the reader sees.
+//
+// On the wide bar the second level is a panel floating beside the first, so the
+// two levels are two columns and the arrows stay inside the one that has focus.
+// In the compact overlay the second level sits inline and indented under the
+// League that opened it, so what the reader sees is a single column: the
+// arrows run down it, through an open League's years and on to the next League,
+// and a closed League's years are not there to walk.
+function walkable(menuEl, panel) {
+  if (!menuEl.classList.contains('site-nav-menu--compact')) return rows(panel);
+
+  const column = menuEl.querySelector('.site-nav-panel-1');
+
+  return [...column.querySelectorAll('[data-nav-row]')].filter((row) => !row.closest('[hidden]'));
 }
 
 // The rows of one panel, in document order, skipping the ones a nested panel
