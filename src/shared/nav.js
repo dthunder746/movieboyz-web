@@ -1,39 +1,43 @@
 // The navigation every page carries, so that no surface is a dead end (#64).
 //
-// Three entries at most, however many Leagues the Manifest holds (#157). With
-// one League published the bar is that League's menu and Movies; publish a
-// second and a fixed Leagues menu leads the bar, holding every League by name.
-// The count lives inside a menu rather than in the bar, so the bar is the same
-// width for ten Leagues as for two.
+// Two entries, however many Leagues the Manifest holds (#170): `Leagues` and
+// `Movies`. The bar holds top-level pages only, and a League is not one of
+// them, so every League lives inside the Leagues menu and every League's own
+// pages one level further in. The bar is therefore the same width at one
+// League and at ten, and it is the same bar on every page.
 //
 // Its depth is still the Manifest's answer rather than a build-time one
-// (decision 20 of the parent spec, #58, as amended by #157): publishing a
-// second League adds the Leagues menu with no code change and no deploy.
+// (decision 20 of the parent spec, #58, as amended by #168): publishing a
+// second League adds a row to the menu with no code change and no deploy.
 // `buildNav` is where that decision is made and it is the half with a test
 // beside it.
 //
-// The second entry is the one League the reader is inside, by either of the two
-// addresses that name a League. Where the path names none, which is the Movies
-// page and the root, it depends on how many are published: the one League stays
-// in the bar, so that the bar never falls to a single entry the reader is
-// already standing on, while one of several would be a guess and is left out.
+// The menu is two levels. The first is every published League by name, in
+// Manifest order; the name is not a link there, because the row's job is to
+// open the second level. The second is that League's own pages: Overview,
+// then one row per year newest first with its Lifecycle badge, the year alone
+// linking to the Campaign page (#83). With one League published the first
+// level is a single row; accepted, because the shape is the same at one and at
+// ten.
 //
-// Exactly one entry is ever marked. A Campaign marks its year rather than its
-// League, so Overview is marked only on the League's own landing page (#67).
-// The League's toggle is highlighted anywhere inside that League, which dresses
-// the menu the marked entry hangs under rather than saying where the reader is,
-// and the Leagues toggle is never marked at all.
+// Where the reader is told they are, in three places that do three jobs. The
+// `Leagues` toggle is highlighted anywhere inside a League, which says the
+// menu is worth opening rather than saying which page they are on. Inside the
+// menu, one League row is marked at the first level, and one page row at the
+// second: Overview on the landing page, the year on a Campaign or a draft
+// page. On the Movies page and at the root nothing is highlighted but Movies.
 //
 // Links are absolute from the site root rather than relative, because the same
 // build serves from the domain apex and from a Pages project path, and because
 // the catch-all page sets a `<base>` a `../` would be counted against twice
 // (`route.js`).
 //
-// The bar is one row of a fixed height at every width (#165). Three entries
-// side by side do not fit a phone, so below 992px they are one button opening a
-// single overlay, and `buildCompactMenu` is the second reading of the same view
-// model that says what the overlay holds. Both readings are drawn into the slot
-// together and a media query picks between them, so a resize is a repaint.
+// The bar is one row of a fixed height at every width (#165). Below 992px it
+// is one button opening a single overlay, and `buildCompactMenu` is the second
+// reading of the same view model that says what the overlay holds: the same
+// cascade, with each second level inline and indented rather than off to the
+// right. Both readings are drawn into the slot together and a media query
+// picks between them, so a resize is a repaint.
 //
 // The file splits in two at the divider below: a pure view model above, the DOM
 // it becomes underneath, which is the split every page group in this site sits
@@ -63,76 +67,55 @@ export function buildNav(manifest, pathname, explicitRoot) {
   // The League the reader is inside, by either address. A path can name a
   // League the Manifest has never heard of, which is what the catch-all page
   // renders under, and that is nobody's League.
-  const inside =
-    published.find((entry) => entry.slug === (landing?.leagueSlug ?? here?.leagueSlug)) ?? null;
+  const insideSlug = landing?.leagueSlug ?? here?.leagueSlug ?? null;
+  const inside = published.find((entry) => entry.slug === insideSlug) ?? null;
 
-  // With one League published it is the whole site, so it is in the bar on
-  // every page, including the ones naming no League. That keeps the one League
-  // bar and the several League bar reading the same, and it is what stops the
-  // Movies page from being a bar of one entry, which is the page the reader is
-  // already standing on. With several published there is a Leagues menu to get
-  // back through, so the entry is the reader's own League or nothing.
-  const league = inside ?? (published.length === 1 ? published[0] : null);
+  const items = published.map((entry) => {
+    const isInside = entry === inside;
 
-  const leagues =
-    published.length > 1
-      ? {
-          items: published.map((entry) => ({
-            slug: entry.slug,
-            name: entry.name ?? entry.slug,
-            href: leagueHref(root, entry.slug),
-            // Highlighted rather than marked: it says which of the listed
-            // Leagues the reader is in, not which entry of the bar they are on.
-            current: entry.slug === inside?.slug,
-          })),
-          // The site root is already the directory of every League and year
-          // (#81, #84), so the menu points at it rather than repeating it.
-          showAllHref: root,
-        }
-      : null;
+    return {
+      slug: entry.slug,
+      name: entry.name ?? entry.slug,
+      // The League's landing page, reached from the second level's Overview
+      // row. The first level row carries no link of its own: it opens the
+      // second level, which is the whole of what a League row does.
+      href: leagueHref(root, entry.slug),
+      // The reader is inside this League, by either address. It is the first
+      // level's mark, and never more than one row carries it.
+      inside: isInside,
+      // On this League's own landing page, which is the second level's mark
+      // there. A Campaign marks its year instead, so exactly one page row is
+      // ever marked.
+      overviewCurrent: isInside && Boolean(landing),
+      // Every League's years, not only the reader's: the menu opens any League
+      // without going anywhere first, so every second level has to be built.
+      years: buildYears(entry, root, isInside ? here : null),
+    };
+  });
 
-  const leagueEntry = league && {
-    slug: league.slug,
-    name: league.name ?? league.slug,
-    href: leagueHref(root, league.slug),
-    // Inside this League, by either address. It dresses the menu the years hang
-    // under, which the reader is inside whichever of the two they are on, and
-    // which they are not on a page naming no League at all.
-    current: league === inside,
-    // On this League's own landing page, which is a link and can only be one
-    // place. A Campaign marks its year rather than its League, so exactly one
-    // entry is ever marked.
-    landing: Boolean(landing) && league === inside,
-    years: buildYears(league, root, here),
-  };
+  // Nothing published is no menu to open, so the bar is the lookup alone.
+  const leagues = items.length ? { current: Boolean(inside), items } : null;
 
   const movies = { href: `${root}movies/`, current: isMoviesPath(pathname) };
 
   return {
     brandHref: root,
-    // One League is no choice, so the menu that offers the choice is absent
-    // until a second is published.
     leagues,
-    league: leagueEntry,
     movies,
-    // The bar itself: the entries that are present, in the order the reader
-    // narrows, and never more than three however many Leagues are published
-    // (#157). `current` is the highlight the bar carries rather than the mark,
-    // which is why the Leagues entry never has it: it leads to every League and
-    // is where none of them is. What each entry holds hangs off the named
-    // fields above, because the three are shaped differently.
+    // The bar itself: top-level pages only, in the order the reader narrows,
+    // and never more than two however many Leagues are published (#170).
+    // `current` is the highlight the bar carries: on `Leagues` it says the
+    // reader is inside one of them, on `Movies` that they are on it.
     entries: [
-      ...(leagues ? [{ kind: 'leagues', label: 'Leagues', current: false }] : []),
-      ...(leagueEntry
-        ? [{ kind: 'league', label: leagueEntry.name, current: leagueEntry.current }]
-        : []),
+      ...(leagues ? [{ kind: 'leagues', label: 'Leagues', current: leagues.current }] : []),
       { kind: 'movies', label: 'Movies', current: movies.current },
     ],
   };
 }
 
 // Newest first, which is the order the League thinks about its years in and the
-// order the Manifest's own year menu is documented to read.
+// order the Manifest's own year menu is documented to read. `here` is the
+// Campaign the reader is on, or null for every League they are not inside.
 function buildYears(league, root, here) {
   return [...(league.campaigns ?? [])]
     .sort((left, right) => right.year - left.year)
@@ -145,72 +128,42 @@ function buildYears(league, root, here) {
       href: campaignHref(root, league.slug, campaign.year),
       // A path can name a year the Manifest does not list, which is exactly what
       // the catch-all page renders under. Nothing is marked for it.
-      current:
-        Boolean(here) && here.leagueSlug === league.slug && here.year === campaign.year,
+      current: Boolean(here) && here.year === campaign.year,
     }));
 }
 
-// The same navigation, flattened, for the widths where the bar is one button
-// (#165). Below the breakpoint three menus side by side do not fit, so the
-// entries become one overlay list, one level deep: every League, then the
-// reader's own League's Overview and years, then the lookup. It is a reading of
-// `buildNav` rather than a second reading of the Manifest, so the two cannot
-// drift: what the bar holds is what the overlay holds, in the same order.
+// The same navigation for the widths where the bar is one button (#165). Below
+// the breakpoint `Leagues` and `Movies` side by side leave no room for a
+// cascade to the right, so the overlay holds the same two levels with each
+// second level inline and indented under the League that owns it. It is a
+// reading of `buildNav` rather than a second reading of the Manifest, so the
+// two cannot drift: what the bar holds is what the overlay holds, in order.
 //
-// `current` is the highlight and `marked` is the mark, kept apart for the
-// reason the bar keeps them apart: a listed League is highlighted to say which
-// of them the reader is in, while exactly one item is marked to say which page
-// they are on. A header is a label with nowhere to go.
+// A League row is the first level's row, carrying its own second level; the
+// Movies row is the bar's second entry folded in, because below the breakpoint
+// there is only one button in the bar.
 export function buildCompactMenu(nav) {
-  const items = [];
-
-  if (nav.leagues) {
-    items.push({ kind: 'header', label: 'Leagues' });
-    for (const league of nav.leagues.items) {
-      items.push(link(league.name, league.href, { current: league.current }));
-    }
-    // The way out of one League and into the directory that lists them all,
-    // which is the job the bar's own Leagues menu ends on.
-    items.push(link('Show all', nav.leagues.showAllHref));
-  }
-
-  if (nav.league) {
-    // The League names its own section, so the years below it need no prefix
-    // and Overview is labelled for its job, exactly as in the bar's menu.
-    items.push({ kind: 'header', label: nav.league.name });
-    items.push(
-      link('Overview', nav.league.href, { current: nav.league.landing, marked: nav.league.landing }),
-    );
-    for (const year of nav.league.years) {
-      items.push(
-        link(year.label, year.href, {
-          current: year.current,
-          marked: year.current,
-          state: year.state,
-          stateLabel: year.stateLabel,
-        }),
-      );
-    }
-  }
-
-  items.push(
-    link('Movies', nav.movies.href, {
+  return [
+    ...(nav.leagues?.items ?? []).map((league) => ({ kind: 'league', ...league })),
+    {
+      kind: 'link',
+      label: 'Movies',
+      href: nav.movies.href,
       current: nav.movies.current,
       marked: nav.movies.current,
-    }),
-  );
-
-  return items;
-}
-
-function link(label, href, { current = false, marked = false, state, stateLabel } = {}) {
-  return { kind: 'link', label, href, current, marked, state, stateLabel };
+    },
+  ];
 }
 
 // ── The DOM it becomes ────────────────────────────────────────────────────
 //
 // Untested by design, as the rest of the site's wiring is. Everything decided
 // rather than rendered is above the divider.
+//
+// Bootstrap's dropdown has no second level and its key handling would have to
+// be fought rather than extended, so the opening and closing is a small script
+// of the site's own (`wireMenus`). It is deliberately not general: it knows
+// there are exactly two levels.
 
 // Both readings of the navigation go into the slot together, and a media query
 // picks which one the reader sees (`site.css`): the entries side by side above
@@ -226,32 +179,20 @@ export function mountNav(manifest) {
   const brand = document.getElementById('site-brand');
   if (brand) brand.setAttribute('href', nav.brandHref);
 
-  // The bar is the view model's `entries` in its own order, so the shape is
-  // decided above the divider and only the drawing happens here.
-  const entries = nav.entries
-    .map((entry) => {
-      if (entry.kind === 'leagues') return leaguesMenu(nav.leagues, entry);
-      if (entry.kind === 'league') return leagueMenu(nav.league, entry);
-      return moviesLink(nav.movies, entry);
-    })
-    .join('');
-
   // One write, so the placeholders below are replaced in a single frame rather
   // than the slot emptying first.
-  host.innerHTML =
-    compactShell(compactItems(buildCompactMenu(nav)))
-    + `<div class="site-nav-wide">${entries}</div>`;
+  host.innerHTML = compactReading(nav) + wideReading(nav);
+
+  wireMenus(host);
 }
 
 // What the slot holds before the Manifest lands, written the moment the page's
 // shell is, so the bar is never an empty slot that fills later (#165).
 //
-// Three boxes at an entry's own height, padding and radius, with a faint fill
-// and no text. Three because that is the most the bar can hold; a Manifest
-// naming one League replaces them with two entries, and the slot getting
-// shorter moves nothing, because the bar's height is pinned rather than
-// measured. They are `aria-hidden` for the reason they have no text: there is
-// nothing there yet to announce.
+// Two boxes at an entry's own height, padding and radius, with a faint fill and
+// no text. Two because that is what the bar holds at every League count. They
+// are `aria-hidden` for the reason they have no text: there is nothing there
+// yet to announce.
 //
 // Below the breakpoint it is the menu button instead, drawn at once and inert,
 // because a button that will work in a moment reads better than one that
@@ -261,108 +202,271 @@ export function mountNavPlaceholder() {
   if (!host) return;
 
   host.innerHTML =
-    compactShell(null)
+    `<div class="site-nav-compact"><button class="site-nav-link site-nav-menu-toggle" type="button" disabled>Menu</button></div>`
     + `<div class="site-nav-wide" aria-hidden="true">${PLACEHOLDER_BOXES}</div>`;
 }
 
-const PLACEHOLDER_BOXES = '<span class="site-nav-link site-nav-placeholder"></span>'.repeat(3);
+const PLACEHOLDER_BOXES = '<span class="site-nav-link site-nav-placeholder"></span>'.repeat(2);
 
-// The narrow reading: one toggle and the overlay that drops from it. `items` is
-// null before the Manifest lands, which is the inert button with nothing behind
-// it. The menu is a Bootstrap dropdown, so it is positioned absolutely and
-// opens over the page rather than pushing it down.
-function compactShell(items) {
-  const inert = items === null;
-
-  const button = `<button class="site-nav-link site-nav-compact-toggle dropdown-toggle" type="button"${
-    inert ? ' disabled' : ' data-bs-toggle="dropdown" aria-expanded="false"'
-  }>Menu</button>`;
-
-  const menu = inert ? '' : `<ul class="dropdown-menu site-nav-compact-menu">${items}</ul>`;
-
-  return `<div class="site-nav-compact${inert ? '' : ' dropdown'}">${button}${menu}</div>`;
-}
-
-function compactItems(items) {
-  return items
-    .map((item) =>
-      item.kind === 'header'
-        ? `<li><h6 class="dropdown-header">${escapeHtml(item.label)}</h6></li>`
-        : `<li>${compactLink(item)}</li>`,
-    )
-    .join('');
-}
-
-// One row of the overlay. The badge, the highlight and the mark are the ones
-// the view model already decided, drawn exactly as the bar's own menus draw
-// them, because a year reads the same wherever it is listed.
-function compactLink(item) {
-  const badge = item.stateLabel
-    ? ` <span class="badge ${stateTone(item.state)} site-nav-badge">${escapeHtml(item.stateLabel)}</span>`
+// The wide reading: the Leagues menu and the Movies link, side by side.
+function wideReading(nav) {
+  const leagues = nav.leagues
+    ? menu({
+        label: 'Leagues',
+        current: nav.leagues.current,
+        rows: nav.leagues.items.map((league) => leagueBlock(league)).join(''),
+        compact: false,
+      })
     : '';
 
-  return `<a class="dropdown-item${item.current ? ' is-current' : ''}" href="${escapeHtml(item.href)}"${
-    item.marked ? ' aria-current="page"' : ''
-  }>${escapeHtml(item.label)}${badge}</a>`;
+  return `<div class="site-nav-wide">${leagues}${moviesLink(nav.movies, 'site-nav-link')}</div>`;
 }
 
-// The shell both menus are: a toggle carrying the bar's highlight and the list
-// that drops from it. Written once so the two cannot drift apart, since the
-// point of the bar is that they read the same.
-function dropdown(label, current, items) {
-  return `<div class="dropdown">
-      <button class="site-nav-link dropdown-toggle${current ? ' is-current' : ''}"
-        type="button" data-bs-toggle="dropdown" aria-expanded="false">${escapeHtml(label)}</button>
-      <ul class="dropdown-menu">${items}</ul>
+// The compact reading: one `Menu` button holding the same cascade, with Movies
+// folded in as a row of it.
+function compactReading(nav) {
+  const blocks = (nav.leagues?.items ?? []).map((league) => leagueBlock(league)).join('');
+  const movies = `<div class="site-nav-rowsep"></div>${moviesLink(nav.movies, 'site-nav-row')}`;
+
+  return `<div class="site-nav-compact">${menu({
+    label: 'Menu',
+    current: false,
+    rows: `${blocks}${movies}`,
+    compact: true,
+  })}</div>`;
+}
+
+// The shell both readings are: a toggle carrying the bar's highlight and the
+// first level panel that drops from it. Written once so the two cannot drift,
+// since the point of the bar is that they read the same.
+//
+// The panel carries no overflow rule on the wide reading: the second level is
+// positioned outside it, and any overflow clips it into scrollbars. The compact
+// reading sets its own, where the second level sits inline instead.
+function menu({ label, current, rows, compact }) {
+  const classes = `site-nav-menu site-nav-menu--${compact ? 'compact' : 'wide'}`;
+
+  return `<div class="${classes}" data-nav-menu>
+      <button class="site-nav-link site-nav-menu-toggle dropdown-toggle${current ? ' is-current' : ''}"
+        type="button" data-nav-toggle aria-haspopup="true" aria-expanded="false">${escapeHtml(label)}</button>
+      <div class="site-nav-panel site-nav-panel-1" data-nav-level="1" role="menu" hidden>${rows}</div>
     </div>`;
 }
 
-const DIVIDER = '<li><hr class="dropdown-divider"></li>';
+// One League at the first level, with its own second level hanging off it. The
+// row is a button rather than a link because the League name is not a link
+// here: the row opens the second level, and Overview inside it is where the
+// landing page is reached. `aria-current="true"` is the first level's mark,
+// which says which League the reader is inside rather than which page they are
+// on, so it is not `page`.
+function leagueBlock(league) {
+  const caret = '<span class="site-nav-caret" aria-hidden="true">▸</span>';
 
-// Every published League, behind one fixed toggle. The toggle never carries the
-// highlight, because it leads to all of them and is where none of them is; the
-// League the reader is inside is highlighted inside the menu instead, with no
-// `aria-current`, because that is where the menu leads rather than the page the
-// reader is on.
-function leaguesMenu(leagues, entry) {
-  const items = leagues.items
-    .map(
-      (league) =>
-        `<li><a class="dropdown-item${league.current ? ' is-current' : ''}"
-          href="${escapeHtml(league.href)}">${escapeHtml(league.name)}</a></li>`,
-    )
-    .join('');
-
-  const showAll = `<li><a class="dropdown-item"
-      href="${escapeHtml(leagues.showAllHref)}">Show all</a></li>`;
-
-  return dropdown(entry.label, entry.current, `${items}${DIVIDER}${showAll}`);
+  return `<div class="site-nav-l1" data-nav-league="${escapeHtml(league.slug)}">
+      <button class="site-nav-row site-nav-l1row${league.inside ? ' is-inside' : ''}" type="button"
+        data-nav-row data-nav-open aria-haspopup="true" aria-expanded="false"${
+          league.inside ? ' aria-current="true"' : ''
+        }>${escapeHtml(league.name)}${caret}</button>
+      <div class="site-nav-panel site-nav-panel-2" data-nav-level="2" role="menu" hidden>
+        ${overviewRow(league)}${league.years.map((year) => yearRow(year)).join('')}
+      </div>
+    </div>`;
 }
 
-function leagueMenu(league, entry) {
-  // The landing page leads the menu, where it is labelled for its job rather
-  // than repeating the League name the toggle above it already carries.
-  const overview = `<li><a class="dropdown-item${league.landing ? ' is-current' : ''}"
-      href="${escapeHtml(league.href)}"${league.landing ? ' aria-current="page"' : ''}>Overview</a></li>`;
-
-  const years = league.years.map((year) => `<li>${yearLink(year)}</li>`).join('');
-
-  return dropdown(entry.label, entry.current, `${overview}${DIVIDER}${years}`);
+function overviewRow(league) {
+  return `<a class="site-nav-row${league.overviewCurrent ? ' is-current' : ''}" data-nav-row
+      href="${escapeHtml(league.href)}"${
+        league.overviewCurrent ? ' aria-current="page"' : ''
+      }>Overview</a>`;
 }
 
-function yearLink(year) {
-  const tone = stateTone(year.state);
+// The year alone links to the Campaign page (#83); the draft is reached by the
+// cross link on the Campaign page rather than by a row of its own. The badge is
+// pushed to the end of the row so the eye runs down a rail of years on the left
+// and a rail of states on the right.
+function yearRow(year) {
   const badge = year.stateLabel
-    ? ` <span class="badge ${tone} site-nav-badge">${escapeHtml(year.stateLabel)}</span>`
+    ? `<span class="badge ${stateTone(year.state)} site-nav-badge">${escapeHtml(year.stateLabel)}</span>`
     : '';
 
-  return `<a class="dropdown-item${year.current ? ' is-current' : ''}" href="${escapeHtml(year.href)}"${
-    year.current ? ' aria-current="page"' : ''
-  }>${escapeHtml(year.label)}${badge}</a>`;
+  return `<a class="site-nav-row site-nav-year${year.current ? ' is-current' : ''}" data-nav-row
+      href="${escapeHtml(year.href)}"${
+        year.current ? ' aria-current="page"' : ''
+      }>${escapeHtml(year.label)}${badge}</a>`;
 }
 
-function moviesLink(movies, entry) {
-  return `<a class="site-nav-link${movies.current ? ' is-current' : ''}" href="${escapeHtml(movies.href)}"${
+function moviesLink(movies, className) {
+  return `<a class="${className}${movies.current ? ' is-current' : ''}" href="${escapeHtml(movies.href)}"${
     movies.current ? ' aria-current="page"' : ''
-  }>${escapeHtml(entry.label)}</a>`;
+  }${className === 'site-nav-row' ? ' data-nav-row' : ''}>Movies</a>`;
+}
+
+// ── Opening and closing ───────────────────────────────────────────────────
+//
+// Mirrors the prototype's `keys.js` (branch `prototype/168-two-level-nav`),
+// which is the reference the operator judged the shape against. What it
+// guarantees, in both readings:
+//
+//   Tab           reaches the toggle, and every row once a level is open
+//   Enter/Space   opens the toggle, or a League's second level
+//   ArrowDown/Up  moves between the rows of the level that has focus
+//   ArrowRight    opens a League's second level and lands on its first row
+//   ArrowLeft     closes back a level, landing on the League row
+//   Escape        the same, and from the first level closes the menu
+//
+// Hover opens a second level in the wide reading only: a hover that opens
+// something has no answer under a thumb, which is why the compact reading never
+// does it.
+
+let outsideWired = false;
+
+function wireMenus(host) {
+  for (const menuEl of host.querySelectorAll('[data-nav-menu]')) wireMenu(menuEl);
+
+  // A click outside closes whatever is open. Wired once against the document,
+  // because the bar is mounted per page load and the listener would otherwise
+  // stack behind a re-render.
+  if (outsideWired) return;
+  outsideWired = true;
+  document.addEventListener('click', (event) => {
+    for (const menuEl of document.querySelectorAll('[data-nav-menu]')) {
+      if (!menuEl.contains(event.target)) closeMenu(menuEl);
+    }
+  });
+}
+
+function wireMenu(menuEl) {
+  const toggle = menuEl.querySelector('[data-nav-toggle]');
+
+  toggle.addEventListener('click', () => {
+    if (menuEl.classList.contains('is-open')) closeMenu(menuEl);
+    else openMenu(menuEl);
+  });
+
+  for (const opener of menuEl.querySelectorAll('[data-nav-open]')) {
+    opener.addEventListener('click', (event) => {
+      event.preventDefault();
+      const block = opener.closest('.site-nav-l1');
+      if (block.classList.contains('is-open')) closeLevelTwo(menuEl);
+      else openLevelTwo(menuEl, block);
+    });
+  }
+
+  if (menuEl.classList.contains('site-nav-menu--wide')) {
+    for (const block of menuEl.querySelectorAll('.site-nav-l1')) {
+      block.addEventListener('mouseenter', () => {
+        if (menuEl.classList.contains('is-open')) {
+          openLevelTwo(menuEl, block, { focusFirst: false });
+        }
+      });
+    }
+  }
+
+  menuEl.addEventListener('keydown', (event) => onKey(event, menuEl, toggle));
+
+  // Tabbing out of the menu closes it, which is what a reader who has moved on
+  // means. `relatedTarget` is where focus went, and null means the page.
+  menuEl.addEventListener('focusout', (event) => {
+    if (!menuEl.contains(event.relatedTarget)) closeMenu(menuEl);
+  });
+}
+
+function onKey(event, menuEl, toggle) {
+  const { key, target } = event;
+
+  if (target === toggle) {
+    if (key === 'Enter' || key === ' ' || key === 'ArrowDown') {
+      event.preventDefault();
+      openMenu(menuEl);
+    }
+    if (key === 'Escape') closeMenu(menuEl);
+    return;
+  }
+
+  const panel = target.closest?.('[data-nav-level]');
+  if (!panel) return;
+
+  if (key === 'ArrowDown' || key === 'ArrowUp') {
+    event.preventDefault();
+    const items = rows(panel);
+    const index = items.indexOf(target.closest('[data-nav-row]'));
+    const next = (index + (key === 'ArrowDown' ? 1 : -1) + items.length) % items.length;
+    items[next]?.focus();
+    return;
+  }
+
+  if (key === 'ArrowRight' && panel.dataset.navLevel === '1') {
+    const block = target.closest('.site-nav-l1');
+    if (!block) return;
+    event.preventDefault();
+    openLevelTwo(menuEl, block);
+    return;
+  }
+
+  if (key === 'ArrowLeft' || key === 'Escape') {
+    event.preventDefault();
+    if (panel.dataset.navLevel === '2') {
+      const block = target.closest('.site-nav-l1');
+      closeLevelTwo(menuEl);
+      rowOf(block)?.focus();
+    } else {
+      closeMenu(menuEl);
+      toggle.focus();
+    }
+  }
+
+  // A row that opens something is a button, so Enter and Space already fire its
+  // click. Nothing else to do.
+}
+
+function openMenu(menuEl) {
+  menuEl.classList.add('is-open');
+  const panel = menuEl.querySelector('.site-nav-panel-1');
+  panel.hidden = false;
+  menuEl.querySelector('[data-nav-toggle]').setAttribute('aria-expanded', 'true');
+
+  // Land on the League the reader is inside when there is one, so the keyboard
+  // reading starts where the mouse reading's mark already points.
+  const inside = menuEl.querySelector('.site-nav-l1row.is-inside');
+  (inside ?? rows(panel)[0])?.focus();
+}
+
+function closeMenu(menuEl) {
+  if (!menuEl.classList.contains('is-open')) return;
+  closeLevelTwo(menuEl);
+  menuEl.classList.remove('is-open');
+  menuEl.querySelector('.site-nav-panel-1').hidden = true;
+  menuEl.querySelector('[data-nav-toggle]').setAttribute('aria-expanded', 'false');
+}
+
+// One second level at a time, so the first level never holds two open panels
+// on top of each other.
+function openLevelTwo(menuEl, block, { focusFirst = true } = {}) {
+  closeLevelTwo(menuEl);
+  block.classList.add('is-open');
+  const panel = block.querySelector('.site-nav-panel-2');
+  panel.hidden = false;
+  rowOf(block)?.setAttribute('aria-expanded', 'true');
+  if (focusFirst) rows(panel)[0]?.focus();
+}
+
+function closeLevelTwo(menuEl) {
+  for (const block of menuEl.querySelectorAll('.site-nav-l1.is-open')) {
+    block.classList.remove('is-open');
+    block.querySelector('.site-nav-panel-2').hidden = true;
+    rowOf(block)?.setAttribute('aria-expanded', 'false');
+  }
+}
+
+// The rows of one panel, in document order, skipping the ones a nested panel
+// owns: a second level panel sits inside the first level one, so its rows would
+// otherwise be counted twice.
+function rows(panel) {
+  return [...panel.querySelectorAll('[data-nav-row]')].filter(
+    (row) => row.closest('[data-nav-level]') === panel,
+  );
+}
+
+function rowOf(block) {
+  return block?.querySelector('[data-nav-row]');
 }
