@@ -355,14 +355,27 @@ function wireMenu(menuEl) {
     else openMenu(menuEl);
   });
 
-  // Opening a League, and only opening it. A click that toggled would close the
-  // level a hover had just opened on the wide bar, and on a touch screen at
-  // that width the synthesized `mouseenter` fires before the tap, so a tap
-  // would open and immediately close. Left and Escape are what close a level.
+  // Opening a League. What a click does depends on the reading, because the two
+  // readings answer to different hands.
+  //
+  // On the wide bar it only ever opens. A click that toggled would close the
+  // level a hover had just opened, and on a touch screen at that width the
+  // synthesized `mouseenter` fires before the tap, so a tap would open and
+  // immediately close. Left and Escape are what close a level there.
+  //
+  // In the compact overlay it toggles: nothing opens on hover, the second level
+  // sits inline and pushes the rest of the list down, and a reader who opened
+  // the wrong League expects the same tap to put it away. Enter on the row
+  // fires its click, so the keyboard toggles with the thumb; Right still opens
+  // and Left and Escape still close.
+  const toggles = menuEl.classList.contains('site-nav-menu--compact');
+
   for (const opener of menuEl.querySelectorAll('[data-nav-open]')) {
     opener.addEventListener('click', (event) => {
       event.preventDefault();
-      openLevelTwo(menuEl, opener.closest('.site-nav-l1'));
+      const block = opener.closest('.site-nav-l1');
+      if (toggles && block.classList.contains('is-open')) closeLevelTwo(menuEl);
+      else openLevelTwo(menuEl, block);
     });
   }
 
