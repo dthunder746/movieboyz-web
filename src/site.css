@@ -876,11 +876,6 @@ body { font-size: 0.9rem; }
   outline: none;
 }
 
-.site-nav-row:focus-visible {
-  outline: 2px solid var(--bs-primary);
-  outline-offset: -2px;
-}
-
 /* The mark: the page the reader is on, and the League they are inside. Both
    have to read as unmistakably not the hover, which a fill alone does not: the
    rail down the left edge is what tells them apart at a glance. */
@@ -898,6 +893,16 @@ body { font-size: 0.9rem; }
 .site-nav-row.is-current {
   font-weight: 700;
   outline: 1px solid var(--bs-border-color);
+}
+
+/* The focus ring, last and specific enough to beat the mark's own outline: the
+   menu puts focus on the League the reader is inside the moment it opens, and
+   that is exactly the row a mark would otherwise leave with no ring. */
+.site-nav-row:focus-visible,
+.site-nav-row.is-current:focus-visible,
+.site-nav-row.is-inside:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: -2px;
 }
 
 /* The arrow on a League row, which turns to a down chevron while its second
