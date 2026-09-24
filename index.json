@@ -11,16 +11,6 @@
           "state": "active"
         }
       ]
-    },
-    {
-      "slug": "test-league",
-      "name": "test league",
-      "campaigns": [
-        {
-          "year": 2026,
-          "state": "drafting"
-        }
-      ]
     }
   ],
   "movie_years": [
