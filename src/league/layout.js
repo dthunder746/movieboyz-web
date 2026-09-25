@@ -63,9 +63,8 @@ export const LEAGUE_LAYOUT = `
 
     <!-- One card per Campaign, newest first. -->
     <section class="league-panel" aria-labelledby="campaigns-heading">
-      <h2 id="campaigns-heading" class="league-panel-heading">Campaigns</h2>
+      <h2 id="campaigns-heading" class="league-panel-heading">Yearly Campaigns</h2>
       <p class="league-panel-note">
-        Open a year to read its standings here. The year's own page has the board.
       </p>
       <div id="campaign-cards" class="league-cards"></div>
       <p id="campaigns-empty" class="league-empty d-none">This league has not run a campaign yet.</p>
