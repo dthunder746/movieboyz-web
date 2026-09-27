@@ -91,6 +91,11 @@ export default defineConfig({
       // three stay in separate chunks (#85, #101).
       input: {
         root: resolve(import.meta.dirname, 'index.html'),
+        // `/league/` is a segment rather than a page. It is registered so the
+        // address answers 200 with a meta refresh to the root, where the
+        // Leagues are listed, instead of the catch-all's not-found notice
+        // (#187).
+        leagueRedirect: resolve(import.meta.dirname, 'league/index.html'),
         movieboyzLanding: resolve(import.meta.dirname, 'league/movieboyz/index.html'),
         movieboyz2026: resolve(
           import.meta.dirname,
