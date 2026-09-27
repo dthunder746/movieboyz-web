@@ -593,7 +593,37 @@
       "gross": {
         "2026-07-31": 0
       },
-      "ratings": null,
+      "ratings": {
+        "fetched_at": "2026-09-27",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 75,
+          "votes": 11
+        }
+      },
       "released_digital": null,
       "status": "SCHEDULED"
     },
