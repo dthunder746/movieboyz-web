@@ -5,6 +5,7 @@
 // is the one change to the markup and is explained where the page uses them.
 
 import { escapeHtml, fmt, fmtPct, colorClass } from '../shared/format.js';
+import { movieTitleLink } from '../shared/cards.js';
 import { pickIcon, userBadge } from '../shared/icons.js';
 
 import { SEASON_LABEL } from './board.js';
@@ -84,7 +85,7 @@ function pickRow(pick, ranks, colorMap, tab) {
       data-user="${escapeHtml(pick.userId ?? '')}"
       data-pick-type="${escapeHtml(pick.pickType ?? '')}" data-kind="slot">
       <td class="text-end">${pick.draftPick}</td>
-      <td class="cell-title" title="${escapeHtml(pick.title)}">${userBadge(pick.userId, pick.username, colorMap)}${pickIcon(pick.pickType, pick.season)}<span class="draft-pick-title">${escapeHtml(pick.title)}</span></td>
+      <td class="cell-title" title="${escapeHtml(pick.title)}">${userBadge(pick.userId, pick.username, colorMap)}${pickIcon(pick.pickType, pick.season)}<span class="draft-pick-title">${movieTitleLink(pick.imdbId, escapeHtml(pick.title))}</span></td>
       ${seasonCell}
       <td class="text-end">${pick.breakeven != null ? fmt(pick.breakeven) : '<span class="text-neu">—</span>'}</td>
       <td class="text-end cell-profit">${profitCell(pick.profitTd)}</td>

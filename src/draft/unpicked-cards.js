@@ -12,6 +12,7 @@
 // the same day the old helper would have computed.
 
 import { colorClass, escapeHtml, fmt, fmtPct, formatShortDate } from '../shared/format.js';
+import { movieTitleLink } from '../shared/cards.js';
 import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 
 import { SEASON_LABEL } from './board.js';
@@ -59,7 +60,7 @@ function releasedRow(movie, ranks, draftDate, colorMap) {
   const preDraftTitle = preDraft ? ' Pre-draft release.' : '';
 
   return `<tr data-imdb="${escapeHtml(movie.imdbId)}" data-kind="candidate"${preDraftAttr}>`
-    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
+    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${movieTitleLink(movie.imdbId, escapeHtml(movie.title))}</td>`
     + `<td class="cell-profit text-end">${profitHtml}</td>`
     + `<td class="text-end" title="${RANK_TIP}${preDraftTitle}">${rankHtml}</td>`
     + '</tr>';
@@ -71,7 +72,7 @@ function unreleasedRow(movie, colorMap) {
     : formatShortDate(movie.releaseDate);
 
   return `<tr data-imdb="${escapeHtml(movie.imdbId)}" data-kind="candidate">`
-    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${escapeHtml(movie.title)}</td>`
+    + `<td class="cell-title" title="${escapeHtml(movie.title)}">${ownerBadge(movie, colorMap)}${pickOrSeasonIcon(movie.pickType, movie.season)}${movieTitleLink(movie.imdbId, escapeHtml(movie.title))}</td>`
     + `<td class="text-end">${escapeHtml(dateLabel)}</td>`
     + '</tr>';
 }

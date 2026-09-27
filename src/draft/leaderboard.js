@@ -6,6 +6,7 @@
 // this lists the Campaign's roster, keyed by User id with the published name on
 // the front (#52).
 
+import { movieTitleLink } from '../shared/cards.js';
 import { colorClass, escapeHtml, fmt } from '../shared/format.js';
 
 import { isSeasonalOrAlt, leaderboardForDraft, picksForDraft } from './season-helpers.js';
@@ -42,7 +43,7 @@ function pickRow(pick, affected) {
   const swappedAttr = affected[pick.imdbId] ? ' data-swapped="1"' : '';
 
   return `<div class="draft-lb-pick"${swappedAttr} title="${escapeHtml(pick.title)}">`
-    + `<span class="draft-lb-pick-name">${escapeHtml(pick.title)}</span>`
+    + `<span class="draft-lb-pick-name">${movieTitleLink(pick.imdbId, escapeHtml(pick.title))}</span>`
     + `<span class="draft-lb-pick-profit">${profitHtml}</span>`
     + '</div>';
 }
