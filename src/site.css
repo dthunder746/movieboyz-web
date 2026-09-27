@@ -3084,6 +3084,18 @@ tr[data-swapped="1"] td:last-child { border-top-right-radius: 6px; border-bottom
 #draft-app.is-whatif .draft-row-pre-draft td { opacity: 0.4; }
 #draft-app.is-whatif .draft-row-pre-draft { cursor: not-allowed; }
 
+/* While what-if mode is on, a film's name is not a way out of the page: a
+   click on it is the reader choosing that row for a swap. The link reads as
+   plain text and lets the click through to the row rather than being hidden,
+   so the board looks the same in both modes and turning the mode off makes
+   every name a link again (#188). */
+#draft-app.is-whatif .movie-title-link {
+  color: inherit;
+  cursor: inherit;
+  pointer-events: none;
+  text-decoration: none;
+}
+
 .draft-row-selected td {
   background-color: rgba(212, 160, 23, 0.18);
   box-shadow: inset 0 2px 0 0 #d4a017, inset 0 -2px 0 0 #d4a017;
