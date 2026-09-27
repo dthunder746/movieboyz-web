@@ -4,6 +4,7 @@
 
 import { fmt, fmtPct, colorClass, escapeHtml, formatShortDate } from '../shared/format.js';
 
+import { movieTitleLink } from '../shared/cards.js';
 import { pickOrSeasonIcon, userBadge } from '../shared/icons.js';
 
 const TAB_COOKIE = 'info_active_tab';
@@ -23,7 +24,7 @@ function writeTabCookie(id) {
 function movieCell(row, colorMap) {
   return userBadge(row.userId, row.username, colorMap)
     + pickOrSeasonIcon(row.pickType, row.season)
-    + escapeHtml(row.title);
+    + movieTitleLink(row.imdbId, escapeHtml(row.title));
 }
 
 function pctCell(value) {
