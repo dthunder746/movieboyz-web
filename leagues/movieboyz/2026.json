@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-27T02:35:38.338520Z",
+  "generated_at": "2026-09-27T03:11:16.299536Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -26500,6 +26500,20 @@
         "2026-09-24": 0,
         "2026-09-25": 0
       },
+      "profit_td": null
+    },
+    {
+      "imdb_id": "tt35511966",
+      "title": "La bola negra",
+      "release_date": "2026-10-16",
+      "season": "FALL",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
       "profit_td": null
     },
     {

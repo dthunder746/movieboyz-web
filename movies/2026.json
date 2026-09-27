@@ -16838,6 +16838,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt35511966",
+      "title": "La bola negra",
+      "release_date": "2026-10-16",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-09-27",
+        "imdb": {
+          "score": 70,
+          "votes": 918
+        },
+        "rt_critic": {
+          "score": 91,
+          "votes": 54
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": 0
+        },
+        "metacritic": {
+          "score": 87,
+          "votes": 17
+        },
+        "tmdb": {
+          "score": 87,
+          "votes": 7
+        },
+        "letterboxd": {
+          "score": 84,
+          "votes": 9197
+        },
+        "trakt": {
+          "score": 66,
+          "votes": 10
+        }
+      },
+      "released_digital": "2026-12-02",
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt35514120",
       "title": "Werwulf",
       "release_date": "2026-12-25",
