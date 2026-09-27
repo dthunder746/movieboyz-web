@@ -10,6 +10,7 @@
 
 import { fmt, fmtPct, colorClass, escapeHtml } from '../shared/format.js';
 
+import { movieTitleLink } from '../shared/cards.js';
 import { pickIcon } from '../shared/icons.js';
 import { ratingIconUrl } from '../shared/location.js';
 import { LETTERBOXD_ICON } from '../shared/ratings.js';
@@ -76,7 +77,7 @@ function movieTable(released) {
   }
 
   const rows = released.map((pick) => '<tr>'
-    + `<td>${pickIcon(pick.pickType, pick.season)}${escapeHtml(pick.title)}</td>`
+    + `<td>${pickIcon(pick.pickType, pick.season)}${movieTitleLink(pick.imdbId, escapeHtml(pick.title))}</td>`
     + `<td>${pick.breakeven !== null ? fmt(pick.breakeven) : '<span class="text-neu">—</span>'}</td>`
     + `<td>${pick.grossTd !== null ? fmt(pick.grossTd) : '<span class="text-neu">—</span>'}</td>`
     + `<td class="${colorClass(pick.profitTd)}">${fmt(pick.profitTd)}</td>`
@@ -99,7 +100,8 @@ function footer(nextPick) {
   const inner = nextPick
     ? `<div class="scorecard-next-title" title="${escapeHtml(nextPick.title)}">`
       + '<span class="scorecard-next-title-text">'
-      + `${pickIcon(nextPick.pickType, nextPick.season)}${escapeHtml(nextPick.title)}`
+      + `${pickIcon(nextPick.pickType, nextPick.season)}`
+      + movieTitleLink(nextPick.imdbId, escapeHtml(nextPick.title))
       + '</span>'
       + `<span class="scorecard-next-days-badge">${nextPick.daysUntil}d</span>`
       + '</div>'

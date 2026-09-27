@@ -154,12 +154,10 @@ export function weekTable(weeks) {
     + '</table>';
 }
 
-// The way into the Movie's own page (#63), and it sits in the expanded area
-// rather than on the card's title. A card is a gesture surface: a tap expands
-// it and a long press plots it, so a link in the title would be followed by the
-// tap that was meant to open the card. Cards are the default under 768px, so
-// without this the readers most likely to be on a phone would have no way in
-// at all.
+// The way into the Movie's own page as a line in the expanded area (#63). The
+// Movies section's cards keep it, because there a card is the whole row and a
+// reader should not have to open one to find the way in; the Campaign's card
+// dropped it when its title became the link (#188).
 export function movieLink(row) {
   return `<a class="${MOVIE_LINK_CLASS} movie-card-link" href="${escapeHtml(movieUrl(row.imdbId))}">`
     + 'Open Movie page</a>';

@@ -199,6 +199,7 @@ export function highlightsForDraft(view, season) {
     const bottom = byValue[byValue.length - 1];
     steal = {
       movie: top.title,
+      imdbId: top.imdbId,
       userId: top.userId,
       username: top.username,
       draftPick: top.draftPick,
@@ -206,6 +207,7 @@ export function highlightsForDraft(view, season) {
     };
     bust = {
       movie: bottom.title,
+      imdbId: bottom.imdbId,
       userId: bottom.userId,
       username: bottom.username,
       draftPick: bottom.draftPick,
@@ -223,6 +225,7 @@ export function highlightsForDraft(view, season) {
     )[0];
     roi = {
       movie: best.title,
+      imdbId: best.imdbId,
       userId: best.userId,
       username: best.username,
       ratio: best.profitTd / best.breakeven,
@@ -237,10 +240,18 @@ export function highlightsForDraft(view, season) {
     const winner = byProfit[0];
     const loser = byProfit[byProfit.length - 1];
     biggestWinner = {
-      movie: winner.title, userId: winner.userId, username: winner.username, profit: winner.profitTd,
+      movie: winner.title,
+      imdbId: winner.imdbId,
+      userId: winner.userId,
+      username: winner.username,
+      profit: winner.profitTd,
     };
     biggestLoser = {
-      movie: loser.title, userId: loser.userId, username: loser.username, profit: loser.profitTd,
+      movie: loser.title,
+      imdbId: loser.imdbId,
+      userId: loser.userId,
+      username: loser.username,
+      profit: loser.profitTd,
     };
   }
 

@@ -5,6 +5,7 @@
 // next door in `season-helpers.js` with a test beside it; this is the markup and
 // the gate.
 
+import { movieTitleLink } from '../shared/cards.js';
 import { escapeHtml, fmt, fmtPct } from '../shared/format.js';
 
 import { everyHolderHasScored, highlightsForDraft, highlightsGatePicks } from './season-helpers.js';
@@ -13,6 +14,12 @@ function fmtSigned(value) {
   if (value == null) return '—';
   if (value === 0) return fmt(0);
   return (value > 0 ? '+' : '-') + fmt(Math.abs(value));
+}
+
+// The film a tile names, as the way into its page. Every tile but Mr.
+// Consistent names one, and that one names a holder instead (#188).
+function movieName(highlight) {
+  return movieTitleLink(highlight.imdbId, escapeHtml(highlight.movie));
 }
 
 function userChip(userId, username, colorMap) {
@@ -50,19 +57,19 @@ export function buildHighlights(view, season, colorMap, mountEl) {
 
   if (highlights.steal) {
     html += tile('pos', 'Steal of the Draft',
-      escapeHtml(highlights.steal.movie),
+      movieName(highlights.steal),
       `${userChip(highlights.steal.userId, highlights.steal.username, colorMap)} &middot; Pick #${highlights.steal.draftPick} &rarr; Profit rank #${highlights.steal.profitRank}`,
       'Lowest pick with the highest profit');
   }
   if (highlights.bust) {
     html += tile('neg', 'Bust of the Draft',
-      escapeHtml(highlights.bust.movie),
+      movieName(highlights.bust),
       `${userChip(highlights.bust.userId, highlights.bust.username, colorMap)} &middot; Pick #${highlights.bust.draftPick} &rarr; Profit rank #${highlights.bust.profitRank}`,
       'Highest pick with the lowest profit');
   }
   if (highlights.roi) {
     html += tile('pos', 'Highest ROI',
-      escapeHtml(highlights.roi.movie),
+      movieName(highlights.roi),
       `${userChip(highlights.roi.userId, highlights.roi.username, colorMap)} &middot; ${fmtPct(highlights.roi.ratio * 100)}`,
       'Best profit-to-budget multiple');
   }
@@ -74,13 +81,13 @@ export function buildHighlights(view, season, colorMap, mountEl) {
   }
   if (highlights.biggestWinner) {
     html += tile('pos', 'Biggest Winner',
-      escapeHtml(highlights.biggestWinner.movie),
+      movieName(highlights.biggestWinner),
       `${userChip(highlights.biggestWinner.userId, highlights.biggestWinner.username, colorMap)} &middot; ${fmtSigned(highlights.biggestWinner.profit)}`,
       'Highest single-pick profit');
   }
   if (highlights.biggestLoser) {
     html += tile('neg', 'Biggest Loser',
-      escapeHtml(highlights.biggestLoser.movie),
+      movieName(highlights.biggestLoser),
       `${userChip(highlights.biggestLoser.userId, highlights.biggestLoser.username, colorMap)} &middot; ${fmtSigned(highlights.biggestLoser.profit)}`,
       'Lowest single-pick profit');
   }

@@ -290,6 +290,17 @@ describe('highlightsForDraft', () => {
   ];
   const board = view(rows, { users });
 
+  // The tiles link the film they name, so each one has to carry the id as
+  // well as the title (#188).
+  it('carries the identifier of every film it names', () => {
+    const highlights = highlightsForDraft(board, 'WINTER');
+    expect(highlights.steal.imdbId).toBe('tt1');
+    expect(highlights.bust.imdbId).toBe('tt2');
+    expect(highlights.roi.imdbId).toBe('tt1');
+    expect(highlights.biggestWinner.imdbId).toBe('tt1');
+    expect(highlights.biggestLoser.imdbId).toBe('tt2');
+  });
+
   it('names the Pick that most outran where it was taken', () => {
     expect(highlightsForDraft(board, 'WINTER').steal).toMatchObject({ movie: 'Steal', userId: 'a', draftPick: 4 });
   });

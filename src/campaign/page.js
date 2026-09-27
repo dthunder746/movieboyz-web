@@ -28,7 +28,7 @@ import { applyChartTheme, buildChart } from './chart.js';
 import { loadCampaign } from './data.js';
 import { CampaignUnavailable } from '../shared/campaign-unavailable.js';
 import { createFilterState } from './filters.js';
-import { campaignHeading } from './heading.js';
+import { campaignHeading, chartHeadingHtml } from './heading.js';
 import { buildHighlights } from './highlights.js';
 import { buildInfoCards } from './info-cards.js';
 import { CAMPAIGN_LAYOUT } from './layout.js';
@@ -116,26 +116,18 @@ function init({ campaign, slices }) {
 
   // ── Chart ───────────────────────────────────────────────────────────────
 
-  function chartHeadingText(activeUsers, activeMovieIds) {
-    if (activeMovieIds.length === 1) {
-      return board.byId.get(activeMovieIds[0])?.title ?? 'Selected Movie';
-    }
-    if (activeMovieIds.length === 2) {
-      return activeMovieIds.map((id) => board.byId.get(id)?.title ?? id).join(' · ');
-    }
-    if (activeMovieIds.length > 2) return `${activeMovieIds.length} Movies`;
-    if (activeUsers.length === 1) {
-      return `${usernames.get(activeUsers[0]) ?? activeUsers[0]}: Movie Profits`;
-    }
-    return 'Profit Over Time';
-  }
-
   function rebuildChart(activeUsers, activeMovieIds) {
     if (chart) chart.destroy();
     chart = buildChart(campaign, activeUsers, activeMovieIds, colorMap);
 
     const heading = document.getElementById('chart-heading');
-    if (heading) heading.textContent = chartHeadingText(activeUsers, activeMovieIds);
+    // `innerHTML` rather than `textContent`: the heading names a film as a link
+    // now, and `chartHeadingHtml` escapes everything else it says (#188).
+    if (heading) {
+      heading.innerHTML = chartHeadingHtml({
+        activeUsers, activeMovieIds, byId: board.byId, usernames,
+      });
+    }
   }
 
   // ── Filters ─────────────────────────────────────────────────────────────
