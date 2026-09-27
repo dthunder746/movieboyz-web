@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The lookup table's title. A film page sets its own from the Movie it
+       found, so this is what a reader sees only when no film was named. -->
   <title>Movies · MovieBoyz</title>
 
   <!-- Bootstrap 5.3 -->
@@ -25,6 +27,19 @@
 
 <body>
 
+<!-- One file for the whole Movies section: the lookup table at `/movies/` and
+     one film at `/movies/?id=tt0068646`. The two surfaces are written out
+     below, one per mode, and `src/movies/entry.js` takes the one this address
+     does not name out of the document before it imports the page module that
+     draws the other. They are siblings rather than one merged block because
+     they name some of the same things (the slice notice, the chart wrapper,
+     the zoom reset), and only one of each is ever in the document.
+
+     Everything sits inside `#page`, including the navigation, because
+     `shared/notice.js` takes the whole of it over for the two cases the film
+     page has no Movie to show (#187). -->
+<div id="page">
+
 <!-- ── Header ─────────────────────────────────────────────────────────── -->
 <nav class="navbar navbar-expand-lg site-navbar mb-3 border-bottom">
   <div class="container-fluid">
@@ -39,8 +54,8 @@
   </div>
 </nav>
 
-<!-- ── Main ───────────────────────────────────────────────────────────── -->
-<div class="container-fluid px-3">
+<!-- ── The lookup table ───────────────────────────────────────────────── -->
+<div id="movies-lookup" class="container-fluid px-3">
 
   <h1 class="movies-title">Movies</h1>
   <p class="movies-lede text-muted">Every Movie the platform tracks, starting from January 2026.</p>
@@ -150,17 +165,53 @@
 
 </div>
 
+<!-- ── One film ───────────────────────────────────────────────────────── -->
+<div id="movie-detail" class="container-fluid px-3">
+
+  <div id="movie-header"></div>
+
+  <div id="slice-notice" class="alert alert-warning py-2 px-3 d-none" role="status"></div>
+
+  <div id="movie-facts" class="movie-facts mb-4"></div>
+
+  <!-- Chart -->
+  <div class="chart-card mb-4">
+    <div class="chart-card-header">
+      <h6 class="text-uppercase text-muted fw-semibold mb-0" style="letter-spacing:.08em">Box Office</h6>
+      <button id="reset-zoom" class="btn btn-sm btn-outline-secondary">Reset zoom</button>
+    </div>
+    <div id="chart-wrapper">
+      <canvas id="movieChart"></canvas>
+    </div>
+    <p id="chart-blank" class="chart-blank d-none"></p>
+    <p id="chart-note" class="chart-note d-none" role="status"></p>
+  </div>
+
+  <div id="movie-ratings" class="mb-4"></div>
+
+  <div id="movie-picks" class="mb-4"></div>
+
+</div>
+
 <!-- ── Footer ─────────────────────────────────────────────────────────── -->
 <div class="container-fluid px-3 mt-3 pb-3 border-top pt-2">
   <small class="text-muted d-block" id="data-updated"></small>
 </div>
 
+</div>
+
 <!-- ── Scripts ────────────────────────────────────────────────────────── -->
+<!-- The union of what the two surfaces need, loaded statically rather than
+     per mode: these are classic scripts the page modules read off `window`,
+     and a tag injected once a mode is known would not reliably have run by the
+     time the dynamic import resolves. The date adapter is the film page's, the
+     Tabulator build is the lookup's. -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://unpkg.com/tabulator-tables@6.3.0/dist/js/tabulator.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8/hammer.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
-<script type="module" src="/src/movies/page.js"></script>
+<script type="module" src="/src/movies/entry.js"></script>
 </body>
 </html>
