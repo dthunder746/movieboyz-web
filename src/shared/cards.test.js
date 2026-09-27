@@ -120,6 +120,16 @@ describe('movieTitleLink', () => {
     expect(html).toContain('<span class="movie-title-text">Heat</span>');
     expect(html).toMatch(/href="[^"]*tt0111161[^"]*"/);
   });
+
+  // Where a film actually lives, asserted where a link to one is written
+  // rather than only where the address is composed. The `movie` segment is
+  // gone and a card written from the Movies section links back into it (#187).
+  it('links into the Movies section carrying the identifier', () => {
+    vi.stubGlobal('window', { location: { pathname: '/movies/' } });
+    vi.stubGlobal('document', { querySelector: () => null });
+
+    expect(movieTitleLink('tt0111161', 'Heat')).toContain('href="/movies/?id=tt0111161"');
+  });
 });
 
 describe('buildCards', () => {

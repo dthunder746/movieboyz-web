@@ -453,23 +453,29 @@ describe('draftHref', () => {
 // because a Movie can be published between deploys and a directory that does
 // not exist yet 404s (ADR 0010).
 describe('moviePath', () => {
-  it('is the one detail page carrying the identifier', () => {
-    expect(moviePath('tt0068646')).toBe('movies/movie/?id=tt0068646');
+  it('is the Movies section itself carrying the identifier', () => {
+    expect(moviePath('tt0068646')).toBe('movies/?id=tt0068646');
   });
 
   it('encodes an identifier that is not URL safe', () => {
-    expect(moviePath('tt 1&2')).toBe('movies/movie/?id=tt%201%262');
+    expect(moviePath('tt 1&2')).toBe('movies/?id=tt%201%262');
+  });
+
+  // The section's own address is the lookup table, and the same address with an
+  // `id` on it is one film. There is no segment between them to go wrong (#187).
+  it('is the lookup address with a query string on it', () => {
+    expect(moviePath('tt0068646').startsWith('movies/?')).toBe(true);
   });
 });
 
 describe('movieHref', () => {
   it('hangs the Movie page off the site root', () => {
-    expect(movieHref('/', 'tt0068646')).toBe('/movies/movie/?id=tt0068646');
+    expect(movieHref('/', 'tt0068646')).toBe('/movies/?id=tt0068646');
   });
 
   it('carries a prefix the site is served under', () => {
     expect(movieHref('/movieboyz-web/', 'tt0068646'))
-      .toBe('/movieboyz-web/movies/movie/?id=tt0068646');
+      .toBe('/movieboyz-web/movies/?id=tt0068646');
   });
 });
 

@@ -1,12 +1,12 @@
-// The Movie page's entry point: it reads which Movie off its own query string,
-// fetches everything the site publishes, and renders one film.
+// One film. The Movies section's entry imports this module when the address
+// names a Movie (`/movies/?id=tt0068646`); it reads which off that same query
+// string, fetches everything the site publishes, and renders the one.
 //
 // The page has no controls beyond the chart's zoom, so there is no shared
 // state to keep in step and none of the lookup page's rebuild machinery. What
-// it does have is three ways of being asked for nothing: an address naming no
-// Movie, a Movie no slice carries, and a Movie with no box office published
-// yet. The first two hand the page to `shared/notice.js`; the third is a
-// sentence where the canvas would be.
+// it does have is two ways of being asked for nothing: a Movie no slice
+// carries, which hands the page to `shared/notice.js`, and a Movie with no box
+// office published yet, which is a sentence where the canvas would be.
 
 import { loadManifest } from '../../shared/artifacts.js';
 import { colorClass, escapeHtml, fmt, formatFullDate } from '../../shared/format.js';
@@ -282,29 +282,19 @@ function init({ manifest, slices, campaigns, missingYears }, imdbId) {
 mountNavPlaceholder();
 loadManifest().then(mountNav, () => mountNav(null));
 
+// Which Movie, off the same query string the section's entry dispatched on.
+// It named one, or this module was never imported (`src/movies/entry.js`), so
+// there is no "no Movie named" case here any more: that address is the lookup
+// table (#187).
 const imdbId = movieIdFromSearch(window.location.search);
 
-if (!imdbId) {
-  // The page reached without a Movie named. It is a real address with a real
-  // page behind it, so it says what is missing rather than failing to load.
-  // The Manifest alone, which is all the navigation on the notice needs. There
-  // is no Movie to look for, so there is nothing to read the slices for.
-  loadManifest()
-    .catch(() => null)
-    .then((manifest) => renderNotice({
-      manifest,
-      heading: 'No Movie named',
-      message: 'This address needs a Movie to show. Pick one from the Movies list.',
-    }));
-} else {
-  loadMovie()
-    .then((loaded) => init(loaded, imdbId))
-    .catch((error) => {
-      // The navigation is already in, mounted off the Manifest alone above, so
-      // a page that could not load its own data is not also a dead end (#64).
-      document.body.insertAdjacentHTML(
-        'beforeend',
-        `<div class="alert alert-danger m-3">Failed to load the Movie: ${escapeHtml(error.message)}</div>`,
-      );
-    });
-}
+loadMovie()
+  .then((loaded) => init(loaded, imdbId))
+  .catch((error) => {
+    // The navigation is already in, mounted off the Manifest alone above, so a
+    // page that could not load its own data is not also a dead end (#64).
+    document.body.insertAdjacentHTML(
+      'beforeend',
+      `<div class="alert alert-danger m-3">Failed to load the Movie: ${escapeHtml(error.message)}</div>`,
+    );
+  });

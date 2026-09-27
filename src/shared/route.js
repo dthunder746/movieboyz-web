@@ -10,13 +10,6 @@
 // Pages project path, which prefixes everything with the repo name.
 const LEAGUE_SEGMENT = 'league';
 const MOVIES_SEGMENT = 'movies';
-// One Movie's own page, a directory inside the Movies section holding a single
-// file. It is a section of the lookup rather than a top-level address of its
-// own, which is also what keeps `siteRoot` and the catch-all page's `<base>`
-// bootstrap out of it: both already locate the Movies marker, and both find it
-// here (`docs/adr/0010-addressing-pages-on-a-static-host.md` in the platform
-// repo).
-const MOVIE_SEGMENT = 'movie';
 // The draft page, a directory inside a Campaign's own directory (#81). It is a
 // page of the Campaign rather than a site-wide section, because a draft is
 // always one year's, so its address hangs off the year the way the Campaign's
@@ -229,17 +222,23 @@ export function draftHref(root, leagueSlug, year) {
   return `${root}${draftPath(leagueSlug, year)}`;
 }
 
+// The Movies section's own address with the identifier on it. There used to be
+// a `movie` segment between the two, a directory that existed only to hold the
+// query string and that answered nothing on its own; the section now serves
+// both, and which one a reader gets is the query string
+// (#187, ADR 0010).
 export function moviePath(imdbId) {
-  return `${MOVIES_SEGMENT}/${MOVIE_SEGMENT}/?${MOVIE_PARAM}=${encodeURIComponent(imdbId)}`;
+  return `${MOVIES_SEGMENT}/?${MOVIE_PARAM}=${encodeURIComponent(imdbId)}`;
 }
 
 export function movieHref(root, imdbId) {
   return `${root}${moviePath(imdbId)}`;
 }
 
-// Which Movie the detail page is showing, read off its own query string. One
-// file serves every Movie, so this is the whole of what the page knows about
-// which one it is.
+// Which Movie the Movies section is showing, read off its own query string.
+// One file serves the lookup table and every Movie, so this is both the whole
+// of what the film page knows about which one it is and the question the
+// section's entry dispatches on.
 //
 // Whitespace is trimmed because a pasted link can carry it, and an identifier
 // that is empty once trimmed is no identifier: null separates a page nobody

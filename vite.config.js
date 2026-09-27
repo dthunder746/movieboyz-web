@@ -66,11 +66,14 @@ export default defineConfig({
       // directory inside the year: a draft is always one year's, and its
       // address says which (#81).
       // The Movies lookup is a section of its own: it belongs to no League and
-      // its URL says so. One Movie is a page inside that section, addressed by
-      // a query parameter rather than a directory apiece: a slice republishes
-      // daily and can carry a film this build has never heard of, so a
-      // directory per Movie would 404 for exactly the new releases most worth
-      // looking at (ADR 0010).
+      // its URL says so. One Movie is the same address with a query parameter
+      // on it rather than a directory apiece: a slice republishes daily and can
+      // carry a film this build has never heard of, so a directory per Movie
+      // would 404 for exactly the new releases most worth looking at (ADR
+      // 0010). The film used to have a `movie` directory of its own inside the
+      // section, which held no page a reader could reach without a query string
+      // and made the two addresses look unrelated; the section is one entry now
+      // and `src/movies/entry.js` picks the surface (#187).
       //
       // `404.html` is the catch-all. Pages serves it for a path it has no file
       // for, and it renders whatever Campaign, draft or League landing that
@@ -88,6 +91,11 @@ export default defineConfig({
       // three stay in separate chunks (#85, #101).
       input: {
         root: resolve(import.meta.dirname, 'index.html'),
+        // `/league/` is a segment rather than a page. It is registered so the
+        // address answers 200 with a meta refresh to the root, where the
+        // Leagues are listed, instead of the catch-all's not-found notice
+        // (#187).
+        leagueRedirect: resolve(import.meta.dirname, 'league/index.html'),
         movieboyzLanding: resolve(import.meta.dirname, 'league/movieboyz/index.html'),
         movieboyz2026: resolve(
           import.meta.dirname,
@@ -98,7 +106,6 @@ export default defineConfig({
           'league/movieboyz/2026/draft/index.html',
         ),
         movies: resolve(import.meta.dirname, 'movies/index.html'),
-        movieDetail: resolve(import.meta.dirname, 'movies/movie/index.html'),
         catchAll: resolve(import.meta.dirname, '404.html'),
       },
     },
