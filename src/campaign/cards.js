@@ -19,7 +19,7 @@ import {
 } from '../shared/format.js';
 import {
   buildCards as buildSharedCards,
-  movieLink,
+  movieTitleLink,
   plotButton,
   weekTable,
   weeklyModule,
@@ -108,7 +108,7 @@ function cardMarkup(row, colorMap, isSelected) {
     + '<div class="movie-card-header">'
     + '<div class="movie-card-title">'
     + pickOrSeasonIcon(row.pickType, row.season)
-    + `<span class="movie-title-text">${escapeHtml(row.title)}</span>`
+    + movieTitleLink(row.imdbId, `<span class="movie-title-text">${escapeHtml(row.title)}</span>`)
     + '</div>'
     + userBadge(row.userId, row.username, colorMap)
     + plotButton()
@@ -124,7 +124,6 @@ function cardMarkup(row, colorMap, isSelected) {
     + '<div class="movie-card-extra d-none">'
     + rankLine
     + weekTable(row.weeks)
-    + movieLink(row)
     + '</div>'
     + '</div>';
 }
