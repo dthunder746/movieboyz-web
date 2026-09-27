@@ -1331,9 +1331,11 @@ details:not([open]) > .site-directory-summary::after {
 /* A card whose title is itself the link into the Movie. The anchor is the
    flex item that gives, the same arrangement the table's Movie cell uses, so
    a long name still truncates at the card's edge rather than pushing the plot
-   button off it. Both card views carry the anchor now (#188). */
+   button off it. It shrinks but never grows: the link is the name and no
+   wider, so the rest of the row is still the card's own tap target for
+   expanding it. Both card views carry the anchor now (#188). */
 .movie-card-title .movie-title-link {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
   min-width: 0;
   overflow: hidden;
 }
