@@ -1,7 +1,7 @@
 // The League's card: what one Movie looks like on the Campaign's card view.
 //
-// The grid itself, the sparkline, the week table, the link through to the Movie
-// and every pointer gesture are the shared card view's (`shared/cards.js`).
+// The grid itself, the sparkline, the week table, the link the title wears and
+// every pointer gesture are the shared card view's (`shared/cards.js`).
 // What is here is the markup a League puts in a card, ROI meter and all, and
 // the rows it is drawn from. The `buildCards` exported here keeps the name the
 // page always called, and hands the League markup to the shared `buildCards`,
