@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-09-29T03:50:23.846548Z",
+  "generated_at": "2026-09-29T04:50:31.209632Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -15635,8 +15635,8 @@
       "title": "Charlie Harper",
       "release_date": "2026-09-25",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -15811,7 +15811,7 @@
         "2026-09-26": 0,
         "2026-09-27": 0
       },
-      "profit_td": 0
+      "profit_td": -10000000
     },
     {
       "imdb_id": "tt27988879",
@@ -25638,8 +25638,8 @@
       "title": "The Stunt Driver",
       "release_date": "2026-09-25",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -25656,10 +25656,10 @@
         "2026-09-23": 0,
         "2026-09-24": 0,
         "2026-09-25": 0,
-        "2026-09-26": 102000,
-        "2026-09-27": 106751
+        "2026-09-26": -9898000,
+        "2026-09-27": -9893249
       },
-      "profit_td": 106751
+      "profit_td": -9893249
     },
     {
       "imdb_id": "tt34685692",
@@ -27486,8 +27486,8 @@
       "title": "Your Mother Your Mother Your Mother",
       "release_date": "2026-09-25",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -27565,10 +27565,10 @@
         "2026-09-23": 0,
         "2026-09-24": 0,
         "2026-09-25": 0,
-        "2026-09-26": 199000,
-        "2026-09-27": 204008
+        "2026-09-26": -9801000,
+        "2026-09-27": -9795992
       },
-      "profit_td": 204008
+      "profit_td": -9795992
     },
     {
       "imdb_id": "tt35866986",
@@ -30446,8 +30446,8 @@
       "title": "Ha-Chan, Shake Your Booty!",
       "release_date": "2026-09-25",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 3000000,
+      "breakeven": 6000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -30524,11 +30524,11 @@
         "2026-09-22": 0,
         "2026-09-23": 0,
         "2026-09-24": 0,
-        "2026-09-25": 90000,
-        "2026-09-26": 185000,
-        "2026-09-27": 221251
+        "2026-09-25": -5910000,
+        "2026-09-26": -5815000,
+        "2026-09-27": -5778749
       },
-      "profit_td": 221251
+      "profit_td": -5778749
     },
     {
       "imdb_id": "tt39850240",
