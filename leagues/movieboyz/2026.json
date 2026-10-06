@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-05T22:01:51.508919Z",
+  "generated_at": "2026-10-06T01:02:05.968103Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -11131,18 +11131,18 @@
       "title": "Beware Boiúna",
       "release_date": "2026-10-02",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 10000000,
+      "breakeven": 20000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
       "draft": null,
       "profit": {
         "2026-10-02": 0,
-        "2026-10-03": 550000,
-        "2026-10-04": 592984
+        "2026-10-03": -19450000,
+        "2026-10-04": -19407016
       },
-      "profit_td": 592984
+      "profit_td": -19407016
     },
     {
       "imdb_id": "tt10794054",
@@ -24669,8 +24669,8 @@
       "title": "Rolling Loud",
       "release_date": "2026-10-02",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -24823,11 +24823,11 @@
         "2026-09-29": 0,
         "2026-09-30": 0,
         "2026-10-01": 0,
-        "2026-10-02": 192923,
-        "2026-10-03": 466912,
-        "2026-10-04": 475019
+        "2026-10-02": -9807077,
+        "2026-10-03": -9533088,
+        "2026-10-04": -9524981
       },
-      "profit_td": 475019
+      "profit_td": -9524981
     },
     {
       "imdb_id": "tt33296751",
