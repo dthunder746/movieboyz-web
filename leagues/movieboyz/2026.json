@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-07T22:05:14.179474Z",
+  "generated_at": "2026-10-08T12:06:09.507846Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -7349,8 +7349,8 @@
       "title": "Other Mommy",
       "release_date": "2026-10-09",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 19000000,
+      "breakeven": 38000000,
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 13,
@@ -28126,8 +28126,8 @@
       "title": "Fjord",
       "release_date": "2026-10-09",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5250000,
+      "breakeven": 10500000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -34857,7 +34857,7 @@
         "2026-10-06": -35054390
       },
       "total": 1715934124,
-      "slate_roi": 93.8364691318
+      "slate_roi": 91.963682458
     },
     {
       "user_id": "emerson",
