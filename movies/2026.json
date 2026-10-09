@@ -16335,7 +16335,7 @@
       "imdb_id": "tt34385184",
       "title": "Misty Green",
       "release_date": "2026-10-09",
-      "budget": null,
+      "budget": 5000000,
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": null,
@@ -20209,7 +20209,7 @@
       "imdb_id": "tt37510326",
       "title": "The Social Reckoning",
       "release_date": "2026-10-09",
-      "budget": null,
+      "budget": 30000000,
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": null,
@@ -21872,6 +21872,52 @@
         "trakt": {
           "score": null,
           "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt45368240",
+      "title": "You Can See Everything",
+      "release_date": "2026-10-16",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-10-10",
+        "imdb": {
+          "score": 78,
+          "votes": 160
+        },
+        "rt_critic": {
+          "score": 100,
+          "votes": 21
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": 0
+        },
+        "metacritic": {
+          "score": 98,
+          "votes": 14
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 84,
+          "votes": 813
+        },
+        "trakt": {
+          "score": 10,
+          "votes": 1
         }
       },
       "released_digital": null,
