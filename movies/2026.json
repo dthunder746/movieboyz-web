@@ -1,7 +1,7 @@
 {
   "contract_version": 3,
   "release_year": 2026,
-  "latest_date": "2026-10-09",
+  "latest_date": "2026-10-10",
   "movies": [
     {
       "imdb_id": "tt0427340",
@@ -11,7 +11,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 113792300,
-      "days_running": 126,
+      "days_running": 127,
       "daily_change": {
         "2026-06-04": 4441692,
         "2026-06-05": 7354000,
@@ -247,7 +247,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2967647,
-      "days_running": 259,
+      "days_running": 260,
       "daily_change": {
         "2026-01-25": 147473,
         "2026-01-28": 371286,
@@ -441,19 +441,20 @@
       "budget": 10000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 817454,
-      "days_running": 7,
+      "gross_td": 842438,
+      "days_running": 8,
       "daily_change": {
         "2026-10-03": 550000,
         "2026-10-04": 42984,
         "2026-10-05": 61667,
         "2026-10-06": 82522,
         "2026-10-07": 61254,
-        "2026-10-08": 19027
+        "2026-10-08": 19027,
+        "2026-10-10": 24984
       },
       "weekly_gross": {
         "2026-W40": 592984,
-        "2026-W41": 224470
+        "2026-W41": 249454
       },
       "gross": {
         "2026-10-02": 0,
@@ -462,37 +463,39 @@
         "2026-10-05": 654651,
         "2026-10-06": 737173,
         "2026-10-07": 798427,
-        "2026-10-08": 817454
+        "2026-10-08": 817454,
+        "2026-10-09": 817454,
+        "2026-10-10": 842438
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 61,
-          "votes": 713
+          "votes": 770
         },
         "rt_critic": {
           "score": 57,
-          "votes": 51
+          "votes": 53
         },
         "rt_audience": {
-          "score": 66,
-          "votes": 25
+          "score": 68,
+          "votes": 27
         },
         "metacritic": {
           "score": 49,
           "votes": 8
         },
         "tmdb": {
-          "score": 58,
-          "votes": 6
+          "score": 56,
+          "votes": 8
         },
         "letterboxd": {
           "score": 58,
-          "votes": 6294
+          "votes": 6788
         },
         "trakt": {
-          "score": 60,
-          "votes": 39
+          "score": 62,
+          "votes": 46
         }
       },
       "released_digital": null,
@@ -506,7 +509,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 3772335,
-      "days_running": 21,
+      "days_running": 22,
       "daily_change": {
         "2026-09-19": 2315162,
         "2026-09-20": 50937,
@@ -547,34 +550,34 @@
         "2026-10-08": 3772335
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 69,
-          "votes": 3567
+          "votes": 3595
         },
         "rt_critic": {
           "score": 94,
-          "votes": 141
+          "votes": 142
         },
         "rt_audience": {
           "score": 84,
-          "votes": 131
+          "votes": 132
         },
         "metacritic": {
           "score": 70,
           "votes": 28
         },
         "tmdb": {
-          "score": 67,
+          "score": 68,
           "votes": 39
         },
         "letterboxd": {
           "score": 70,
-          "votes": 27655
+          "votes": 27915
         },
         "trakt": {
           "score": 74,
-          "votes": 423
+          "votes": 431
         }
       },
       "released_digital": null,
@@ -588,7 +591,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 1021426595,
-      "days_running": 168,
+      "days_running": 169,
       "daily_change": {
         "2026-04-23": 31100000,
         "2026-04-24": 27300000,
@@ -885,7 +888,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 684489947,
-      "days_running": 203,
+      "days_running": 204,
       "daily_change": {
         "2026-03-20": 33403110,
         "2026-03-21": 107580636,
@@ -1185,7 +1188,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 5359311,
-      "days_running": 203,
+      "days_running": 204,
       "daily_change": {
         "2026-03-20": 2335928,
         "2026-03-23": 833845,
@@ -1345,7 +1348,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 9242034,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 450000,
         "2026-02-13": 965000,
@@ -1464,7 +1467,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 721443,
-      "days_running": 168,
+      "days_running": 169,
       "daily_change": {
         "2026-04-25": 472111,
         "2026-04-26": 15737,
@@ -1630,7 +1633,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 43846688,
-      "days_running": 91,
+      "days_running": 92,
       "daily_change": {
         "2026-06-26": 156273,
         "2026-06-27": 222831,
@@ -1928,7 +1931,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 2609598,
-      "days_running": 182,
+      "days_running": 183,
       "daily_change": {
         "2026-04-11": 1700000,
         "2026-04-12": -52283,
@@ -2004,7 +2007,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 44856736,
-      "days_running": 273,
+      "days_running": 274,
       "daily_change": {
         "2026-01-08": 900000,
         "2026-01-09": 2360000,
@@ -2129,7 +2132,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 5215115,
-      "days_running": 252,
+      "days_running": 253,
       "daily_change": {
         "2026-01-29": 260013,
         "2026-01-31": 411872,
@@ -2272,7 +2275,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 244361229,
-      "days_running": 119,
+      "days_running": 120,
       "daily_change": {
         "2026-06-11": 6599496,
         "2026-06-12": 12520000,
@@ -2518,7 +2521,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 3550879,
-      "days_running": 266,
+      "days_running": 267,
       "daily_change": {
         "2026-01-15": 154100,
         "2026-03-04": 2329084,
@@ -2644,8 +2647,8 @@
       "budget": 18000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 169590532,
-      "days_running": 49,
+      "gross_td": 169694167,
+      "days_running": 50,
       "daily_change": {
         "2026-08-20": 3000000,
         "2026-08-21": 7600000,
@@ -2697,7 +2700,8 @@
         "2026-10-06": 31853,
         "2026-10-07": 25970,
         "2026-10-08": 13425,
-        "2026-10-09": 42000
+        "2026-10-09": 42000,
+        "2026-10-10": 103635
       },
       "weekly_gross": {
         "2026-W34": 59620634,
@@ -2707,7 +2711,7 @@
         "2026-W38": 8675557,
         "2026-W39": 3650739,
         "2026-W40": 1692150,
-        "2026-W41": 139604
+        "2026-W41": 243239
       },
       "gross": {
         "2026-04-13": 0,
@@ -2762,10 +2766,11 @@
         "2026-10-06": 169509137,
         "2026-10-07": 169535107,
         "2026-10-08": 169548532,
-        "2026-10-09": 169590532
+        "2026-10-09": 169590532,
+        "2026-10-10": 169694167
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": null,
           "votes": null
@@ -2852,7 +2857,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 129570110,
-      "days_running": 154,
+      "days_running": 155,
       "daily_change": {
         "2026-05-07": 5200000,
         "2026-05-08": 11800000,
@@ -3042,7 +3047,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 101528842,
-      "days_running": 42,
+      "days_running": 43,
       "daily_change": {
         "2026-08-27": 1700000,
         "2026-08-28": 3600000,
@@ -3141,18 +3146,18 @@
         "2026-10-09": 101528842
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 74,
-          "votes": 37087
+          "score": 73,
+          "votes": 41508
         },
         "rt_critic": {
           "score": 96,
-          "votes": 295
+          "votes": 296
         },
         "rt_audience": {
           "score": 94,
-          "votes": 1057
+          "votes": 1071
         },
         "metacritic": {
           "score": 77,
@@ -3160,15 +3165,15 @@
         },
         "tmdb": {
           "score": 75,
-          "votes": 641
+          "votes": 695
         },
         "letterboxd": {
           "score": 76,
-          "votes": 555666
+          "votes": 587326
         },
         "trakt": {
           "score": 78,
-          "votes": 4636
+          "votes": 5497
         }
       },
       "released_digital": "2026-09-29",
@@ -3182,7 +3187,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 2555070,
-      "days_running": 231,
+      "days_running": 232,
       "daily_change": {
         "2026-02-19": 250000,
         "2026-02-20": 460000,
@@ -3263,7 +3268,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 3028523,
-      "days_running": 77,
+      "days_running": 78,
       "daily_change": {
         "2026-07-23": 475000,
         "2026-07-24": 375000,
@@ -3426,7 +3431,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2991968,
-      "days_running": 273,
+      "days_running": 274,
       "daily_change": {
         "2026-01-09": 514257,
         "2026-01-10": 700569,
@@ -3589,7 +3594,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 39321916,
-      "days_running": 42,
+      "days_running": 43,
       "daily_change": {
         "2026-08-27": 850000,
         "2026-08-28": 2150000,
@@ -3678,10 +3683,10 @@
         "2026-10-04": 39321916
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 64,
-          "votes": 17621
+          "votes": 17661
         },
         "rt_critic": {
           "score": 41,
@@ -3689,7 +3694,7 @@
         },
         "rt_audience": {
           "score": 70,
-          "votes": 289
+          "votes": 291
         },
         "metacritic": {
           "score": 49,
@@ -3701,11 +3706,11 @@
         },
         "letterboxd": {
           "score": 56,
-          "votes": 153553
+          "votes": 154487
         },
         "trakt": {
           "score": 67,
-          "votes": 1444
+          "votes": 1465
         }
       },
       "released_digital": null,
@@ -3767,7 +3772,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 2000867,
-      "days_running": 21,
+      "days_running": 22,
       "daily_change": {
         "2026-09-16": 51433,
         "2026-09-21": 1126,
@@ -3797,10 +3802,10 @@
         "2026-10-07": 2000867
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 40,
-          "votes": 156
+          "votes": 157
         },
         "rt_critic": {
           "score": null,
@@ -3837,8 +3842,8 @@
       "budget": 225000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 2507246993,
-      "days_running": 70,
+      "gross_td": 2512866000,
+      "days_running": 71,
       "daily_change": {
         "2026-07-30": 72667213,
         "2026-07-31": 96000000,
@@ -3910,7 +3915,8 @@
         "2026-10-06": 260337,
         "2026-10-07": 208238,
         "2026-10-08": 162365,
-        "2026-10-09": 365000
+        "2026-10-09": 365000,
+        "2026-10-10": 5619007
       },
       "weekly_gross": {
         "2026-W31": 941793644,
@@ -3923,7 +3929,7 @@
         "2026-W38": 27194296,
         "2026-W39": 16997542,
         "2026-W40": 10420454,
-        "2026-W41": 1202044
+        "2026-W41": 6821051
       },
       "gross": {
         "2026-04-13": 0,
@@ -3999,37 +4005,38 @@
         "2026-10-06": 2506511390,
         "2026-10-07": 2506719628,
         "2026-10-08": 2506881993,
-        "2026-10-09": 2507246993
+        "2026-10-09": 2507246993,
+        "2026-10-10": 2512866000
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 80,
-          "votes": 317734
+          "votes": 336854
         },
         "rt_critic": {
           "score": 90,
-          "votes": 435
+          "votes": 436
         },
         "rt_audience": {
           "score": 97,
-          "votes": 5514
+          "votes": 5539
         },
         "metacritic": {
           "score": 66,
           "votes": 56
         },
         "tmdb": {
-          "score": 78,
-          "votes": 3010
+          "score": 83,
+          "votes": 4569
         },
         "letterboxd": {
           "score": 80,
-          "votes": 4316161
+          "votes": 4365966
         },
         "trakt": {
           "score": 86,
-          "votes": 29507
+          "votes": 31052
         }
       },
       "released_digital": "2026-10-06",
@@ -4043,7 +4050,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 33571113,
-      "days_running": 259,
+      "days_running": 260,
       "daily_change": {
         "2026-01-23": 1600000,
         "2026-01-24": 1600000,
@@ -4199,7 +4206,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 6522584,
-      "days_running": 161,
+      "days_running": 162,
       "daily_change": {
         "2026-05-01": 1145988,
         "2026-05-02": 2254012,
@@ -4377,7 +4384,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 389686110,
-      "days_running": 217,
+      "days_running": 218,
       "daily_change": {
         "2026-03-06": 13452178,
         "2026-03-07": 74547822,
@@ -4650,7 +4657,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 400093512,
-      "days_running": 133,
+      "days_running": 134,
       "daily_change": {
         "2026-05-28": 10400000,
         "2026-05-29": 28012634,
@@ -4867,7 +4874,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 213835967,
-      "days_running": 224,
+      "days_running": 225,
       "daily_change": {
         "2026-02-26": 7800000,
         "2026-02-27": 21000000,
@@ -5050,7 +5057,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 3030963,
-      "days_running": 168,
+      "days_running": 169,
       "daily_change": {
         "2026-04-17": 70737,
         "2026-04-18": 97326,
@@ -5172,7 +5179,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 46803697,
-      "days_running": 30,
+      "days_running": 31,
       "daily_change": {
         "2026-07-15": 108161,
         "2026-07-21": 15961686,
@@ -5262,10 +5269,10 @@
         "2026-10-04": 46803697
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 68,
-          "votes": 11181
+          "votes": 11403
         },
         "rt_critic": {
           "score": 78,
@@ -5351,7 +5358,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 323646010,
-      "days_running": 91,
+      "days_running": 92,
       "daily_change": {
         "2026-07-09": 4500000,
         "2026-07-10": 13500000,
@@ -5563,7 +5570,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1021047,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-08-30": 521022,
         "2026-09-03": 29291,
@@ -5587,10 +5594,10 @@
         "2026-09-13": 1021047
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 40,
-          "votes": 28992
+          "votes": 29026
         },
         "rt_critic": {
           "score": 21,
@@ -5628,7 +5635,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 51226173,
-      "days_running": 252,
+      "days_running": 253,
       "daily_change": {
         "2026-01-29": 3500000,
         "2026-01-30": 5400000,
@@ -5749,7 +5756,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 195359397,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 1000000,
         "2026-02-13": 6100000,
@@ -6026,7 +6033,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 13513890,
-      "days_running": 147,
+      "days_running": 148,
       "daily_change": {
         "2026-05-15": 1140000,
         "2026-05-16": 1865000,
@@ -6113,7 +6120,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 2713143,
-      "days_running": 56,
+      "days_running": 57,
       "daily_change": {
         "2026-08-14": 1027000,
         "2026-08-16": 67039,
@@ -6247,7 +6254,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 37849,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-28": 16902,
         "2026-09-30": 3401,
@@ -6270,10 +6277,10 @@
         "2026-10-07": 37849
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 68,
-          "votes": 241
+          "votes": 242
         },
         "rt_critic": {
           "score": 59,
@@ -6281,7 +6288,7 @@
         },
         "rt_audience": {
           "score": 84,
-          "votes": 27
+          "votes": 28
         },
         "metacritic": {
           "score": 51,
@@ -6293,7 +6300,7 @@
         },
         "letterboxd": {
           "score": 68,
-          "votes": 2943
+          "votes": 2964
         },
         "trakt": {
           "score": 75,
@@ -6359,7 +6366,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 10081294,
-      "days_running": 273,
+      "days_running": 274,
       "daily_change": {
         "2026-01-08": 1129924,
         "2026-01-09": 810000,
@@ -6520,7 +6527,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2679904,
-      "days_running": 259,
+      "days_running": 260,
       "daily_change": {
         "2026-01-23": 565000,
         "2026-01-24": 710000,
@@ -6700,7 +6707,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 1013175531,
-      "days_running": 191,
+      "days_running": 192,
       "daily_change": {
         "2026-04-01": 34502265,
         "2026-04-02": 24611190,
@@ -7052,7 +7059,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 11031947,
-      "days_running": 245,
+      "days_running": 246,
       "daily_change": {
         "2026-02-05": 450000,
         "2026-02-06": 850000,
@@ -7167,7 +7174,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 121626243,
-      "days_running": 56,
+      "days_running": 57,
       "daily_change": {
         "2026-08-13": 6500000,
         "2026-08-14": 11950000,
@@ -7332,7 +7339,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 1148032149,
-      "days_running": 112,
+      "days_running": 113,
       "daily_change": {
         "2026-06-18": 43500000,
         "2026-06-19": 53500000,
@@ -7609,8 +7616,8 @@
       "budget": 40000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 157798982,
-      "days_running": 56,
+      "gross_td": 159454000,
+      "days_running": 57,
       "daily_change": {
         "2026-08-03": 65601,
         "2026-08-04": 43747,
@@ -7671,7 +7678,8 @@
         "2026-10-06": 7824,
         "2026-10-07": 7802,
         "2026-10-08": 5582,
-        "2026-10-09": 9000
+        "2026-10-09": 9000,
+        "2026-10-10": 1655018
       },
       "weekly_gross": {
         "2026-W32": 21353336,
@@ -7683,7 +7691,7 @@
         "2026-W38": 963809,
         "2026-W39": 7434841,
         "2026-W40": 2858889,
-        "2026-W41": 37914
+        "2026-W41": 1692932
       },
       "gross": {
         "2026-04-13": 0,
@@ -7752,13 +7760,14 @@
         "2026-10-06": 157776598,
         "2026-10-07": 157784400,
         "2026-10-08": 157789982,
-        "2026-10-09": 157798982
+        "2026-10-09": 157798982,
+        "2026-10-10": 159454000
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 61,
-          "votes": 2688
+          "votes": 2769
         },
         "rt_critic": {
           "score": 83,
@@ -7773,16 +7782,16 @@
           "votes": 4
         },
         "tmdb": {
-          "score": 81,
-          "votes": 159
+          "score": 82,
+          "votes": 174
         },
         "letterboxd": {
           "score": 58,
-          "votes": 12578
+          "votes": 12838
         },
         "trakt": {
           "score": 74,
-          "votes": 443
+          "votes": 488
         }
       },
       "released_digital": "2026-09-29",
@@ -7796,7 +7805,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 600000,
-      "days_running": 182,
+      "days_running": 183,
       "daily_change": {
         "2026-04-12": 600000
       },
@@ -7809,7 +7818,7 @@
         "2026-04-12": 600000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 56,
           "votes": 806
@@ -7850,7 +7859,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 7949887,
-      "days_running": 161,
+      "days_running": 162,
       "daily_change": {
         "2026-05-01": 703873,
         "2026-05-02": 1448400,
@@ -8114,7 +8123,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 3634724,
-      "days_running": 245,
+      "days_running": 246,
       "daily_change": {
         "2026-02-07": 720000,
         "2026-02-08": 44456,
@@ -8262,7 +8271,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 3950965,
-      "days_running": 266,
+      "days_running": 267,
       "daily_change": {
         "2026-01-18": 781550,
         "2026-01-25": 787800,
@@ -8417,7 +8426,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2391402,
-      "days_running": 196,
+      "days_running": 197,
       "daily_change": {
         "2026-03-28": 1170000,
         "2026-03-29": 1861,
@@ -8552,7 +8561,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 345838416,
-      "days_running": 140,
+      "days_running": 141,
       "daily_change": {
         "2026-05-21": 12000000,
         "2026-05-22": 21000000,
@@ -8778,7 +8787,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 9743067,
-      "days_running": 140,
+      "days_running": 141,
       "daily_change": {
         "2026-05-21": 430000,
         "2026-05-22": 1070000,
@@ -8912,7 +8921,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 23944025,
-      "days_running": 217,
+      "days_running": 218,
       "daily_change": {
         "2026-03-06": 5300000,
         "2026-03-07": 8260000,
@@ -9028,7 +9037,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 706723,
-      "days_running": 77,
+      "days_running": 78,
       "daily_change": {
         "2026-07-25": 295731,
         "2026-07-26": 90736,
@@ -9103,7 +9112,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 53690303,
-      "days_running": 259,
+      "days_running": 260,
       "daily_change": {
         "2026-01-22": 1500000,
         "2026-01-23": 3500000,
@@ -9225,7 +9234,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 72377053,
-      "days_running": 91,
+      "days_running": 92,
       "daily_change": {
         "2026-07-09": 2300000,
         "2026-07-10": 4400000,
@@ -9439,7 +9448,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 25674838,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-02": 310927,
         "2026-09-03": 262099,
@@ -9518,14 +9527,14 @@
         "2026-10-08": 25674838
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 56,
-          "votes": 4430
+          "score": 54,
+          "votes": 7696
         },
         "rt_critic": {
           "score": 53,
-          "votes": 58
+          "votes": 59
         },
         "rt_audience": {
           "score": 63,
@@ -9536,16 +9545,16 @@
           "votes": 12
         },
         "tmdb": {
-          "score": 61,
-          "votes": 57
+          "score": 72,
+          "votes": 314
         },
         "letterboxd": {
           "score": 44,
-          "votes": 35492
+          "votes": 46515
         },
         "trakt": {
-          "score": 65,
-          "votes": 334
+          "score": 62,
+          "votes": 977
         }
       },
       "released_digital": "2026-10-06",
@@ -9559,7 +9568,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 5953183,
-      "days_running": 175,
+      "days_running": 176,
       "daily_change": {
         "2026-04-18": 2650000,
         "2026-04-21": 238753,
@@ -9674,8 +9683,8 @@
       "budget": 40000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 17577114,
-      "days_running": 28,
+      "gross_td": 17597603,
+      "days_running": 29,
       "daily_change": {
         "2026-09-11": 2519474,
         "2026-09-12": 3913482,
@@ -9705,14 +9714,15 @@
         "2026-10-06": 144084,
         "2026-10-07": 24578,
         "2026-10-08": 11838,
-        "2026-10-09": 9150
+        "2026-10-09": 9150,
+        "2026-10-10": 20489
       },
       "weekly_gross": {
         "2026-W37": 7029453,
         "2026-W38": 6231341,
         "2026-W39": 3078989,
         "2026-W40": 1023912,
-        "2026-W41": 213419
+        "2026-W41": 233908
       },
       "gross": {
         "2026-09-06": 0,
@@ -9745,13 +9755,14 @@
         "2026-10-06": 17531548,
         "2026-10-07": 17556126,
         "2026-10-08": 17567964,
-        "2026-10-09": 17577114
+        "2026-10-09": 17577114,
+        "2026-10-10": 17597603
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 63,
-          "votes": 11729
+          "votes": 12149
         },
         "rt_critic": {
           "score": 77,
@@ -9766,8 +9777,8 @@
           "votes": 15
         },
         "tmdb": {
-          "score": 83,
-          "votes": 443
+          "score": 82,
+          "votes": 459
         },
         "letterboxd": {
           "score": 58,
@@ -9837,7 +9848,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 42414609,
-      "days_running": 245,
+      "days_running": 246,
       "daily_change": {
         "2026-02-05": 21435099,
         "2026-02-06": 1650000,
@@ -9943,8 +9954,8 @@
       "budget": 170000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 29007754,
-      "days_running": 7,
+      "gross_td": 35333000,
+      "days_running": 8,
       "daily_change": {
         "2026-10-01": 1200000,
         "2026-10-02": 2200000,
@@ -9953,11 +9964,12 @@
         "2026-10-06": 2448348,
         "2026-10-07": 1931316,
         "2026-10-08": 1585063,
-        "2026-10-09": 2475000
+        "2026-10-09": 2475000,
+        "2026-10-10": 6325246
       },
       "weekly_gross": {
         "2026-W40": 20000000,
-        "2026-W41": 9007754
+        "2026-W41": 15333000
       },
       "gross": {
         "2026-04-13": 0,
@@ -9970,13 +9982,14 @@
         "2026-10-06": 23016375,
         "2026-10-07": 24947691,
         "2026-10-08": 26532754,
-        "2026-10-09": 29007754
+        "2026-10-09": 29007754,
+        "2026-10-10": 35333000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 74,
-          "votes": 25020
+          "votes": 27082
         },
         "rt_critic": {
           "score": 52,
@@ -10062,7 +10075,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 19382152,
-      "days_running": 196,
+      "days_running": 197,
       "daily_change": {
         "2026-03-26": 1000000,
         "2026-03-27": 1250000,
@@ -10196,7 +10209,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 231277762,
-      "days_running": 126,
+      "days_running": 127,
       "daily_change": {
         "2026-06-04": 7700000,
         "2026-06-05": 17000000,
@@ -10367,7 +10380,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 47142616,
-      "days_running": 98,
+      "days_running": 99,
       "daily_change": {
         "2026-07-03": 7597688,
         "2026-07-04": 13250000,
@@ -10554,7 +10567,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 58527279,
-      "days_running": 266,
+      "days_running": 267,
       "daily_change": {
         "2026-01-15": 2100000,
         "2026-01-16": 3500000,
@@ -10704,8 +10717,8 @@
       "budget": 40000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 76209695,
-      "days_running": 7,
+      "gross_td": 113961000,
+      "days_running": 8,
       "daily_change": {
         "2026-10-01": 4500000,
         "2026-10-02": 10602000,
@@ -10715,11 +10728,12 @@
         "2026-10-06": 3554574,
         "2026-10-07": 2416329,
         "2026-10-08": 1974901,
-        "2026-10-09": 4007321
+        "2026-10-09": 4007321,
+        "2026-10-10": 37751305
       },
       "weekly_gross": {
         "2026-W40": 61854334,
-        "2026-W41": 14355361
+        "2026-W41": 52106666
       },
       "gross": {
         "2026-04-13": 0,
@@ -10732,13 +10746,14 @@
         "2026-10-06": 67811144,
         "2026-10-07": 70227473,
         "2026-10-08": 72202374,
-        "2026-10-09": 76209695
+        "2026-10-09": 76209695,
+        "2026-10-10": 113961000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 60,
-          "votes": 11802
+          "votes": 12873
         },
         "rt_critic": {
           "score": 32,
@@ -10776,7 +10791,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 4057708,
-      "days_running": 126,
+      "days_running": 127,
       "daily_change": {
         "2026-05-30": 170000,
         "2026-05-31": 102602,
@@ -10947,7 +10962,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 3456002,
-      "days_running": 35,
+      "days_running": 36,
       "daily_change": {
         "2026-09-04": 782544,
         "2026-09-05": 1101040,
@@ -11009,14 +11024,14 @@
         "2026-10-08": 3456002
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 61,
-          "votes": 2637
+          "score": 56,
+          "votes": 5023
         },
         "rt_critic": {
-          "score": 58,
-          "votes": 132
+          "score": 59,
+          "votes": 138
         },
         "rt_audience": {
           "score": 61,
@@ -11028,15 +11043,15 @@
         },
         "tmdb": {
           "score": 58,
-          "votes": 30
+          "votes": 88
         },
         "letterboxd": {
-          "score": 58,
-          "votes": 34731
+          "score": 56,
+          "votes": 43693
         },
         "trakt": {
           "score": 61,
-          "votes": 125
+          "votes": 618
         }
       },
       "released_digital": "2026-10-06",
@@ -11050,7 +11065,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 8078248,
-      "days_running": 112,
+      "days_running": 113,
       "daily_change": {
         "2026-06-19": 1111822,
         "2026-06-20": 1509853,
@@ -11236,7 +11251,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 26400616,
-      "days_running": 245,
+      "days_running": 246,
       "daily_change": {
         "2026-02-05": 744000,
         "2026-02-06": 2438945,
@@ -11439,7 +11454,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 6660385,
-      "days_running": 231,
+      "days_running": 232,
       "daily_change": {
         "2026-02-19": 2336248,
         "2026-02-20": 423776,
@@ -11628,7 +11643,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1774120,
-      "days_running": 70,
+      "days_running": 71,
       "daily_change": {
         "2026-08-01": 600000,
         "2026-08-03": 34877,
@@ -11766,7 +11781,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 29661324,
-      "days_running": 49,
+      "days_running": 50,
       "daily_change": {
         "2026-08-20": 700000,
         "2026-08-22": 6800000,
@@ -11909,7 +11924,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 49305541,
-      "days_running": 252,
+      "days_running": 253,
       "daily_change": {
         "2026-01-29": 385000,
         "2026-01-30": 1515000,
@@ -12026,7 +12041,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 72896630,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 1010000,
         "2026-02-13": 2890000,
@@ -12180,7 +12195,7 @@
         "2026-04-13": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": null,
           "votes": null
@@ -12221,7 +12236,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 2855259,
-      "days_running": 112,
+      "days_running": 113,
       "daily_change": {
         "2026-06-19": 920000,
         "2026-06-20": 680000,
@@ -12362,7 +12377,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 3143900,
-      "days_running": 42,
+      "days_running": 43,
       "daily_change": {
         "2026-05-28": 412460,
         "2026-05-31": 175515,
@@ -12563,7 +12578,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 24581826,
-      "days_running": 133,
+      "days_running": 134,
       "daily_change": {
         "2026-05-29": 2460000,
         "2026-05-30": 3290000,
@@ -12883,7 +12898,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 133138836,
-      "days_running": 154,
+      "days_running": 155,
       "daily_change": {
         "2026-05-03": 85922,
         "2026-05-04": 59500,
@@ -13124,8 +13139,8 @@
       "budget": 75000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 102274177,
-      "days_running": 28,
+      "gross_td": 103264000,
+      "days_running": 29,
       "daily_change": {
         "2026-09-10": 4700000,
         "2026-09-11": 14600000,
@@ -13155,14 +13170,15 @@
         "2026-10-06": 388075,
         "2026-10-07": 274632,
         "2026-10-08": 2082867,
-        "2026-10-09": 365000
+        "2026-10-09": 365000,
+        "2026-10-10": 989823
       },
       "weekly_gross": {
         "2026-W37": 46002526,
         "2026-W38": 30832917,
         "2026-W39": 12727524,
         "2026-W40": 9233033,
-        "2026-W41": 3478177
+        "2026-W41": 4468000
       },
       "gross": {
         "2026-04-13": 0,
@@ -13196,13 +13212,14 @@
         "2026-10-06": 99551678,
         "2026-10-07": 99826310,
         "2026-10-08": 101909177,
-        "2026-10-09": 102274177
+        "2026-10-09": 102274177,
+        "2026-10-10": 103264000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 63,
-          "votes": 11694
+          "votes": 11816
         },
         "rt_critic": {
           "score": 36,
@@ -13210,23 +13227,23 @@
         },
         "rt_audience": {
           "score": 91,
-          "votes": 1013
+          "votes": 1022
         },
         "metacritic": {
           "score": 44,
           "votes": 41
         },
         "tmdb": {
-          "score": 62,
-          "votes": 109
+          "score": 63,
+          "votes": 110
         },
         "letterboxd": {
           "score": 58,
-          "votes": 147402
+          "votes": 149187
         },
         "trakt": {
           "score": 74,
-          "votes": 913
+          "votes": 930
         }
       },
       "released_digital": "2026-10-13",
@@ -13240,7 +13257,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 90552113,
-      "days_running": 175,
+      "days_running": 176,
       "daily_change": {
         "2026-04-16": 1500000,
         "2026-04-17": 3700000,
@@ -13391,7 +13408,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 695518,
-      "days_running": 280,
+      "days_running": 281,
       "daily_change": {
         "2026-01-01": 38149,
         "2026-01-03": 406969,
@@ -13481,7 +13498,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 526215264,
-      "days_running": 100,
+      "days_running": 101,
       "daily_change": {
         "2026-06-27": 10349000,
         "2026-06-29": 6156850,
@@ -13732,7 +13749,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 241801072,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 3000000,
         "2026-02-13": 23200000,
@@ -13913,7 +13930,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 18420625,
-      "days_running": 147,
+      "days_running": 148,
       "daily_change": {
         "2026-05-15": 386869,
         "2026-06-01": 2828868
@@ -13972,7 +13989,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 41235665,
-      "days_running": 273,
+      "days_running": 274,
       "daily_change": {
         "2026-01-08": 1400000,
         "2026-01-09": 3150000,
@@ -14108,7 +14125,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 5052290,
-      "days_running": 56,
+      "days_running": 57,
       "daily_change": {
         "2026-08-14": 2684100,
         "2026-08-16": 5429,
@@ -14220,7 +14237,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 132492402,
-      "days_running": 189,
+      "days_running": 190,
       "daily_change": {
         "2026-04-02": 1700000,
         "2026-04-03": 4724320,
@@ -14359,7 +14376,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 19427862,
-      "days_running": 63,
+      "days_running": 64,
       "daily_change": {
         "2026-08-07": 151005,
         "2026-08-08": 197990,
@@ -14511,7 +14528,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 684025,
-      "days_running": 7,
+      "days_running": 8,
       "daily_change": {
         "2026-10-02": 192923,
         "2026-10-03": 273989,
@@ -14536,18 +14553,18 @@
         "2026-10-09": 684025
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 58,
-          "votes": 197
+          "score": 57,
+          "votes": 205
         },
         "rt_critic": {
           "score": null,
           "votes": null
         },
         "rt_audience": {
-          "score": null,
-          "votes": null
+          "score": 77,
+          "votes": 15
         },
         "metacritic": {
           "score": null,
@@ -14559,11 +14576,11 @@
         },
         "letterboxd": {
           "score": 56,
-          "votes": 2880
+          "votes": 2952
         },
         "trakt": {
           "score": 68,
-          "votes": 15
+          "votes": 17
         }
       },
       "released_digital": null,
@@ -14577,7 +14594,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 9823052,
-      "days_running": 133,
+      "days_running": 134,
       "daily_change": {
         "2026-05-23": 102000,
         "2026-05-25": 24323,
@@ -14775,7 +14792,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 11839716,
-      "days_running": 49,
+      "days_running": 50,
       "daily_change": {
         "2026-08-21": 1125000,
         "2026-08-22": 1989000,
@@ -14905,7 +14922,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 693255456,
-      "days_running": 161,
+      "days_running": 162,
       "daily_change": {
         "2026-04-30": 50500000,
         "2026-05-01": 64100000,
@@ -15177,7 +15194,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 89194409,
-      "days_running": 210,
+      "days_running": 211,
       "daily_change": {
         "2026-03-13": 10412878,
         "2026-03-14": 17805122,
@@ -15431,7 +15448,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 31041122,
-      "days_running": 140,
+      "days_running": 141,
       "daily_change": {
         "2026-05-21": 1100000,
         "2026-05-22": 2410000,
@@ -15545,7 +15562,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 1771330884,
-      "days_running": 84,
+      "days_running": 85,
       "daily_change": {
         "2026-07-16": 38864795,
         "2026-07-17": 33680000,
@@ -15739,10 +15756,10 @@
         "2026-10-09": 1771330884
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 84,
-          "votes": 523388
+          "votes": 524454
         },
         "rt_critic": {
           "score": 94,
@@ -15750,7 +15767,7 @@
         },
         "rt_audience": {
           "score": 96,
-          "votes": 5286
+          "votes": 5303
         },
         "metacritic": {
           "score": 88,
@@ -15758,15 +15775,15 @@
         },
         "tmdb": {
           "score": 80,
-          "votes": 4044
+          "votes": 4084
         },
         "letterboxd": {
           "score": 86,
-          "votes": 4520659
+          "votes": 4552531
         },
         "trakt": {
           "score": 87,
-          "votes": 29501
+          "votes": 29799
         }
       },
       "released_digital": "2026-11-17",
@@ -15780,7 +15797,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 43095839,
-      "days_running": 203,
+      "days_running": 204,
       "daily_change": {
         "2026-03-20": 3800000,
         "2026-03-21": 8100000,
@@ -15965,7 +15982,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 39171917,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-24": 2700000,
         "2026-09-25": 5794586,
@@ -16001,37 +16018,37 @@
         "2026-10-09": 39171917
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 71,
-          "votes": 15379
+          "votes": 15964
         },
         "rt_critic": {
-          "score": 85,
-          "votes": 234
+          "score": 86,
+          "votes": 238
         },
         "rt_audience": {
-          "score": 78,
-          "votes": 310
+          "score": 77,
+          "votes": 323
         },
         "metacritic": {
           "score": 67,
-          "votes": 48
+          "votes": 49
         },
         "tmdb": {
           "score": 68,
-          "votes": 102
+          "votes": 104
         },
         "letterboxd": {
           "score": 74,
-          "votes": 565472
+          "votes": 608696
         },
         "trakt": {
-          "score": 71,
-          "votes": 531
+          "score": 70,
+          "votes": 594
         }
       },
-      "released_digital": null,
+      "released_digital": "2026-11-03",
       "status": "SCHEDULED"
     },
     {
@@ -16090,7 +16107,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 16915653,
-      "days_running": 35,
+      "days_running": 36,
       "daily_change": {
         "2026-09-03": 725000,
         "2026-09-04": 1945000,
@@ -16170,10 +16187,10 @@
         "2026-10-08": 16915653
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 68,
-          "votes": 3694
+          "score": 67,
+          "votes": 3707
         },
         "rt_critic": {
           "score": 50,
@@ -16193,11 +16210,11 @@
         },
         "letterboxd": {
           "score": 62,
-          "votes": 26930
+          "votes": 27033
         },
         "trakt": {
           "score": 73,
-          "votes": 229
+          "votes": 234
         }
       },
       "released_digital": "2026-10-20",
@@ -16211,7 +16228,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 4945741,
-      "days_running": 147,
+      "days_running": 148,
       "daily_change": {
         "2026-05-15": 847163,
         "2026-05-16": 1375179,
@@ -16364,24 +16381,26 @@
       "budget": 5000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 27200,
-      "days_running": 0,
+      "gross_td": 85716,
+      "days_running": 1,
       "daily_change": {
-        "2026-10-09": 27200
+        "2026-10-09": 27200,
+        "2026-10-10": 58516
       },
       "weekly_gross": {
-        "2026-W41": 27200
+        "2026-W41": 85716
       },
       "gross": {
         "2026-10-07": 0,
         "2026-10-08": 0,
-        "2026-10-09": 27200
+        "2026-10-09": 27200,
+        "2026-10-10": 85716
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 68,
-          "votes": 103
+          "score": 67,
+          "votes": 114
         },
         "rt_critic": {
           "score": 60,
@@ -16467,7 +16486,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 20247080,
-      "days_running": 133,
+      "days_running": 134,
       "daily_change": {
         "2026-05-28": 750000,
         "2026-05-29": 2000000,
@@ -16595,7 +16614,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 1989760,
-      "days_running": 217,
+      "days_running": 218,
       "daily_change": {
         "2026-03-06": 251319,
         "2026-03-08": 492705,
@@ -16710,7 +16729,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-09-23",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": null,
           "votes": null
@@ -16751,7 +16770,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 177761,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-26": 102000,
         "2026-09-27": 4751,
@@ -16777,7 +16796,7 @@
         "2026-10-09": 177761
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 65,
           "votes": 235
@@ -16818,7 +16837,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2430950,
-      "days_running": 168,
+      "days_running": 169,
       "daily_change": {
         "2026-04-25": 1425000,
         "2026-04-26": -31644,
@@ -16905,34 +16924,34 @@
         "2026-07-16": 0
       },
       "ratings": {
-        "fetched_at": "2026-09-23",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 81,
-          "votes": 123
+          "score": 78,
+          "votes": 311
         },
         "rt_critic": {
-          "score": null,
-          "votes": null
+          "score": 91,
+          "votes": 55
         },
         "rt_audience": {
           "score": null,
-          "votes": null
+          "votes": 0
         },
         "metacritic": {
-          "score": null,
-          "votes": null
+          "score": 76,
+          "votes": 21
         },
         "tmdb": {
           "score": null,
           "votes": null
         },
         "letterboxd": {
-          "score": null,
-          "votes": null
+          "score": 82,
+          "votes": 4774
         },
         "trakt": {
-          "score": 77,
-          "votes": 4
+          "score": 80,
+          "votes": 10
         }
       },
       "released_digital": null,
@@ -16946,7 +16965,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 4211433,
-      "days_running": 259,
+      "days_running": 260,
       "daily_change": {
         "2026-01-22": 929328,
         "2026-01-23": 250000,
@@ -17080,7 +17099,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 18744714,
-      "days_running": 231,
+      "days_running": 232,
       "daily_change": {
         "2026-02-19": 1800000,
         "2026-02-20": 1950000,
@@ -17282,7 +17301,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1294949,
-      "days_running": 56,
+      "days_running": 57,
       "daily_change": {
         "2026-08-16": 92406,
         "2026-08-17": 912253,
@@ -17392,7 +17411,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 878796,
-      "days_running": 56,
+      "days_running": 57,
       "daily_change": {
         "2026-08-14": 406482,
         "2026-08-16": 27180,
@@ -17473,7 +17492,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2264126,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 378700,
         "2026-02-13": 67344,
@@ -17570,7 +17589,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 8475160,
-      "days_running": 63,
+      "days_running": 64,
       "daily_change": {
         "2026-08-08": 251500,
         "2026-08-09": 221818,
@@ -17699,17 +17718,17 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 0,
-      "days_running": 0,
+      "days_running": 1,
       "daily_change": {},
       "weekly_gross": {},
       "gross": {
         "2026-08-10": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 76,
-          "votes": 4283
+          "votes": 4349
         },
         "rt_critic": {
           "score": 91,
@@ -17724,7 +17743,7 @@
           "votes": 28
         },
         "tmdb": {
-          "score": 71,
+          "score": 72,
           "votes": 85
         },
         "letterboxd": {
@@ -17854,7 +17873,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 1077730,
-      "days_running": 49,
+      "days_running": 50,
       "daily_change": {
         "2026-08-22": 60512,
         "2026-08-23": 775,
@@ -17947,7 +17966,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 4965912,
-      "days_running": 252,
+      "days_running": 253,
       "daily_change": {
         "2026-01-30": 198969,
         "2026-01-31": 228971,
@@ -18056,7 +18075,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 253904717,
-      "days_running": 21,
+      "days_running": 22,
       "daily_change": {
         "2026-09-17": 8800000,
         "2026-09-18": 17500000,
@@ -18116,10 +18135,10 @@
         "2026-10-09": 253904717
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 76,
-          "votes": 94571
+          "votes": 96552
         },
         "rt_critic": {
           "score": 96,
@@ -18135,7 +18154,7 @@
         },
         "tmdb": {
           "score": 73,
-          "votes": 819
+          "votes": 839
         },
         "letterboxd": {
           "score": 76,
@@ -18146,7 +18165,7 @@
           "votes": 6123
         }
       },
-      "released_digital": "2026-11-03",
+      "released_digital": null,
       "status": "SCHEDULED"
     },
     {
@@ -18157,7 +18176,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 24977271,
-      "days_running": 161,
+      "days_running": 162,
       "daily_change": {
         "2026-04-30": 900000,
         "2026-05-02": 5512500,
@@ -18332,7 +18351,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 609966,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-26": 199000,
         "2026-09-27": 5008,
@@ -18370,34 +18389,34 @@
         "2026-10-08": 609966
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 75,
-          "votes": 918
+          "votes": 962
         },
         "rt_critic": {
           "score": 97,
-          "votes": 87
+          "votes": 94
         },
         "rt_audience": {
-          "score": 97,
-          "votes": 26
+          "score": 94,
+          "votes": 30
         },
         "metacritic": {
           "score": 84,
           "votes": 30
         },
         "tmdb": {
-          "score": 72,
+          "score": 71,
           "votes": 6
         },
         "letterboxd": {
           "score": 80,
-          "votes": 11418
+          "votes": 13916
         },
         "trakt": {
-          "score": 74,
-          "votes": 23
+          "score": 75,
+          "votes": 26
         }
       },
       "released_digital": null,
@@ -18459,7 +18478,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 21507848,
-      "days_running": 210,
+      "days_running": 211,
       "daily_change": {
         "2026-03-13": 4374140,
         "2026-03-14": 4965523,
@@ -18579,7 +18598,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 22474006,
-      "days_running": 182,
+      "days_running": 183,
       "daily_change": {
         "2026-04-09": 750000,
         "2026-04-10": 2410000,
@@ -18791,7 +18810,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 3000000,
-      "days_running": 35,
+      "days_running": 36,
       "daily_change": {
         "2026-09-09": 3000000
       },
@@ -18804,7 +18823,7 @@
         "2026-09-09": 3000000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 72,
           "votes": 263
@@ -18896,22 +18915,22 @@
       "weekly_gross": {},
       "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-05",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 83,
-          "votes": 34
+          "score": 81,
+          "votes": 87
         },
         "rt_critic": {
-          "score": null,
-          "votes": null
+          "score": 85,
+          "votes": 26
         },
         "rt_audience": {
           "score": null,
-          "votes": null
+          "votes": 0
         },
         "metacritic": {
-          "score": null,
-          "votes": null
+          "score": 72,
+          "votes": 12
         },
         "tmdb": {
           "score": null,
@@ -18937,7 +18956,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 42871952,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-08": 14962,
         "2026-09-15": 71749,
@@ -18999,10 +19018,10 @@
         "2026-10-09": 42871952
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 77,
-          "votes": 5230
+          "votes": 5388
         },
         "rt_critic": {
           "score": 95,
@@ -19018,7 +19037,7 @@
         },
         "tmdb": {
           "score": 82,
-          "votes": 53
+          "votes": 58
         },
         "letterboxd": {
           "score": 78,
@@ -19040,7 +19059,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 12600000,
-      "days_running": 0,
+      "days_running": 1,
       "daily_change": {
         "2026-10-08": 3600000,
         "2026-10-09": 9000000
@@ -19055,10 +19074,10 @@
         "2026-10-09": 12600000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 57,
-          "votes": 1715
+          "score": 55,
+          "votes": 3604
         },
         "rt_critic": {
           "score": 19,
@@ -19096,7 +19115,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1210713,
-      "days_running": 77,
+      "days_running": 78,
       "daily_change": {
         "2026-07-23": 125000,
         "2026-07-24": 145000,
@@ -19208,7 +19227,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1538802,
-      "days_running": 91,
+      "days_running": 92,
       "daily_change": {
         "2026-07-10": 485000,
         "2026-07-11": 390000,
@@ -19343,7 +19362,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 9399701,
-      "days_running": 21,
+      "days_running": 22,
       "daily_change": {
         "2026-09-19": 1904000,
         "2026-09-20": 128093,
@@ -19385,10 +19404,10 @@
         "2026-10-08": 9399701
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 72,
-          "votes": 1210
+          "votes": 1263
         },
         "rt_critic": {
           "score": 99,
@@ -19426,7 +19445,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 6004000,
-      "days_running": 63,
+      "days_running": 64,
       "daily_change": {
         "2026-08-07": 1000000,
         "2026-08-08": 1010000,
@@ -19509,7 +19528,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 6768867,
-      "days_running": 29,
+      "days_running": 30,
       "daily_change": {
         "2026-09-11": 1380000,
         "2026-09-12": 1870000,
@@ -19610,7 +19629,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 5886806,
-      "days_running": 35,
+      "days_running": 36,
       "daily_change": {
         "2026-04-28": 87021,
         "2026-05-03": 69956,
@@ -19746,7 +19765,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 26930328,
-      "days_running": 42,
+      "days_running": 43,
       "daily_change": {
         "2026-08-27": 527000,
         "2026-08-28": 1573000,
@@ -19846,10 +19865,10 @@
         "2026-10-08": 26930328
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 70,
-          "votes": 8921
+          "votes": 8981
         },
         "rt_critic": {
           "score": 88,
@@ -19857,23 +19876,23 @@
         },
         "rt_audience": {
           "score": 75,
-          "votes": 507
+          "votes": 511
         },
         "metacritic": {
           "score": 67,
           "votes": 22
         },
         "tmdb": {
-          "score": 79,
-          "votes": 71
+          "score": 78,
+          "votes": 74
         },
         "letterboxd": {
           "score": 62,
-          "votes": 228364
+          "votes": 231977
         },
         "trakt": {
           "score": 70,
-          "votes": 408
+          "votes": 419
         }
       },
       "released_digital": "2026-10-13",
@@ -19887,7 +19906,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 520006715,
-      "days_running": 147,
+      "days_running": 148,
       "daily_change": {
         "2026-05-14": 2600000,
         "2026-05-15": 4290000,
@@ -20255,7 +20274,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 2150000,
-      "days_running": 0,
+      "days_running": 1,
       "daily_change": {
         "2026-10-08": 650000,
         "2026-10-09": 1500000
@@ -20270,10 +20289,10 @@
         "2026-10-09": 2150000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": 67,
-          "votes": 1075
+          "score": 68,
+          "votes": 2311
         },
         "rt_critic": {
           "score": 55,
@@ -20311,7 +20330,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 7900032,
-      "days_running": 21,
+      "days_running": 22,
       "daily_change": {
         "2026-09-18": 1060000,
         "2026-09-19": 2080000,
@@ -20369,10 +20388,10 @@
         "2026-10-09": 7900032
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 55,
-          "votes": 573
+          "votes": 578
         },
         "rt_critic": {
           "score": null,
@@ -20380,7 +20399,7 @@
         },
         "rt_audience": {
           "score": 93,
-          "votes": 232
+          "votes": 237
         },
         "metacritic": {
           "score": null,
@@ -20391,8 +20410,8 @@
           "votes": 5
         },
         "letterboxd": {
-          "score": 50,
-          "votes": 1054
+          "score": 48,
+          "votes": 1119
         },
         "trakt": {
           "score": 66,
@@ -20410,7 +20429,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 25139244,
-      "days_running": 63,
+      "days_running": 64,
       "daily_change": {
         "2026-08-06": 1350000,
         "2026-08-07": 1460000,
@@ -20666,7 +20685,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 4469404,
-      "days_running": 119,
+      "days_running": 120,
       "daily_change": {
         "2026-06-13": 2021284,
         "2026-06-14": 3348,
@@ -20838,7 +20857,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 8010329,
-      "days_running": 161,
+      "days_running": 162,
       "daily_change": {
         "2026-04-21": 55803,
         "2026-05-01": 415000,
@@ -20987,7 +21006,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 36421234,
-      "days_running": 126,
+      "days_running": 127,
       "daily_change": {
         "2026-06-04": 7856552,
         "2026-06-05": 4788078,
@@ -21037,10 +21056,10 @@
         "2026-09-02": 36421234
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 75,
-          "votes": 6355
+          "votes": 6362
         },
         "rt_critic": {
           "score": null,
@@ -21126,7 +21145,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 2000000,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-07": 21214,
         "2026-09-09": 1978786
@@ -21142,7 +21161,7 @@
         "2026-09-09": 2000000
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 82,
           "votes": 130
@@ -21165,7 +21184,7 @@
         },
         "letterboxd": {
           "score": 82,
-          "votes": 1604
+          "votes": 1607
         },
         "trakt": {
           "score": 90,
@@ -21183,7 +21202,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 25801485,
-      "days_running": 154,
+      "days_running": 155,
       "daily_change": {
         "2026-05-07": 2200000,
         "2026-05-08": 2300000,
@@ -21267,7 +21286,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 8951810,
-      "days_running": 112,
+      "days_running": 113,
       "daily_change": {
         "2026-06-18": 460000,
         "2026-06-20": 2287500,
@@ -21425,7 +21444,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 393063,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-25": 90000,
         "2026-09-26": 95000,
@@ -21458,10 +21477,10 @@
         "2026-10-09": 393063
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 74,
-          "votes": 408
+          "votes": 413
         },
         "rt_critic": {
           "score": 90,
@@ -21499,7 +21518,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 27373185,
-      "days_running": 105,
+      "days_running": 106,
       "daily_change": {
         "2026-06-25": 1200000,
         "2026-06-26": 2600000,
@@ -21627,7 +21646,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 935341,
-      "days_running": 0,
+      "days_running": 1,
       "daily_change": {
         "2026-10-09": 935341
       },
@@ -21640,10 +21659,10 @@
         "2026-10-09": 935341
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
-          "score": null,
-          "votes": null
+          "score": 65,
+          "votes": 115
         },
         "rt_critic": {
           "score": null,
@@ -21777,7 +21796,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 21487987,
-      "days_running": 231,
+      "days_running": 232,
       "daily_change": {
         "2026-02-20": 1667268,
         "2026-02-21": 1893349,
@@ -21989,7 +22008,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1194591,
-      "days_running": 42,
+      "days_running": 43,
       "daily_change": {
         "2026-08-25": 26721,
         "2026-08-29": 700000,
@@ -22079,7 +22098,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 104826661,
-      "days_running": 14,
+      "days_running": 15,
       "daily_change": {
         "2026-09-20": 130954,
         "2026-09-24": 2000000,
@@ -22128,10 +22147,10 @@
         "2026-10-09": 104826661
       },
       "ratings": {
-        "fetched_at": "2026-10-11",
+        "fetched_at": "2026-10-12",
         "imdb": {
           "score": 72,
-          "votes": 22069
+          "votes": 22906
         },
         "rt_critic": {
           "score": 84,
@@ -22169,7 +22188,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 33358232,
-      "days_running": 49,
+      "days_running": 50,
       "daily_change": {
         "2026-05-28": 1742596,
         "2026-05-31": 22065,
@@ -22297,7 +22316,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 94041481,
-      "days_running": 252,
+      "days_running": 253,
       "daily_change": {
         "2026-01-29": 2200000,
         "2026-01-30": 5000000,
@@ -22493,7 +22512,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 527379,
-      "days_running": 273,
+      "days_running": 274,
       "daily_change": {
         "2026-01-08": 37093,
         "2026-01-10": 75000,
@@ -22636,7 +22655,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 126466532,
-      "days_running": 105,
+      "days_running": 106,
       "daily_change": {
         "2026-06-25": 13000000,
         "2026-06-26": 16100000,
@@ -22801,7 +22820,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 7774951,
-      "days_running": 63,
+      "days_running": 64,
       "daily_change": {
         "2026-08-06": 350000,
         "2026-08-07": 1350000,
@@ -22926,7 +22945,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 4048606,
-      "days_running": 238,
+      "days_running": 239,
       "daily_change": {
         "2026-02-12": 128347,
         "2026-02-14": 1100000,
@@ -23020,7 +23039,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 1219375,
-      "days_running": 28,
+      "days_running": 29,
       "daily_change": {
         "2026-09-14": 801086,
         "2026-09-15": 112754,
