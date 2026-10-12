@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-12T22:00:05.001287Z",
+  "generated_at": "2026-10-12T23:14:06.932920Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -18731,7 +18731,7 @@
     {
       "imdb_id": "tt29611136",
       "title": "Wicker",
-      "release_date": "2026-10-30",
+      "release_date": "2026-10-23",
       "season": "FALL",
       "budget": null,
       "breakeven": null,
@@ -33058,8 +33058,8 @@
       "title": "Angel and the Badman",
       "release_date": "2026-10-09",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -33150,11 +33150,11 @@
         "2026-10-06": 0,
         "2026-10-07": 0,
         "2026-10-08": 0,
-        "2026-10-09": 935341,
-        "2026-10-10": 2063407,
-        "2026-10-11": 2115116
+        "2026-10-09": -9064659,
+        "2026-10-10": -7936593,
+        "2026-10-11": -7884884
       },
-      "profit_td": 2115116
+      "profit_td": -7884884
     },
     {
       "imdb_id": "tt42004484",
