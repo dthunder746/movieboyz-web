@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-13T00:14:15.279715Z",
+  "generated_at": "2026-10-13T02:14:30.500288Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -14488,7 +14488,7 @@
     {
       "imdb_id": "tt18270542",
       "title": "Ray Gunn",
-      "release_date": "2026-12-02",
+      "release_date": "2026-12-04",
       "season": "FALL",
       "budget": null,
       "breakeven": null,
