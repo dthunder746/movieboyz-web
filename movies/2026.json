@@ -3278,6 +3278,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt18270542",
+      "title": "Ray Gunn",
+      "release_date": "2026-12-02",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-10-13",
+        "imdb": {
+          "score": 78,
+          "votes": 89
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 80,
+          "votes": 4
+        }
+      },
+      "released_digital": "2026-12-18",
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt2012616",
       "title": "Motor City",
       "release_date": "2026-07-24",
@@ -6339,7 +6385,7 @@
     {
       "imdb_id": "tt27988879",
       "title": "Ramayana",
-      "release_date": "2026-11-06",
+      "release_date": "2026-11-05",
       "budget": null,
       "estimated_budget": false,
       "season": "FALL",

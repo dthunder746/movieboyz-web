@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-12T23:14:06.932920Z",
+  "generated_at": "2026-10-13T00:14:15.279715Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -14486,6 +14486,20 @@
       "profit_td": -17444930
     },
     {
+      "imdb_id": "tt18270542",
+      "title": "Ray Gunn",
+      "release_date": "2026-12-02",
+      "season": "FALL",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
+      "profit_td": null
+    },
+    {
       "imdb_id": "tt2012616",
       "title": "Motor City",
       "release_date": "2026-07-24",
@@ -17031,7 +17045,7 @@
     {
       "imdb_id": "tt27988879",
       "title": "Ramayana",
-      "release_date": "2026-11-06",
+      "release_date": "2026-11-05",
       "season": "FALL",
       "budget": null,
       "breakeven": null,
