@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-14T22:00:05.001181Z",
+  "generated_at": "2026-10-14T23:20:10.274742Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -8611,8 +8611,8 @@
       "title": "Whalefall",
       "release_date": "2026-10-16",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 60000000,
+      "breakeven": 120000000,
       "user_id": "emerson",
       "pick_type": "seasonal",
       "draft_pick": 15,
@@ -10373,8 +10373,8 @@
       "title": "Street Fighter",
       "release_date": "2026-10-16",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 82000000,
+      "breakeven": 164000000,
       "user_id": "chris",
       "pick_type": "bomb",
       "draft_pick": 22,
@@ -36803,7 +36803,7 @@
         "2026-10-13": -80223562
       },
       "total": 1435440633,
-      "slate_roi": 228.9522953172
+      "slate_roi": 193.8189507673
     },
     {
       "user_id": "matt",
