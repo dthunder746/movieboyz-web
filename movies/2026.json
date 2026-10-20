@@ -19512,6 +19512,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt36482679",
+      "title": "The Only Living Pickpocket in New York",
+      "release_date": "2026-10-23",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-10-20",
+        "imdb": {
+          "score": 72,
+          "votes": 581
+        },
+        "rt_critic": {
+          "score": 98,
+          "votes": 50
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": 0
+        },
+        "metacritic": {
+          "score": 81,
+          "votes": 16
+        },
+        "tmdb": {
+          "score": 80,
+          "votes": 1
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 5685
+        },
+        "trakt": {
+          "score": 70,
+          "votes": 17
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt36583977",
       "title": "Forgotten Island",
       "release_date": "2026-09-25",
@@ -20246,6 +20292,52 @@
         }
       },
       "released_digital": "2026-09-29",
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt37118301",
+      "title": "Minotaur",
+      "release_date": "2026-11-20",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-10-20",
+        "imdb": {
+          "score": 77,
+          "votes": 1020
+        },
+        "rt_critic": {
+          "score": 98,
+          "votes": 49
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": 0
+        },
+        "metacritic": {
+          "score": 92,
+          "votes": 15
+        },
+        "tmdb": {
+          "score": 79,
+          "votes": 19
+        },
+        "letterboxd": {
+          "score": 76,
+          "votes": 11995
+        },
+        "trakt": {
+          "score": 72,
+          "votes": 22
+        }
+      },
+      "released_digital": null,
       "status": "SCHEDULED"
     },
     {

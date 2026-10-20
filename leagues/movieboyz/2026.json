@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-20T02:30:44.695333Z",
+  "generated_at": "2026-10-20T03:30:52.929752Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -31533,6 +31533,20 @@
       "profit_td": null
     },
     {
+      "imdb_id": "tt36482679",
+      "title": "The Only Living Pickpocket in New York",
+      "release_date": "2026-10-23",
+      "season": "FALL",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
+      "profit_td": null
+    },
+    {
       "imdb_id": "tt36583977",
       "title": "Forgotten Island",
       "release_date": "2026-09-25",
@@ -32563,6 +32577,20 @@
         "2026-10-18": -32465514
       },
       "profit_td": -32465514
+    },
+    {
+      "imdb_id": "tt37118301",
+      "title": "Minotaur",
+      "release_date": "2026-11-20",
+      "season": "FALL",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
+      "profit_td": null
     },
     {
       "imdb_id": "tt37185884",
