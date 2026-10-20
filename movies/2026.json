@@ -10278,15 +10278,21 @@
       "imdb_id": "tt31456607",
       "title": "Trust Me, I'm a Doctor",
       "release_date": "2026-10-16",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 3000000,
+      "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 0,
+      "gross_td": 1000000,
       "days_running": 2,
-      "daily_change": {},
-      "weekly_gross": {},
+      "daily_change": {
+        "2026-10-18": 1000000
+      },
+      "weekly_gross": {
+        "2026-W42": 1000000
+      },
       "gross": {
-        "2026-07-16": 0
+        "2026-07-16": 0,
+        "2026-10-17": 0,
+        "2026-10-18": 1000000
       },
       "ratings": {
         "fetched_at": "2026-10-20",
@@ -11853,8 +11859,8 @@
       "imdb_id": "tt32329539",
       "title": "Crawlers",
       "release_date": "2026-10-16",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 3000000,
+      "estimated_budget": true,
       "season": "FALL",
       "gross_td": 791816,
       "days_running": 2,
@@ -22538,8 +22544,8 @@
       "imdb_id": "tt42004484",
       "title": "Flywheel: Ignition of the Soul",
       "release_date": "2026-10-16",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 3000000,
+      "estimated_budget": true,
       "season": "FALL",
       "gross_td": 200000,
       "days_running": 2,
