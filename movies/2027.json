@@ -1344,6 +1344,54 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt4540534",
+      "title": "The Nightingale ",
+      "release_date": "2027-03-19",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-10-22": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-10-24",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 26,
+          "votes": 3
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt6113186",
       "title": "Shrek 5",
       "release_date": "2027-06-30",
