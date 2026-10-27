@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-26T22:00:05.001252Z",
+  "generated_at": "2026-10-27T02:50:34.160839Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -13257,8 +13257,8 @@
       "title": "A Talent for a Murder",
       "release_date": "2026-10-23",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 10000000,
+      "breakeven": 20000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -13336,11 +13336,11 @@
         "2026-10-20": 0,
         "2026-10-21": 0,
         "2026-10-22": 0,
-        "2026-10-23": 433785,
-        "2026-10-24": 717864,
-        "2026-10-25": 717864
+        "2026-10-23": -19566215,
+        "2026-10-24": -19282136,
+        "2026-10-25": -19282136
       },
-      "profit_td": 717864
+      "profit_td": -19282136
     },
     {
       "imdb_id": "tt14371256",
@@ -32699,8 +32699,8 @@
       "title": "The Only Living Pickpocket in New York",
       "release_date": "2026-10-23",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -32710,11 +32710,11 @@
         "2026-10-20": 0,
         "2026-10-21": 0,
         "2026-10-22": 0,
-        "2026-10-23": 53000,
-        "2026-10-24": 141000,
-        "2026-10-25": 138657
+        "2026-10-23": -9947000,
+        "2026-10-24": -9859000,
+        "2026-10-25": -9861343
       },
-      "profit_td": 138657
+      "profit_td": -9861343
     },
     {
       "imdb_id": "tt36583977",
@@ -36099,8 +36099,8 @@
       "title": "Ali G: Who Iz I?",
       "release_date": "2026-10-23",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -36119,9 +36119,9 @@
         "2026-10-22": 0,
         "2026-10-23": 0,
         "2026-10-24": 0,
-        "2026-10-25": 401201
+        "2026-10-25": -9598799
       },
-      "profit_td": 401201
+      "profit_td": -9598799
     },
     {
       "imdb_id": "tt45368240",
