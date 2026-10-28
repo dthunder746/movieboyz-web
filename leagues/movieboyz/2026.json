@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-10-28T22:00:05.001321Z",
+  "generated_at": "2026-10-28T22:55:23.643110Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -33017,8 +33017,8 @@
       "title": "Behemoth!",
       "release_date": "2026-12-04",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 36000000,
+      "breakeven": 72000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
