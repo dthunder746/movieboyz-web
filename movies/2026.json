@@ -1,7 +1,7 @@
 {
   "contract_version": 3,
   "release_year": 2026,
-  "latest_date": "2026-11-01",
+  "latest_date": "2026-11-02",
   "movies": [
     {
       "imdb_id": "tt0427340",
@@ -11,7 +11,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 113794546,
-      "days_running": 149,
+      "days_running": 150,
       "daily_change": {
         "2026-06-04": 4441692,
         "2026-06-05": 7354000,
@@ -258,7 +258,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2967647,
-      "days_running": 282,
+      "days_running": 283,
       "daily_change": {
         "2026-01-25": 147473,
         "2026-01-28": 371286,
@@ -453,7 +453,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 887813,
-      "days_running": 30,
+      "days_running": 31,
       "daily_change": {
         "2026-10-03": 550000,
         "2026-10-04": 42984,
@@ -535,7 +535,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 4046734,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-09-19": 2315162,
         "2026-09-20": 50937,
@@ -635,7 +635,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 1021426595,
-      "days_running": 191,
+      "days_running": 192,
       "daily_change": {
         "2026-04-23": 31100000,
         "2026-04-24": 27300000,
@@ -932,7 +932,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 684639091,
-      "days_running": 226,
+      "days_running": 227,
       "daily_change": {
         "2026-03-20": 33403110,
         "2026-03-21": 107580636,
@@ -1244,7 +1244,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 5734575,
-      "days_running": 226,
+      "days_running": 227,
       "daily_change": {
         "2026-03-20": 2335928,
         "2026-03-23": 833845,
@@ -1424,7 +1424,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 9242034,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 450000,
         "2026-02-13": 965000,
@@ -1543,7 +1543,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 721443,
-      "days_running": 191,
+      "days_running": 192,
       "daily_change": {
         "2026-04-25": 472111,
         "2026-04-26": 15737,
@@ -1614,18 +1614,22 @@
       "budget": 20000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 480000,
-      "days_running": 2,
+      "gross_td": 516992,
+      "days_running": 3,
       "daily_change": {
-        "2026-10-31": 480000
+        "2026-10-31": 480000,
+        "2026-11-02": 36992
       },
       "weekly_gross": {
-        "2026-W44": 480000
+        "2026-W44": 480000,
+        "2026-W45": 36992
       },
       "gross": {
         "2026-10-16": 0,
         "2026-10-30": 0,
-        "2026-10-31": 480000
+        "2026-10-31": 480000,
+        "2026-11-01": 480000,
+        "2026-11-02": 516992
       },
       "ratings": {
         "fetched_at": "2026-11-03",
@@ -1668,8 +1672,8 @@
       "budget": 10000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 1051182,
-      "days_running": 9,
+      "gross_td": 1063825,
+      "days_running": 10,
       "daily_change": {
         "2026-10-23": 433785,
         "2026-10-24": 284079,
@@ -1678,11 +1682,13 @@
         "2026-10-28": 60575,
         "2026-10-29": 33170,
         "2026-10-30": 25149,
-        "2026-10-31": 70198
+        "2026-10-31": 70198,
+        "2026-11-02": 12643
       },
       "weekly_gross": {
         "2026-W43": 717864,
-        "2026-W44": 333318
+        "2026-W44": 333318,
+        "2026-W45": 12643
       },
       "gross": {
         "2026-08-12": 0,
@@ -1695,7 +1701,9 @@
         "2026-10-28": 922665,
         "2026-10-29": 955835,
         "2026-10-30": 980984,
-        "2026-10-31": 1051182
+        "2026-10-31": 1051182,
+        "2026-11-01": 1051182,
+        "2026-11-02": 1063825
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -1739,7 +1747,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 60072369,
-      "days_running": 114,
+      "days_running": 115,
       "daily_change": {
         "2026-06-26": 156273,
         "2026-06-27": 222831,
@@ -1991,8 +1999,8 @@
       "budget": 20000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 2536096,
-      "days_running": 9,
+      "gross_td": 2561274,
+      "days_running": 10,
       "daily_change": {
         "2026-10-22": 85000,
         "2026-10-23": 215000,
@@ -2004,11 +2012,13 @@
         "2026-10-29": 50009,
         "2026-10-30": 45000,
         "2026-10-31": 100460,
-        "2026-11-01": 699495
+        "2026-11-01": 699495,
+        "2026-11-02": 25178
       },
       "weekly_gross": {
         "2026-W43": 1369660,
-        "2026-W44": 1166436
+        "2026-W44": 1166436,
+        "2026-W45": 25178
       },
       "gross": {
         "2026-04-13": 0,
@@ -2023,7 +2033,8 @@
         "2026-10-29": 1691141,
         "2026-10-30": 1736141,
         "2026-10-31": 1836601,
-        "2026-11-01": 2536096
+        "2026-11-01": 2536096,
+        "2026-11-02": 2561274
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -2067,7 +2078,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 2609598,
-      "days_running": 205,
+      "days_running": 206,
       "daily_change": {
         "2026-04-11": 1700000,
         "2026-04-12": -52283,
@@ -2143,7 +2154,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 44856736,
-      "days_running": 296,
+      "days_running": 297,
       "daily_change": {
         "2026-01-08": 900000,
         "2026-01-09": 2360000,
@@ -2268,7 +2279,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 5215115,
-      "days_running": 275,
+      "days_running": 276,
       "daily_change": {
         "2026-01-29": 260013,
         "2026-01-31": 411872,
@@ -2411,7 +2422,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 247891006,
-      "days_running": 142,
+      "days_running": 143,
       "daily_change": {
         "2026-06-11": 6599496,
         "2026-06-12": 12520000,
@@ -2690,7 +2701,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 3550879,
-      "days_running": 289,
+      "days_running": 290,
       "daily_change": {
         "2026-01-15": 154100,
         "2026-03-04": 2329084,
@@ -2817,7 +2828,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 171602602,
-      "days_running": 72,
+      "days_running": 73,
       "daily_change": {
         "2026-08-20": 3000000,
         "2026-08-21": 7600000,
@@ -3054,7 +3065,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 129570110,
-      "days_running": 177,
+      "days_running": 178,
       "daily_change": {
         "2026-05-07": 5200000,
         "2026-05-08": 11800000,
@@ -3244,7 +3255,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 120101763,
-      "days_running": 65,
+      "days_running": 66,
       "daily_change": {
         "2026-08-27": 1700000,
         "2026-08-28": 3600000,
@@ -3388,7 +3399,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 2555070,
-      "days_running": 254,
+      "days_running": 255,
       "daily_change": {
         "2026-02-19": 250000,
         "2026-02-20": 460000,
@@ -3517,7 +3528,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 3031891,
-      "days_running": 100,
+      "days_running": 101,
       "daily_change": {
         "2026-07-23": 475000,
         "2026-07-24": 375000,
@@ -3635,8 +3646,8 @@
       "budget": 100000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 31909356,
-      "days_running": 9,
+      "gross_td": 31967677,
+      "days_running": 10,
       "daily_change": {
         "2026-10-23": 4289386,
         "2026-10-24": 6710614,
@@ -3646,11 +3657,13 @@
         "2026-10-29": 6113311,
         "2026-10-30": 2436657,
         "2026-10-31": 5109670,
-        "2026-11-01": 3156838
+        "2026-11-01": 3156838,
+        "2026-11-02": 58321
       },
       "weekly_gross": {
         "2026-W43": 13426472,
-        "2026-W44": 18482884
+        "2026-W44": 18482884,
+        "2026-W45": 58321
       },
       "gross": {
         "2026-05-14": 0,
@@ -3664,7 +3677,8 @@
         "2026-10-29": 21206191,
         "2026-10-30": 23642848,
         "2026-10-31": 28752518,
-        "2026-11-01": 31909356
+        "2026-11-01": 31909356,
+        "2026-11-02": 31967677
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -3708,7 +3722,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2992588,
-      "days_running": 296,
+      "days_running": 297,
       "daily_change": {
         "2026-01-09": 514257,
         "2026-01-10": 700569,
@@ -3875,7 +3889,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 39321916,
-      "days_running": 65,
+      "days_running": 66,
       "daily_change": {
         "2026-08-27": 850000,
         "2026-08-28": 2150000,
@@ -4053,7 +4067,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 2319112,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-09-16": 51433,
         "2026-09-21": 1126,
@@ -4136,7 +4150,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 2521157572,
-      "days_running": 93,
+      "days_running": 94,
       "daily_change": {
         "2026-07-30": 72667213,
         "2026-07-31": 96000000,
@@ -4387,7 +4401,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 33571113,
-      "days_running": 282,
+      "days_running": 283,
       "daily_change": {
         "2026-01-23": 1600000,
         "2026-01-24": 1600000,
@@ -4549,7 +4563,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 6691435,
-      "days_running": 184,
+      "days_running": 185,
       "daily_change": {
         "2026-05-01": 1145988,
         "2026-05-02": 2254012,
@@ -4739,7 +4753,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 389686110,
-      "days_running": 240,
+      "days_running": 241,
       "daily_change": {
         "2026-03-06": 13452178,
         "2026-03-07": 74547822,
@@ -5012,7 +5026,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 400093512,
-      "days_running": 156,
+      "days_running": 157,
       "daily_change": {
         "2026-05-28": 10400000,
         "2026-05-29": 28012634,
@@ -5229,7 +5243,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 213835967,
-      "days_running": 247,
+      "days_running": 248,
       "daily_change": {
         "2026-02-26": 7800000,
         "2026-02-27": 21000000,
@@ -5412,7 +5426,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 3030963,
-      "days_running": 191,
+      "days_running": 192,
       "daily_change": {
         "2026-04-17": 70737,
         "2026-04-18": 97326,
@@ -5534,7 +5548,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 49456866,
-      "days_running": 53,
+      "days_running": 54,
       "daily_change": {
         "2026-07-15": 108161,
         "2026-07-21": 15961686,
@@ -5668,8 +5682,8 @@
       "budget": 82000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 92371739,
-      "days_running": 16,
+      "gross_td": 92801379,
+      "days_running": 17,
       "daily_change": {
         "2026-10-15": 4000000,
         "2026-10-16": 9000000,
@@ -5688,12 +5702,14 @@
         "2026-10-29": 571510,
         "2026-10-30": 1050000,
         "2026-10-31": 8349879,
-        "2026-11-01": 459739
+        "2026-11-01": 459739,
+        "2026-11-02": 429640
       },
       "weekly_gross": {
         "2026-W42": 50875377,
         "2026-W43": 28750444,
-        "2026-W44": 12745918
+        "2026-W44": 12745918,
+        "2026-W45": 429640
       },
       "gross": {
         "2026-04-13": 0,
@@ -5715,7 +5731,8 @@
         "2026-10-29": 82512121,
         "2026-10-30": 83562121,
         "2026-10-31": 91912000,
-        "2026-11-01": 92371739
+        "2026-11-01": 92371739,
+        "2026-11-02": 92801379
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -5759,7 +5776,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 323932774,
-      "days_running": 114,
+      "days_running": 115,
       "daily_change": {
         "2026-07-09": 4500000,
         "2026-07-10": 13500000,
@@ -5987,7 +6004,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 33591173,
-      "days_running": 67,
+      "days_running": 68,
       "daily_change": {
         "2026-08-30": 521022,
         "2026-09-03": 29291,
@@ -6059,7 +6076,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 51226173,
-      "days_running": 275,
+      "days_running": 276,
       "daily_change": {
         "2026-01-29": 3500000,
         "2026-01-30": 5400000,
@@ -6180,7 +6197,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 195379669,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 1000000,
         "2026-02-13": 6100000,
@@ -6461,7 +6478,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 13513890,
-      "days_running": 170,
+      "days_running": 171,
       "daily_change": {
         "2026-05-15": 1140000,
         "2026-05-16": 1865000,
@@ -6548,7 +6565,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 2736487,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-14": 1027000,
         "2026-08-16": 67039,
@@ -6690,7 +6707,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 40934,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-28": 16902,
         "2026-09-30": 3401,
@@ -6813,7 +6830,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 10081294,
-      "days_running": 296,
+      "days_running": 297,
       "daily_change": {
         "2026-01-08": 1129924,
         "2026-01-09": 810000,
@@ -6974,7 +6991,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2679904,
-      "days_running": 282,
+      "days_running": 283,
       "daily_change": {
         "2026-01-23": 565000,
         "2026-01-24": 710000,
@@ -7105,8 +7122,8 @@
       "budget": 60000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 36871269,
-      "days_running": 16,
+      "gross_td": 37035824,
+      "days_running": 17,
       "daily_change": {
         "2026-10-15": 900000,
         "2026-10-16": 2100000,
@@ -7124,12 +7141,14 @@
         "2026-10-29": 548965,
         "2026-10-30": 324000,
         "2026-10-31": 3667182,
-        "2026-11-01": 297845
+        "2026-11-01": 297845,
+        "2026-11-02": 164555
       },
       "weekly_gross": {
         "2026-W42": 17453781,
         "2026-W43": 13762634,
-        "2026-W44": 5654854
+        "2026-W44": 5654854,
+        "2026-W45": 164555
       },
       "gross": {
         "2026-04-13": 0,
@@ -7151,7 +7170,8 @@
         "2026-10-29": 32582242,
         "2026-10-30": 32906242,
         "2026-10-31": 36573424,
-        "2026-11-01": 36871269
+        "2026-11-01": 36871269,
+        "2026-11-02": 37035824
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -7194,8 +7214,8 @@
       "budget": 110000000,
       "estimated_budget": false,
       "season": "WINTER",
-      "gross_td": 1013244033,
-      "days_running": 214,
+      "gross_td": 1013245984,
+      "days_running": 215,
       "daily_change": {
         "2026-04-01": 34502265,
         "2026-04-02": 24611190,
@@ -7333,7 +7353,8 @@
         "2026-10-22": 1074,
         "2026-10-26": 3890,
         "2026-10-27": 8049,
-        "2026-10-30": 2784
+        "2026-10-30": 2784,
+        "2026-11-02": 1951
       },
       "weekly_gross": {
         "2026-W14": 372640795,
@@ -7364,7 +7385,8 @@
         "2026-W41": 17131,
         "2026-W42": 16755,
         "2026-W43": 27436,
-        "2026-W44": 14723
+        "2026-W44": 14723,
+        "2026-W45": 1951
       },
       "gross": {
         "2026-03-31": 0,
@@ -7531,7 +7553,9 @@
         "2026-10-26": 1013233200,
         "2026-10-27": 1013241249,
         "2026-10-29": 1013241249,
-        "2026-10-30": 1013244033
+        "2026-10-30": 1013244033,
+        "2026-11-01": 1013244033,
+        "2026-11-02": 1013245984
       },
       "ratings": {
         "fetched_at": "2026-10-23",
@@ -7575,7 +7599,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 11031947,
-      "days_running": 268,
+      "days_running": 269,
       "daily_change": {
         "2026-02-05": 450000,
         "2026-02-06": 850000,
@@ -7690,7 +7714,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 121626243,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-13": 6500000,
         "2026-08-14": 11950000,
@@ -7855,7 +7879,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 1149397987,
-      "days_running": 135,
+      "days_running": 136,
       "daily_change": {
         "2026-06-18": 43500000,
         "2026-06-19": 53500000,
@@ -8149,7 +8173,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 159494307,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-03": 65601,
         "2026-08-04": 43747,
@@ -8348,7 +8372,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 600000,
-      "days_running": 205,
+      "days_running": 206,
       "daily_change": {
         "2026-04-12": 600000
       },
@@ -8402,7 +8426,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 7949887,
-      "days_running": 184,
+      "days_running": 185,
       "daily_change": {
         "2026-05-01": 703873,
         "2026-05-02": 1448400,
@@ -8666,7 +8690,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 3634724,
-      "days_running": 268,
+      "days_running": 269,
       "daily_change": {
         "2026-02-07": 720000,
         "2026-02-08": 44456,
@@ -8765,8 +8789,8 @@
       "budget": 10000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 16800103,
-      "days_running": 9,
+      "gross_td": 17471964,
+      "days_running": 10,
       "daily_change": {
         "2026-10-22": 620000,
         "2026-10-23": 1740000,
@@ -8778,11 +8802,13 @@
         "2026-10-29": 647432,
         "2026-10-30": 1430000,
         "2026-10-31": 2695000,
-        "2026-11-01": 3341202
+        "2026-11-01": 3341202,
+        "2026-11-02": 671861
       },
       "weekly_gross": {
         "2026-W43": 5943752,
-        "2026-W44": 10856351
+        "2026-W44": 10856351,
+        "2026-W45": 671861
       },
       "gross": {
         "2026-07-16": 0,
@@ -8797,7 +8823,8 @@
         "2026-10-29": 9333901,
         "2026-10-30": 10763901,
         "2026-10-31": 13458901,
-        "2026-11-01": 16800103
+        "2026-11-01": 16800103,
+        "2026-11-02": 17471964
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -8841,7 +8868,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 4006600,
-      "days_running": 289,
+      "days_running": 290,
       "daily_change": {
         "2026-01-18": 781550,
         "2026-01-25": 787800,
@@ -9008,7 +9035,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2391402,
-      "days_running": 219,
+      "days_running": 220,
       "daily_change": {
         "2026-03-28": 1170000,
         "2026-03-29": 1861,
@@ -9095,7 +9122,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 0,
-      "days_running": 2,
+      "days_running": 3,
       "daily_change": {},
       "weekly_gross": {},
       "gross": {
@@ -9143,7 +9170,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 345838416,
-      "days_running": 163,
+      "days_running": 164,
       "daily_change": {
         "2026-05-21": 12000000,
         "2026-05-22": 21000000,
@@ -9368,8 +9395,8 @@
       "budget": 20000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 9921433,
-      "days_running": 163,
+      "gross_td": 9935301,
+      "days_running": 164,
       "daily_change": {
         "2026-05-21": 430000,
         "2026-05-22": 1070000,
@@ -9406,7 +9433,8 @@
         "2026-10-25": 5211,
         "2026-10-27": 865,
         "2026-10-29": 1487,
-        "2026-11-01": 155629
+        "2026-11-01": 155629,
+        "2026-11-02": 13868
       },
       "weekly_gross": {
         "2026-W21": 3723000,
@@ -9419,7 +9447,8 @@
         "2026-W28": 42698,
         "2026-W29": 36327,
         "2026-W43": 20385,
-        "2026-W44": 157981
+        "2026-W44": 157981,
+        "2026-W45": 13868
       },
       "gross": {
         "2026-04-13": 0,
@@ -9481,7 +9510,8 @@
         "2026-10-28": 9764317,
         "2026-10-29": 9765804,
         "2026-10-31": 9765804,
-        "2026-11-01": 9921433
+        "2026-11-01": 9921433,
+        "2026-11-02": 9935301
       },
       "ratings": {
         "fetched_at": "2026-10-23",
@@ -9525,7 +9555,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 23944025,
-      "days_running": 240,
+      "days_running": 241,
       "daily_change": {
         "2026-03-06": 5300000,
         "2026-03-07": 8260000,
@@ -9641,7 +9671,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 706723,
-      "days_running": 100,
+      "days_running": 101,
       "daily_change": {
         "2026-07-25": 295731,
         "2026-07-26": 90736,
@@ -9716,7 +9746,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 53690303,
-      "days_running": 282,
+      "days_running": 283,
       "daily_change": {
         "2026-01-22": 1500000,
         "2026-01-23": 3500000,
@@ -9838,7 +9868,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 72400989,
-      "days_running": 114,
+      "days_running": 115,
       "daily_change": {
         "2026-07-09": 2300000,
         "2026-07-10": 4400000,
@@ -10067,7 +10097,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 27577864,
-      "days_running": 60,
+      "days_running": 61,
       "daily_change": {
         "2026-09-02": 310927,
         "2026-09-03": 262099,
@@ -10214,7 +10244,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 5953183,
-      "days_running": 198,
+      "days_running": 199,
       "daily_change": {
         "2026-04-18": 2650000,
         "2026-04-21": 238753,
@@ -10330,7 +10360,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 17785367,
-      "days_running": 51,
+      "days_running": 52,
       "daily_change": {
         "2026-09-11": 2519474,
         "2026-09-12": 3913482,
@@ -10530,7 +10560,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 42414609,
-      "days_running": 268,
+      "days_running": 269,
       "daily_change": {
         "2026-02-05": 21435099,
         "2026-02-06": 1650000,
@@ -10636,8 +10666,8 @@
       "budget": 170000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 49026582,
-      "days_running": 30,
+      "gross_td": 49126885,
+      "days_running": 31,
       "daily_change": {
         "2026-10-01": 1200000,
         "2026-10-02": 2200000,
@@ -10663,14 +10693,16 @@
         "2026-10-26": 224296,
         "2026-10-27": 79497,
         "2026-10-28": 40878,
-        "2026-10-29": 2223791
+        "2026-10-29": 2223791,
+        "2026-11-02": 100303
       },
       "weekly_gross": {
         "2026-W40": 20000000,
         "2026-W41": 15334311,
         "2026-W42": 6388421,
         "2026-W43": 4735388,
-        "2026-W44": 2568462
+        "2026-W44": 2568462,
+        "2026-W45": 100303
       },
       "gross": {
         "2026-04-13": 0,
@@ -10701,7 +10733,9 @@
         "2026-10-26": 46682416,
         "2026-10-27": 46761913,
         "2026-10-28": 46802791,
-        "2026-10-29": 49026582
+        "2026-10-29": 49026582,
+        "2026-11-01": 49026582,
+        "2026-11-02": 49126885
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -10745,7 +10779,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 1000000,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-10-18": 1000000
       },
@@ -10799,7 +10833,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 19382152,
-      "days_running": 219,
+      "days_running": 220,
       "daily_change": {
         "2026-03-26": 1000000,
         "2026-03-27": 1250000,
@@ -10933,7 +10967,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 231277762,
-      "days_running": 149,
+      "days_running": 150,
       "daily_change": {
         "2026-06-04": 7700000,
         "2026-06-05": 17000000,
@@ -11104,7 +11138,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 47142616,
-      "days_running": 121,
+      "days_running": 122,
       "daily_change": {
         "2026-07-03": 7597688,
         "2026-07-04": 13250000,
@@ -11291,7 +11325,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 58527279,
-      "days_running": 289,
+      "days_running": 290,
       "daily_change": {
         "2026-01-15": 2100000,
         "2026-01-16": 3500000,
@@ -11441,8 +11475,8 @@
       "budget": 40000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 171699299,
-      "days_running": 30,
+      "gross_td": 171877055,
+      "days_running": 31,
       "daily_change": {
         "2026-10-01": 4500000,
         "2026-10-02": 10602000,
@@ -11474,14 +11508,16 @@
         "2026-10-28": 313493,
         "2026-10-29": 250249,
         "2026-10-31": 9077996,
-        "2026-11-01": -657866
+        "2026-11-01": -657866,
+        "2026-11-02": 177756
       },
       "weekly_gross": {
         "2026-W40": 61854334,
         "2026-W41": 52630276,
         "2026-W42": 30642391,
         "2026-W43": 16860039,
-        "2026-W44": 9712259
+        "2026-W44": 9712259,
+        "2026-W45": 177756
       },
       "gross": {
         "2026-04-13": 0,
@@ -11517,7 +11553,8 @@
         "2026-10-29": 163279169,
         "2026-10-30": 163279169,
         "2026-10-31": 172357165,
-        "2026-11-01": 171699299
+        "2026-11-01": 171699299,
+        "2026-11-02": 171877055
       },
       "ratings": {
         "fetched_at": "2026-11-02",
@@ -11561,7 +11598,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 4058340,
-      "days_running": 149,
+      "days_running": 150,
       "daily_change": {
         "2026-05-30": 170000,
         "2026-05-31": 102602,
@@ -11736,7 +11773,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 3456002,
-      "days_running": 58,
+      "days_running": 59,
       "daily_change": {
         "2026-09-04": 782544,
         "2026-09-05": 1101040,
@@ -11839,7 +11876,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 8078248,
-      "days_running": 135,
+      "days_running": 136,
       "daily_change": {
         "2026-06-19": 1111822,
         "2026-06-20": 1509853,
@@ -12025,7 +12062,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 26400616,
-      "days_running": 268,
+      "days_running": 269,
       "daily_change": {
         "2026-02-05": 744000,
         "2026-02-06": 2438945,
@@ -12228,7 +12265,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 6660385,
-      "days_running": 254,
+      "days_running": 255,
       "daily_change": {
         "2026-02-19": 2336248,
         "2026-02-20": 423776,
@@ -12359,7 +12396,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 1121785,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-10-04": 4385,
         "2026-10-06": 164387,
@@ -12453,7 +12490,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1788080,
-      "days_running": 93,
+      "days_running": 94,
       "daily_change": {
         "2026-08-01": 600000,
         "2026-08-03": 34877,
@@ -12602,7 +12639,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 29790128,
-      "days_running": 72,
+      "days_running": 73,
       "daily_change": {
         "2026-08-20": 700000,
         "2026-08-22": 6800000,
@@ -12764,7 +12801,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 49305541,
-      "days_running": 275,
+      "days_running": 276,
       "daily_change": {
         "2026-01-29": 385000,
         "2026-01-30": 1515000,
@@ -12881,7 +12918,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 72896630,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 1010000,
         "2026-02-13": 2890000,
@@ -13076,7 +13113,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 2883308,
-      "days_running": 135,
+      "days_running": 136,
       "daily_change": {
         "2026-06-19": 920000,
         "2026-06-20": 680000,
@@ -13220,8 +13257,8 @@
       "budget": 3000000,
       "estimated_budget": true,
       "season": "SUMMER",
-      "gross_td": 3145353,
-      "days_running": 65,
+      "gross_td": 3146892,
+      "days_running": 66,
       "daily_change": {
         "2026-05-28": 412460,
         "2026-05-31": 175515,
@@ -13278,7 +13315,8 @@
         "2026-10-11": 1219,
         "2026-10-12": 39,
         "2026-10-13": 177,
-        "2026-10-19": 18
+        "2026-10-19": 18,
+        "2026-11-02": 1539
       },
       "weekly_gross": {
         "2026-W22": 587975,
@@ -13301,7 +13339,8 @@
         "2026-W40": 2704,
         "2026-W41": 1518,
         "2026-W42": 216,
-        "2026-W43": 18
+        "2026-W43": 18,
+        "2026-W45": 1539
       },
       "gross": {
         "2026-04-13": 0,
@@ -13390,7 +13429,9 @@
         "2026-10-12": 3145158,
         "2026-10-13": 3145335,
         "2026-10-18": 3145335,
-        "2026-10-19": 3145353
+        "2026-10-19": 3145353,
+        "2026-11-01": 3145353,
+        "2026-11-02": 3146892
       },
       "ratings": {
         "fetched_at": "2026-10-23",
@@ -13434,7 +13475,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 33841065,
-      "days_running": 156,
+      "days_running": 157,
       "daily_change": {
         "2026-05-29": 2460000,
         "2026-05-30": 3290000,
@@ -13780,7 +13821,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 133147874,
-      "days_running": 177,
+      "days_running": 178,
       "daily_change": {
         "2026-05-03": 85922,
         "2026-05-04": 59500,
@@ -14025,8 +14066,8 @@
       "budget": 75000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 105690022,
-      "days_running": 51,
+      "gross_td": 105848446,
+      "days_running": 52,
       "daily_change": {
         "2026-09-10": 4700000,
         "2026-09-11": 14600000,
@@ -14071,7 +14112,8 @@
         "2026-10-26": 73032,
         "2026-10-27": 17500,
         "2026-10-28": 7578,
-        "2026-10-29": 107601
+        "2026-10-29": 107601,
+        "2026-11-02": 158424
       },
       "weekly_gross": {
         "2026-W37": 46002526,
@@ -14081,7 +14123,8 @@
         "2026-W41": 4494862,
         "2026-W42": 1756450,
         "2026-W43": 436999,
-        "2026-W44": 205711
+        "2026-W44": 205711,
+        "2026-W45": 158424
       },
       "gross": {
         "2026-04-13": 0,
@@ -14132,7 +14175,9 @@
         "2026-10-26": 105557343,
         "2026-10-27": 105574843,
         "2026-10-28": 105582421,
-        "2026-10-29": 105690022
+        "2026-10-29": 105690022,
+        "2026-11-01": 105690022,
+        "2026-11-02": 105848446
       },
       "ratings": {
         "fetched_at": "2026-11-02",
@@ -14176,7 +14221,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 90552113,
-      "days_running": 198,
+      "days_running": 199,
       "daily_change": {
         "2026-04-16": 1500000,
         "2026-04-17": 3700000,
@@ -14327,7 +14372,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 695518,
-      "days_running": 303,
+      "days_running": 304,
       "daily_change": {
         "2026-01-01": 38149,
         "2026-01-03": 406969,
@@ -14416,8 +14461,8 @@
       "budget": 85000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 535311125,
-      "days_running": 123,
+      "gross_td": 529762014,
+      "days_running": 124,
       "daily_change": {
         "2026-06-27": 10349000,
         "2026-06-29": 6156850,
@@ -14519,7 +14564,8 @@
         "2026-10-26": 12281,
         "2026-10-27": 5606264,
         "2026-10-30": 7717,
-        "2026-11-01": 829472
+        "2026-11-01": 829472,
+        "2026-11-02": -5549111
       },
       "weekly_gross": {
         "2026-W26": 10349000,
@@ -14540,7 +14586,8 @@
         "2026-W41": 939047,
         "2026-W42": 255426,
         "2026-W43": 1500277,
-        "2026-W44": 6455734
+        "2026-W44": 6455734,
+        "2026-W45": -5549111
       },
       "gross": {
         "2026-04-13": 0,
@@ -14660,7 +14707,8 @@
         "2026-10-29": 534473936,
         "2026-10-30": 534481653,
         "2026-10-31": 534481653,
-        "2026-11-01": 535311125
+        "2026-11-01": 535311125,
+        "2026-11-02": 529762014
       },
       "ratings": {
         "fetched_at": "2026-10-23",
@@ -14704,7 +14752,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 241801072,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 3000000,
         "2026-02-13": 23200000,
@@ -14885,7 +14933,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 18420625,
-      "days_running": 170,
+      "days_running": 171,
       "daily_change": {
         "2026-05-15": 386869,
         "2026-06-01": 2828868
@@ -14944,7 +14992,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 41235665,
-      "days_running": 296,
+      "days_running": 297,
       "daily_change": {
         "2026-01-08": 1400000,
         "2026-01-09": 3150000,
@@ -15080,7 +15128,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 5052290,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-14": 2684100,
         "2026-08-16": 5429,
@@ -15192,7 +15240,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 132492402,
-      "days_running": 212,
+      "days_running": 213,
       "daily_change": {
         "2026-04-02": 1700000,
         "2026-04-03": 4724320,
@@ -15331,7 +15379,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 19620292,
-      "days_running": 86,
+      "days_running": 87,
       "daily_change": {
         "2026-08-07": 151005,
         "2026-08-08": 197990,
@@ -15511,7 +15559,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 759051,
-      "days_running": 30,
+      "days_running": 31,
       "daily_change": {
         "2026-10-02": 192923,
         "2026-10-03": 273989,
@@ -15598,7 +15646,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 9823052,
-      "days_running": 156,
+      "days_running": 157,
       "daily_change": {
         "2026-05-23": 102000,
         "2026-05-25": 24323,
@@ -15796,7 +15844,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 12083944,
-      "days_running": 72,
+      "days_running": 73,
       "daily_change": {
         "2026-08-21": 1125000,
         "2026-08-22": 1989000,
@@ -15945,7 +15993,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 693492689,
-      "days_running": 184,
+      "days_running": 185,
       "daily_change": {
         "2026-04-30": 50500000,
         "2026-05-01": 64100000,
@@ -16221,7 +16269,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 89194409,
-      "days_running": 233,
+      "days_running": 234,
       "daily_change": {
         "2026-03-13": 10412878,
         "2026-03-14": 17805122,
@@ -16475,7 +16523,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 31041122,
-      "days_running": 163,
+      "days_running": 164,
       "daily_change": {
         "2026-05-21": 1100000,
         "2026-05-22": 2410000,
@@ -16588,8 +16636,8 @@
       "budget": 250000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 1820909964,
-      "days_running": 107,
+      "gross_td": 1800872197,
+      "days_running": 108,
       "daily_change": {
         "2026-07-16": 38864795,
         "2026-07-17": 33680000,
@@ -16697,7 +16745,8 @@
         "2026-10-28": 35615,
         "2026-10-29": 33525,
         "2026-10-30": 8396,
-        "2026-11-01": 5083562
+        "2026-11-01": 5083562,
+        "2026-11-02": -20037767
       },
       "weekly_gross": {
         "2026-W29": 263799900,
@@ -16715,7 +16764,8 @@
         "2026-W41": 12517371,
         "2026-W42": 2461221,
         "2026-W43": 10335108,
-        "2026-W44": 26036621
+        "2026-W44": 26036621,
+        "2026-W45": -20037767
       },
       "gross": {
         "2026-04-13": 0,
@@ -16828,7 +16878,8 @@
         "2026-10-29": 1815818006,
         "2026-10-30": 1815826402,
         "2026-10-31": 1815826402,
-        "2026-11-01": 1820909964
+        "2026-11-01": 1820909964,
+        "2026-11-02": 1800872197
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -16872,7 +16923,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 43095839,
-      "days_running": 226,
+      "days_running": 227,
       "daily_change": {
         "2026-03-20": 3800000,
         "2026-03-21": 8100000,
@@ -17057,7 +17108,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 50470892,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-24": 2700000,
         "2026-09-25": 5794586,
@@ -17225,7 +17276,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 16916195,
-      "days_running": 58,
+      "days_running": 59,
       "daily_change": {
         "2026-09-03": 725000,
         "2026-09-04": 1945000,
@@ -17350,7 +17401,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 4945741,
-      "days_running": 170,
+      "days_running": 171,
       "daily_change": {
         "2026-05-15": 847163,
         "2026-05-16": 1375179,
@@ -17504,7 +17555,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 160023,
-      "days_running": 23,
+      "days_running": 24,
       "daily_change": {
         "2026-10-09": 27200,
         "2026-10-10": 58516,
@@ -17616,7 +17667,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 20247080,
-      "days_running": 156,
+      "days_running": 157,
       "daily_change": {
         "2026-05-28": 750000,
         "2026-05-29": 2000000,
@@ -17744,7 +17795,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 1989760,
-      "days_running": 240,
+      "days_running": 241,
       "daily_change": {
         "2026-03-06": 251319,
         "2026-03-08": 492705,
@@ -17900,7 +17951,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 178476,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-26": 102000,
         "2026-09-27": 4751,
@@ -17974,7 +18025,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2430950,
-      "days_running": 191,
+      "days_running": 192,
       "daily_change": {
         "2026-04-25": 1425000,
         "2026-04-26": -31644,
@@ -18102,7 +18153,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 4211433,
-      "days_running": 282,
+      "days_running": 283,
       "daily_change": {
         "2026-01-22": 929328,
         "2026-01-23": 250000,
@@ -18236,7 +18287,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 18744714,
-      "days_running": 254,
+      "days_running": 255,
       "daily_change": {
         "2026-02-19": 1800000,
         "2026-02-20": 1950000,
@@ -18390,7 +18441,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 83564000,
-      "days_running": 9,
+      "days_running": 10,
       "daily_change": {
         "2026-10-22": 3500000,
         "2026-10-23": 14700000,
@@ -18464,7 +18515,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1294949,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-16": 92406,
         "2026-08-17": 912253,
@@ -18574,7 +18625,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 878796,
-      "days_running": 79,
+      "days_running": 80,
       "daily_change": {
         "2026-08-14": 406482,
         "2026-08-16": 27180,
@@ -18655,7 +18706,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 2264126,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 378700,
         "2026-02-13": 67344,
@@ -18752,7 +18803,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 8506558,
-      "days_running": 86,
+      "days_running": 87,
       "daily_change": {
         "2026-08-08": 251500,
         "2026-08-09": 221818,
@@ -18904,7 +18955,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 1359258,
-      "days_running": 23,
+      "days_running": 24,
       "daily_change": {
         "2026-10-10": 124000,
         "2026-10-11": 4173,
@@ -18992,7 +19043,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 40007193,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-09-30": 5488578,
         "2026-10-07": 11523757,
@@ -19126,7 +19177,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 1624890,
-      "days_running": 72,
+      "days_running": 73,
       "daily_change": {
         "2026-08-22": 60512,
         "2026-08-23": 775,
@@ -19240,7 +19291,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 4965912,
-      "days_running": 275,
+      "days_running": 276,
       "daily_change": {
         "2026-01-30": 198969,
         "2026-01-31": 228971,
@@ -19349,7 +19400,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 399691852,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-09-17": 8800000,
         "2026-09-18": 17500000,
@@ -19498,7 +19549,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 25001049,
-      "days_running": 184,
+      "days_running": 185,
       "daily_change": {
         "2026-04-30": 900000,
         "2026-05-02": 5512500,
@@ -19677,7 +19728,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 3507178,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-26": 199000,
         "2026-09-27": 5008,
@@ -19847,7 +19898,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 21507848,
-      "days_running": 233,
+      "days_running": 234,
       "daily_change": {
         "2026-03-13": 4374140,
         "2026-03-14": 4965523,
@@ -19967,7 +20018,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 22478103,
-      "days_running": 205,
+      "days_running": 206,
       "daily_change": {
         "2026-04-09": 750000,
         "2026-04-10": 2410000,
@@ -20190,7 +20241,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 3000000,
-      "days_running": 58,
+      "days_running": 59,
       "daily_change": {
         "2026-09-09": 3000000
       },
@@ -20290,7 +20341,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 455000,
-      "days_running": 2,
+      "days_running": 3,
       "daily_change": {
         "2026-10-31": 455000
       },
@@ -20389,8 +20440,8 @@
       "budget": 5000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 2082194,
-      "days_running": 9,
+      "gross_td": 2273321,
+      "days_running": 10,
       "daily_change": {
         "2026-10-23": 53000,
         "2026-10-24": 88000,
@@ -20401,11 +20452,13 @@
         "2026-10-29": 14263,
         "2026-10-30": 870000,
         "2026-10-31": 895080,
-        "2026-11-01": 113194
+        "2026-11-01": 113194,
+        "2026-11-02": 191127
       },
       "weekly_gross": {
         "2026-W43": 138657,
-        "2026-W44": 1943537
+        "2026-W44": 1943537,
+        "2026-W45": 191127
       },
       "gross": {
         "2026-10-19": 0,
@@ -20419,7 +20472,8 @@
         "2026-10-29": 203920,
         "2026-10-30": 1073920,
         "2026-10-31": 1969000,
-        "2026-11-01": 2082194
+        "2026-11-01": 2082194,
+        "2026-11-02": 2273321
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -20462,8 +20516,8 @@
       "budget": 80000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 75105101,
-      "days_running": 37,
+      "gross_td": 75411794,
+      "days_running": 38,
       "daily_change": {
         "2026-09-08": 14962,
         "2026-09-15": 71749,
@@ -20509,7 +20563,8 @@
         "2026-10-29": 1988725,
         "2026-10-30": 87000,
         "2026-10-31": 273419,
-        "2026-11-01": 2207680
+        "2026-11-01": 2207680,
+        "2026-11-02": 306693
       },
       "weekly_gross": {
         "2026-W37": 14962,
@@ -20519,7 +20574,8 @@
         "2026-W41": 12018778,
         "2026-W42": 5875882,
         "2026-W43": 11609789,
-        "2026-W44": 6976720
+        "2026-W44": 6976720,
+        "2026-W45": 306693
       },
       "gross": {
         "2026-04-13": 0,
@@ -20571,7 +20627,8 @@
         "2026-10-29": 72537002,
         "2026-10-30": 72624002,
         "2026-10-31": 72897421,
-        "2026-11-01": 75105101
+        "2026-11-01": 75105101,
+        "2026-11-02": 75411794
       },
       "ratings": {
         "fetched_at": "2026-11-02",
@@ -20614,8 +20671,8 @@
       "budget": 19000000,
       "estimated_budget": false,
       "season": "FALL",
-      "gross_td": 108015025,
-      "days_running": 23,
+      "gross_td": 108870111,
+      "days_running": 24,
       "daily_change": {
         "2026-10-08": 3600000,
         "2026-10-09": 9000000,
@@ -20641,13 +20698,15 @@
         "2026-10-29": 2185264,
         "2026-10-30": 750000,
         "2026-10-31": 2096310,
-        "2026-11-01": 5328467
+        "2026-11-01": 5328467,
+        "2026-11-02": 855086
       },
       "weekly_gross": {
         "2026-W41": 45668825,
         "2026-W42": 33250295,
         "2026-W43": 16038081,
-        "2026-W44": 13057824
+        "2026-W44": 13057824,
+        "2026-W45": 855086
       },
       "gross": {
         "2026-04-13": 0,
@@ -20676,7 +20735,8 @@
         "2026-10-29": 99840248,
         "2026-10-30": 100590248,
         "2026-10-31": 102686558,
-        "2026-11-01": 108015025
+        "2026-11-01": 108015025,
+        "2026-11-02": 108870111
       },
       "ratings": {
         "fetched_at": "2026-11-04",
@@ -20720,7 +20780,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1221131,
-      "days_running": 100,
+      "days_running": 101,
       "daily_change": {
         "2026-07-23": 125000,
         "2026-07-24": 145000,
@@ -20836,7 +20896,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1538802,
-      "days_running": 114,
+      "days_running": 115,
       "daily_change": {
         "2026-07-10": 485000,
         "2026-07-11": 390000,
@@ -20971,7 +21031,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 14982779,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-09-19": 1904000,
         "2026-09-20": 128093,
@@ -21093,7 +21153,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 6004000,
-      "days_running": 86,
+      "days_running": 87,
       "daily_change": {
         "2026-08-07": 1000000,
         "2026-08-08": 1010000,
@@ -21176,7 +21236,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 8368392,
-      "days_running": 52,
+      "days_running": 53,
       "daily_change": {
         "2026-09-11": 1380000,
         "2026-09-12": 1870000,
@@ -21350,7 +21410,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 5899627,
-      "days_running": 58,
+      "days_running": 59,
       "daily_change": {
         "2026-04-28": 87021,
         "2026-05-03": 69956,
@@ -21494,7 +21554,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 26973812,
-      "days_running": 65,
+      "days_running": 66,
       "daily_change": {
         "2026-08-27": 527000,
         "2026-08-28": 1573000,
@@ -21674,7 +21734,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 521252715,
-      "days_running": 170,
+      "days_running": 171,
       "daily_change": {
         "2026-05-14": 2600000,
         "2026-05-15": 4290000,
@@ -22019,7 +22079,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 37349195,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-09-25": 115296,
         "2026-09-26": 2420704,
@@ -22142,7 +22202,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 17765996,
-      "days_running": 23,
+      "days_running": 24,
       "daily_change": {
         "2026-10-08": 650000,
         "2026-10-09": 1500000,
@@ -22243,7 +22303,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 9650076,
-      "days_running": 44,
+      "days_running": 45,
       "daily_change": {
         "2026-09-18": 1060000,
         "2026-09-19": 2080000,
@@ -22384,8 +22444,8 @@
       "budget": 25000000,
       "estimated_budget": false,
       "season": "SUMMER",
-      "gross_td": 25167762,
-      "days_running": 86,
+      "gross_td": 25167815,
+      "days_running": 87,
       "daily_change": {
         "2026-08-06": 1350000,
         "2026-08-07": 1460000,
@@ -22443,7 +22503,8 @@
         "2026-10-27": 239,
         "2026-10-29": 214,
         "2026-10-31": 23,
-        "2026-11-01": 1267
+        "2026-11-01": 1267,
+        "2026-11-02": 53
       },
       "weekly_gross": {
         "2026-W32": 5515979,
@@ -22458,7 +22519,8 @@
         "2026-W41": 15277,
         "2026-W42": 8501,
         "2026-W43": 6834,
-        "2026-W44": 1743
+        "2026-W44": 1743,
+        "2026-W45": 53
       },
       "gross": {
         "2026-04-13": 0,
@@ -22537,7 +22599,8 @@
         "2026-10-29": 25166472,
         "2026-10-30": 25166472,
         "2026-10-31": 25166495,
-        "2026-11-01": 25167762
+        "2026-11-01": 25167762,
+        "2026-11-02": 25167815
       },
       "ratings": {
         "fetched_at": "2026-10-11",
@@ -22725,7 +22788,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 4472978,
-      "days_running": 142,
+      "days_running": 143,
       "daily_change": {
         "2026-06-13": 2021284,
         "2026-06-14": 3348,
@@ -22906,7 +22969,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 8010329,
-      "days_running": 184,
+      "days_running": 185,
       "daily_change": {
         "2026-04-21": 55803,
         "2026-05-01": 415000,
@@ -23055,7 +23118,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 36421234,
-      "days_running": 149,
+      "days_running": 150,
       "daily_change": {
         "2026-06-04": 7856552,
         "2026-06-05": 4788078,
@@ -23194,7 +23257,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 2000000,
-      "days_running": 60,
+      "days_running": 61,
       "daily_change": {
         "2026-09-07": 21214,
         "2026-09-09": 1978786
@@ -23251,7 +23314,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 25801485,
-      "days_running": 177,
+      "days_running": 178,
       "daily_change": {
         "2026-05-07": 2200000,
         "2026-05-08": 2300000,
@@ -23335,7 +23398,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 9047000,
-      "days_running": 135,
+      "days_running": 136,
       "daily_change": {
         "2026-06-18": 460000,
         "2026-06-20": 2287500,
@@ -23513,7 +23576,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 417646,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-25": 90000,
         "2026-09-26": 95000,
@@ -23603,7 +23666,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 27373185,
-      "days_running": 128,
+      "days_running": 129,
       "daily_change": {
         "2026-06-25": 1200000,
         "2026-06-26": 2600000,
@@ -23731,7 +23794,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 3905159,
-      "days_running": 23,
+      "days_running": 24,
       "daily_change": {
         "2026-10-09": 935341,
         "2026-10-10": 1128066,
@@ -23827,7 +23890,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 287017,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-10-16": 67000,
         "2026-10-17": 133000,
@@ -23900,7 +23963,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 710526,
-      "days_running": 2,
+      "days_running": 3,
       "daily_change": {
         "2026-10-30": 370000,
         "2026-11-01": 340526
@@ -23957,7 +24020,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 21487987,
-      "days_running": 254,
+      "days_running": 255,
       "daily_change": {
         "2026-02-20": 1667268,
         "2026-02-21": 1893349,
@@ -24075,7 +24138,7 @@
       "estimated_budget": true,
       "season": "FALL",
       "gross_td": 2269259,
-      "days_running": 9,
+      "days_running": 10,
       "daily_change": {
         "2026-10-25": 401201,
         "2026-10-28": 1798680,
@@ -24136,7 +24199,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 64727541,
-      "days_running": 16,
+      "days_running": 17,
       "daily_change": {
         "2026-10-15": 1750000,
         "2026-10-16": 3793820,
@@ -24219,7 +24282,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 1194591,
-      "days_running": 65,
+      "days_running": 66,
       "daily_change": {
         "2026-08-25": 26721,
         "2026-08-29": 700000,
@@ -24309,7 +24372,7 @@
       "estimated_budget": false,
       "season": "FALL",
       "gross_td": 181051954,
-      "days_running": 37,
+      "days_running": 38,
       "daily_change": {
         "2026-09-20": 130954,
         "2026-09-24": 2000000,
@@ -24448,7 +24511,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 33617799,
-      "days_running": 72,
+      "days_running": 73,
       "daily_change": {
         "2026-05-28": 1742596,
         "2026-05-31": 22065,
@@ -24590,7 +24653,7 @@
       "estimated_budget": false,
       "season": "WINTER",
       "gross_td": 94041481,
-      "days_running": 275,
+      "days_running": 276,
       "daily_change": {
         "2026-01-29": 2200000,
         "2026-01-30": 5000000,
@@ -24786,7 +24849,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 527379,
-      "days_running": 296,
+      "days_running": 297,
       "daily_change": {
         "2026-01-08": 37093,
         "2026-01-10": 75000,
@@ -24929,7 +24992,7 @@
       "estimated_budget": false,
       "season": "SUMMER",
       "gross_td": 126466532,
-      "days_running": 128,
+      "days_running": 129,
       "daily_change": {
         "2026-06-25": 13000000,
         "2026-06-26": 16100000,
@@ -25094,7 +25157,7 @@
       "estimated_budget": true,
       "season": "SUMMER",
       "gross_td": 7774951,
-      "days_running": 86,
+      "days_running": 87,
       "daily_change": {
         "2026-08-06": 350000,
         "2026-08-07": 1350000,
@@ -25219,7 +25282,7 @@
       "estimated_budget": true,
       "season": "WINTER",
       "gross_td": 4048606,
-      "days_running": 261,
+      "days_running": 262,
       "daily_change": {
         "2026-02-12": 128347,
         "2026-02-14": 1100000,
@@ -25312,8 +25375,8 @@
       "budget": 20000000,
       "estimated_budget": true,
       "season": "FALL",
-      "gross_td": 1243243,
-      "days_running": 51,
+      "gross_td": 1259021,
+      "days_running": 52,
       "daily_change": {
         "2026-09-14": 801086,
         "2026-09-15": 112754,
@@ -25324,12 +25387,14 @@
         "2026-09-23": 73409,
         "2026-09-24": 6264,
         "2026-10-26": 20259,
-        "2026-11-01": 3609
+        "2026-11-01": 3609,
+        "2026-11-02": 15778
       },
       "weekly_gross": {
         "2026-W38": 1126086,
         "2026-W39": 93289,
-        "2026-W44": 23868
+        "2026-W44": 23868,
+        "2026-W45": 15778
       },
       "gross": {
         "2026-07-16": 0,
@@ -25347,7 +25412,8 @@
         "2026-10-25": 1219375,
         "2026-10-26": 1239634,
         "2026-10-31": 1239634,
-        "2026-11-01": 1243243
+        "2026-11-01": 1243243,
+        "2026-11-02": 1259021
       },
       "ratings": {
         "fetched_at": "2026-10-21",
