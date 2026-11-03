@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-02T23:09:30.891348Z",
+  "generated_at": "2026-11-03T01:09:46.333201Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -21532,8 +21532,8 @@
       "title": "Stiletto",
       "release_date": "2026-10-30",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -21649,7 +21649,7 @@
         "2026-10-31": 0,
         "2026-11-01": 0
       },
-      "profit_td": 0
+      "profit_td": -10000000
     },
     {
       "imdb_id": "tt30827810",
@@ -33811,8 +33811,8 @@
       "title": "The Mosquito Bowl",
       "release_date": "2026-10-30",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 50000000,
+      "breakeven": 100000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -33837,10 +33837,10 @@
         "2026-10-28": 0,
         "2026-10-29": 0,
         "2026-10-30": 0,
-        "2026-10-31": 455000,
-        "2026-11-01": 455000
+        "2026-10-31": -99545000,
+        "2026-11-01": -99545000
       },
-      "profit_td": 455000
+      "profit_td": -99545000
     },
     {
       "imdb_id": "tt36415529",
@@ -37312,8 +37312,8 @@
       "title": "Christmas at the Kringles",
       "release_date": "2026-10-30",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -37425,11 +37425,11 @@
         "2026-10-27": 0,
         "2026-10-28": 0,
         "2026-10-29": 0,
-        "2026-10-30": 370000,
-        "2026-10-31": 370000,
-        "2026-11-01": 710526
+        "2026-10-30": -9630000,
+        "2026-10-31": -9630000,
+        "2026-11-01": -9289474
       },
-      "profit_td": 710526
+      "profit_td": -9289474
     },
     {
       "imdb_id": "tt43702710",
