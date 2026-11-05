@@ -6800,10 +6800,10 @@
     },
     {
       "imdb_id": "tt27988879",
-      "title": "Ramayana",
+      "title": "Ramayana: Part 1",
       "release_date": "2026-11-05",
-      "budget": null,
-      "estimated_budget": false,
+      "budget": 100000000,
+      "estimated_budget": true,
       "season": "FALL",
       "gross_td": null,
       "days_running": null,
