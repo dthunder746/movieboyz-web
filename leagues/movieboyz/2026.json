@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-06T22:21:40.618122Z",
+  "generated_at": "2026-11-06T23:21:49.028405Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -12542,8 +12542,8 @@
       "title": "Drummer Boy",
       "release_date": "2026-11-06",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 10000000,
+      "breakeven": 20000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
