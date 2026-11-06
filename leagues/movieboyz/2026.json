@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-06T00:19:15.938040Z",
+  "generated_at": "2026-11-06T05:19:57.274314Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -5897,8 +5897,8 @@
       "title": "Dr. Seuss’ The Cat in the Hat",
       "release_date": "2026-11-06",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 92000000,
+      "breakeven": 184000000,
       "user_id": "chris",
       "pick_type": "seasonal",
       "draft_pick": 10,
@@ -6106,10 +6106,10 @@
         "2026-10-29": 0,
         "2026-10-30": 0,
         "2026-10-31": 0,
-        "2026-11-01": 177899,
-        "2026-11-02": 177899,
-        "2026-11-03": 192696,
-        "2026-11-04": 192696
+        "2026-11-01": -183822101,
+        "2026-11-02": -183822101,
+        "2026-11-03": -183807304,
+        "2026-11-04": -183807304
       },
       "profit_td": null
     },
@@ -22641,8 +22641,8 @@
       "title": "Jimmy",
       "release_date": "2026-11-06",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 14000000,
+      "breakeven": 28000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -42472,7 +42472,7 @@
         "2026-11-04": -117164254
       },
       "total": 519625581,
-      "slate_roi": 32.8580926213
+      "slate_roi": 30.0089460415
     }
   ],
   "outcome": null
