@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-06T22:00:05.001581Z",
+  "generated_at": "2026-11-06T22:21:40.618122Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
@@ -8,10 +8,10 @@
       "user_id": "marcus",
       "username": "Marcus",
       "color": "#76b7b2",
-      "profit": 2645638495,
-      "gross": 4554638494.5,
+      "profit": 2646202638,
+      "gross": 4555202638.5,
       "breakeven": 1909000000,
-      "bomb_impact_absorbed": -138654076,
+      "bomb_impact_absorbed": -138582762,
       "bomb_impact_dealt": 15838416,
       "movies_picked": 11,
       "years_competed": 1
@@ -20,10 +20,10 @@
       "user_id": "connie",
       "username": "Connie",
       "color": "#f28e2b",
-      "profit": 1813897094,
-      "gross": 3531397094,
+      "profit": 1815622990,
+      "gross": 3533122990,
       "breakeven": 1717500000,
-      "bomb_impact_absorbed": -63143109,
+      "bomb_impact_absorbed": -63071794,
       "bomb_impact_dealt": -286205454,
       "movies_picked": 11,
       "years_competed": 1
@@ -32,10 +32,10 @@
       "user_id": "emerson",
       "username": "Emerson",
       "color": "#e15759",
-      "profit": 1343138269,
-      "gross": 2371638269.25,
+      "profit": 1347778746,
+      "gross": 2376278746.25,
       "breakeven": 1028500000,
-      "bomb_impact_absorbed": -95680479,
+      "bomb_impact_absorbed": -95609164,
       "bomb_impact_dealt": -156055975,
       "movies_picked": 11,
       "years_competed": 1
@@ -44,10 +44,10 @@
       "user_id": "matt",
       "username": "Matt",
       "color": "#59a14f",
-      "profit": 1333515309,
-      "gross": 2623015309.5,
+      "profit": 1334633515,
+      "gross": 2624133514.5,
       "breakeven": 1289500000,
-      "bomb_impact_absorbed": -124135972,
+      "bomb_impact_absorbed": -124064656,
       "bomb_impact_dealt": -42234004,
       "movies_picked": 11,
       "years_competed": 1
@@ -60,7 +60,7 @@
       "gross": 1900125580.75,
       "breakeven": 1380500000,
       "bomb_impact_absorbed": -117164254,
-      "bomb_impact_dealt": -70120873,
+      "bomb_impact_dealt": -69835613,
       "movies_picked": 11,
       "years_competed": 1
     }
