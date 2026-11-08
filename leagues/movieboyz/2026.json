@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-07T22:23:37.218714Z",
+  "generated_at": "2026-11-08T00:23:52.618911Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -36660,8 +36660,8 @@
       "title": "Club Kid",
       "release_date": "2026-11-06",
       "season": "FALL",
-      "budget": null,
-      "breakeven": null,
+      "budget": 5000000,
+      "breakeven": 10000000,
       "user_id": null,
       "pick_type": null,
       "draft_pick": null,
@@ -36681,9 +36681,9 @@
         "2026-11-03": 0,
         "2026-11-04": 0,
         "2026-11-05": 0,
-        "2026-11-06": 175398
+        "2026-11-06": -9824602
       },
-      "profit_td": 175398
+      "profit_td": -9824602
     },
     {
       "imdb_id": "tt38077943",
