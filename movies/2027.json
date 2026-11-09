@@ -1010,54 +1010,6 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt36731244",
-      "title": "Miami Vice",
-      "release_date": "2027-08-06",
-      "budget": null,
-      "estimated_budget": false,
-      "season": null,
-      "gross_td": null,
-      "days_running": null,
-      "daily_change": {},
-      "weekly_gross": {},
-      "gross": {
-        "2026-07-31": 0
-      },
-      "ratings": {
-        "fetched_at": "2026-10-23",
-        "imdb": {
-          "score": null,
-          "votes": null
-        },
-        "rt_critic": {
-          "score": null,
-          "votes": null
-        },
-        "rt_audience": {
-          "score": null,
-          "votes": null
-        },
-        "metacritic": {
-          "score": null,
-          "votes": null
-        },
-        "tmdb": {
-          "score": null,
-          "votes": null
-        },
-        "letterboxd": {
-          "score": null,
-          "votes": null
-        },
-        "trakt": {
-          "score": null,
-          "votes": 0
-        }
-      },
-      "released_digital": null,
-      "status": "SCHEDULED"
-    },
-    {
       "imdb_id": "tt36931184",
       "title": "A Place in Hell",
       "release_date": "2027-04-23",
