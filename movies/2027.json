@@ -880,7 +880,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-16",
         "imdb": {
           "score": null,
           "votes": null
@@ -906,8 +906,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 72,
-          "votes": 17
+          "score": 70,
+          "votes": 20
         }
       },
       "released_digital": null,
