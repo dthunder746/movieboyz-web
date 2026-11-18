@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-18T19:53:05.356166Z",
+  "generated_at": "2026-11-18T20:53:14.760695Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -25858,6 +25858,20 @@
       "profit_td": -67472721
     },
     {
+      "imdb_id": "tt32252801",
+      "title": "Blue Heron",
+      "release_date": "2026-03-21",
+      "season": "WINTER",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
+      "profit_td": null
+    },
+    {
       "imdb_id": "tt32267691",
       "title": "Power Ballad",
       "release_date": "2026-06-05",
@@ -34771,7 +34785,7 @@
     },
     {
       "imdb_id": "tt35511966",
-      "title": "La bola negra",
+      "title": "La Bola Negra",
       "release_date": "2026-10-16",
       "season": "FALL",
       "budget": 15000000,
@@ -40093,6 +40107,20 @@
         "2026-11-17": -5579311
       },
       "profit_td": -5579311
+    },
+    {
+      "imdb_id": "tt39150234",
+      "title": "The History of Concrete",
+      "release_date": "2026-09-18",
+      "season": "FALL",
+      "budget": null,
+      "breakeven": null,
+      "user_id": null,
+      "pick_type": null,
+      "draft_pick": null,
+      "draft": null,
+      "profit": {},
+      "profit_td": null
     },
     {
       "imdb_id": "tt39850240",

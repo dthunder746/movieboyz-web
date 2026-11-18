@@ -11983,6 +11983,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt32252801",
+      "title": "Blue Heron",
+      "release_date": "2026-03-21",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "WINTER",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-19",
+        "imdb": {
+          "score": 71,
+          "votes": 4297
+        },
+        "rt_critic": {
+          "score": 97,
+          "votes": 113
+        },
+        "rt_audience": {
+          "score": 68,
+          "votes": 100
+        },
+        "metacritic": {
+          "score": 92,
+          "votes": 28
+        },
+        "tmdb": {
+          "score": 66,
+          "votes": 54
+        },
+        "letterboxd": {
+          "score": 80,
+          "votes": 66120
+        },
+        "trakt": {
+          "score": 69,
+          "votes": 255
+        }
+      },
+      "released_digital": "2026-06-23",
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt32261958",
       "title": "Verity",
       "release_date": "2026-10-02",
@@ -19860,7 +19906,7 @@
     },
     {
       "imdb_id": "tt35511966",
-      "title": "La bola negra",
+      "title": "La Bola Negra",
       "release_date": "2026-10-16",
       "budget": 15000000,
       "estimated_budget": false,
@@ -24897,6 +24943,52 @@
         }
       },
       "released_digital": "2026-11-10",
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt39150234",
+      "title": "The History of Concrete",
+      "release_date": "2026-09-18",
+      "budget": null,
+      "estimated_budget": false,
+      "season": "FALL",
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-19",
+        "imdb": {
+          "score": 73,
+          "votes": 2550
+        },
+        "rt_critic": {
+          "score": 96,
+          "votes": 83
+        },
+        "rt_audience": {
+          "score": 92,
+          "votes": 50
+        },
+        "metacritic": {
+          "score": 82,
+          "votes": 24
+        },
+        "tmdb": {
+          "score": 72,
+          "votes": 20
+        },
+        "letterboxd": {
+          "score": 78,
+          "votes": 64262
+        },
+        "trakt": {
+          "score": 73,
+          "votes": 179
+        }
+      },
+      "released_digital": "2026-11-03",
       "status": "SCHEDULED"
     },
     {
