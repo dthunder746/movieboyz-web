@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-20T03:56:06.471023Z",
+  "generated_at": "2026-11-20T19:57:37.202015Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
@@ -32,8 +32,8 @@
       "user_id": "emerson",
       "username": "Emerson",
       "color": "#e15759",
-      "profit": 1426769096,
-      "gross": 2487269096.5,
+      "profit": 1450479096,
+      "gross": 2510979096.5,
       "breakeven": 1060500000,
       "bomb_impact_absorbed": -93814518,
       "bomb_impact_dealt": -156055975,
