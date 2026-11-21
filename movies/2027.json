@@ -4,9 +4,9 @@
   "latest_date": null,
   "movies": [
     {
-      "imdb_id": "tt1441251",
-      "title": "Cliffhanger",
-      "release_date": "2027-02-24",
+      "imdb_id": "tt12455636",
+      "title": "The Take",
+      "release_date": "2027-01-15",
       "budget": null,
       "estimated_budget": false,
       "season": null,
@@ -14,11 +14,9 @@
       "days_running": null,
       "daily_change": {},
       "weekly_gross": {},
-      "gross": {
-        "2026-04-13": 0
-      },
+      "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -44,8 +42,56 @@
           "votes": null
         },
         "trakt": {
-          "score": 54,
-          "votes": 10
+          "score": 90,
+          "votes": 1
+        }
+      },
+      "released_digital": "2027-01-15",
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt1441251",
+      "title": "Cliffhanger",
+      "release_date": "2027-02-24",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-04-13": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 52,
+          "votes": 11
         }
       },
       "released_digital": null,
@@ -66,7 +112,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -77,7 +123,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -92,8 +138,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 87,
-          "votes": 218
+          "score": 86,
+          "votes": 222
         }
       },
       "released_digital": null,
@@ -114,7 +160,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -140,8 +186,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 78,
-          "votes": 23
+          "score": 79,
+          "votes": 24
         }
       },
       "released_digital": null,
@@ -162,7 +208,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -189,7 +235,7 @@
         },
         "trakt": {
           "score": 10,
-          "votes": 2
+          "votes": 3
         }
       },
       "released_digital": null,
@@ -210,7 +256,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -221,7 +267,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -236,8 +282,54 @@
           "votes": null
         },
         "trakt": {
-          "score": 72,
-          "votes": 50
+          "score": 73,
+          "votes": 52
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt22379462",
+      "title": "Billy Knight",
+      "release_date": "2027-01-08",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 58,
+          "votes": 176
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 62,
+          "votes": 290
+        },
+        "trakt": {
+          "score": 10,
+          "votes": 1
         }
       },
       "released_digital": null,
@@ -258,7 +350,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -269,7 +361,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -306,7 +398,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -317,7 +409,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -340,6 +432,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt27706987",
+      "title": "Lords of War",
+      "release_date": "2027-01-22",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 71,
+          "votes": 9
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt28069611",
       "title": "Star Wars: Starfighter",
       "release_date": "2027-05-26",
@@ -354,7 +492,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -365,7 +503,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -402,7 +540,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -428,8 +566,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 63,
-          "votes": 12
+          "score": 60,
+          "votes": 11
         }
       },
       "released_digital": null,
@@ -450,7 +588,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -461,7 +599,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -484,6 +622,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt31339071",
+      "title": "CoComelon: The Movie",
+      "release_date": "2027-02-19",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 23,
+          "votes": 8
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt31512072",
       "title": "Teenage Mutant Ninja Turtles: Mutant Mayhem 2",
       "release_date": "2027-09-17",
@@ -498,7 +682,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -526,6 +710,52 @@
         "trakt": {
           "score": 66,
           "votes": 8
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt31888498",
+      "title": "FING!",
+      "release_date": "2027-01-15",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 66,
+          "votes": 85
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 422
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
         }
       },
       "released_digital": null,
@@ -594,7 +824,7 @@
         "2026-04-13": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -642,7 +872,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -653,7 +883,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -668,8 +898,54 @@
           "votes": null
         },
         "trakt": {
+          "score": 64,
+          "votes": 12
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt33042320",
+      "title": "In a Violent Nature: Part 2",
+      "release_date": "2027-02-12",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 59,
+          "votes": 54
+        },
+        "rt_critic": {
+          "score": 64,
+          "votes": 11
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 64,
+          "votes": 243
+        },
+        "trakt": {
           "score": 62,
-          "votes": 9
+          "votes": 4
         }
       },
       "released_digital": null,
@@ -688,7 +964,7 @@
       "weekly_gross": {},
       "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -722,8 +998,54 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt34512981",
-      "title": "Ice Age: Boiling Point",
+      "imdb_id": "tt33085567",
+      "title": "River",
+      "release_date": "2027-01-15",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 69,
+          "votes": 258
+        },
+        "rt_critic": {
+          "score": 94,
+          "votes": 35
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": 70,
+          "votes": 8
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 1989
+        },
+        "trakt": {
+          "score": 81,
+          "votes": 6
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt33295857",
+      "title": "Karōshi",
       "release_date": "2027-02-05",
       "budget": null,
       "estimated_budget": false,
@@ -732,11 +1054,9 @@
       "days_running": null,
       "daily_change": {},
       "weekly_gross": {},
-      "gross": {
-        "2026-07-31": 0
-      },
+      "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -746,8 +1066,8 @@
           "votes": null
         },
         "rt_audience": {
-          "score": 43,
-          "votes": 0
+          "score": null,
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -762,8 +1082,102 @@
           "votes": null
         },
         "trakt": {
-          "score": 76,
-          "votes": 24
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt34378250",
+      "title": "Pendulum",
+      "release_date": "2027-01-01",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt34512981",
+      "title": "Ice Age: Boiling Point",
+      "release_date": "2027-02-05",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-07-31": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 79,
+          "votes": 27
         }
       },
       "released_digital": null,
@@ -784,7 +1198,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -818,9 +1232,9 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt35621542",
-      "title": "Remain",
-      "release_date": "2027-02-05",
+      "imdb_id": "tt35606013",
+      "title": "The Rescue",
+      "release_date": "2027-01-29",
       "budget": null,
       "estimated_budget": false,
       "season": null,
@@ -828,11 +1242,9 @@
       "days_running": null,
       "daily_change": {},
       "weekly_gross": {},
-      "gross": {
-        "2026-04-13": 0
-      },
+      "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -860,6 +1272,100 @@
         "trakt": {
           "score": null,
           "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt35621542",
+      "title": "Remain",
+      "release_date": "2027-02-05",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-04-13": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 60,
+          "votes": 1
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt35893068",
+      "title": "Drag",
+      "release_date": "2027-01-29",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 78,
+          "votes": 840
+        },
+        "rt_critic": {
+          "score": 95,
+          "votes": 19
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 1482
+        },
+        "trakt": {
+          "score": 77,
+          "votes": 13
         }
       },
       "released_digital": null,
@@ -928,7 +1434,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -954,8 +1460,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 84,
-          "votes": 21
+          "score": 82,
+          "votes": 22
         }
       },
       "released_digital": null,
@@ -976,7 +1482,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1010,9 +1516,9 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt36931184",
-      "title": "A Place in Hell",
-      "release_date": "2027-04-23",
+      "imdb_id": "tt36593129",
+      "title": "The Comeback King",
+      "release_date": "2027-02-05",
       "budget": null,
       "estimated_budget": false,
       "season": null,
@@ -1022,7 +1528,7 @@
       "weekly_gross": {},
       "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1056,6 +1562,190 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt36931184",
+      "title": "A Place in Hell",
+      "release_date": "2027-04-23",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt37255755",
+      "title": "Lice",
+      "release_date": "2027-02-05",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt37360759",
+      "title": "Slayground",
+      "release_date": "2027-01-29",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt37599264",
+      "title": "Wishful Thinking",
+      "release_date": "2027-02-12",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 70,
+          "votes": 130
+        },
+        "rt_critic": {
+          "score": 100,
+          "votes": 14
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 74,
+          "votes": 1416
+        },
+        "trakt": {
+          "score": 78,
+          "votes": 5
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt37676881",
       "title": "Air Bud Returns",
       "release_date": "2027-01-22",
@@ -1070,7 +1760,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1118,7 +1808,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1166,7 +1856,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1200,6 +1890,98 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt37897207",
+      "title": "The Revenge of La Llorona",
+      "release_date": "2027-02-26",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt38066489",
+      "title": "Babies",
+      "release_date": "2027-02-19",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 73,
+          "votes": 69
+        },
+        "rt_critic": {
+          "score": 88,
+          "votes": 26
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": 74,
+          "votes": 8
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 735
+        },
+        "trakt": {
+          "score": 100,
+          "votes": 1
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt38561132",
       "title": "The New Simpsons Movie",
       "release_date": "2027-09-03",
@@ -1214,7 +1996,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1242,6 +2024,52 @@
         "trakt": {
           "score": 72,
           "votes": 4
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt38593232",
+      "title": "Live Like That",
+      "release_date": "2027-02-26",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
         }
       },
       "released_digital": null,
@@ -1296,6 +2124,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt5500064",
+      "title": "The Thomas Crown Affair",
+      "release_date": "2027-03-05",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 87,
+          "votes": 4
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt6113186",
       "title": "Shrek 5",
       "release_date": "2027-06-30",
@@ -1310,7 +2184,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1321,7 +2195,7 @@
         },
         "rt_audience": {
           "score": null,
-          "votes": 0
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -1344,6 +2218,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt6779038",
+      "title": "Children of Blood and Bone",
+      "release_date": "2027-01-15",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 60,
+          "votes": 3
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt8702454",
       "title": "The Third Parent",
       "release_date": "2027-01-22",
@@ -1358,7 +2278,7 @@
         "2026-04-13": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1392,21 +2312,19 @@
       "status": "SCHEDULED"
     },
     {
-      "imdb_id": "tt9077514",
-      "title": "Narnia: The Magician's Nephew",
-      "release_date": "2027-02-12",
-      "budget": 250000000,
-      "estimated_budget": true,
+      "imdb_id": "tt8992304",
+      "title": "K-POP: The Debut",
+      "release_date": "2027-02-26",
+      "budget": null,
+      "estimated_budget": false,
       "season": null,
       "gross_td": null,
       "days_running": null,
       "daily_change": {},
       "weekly_gross": {},
-      "gross": {
-        "2026-04-13": 0
-      },
+      "gross": {},
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -1432,8 +2350,56 @@
           "votes": null
         },
         "trakt": {
-          "score": 71,
-          "votes": 12
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt9077514",
+      "title": "Narnia: The Magician's Nephew",
+      "release_date": "2027-02-12",
+      "budget": 250000000,
+      "estimated_budget": true,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {
+        "2026-04-13": 0
+      },
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 73,
+          "votes": 13
         }
       },
       "released_digital": "2027-04-01",
@@ -1454,7 +2420,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null

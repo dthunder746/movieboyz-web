@@ -18,7 +18,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -28,8 +28,8 @@
           "votes": null
         },
         "rt_audience": {
-          "score": 87,
-          "votes": 0
+          "score": null,
+          "votes": null
         },
         "metacritic": {
           "score": null,
@@ -66,7 +66,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
@@ -114,7 +114,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-23",
+        "fetched_at": "2026-11-22",
         "imdb": {
           "score": null,
           "votes": null
