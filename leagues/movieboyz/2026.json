@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-20T22:58:03.438145Z",
+  "generated_at": "2026-11-21T00:58:20.032409Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "year": 2026,
@@ -1719,8 +1719,8 @@
       "title": "The Hunger Games: Sunrise on the Reaping",
       "release_date": "2026-11-20",
       "season": "FALL",
-      "budget": 185000000,
-      "breakeven": 370000000,
+      "budget": 150000000,
+      "breakeven": 300000000,
       "user_id": "connie",
       "pick_type": "seasonal",
       "draft_pick": 3,
@@ -1944,9 +1944,9 @@
         "2026-11-14": 0,
         "2026-11-15": 0,
         "2026-11-16": 0,
-        "2026-11-17": -369986328,
-        "2026-11-18": -369986328,
-        "2026-11-19": -348986328
+        "2026-11-17": -299986328,
+        "2026-11-18": -299986328,
+        "2026-11-19": -278986328
       },
       "profit_td": null
     },
@@ -43930,7 +43930,7 @@
         "2026-11-19": -61270410
       },
       "total": 1835910810,
-      "slate_roi": 99.6418707983
+      "slate_roi": 103.4449956379
     },
     {
       "user_id": "emerson",
