@@ -244,6 +244,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt18795088",
+      "title": "Day Drinker",
+      "release_date": "2027-03-26",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt21361444",
       "title": "Avengers: Secret Wars",
       "release_date": "2027-12-17",
@@ -340,7 +386,7 @@
     {
       "imdb_id": "tt26443610",
       "title": "Gatto",
-      "release_date": "2027-06-16",
+      "release_date": "2027-03-05",
       "budget": null,
       "estimated_budget": false,
       "season": null,
@@ -864,6 +910,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt32492552",
+      "title": "The Exorcist: Martyrs",
+      "release_date": "2027-03-12",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt32561550",
       "title": "Godzilla x Kong: Supernova",
       "release_date": "2027-03-26",
@@ -1244,6 +1336,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt35504660",
+      "title": "Bedford Park",
+      "release_date": "2027-03-05",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 66,
+          "votes": 145
+        },
+        "rt_critic": {
+          "score": 94,
+          "votes": 31
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 1747
+        },
+        "trakt": {
+          "score": 67,
+          "votes": 4
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt35606013",
       "title": "The Rescue",
       "release_date": "2027-01-29",
@@ -1570,6 +1708,52 @@
         "letterboxd": {
           "score": null,
           "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt36923931",
+      "title": "The Surgeon",
+      "release_date": "2027-04-02",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 81,
+          "votes": 44
+        },
+        "rt_critic": {
+          "score": 100,
+          "votes": 14
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": 74,
+          "votes": 5
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 441
         },
         "trakt": {
           "score": null,
@@ -2056,6 +2240,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt38492840",
+      "title": "Play House",
+      "release_date": "2027-04-02",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": 66,
+          "votes": 51
+        },
+        "rt_critic": {
+          "score": 100,
+          "votes": 11
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": 70,
+          "votes": 258
+        },
+        "trakt": {
+          "score": 80,
+          "votes": 1
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt38561132",
       "title": "The New Simpsons Movie",
       "release_date": "2027-09-03",
@@ -2194,6 +2424,52 @@
         "trakt": {
           "score": 26,
           "votes": 3
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt4776944",
+      "title": "Wolf Cre3k",
+      "release_date": "2027-03-19",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-22",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 61,
+          "votes": 11
         }
       },
       "released_digital": null,
