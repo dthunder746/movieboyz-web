@@ -100,6 +100,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt16233314",
+      "title": "One Second After",
+      "release_date": "2027-04-30",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt16360004",
       "title": "Spider-Man: Beyond the Spider-Verse ",
       "release_date": "2027-06-18",
@@ -332,6 +378,52 @@
         "trakt": {
           "score": 73,
           "votes": 52
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt21438726",
+      "title": "Vāranāsi",
+      "release_date": "2027-04-07",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 72,
+          "votes": 4
         }
       },
       "released_digital": null,
@@ -1004,6 +1096,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt32659463",
+      "title": "Spaceballs: The New One",
+      "release_date": "2027-04-23",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 83,
+          "votes": 18
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt33042320",
       "title": "In a Violent Nature: Part 2",
       "release_date": "2027-02-12",
@@ -1240,6 +1378,52 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt34383418",
+      "title": "Monitor",
+      "release_date": "2027-04-16",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": 62,
+          "votes": 52
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt34512981",
       "title": "Ice Age: Boiling Point",
       "release_date": "2027-02-05",
@@ -1282,6 +1466,52 @@
         "trakt": {
           "score": 79,
           "votes": 27
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt34900169",
+      "title": "Panic Carefully",
+      "release_date": "2027-04-09",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 30,
+          "votes": 1
         }
       },
       "released_digital": null,
@@ -1540,7 +1770,7 @@
         "2026-07-31": 0
       },
       "ratings": {
-        "fetched_at": "2026-11-16",
+        "fetched_at": "2026-11-23",
         "imdb": {
           "score": null,
           "votes": null
@@ -1566,8 +1796,8 @@
           "votes": null
         },
         "trakt": {
-          "score": 70,
-          "votes": 20
+          "score": 72,
+          "votes": 21
         }
       },
       "released_digital": null,
@@ -2382,6 +2612,98 @@
       "status": "SCHEDULED"
     },
     {
+      "imdb_id": "tt43609247",
+      "title": "Not Alone",
+      "release_date": "2027-04-16",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 100,
+          "votes": 1
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt43677673",
+      "title": "Boys for Life",
+      "release_date": "2027-04-09",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": null,
+          "votes": 0
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
       "imdb_id": "tt4540534",
       "title": "The Nightingale ",
       "release_date": "2027-03-19",
@@ -2396,7 +2718,7 @@
         "2026-10-22": 0
       },
       "ratings": {
-        "fetched_at": "2026-10-24",
+        "fetched_at": "2026-11-23",
         "imdb": {
           "score": null,
           "votes": null
@@ -2518,6 +2840,52 @@
         "trakt": {
           "score": 87,
           "votes": 4
+        }
+      },
+      "released_digital": null,
+      "status": "SCHEDULED"
+    },
+    {
+      "imdb_id": "tt5795232",
+      "title": "The Resurrection of the Christ: Part One",
+      "release_date": "2027-05-06",
+      "budget": null,
+      "estimated_budget": false,
+      "season": null,
+      "gross_td": null,
+      "days_running": null,
+      "daily_change": {},
+      "weekly_gross": {},
+      "gross": {},
+      "ratings": {
+        "fetched_at": "2026-11-23",
+        "imdb": {
+          "score": null,
+          "votes": null
+        },
+        "rt_critic": {
+          "score": null,
+          "votes": null
+        },
+        "rt_audience": {
+          "score": null,
+          "votes": null
+        },
+        "metacritic": {
+          "score": null,
+          "votes": null
+        },
+        "tmdb": {
+          "score": null,
+          "votes": null
+        },
+        "letterboxd": {
+          "score": null,
+          "votes": null
+        },
+        "trakt": {
+          "score": 56,
+          "votes": 12
         }
       },
       "released_digital": null,
