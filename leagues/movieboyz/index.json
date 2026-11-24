@@ -1,6 +1,6 @@
 {
   "contract_version": 3,
-  "generated_at": "2026-11-24T22:00:05.001813Z",
+  "generated_at": "2026-11-24T22:10:36.087462Z",
   "league_slug": "movieboyz",
   "league_name": "MovieBoyz",
   "all_time": [
@@ -20,8 +20,8 @@
       "user_id": "connie",
       "username": "Connie",
       "color": "#f28e2b",
-      "profit": 1763856666,
-      "gross": 3781356666.5,
+      "profit": 1763994676,
+      "gross": 3781494676.5,
       "breakeven": 2017500000,
       "bomb_impact_absorbed": -60870058,
       "bomb_impact_dealt": -286203136,
